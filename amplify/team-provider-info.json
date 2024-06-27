@@ -114,7 +114,7 @@
         },
         "pawkitCreateAuthChallenge": {
           "deploymentBucketName": "amplify-pawkit-production-89450-deployment",
-          "s3Key": "amplify-builds/pawkitCreateAuthChallenge-33663034736964556956-build.zip"
+          "s3Key": "amplify-builds/pawkitCreateAuthChallenge-7854313761725854394e-build.zip"
         },
         "pawkitDefineAuthChallenge": {
           "deploymentBucketName": "amplify-pawkit-production-89450-deployment",
