@@ -80,19 +80,6 @@
       "storage": {
         "pawkitAppContentStorage": {},
         "content": {}
-      },
-      "hosting": {
-        "amplifyhosting": {
-          "appId": "dd5j6wo9u36ak",
-          "type": "cicd"
-        }
-      }
-    }
-  },
-  "prod": {
-    "categories": {
-      "auth": {
-        "pawkit": {}
       }
     }
   }
