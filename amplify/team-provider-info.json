@@ -69,7 +69,8 @@
         "dataLoader": {
           "deploymentBucketName": "amplify-pawkit-staging-152309-deployment",
           "s3Key": "amplify-builds/dataLoader-534c7363754e39785479-build.zip"
-        }
+        },
+        "pawkit": {}
       },
       "api": {
         "AdminQueries": {},
@@ -79,6 +80,75 @@
       },
       "storage": {
         "pawkitAppContentStorage": {},
+        "content": {}
+      }
+    }
+  },
+  "production": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-pawkit-production-89450-authRole",
+      "UnauthRoleArn": "arn:aws:iam::381491911569:role/amplify-pawkit-production-89450-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::381491911569:role/amplify-pawkit-production-89450-authRole",
+      "Region": "ap-southeast-1",
+      "DeploymentBucketName": "amplify-pawkit-production-89450-deployment",
+      "UnauthRoleName": "amplify-pawkit-production-89450-unauthRole",
+      "StackName": "amplify-pawkit-production-89450",
+      "StackId": "arn:aws:cloudformation:ap-southeast-1:381491911569:stack/amplify-pawkit-production-89450/eb798ce0-34a3-11ef-9d1b-0a5ab44753f7",
+      "AmplifyAppId": "dd5j6wo9u36ak",
+      "APIGatewayAuthURL": "https://s3.amazonaws.com/amplify-pawkit-production-89450-deployment/amplify-cfn-templates/api/APIGatewayAuthStack.json",
+      "AuthTriggerTemplateURL": "https://s3.amazonaws.com/amplify-pawkit-production-89450-deployment/amplify-cfn-templates/auth/auth-trigger-cloudformation-template.json"
+    },
+    "categories": {
+      "auth": {
+        "pawkit": {},
+        "userPoolGroups": {}
+      },
+      "function": {
+        "AdminQueries2bb3090c": {
+          "deploymentBucketName": "amplify-pawkit-production-89450-deployment",
+          "s3Key": "amplify-builds/AdminQueries2bb3090c-5778524b497a61373446-build.zip"
+        },
+        "dataLoader": {
+          "deploymentBucketName": "amplify-pawkit-production-89450-deployment",
+          "s3Key": "amplify-builds/dataLoader-534c7363754e39785479-build.zip"
+        },
+        "pawkitCreateAuthChallenge": {
+          "deploymentBucketName": "amplify-pawkit-production-89450-deployment",
+          "s3Key": "amplify-builds/pawkitCreateAuthChallenge-33663034736964556956-build.zip"
+        },
+        "pawkitDefineAuthChallenge": {
+          "deploymentBucketName": "amplify-pawkit-production-89450-deployment",
+          "s3Key": "amplify-builds/pawkitDefineAuthChallenge-644657464c6a56493559-build.zip"
+        },
+        "pawkitPostConfirmation": {
+          "GROUP": "PetOwners",
+          "deploymentBucketName": "amplify-pawkit-production-89450-deployment",
+          "s3Key": "amplify-builds/pawkitPostConfirmation-522b5a7431394b304a51-build.zip"
+        },
+        "pawkitVerifyAuthChallengeResponse": {
+          "deploymentBucketName": "amplify-pawkit-production-89450-deployment",
+          "s3Key": "amplify-builds/pawkitVerifyAuthChallengeResponse-594a3732754273523769-build.zip"
+        },
+        "paymentConfirmation": {
+          "deploymentBucketName": "amplify-pawkit-production-89450-deployment",
+          "s3Key": "amplify-builds/paymentConfirmation-5542724b6c33346d6352-build.zip",
+          "secretsPathAmplifyAppId": "dd5j6wo9u36ak"
+        },
+        "paymentRequests": {
+          "deploymentBucketName": "amplify-pawkit-production-89450-deployment",
+          "s3Key": "amplify-builds/paymentRequests-586150612b7953393345-build.zip",
+          "secretsPathAmplifyAppId": "dd5j6wo9u36ak",
+          "hitpayEndpoint": "https://api.hit-pay.com/v1/payment-requests",
+          "webhookUrl": "https://xvw4s1t01g.execute-api.ap-southeast-1.amazonaws.com/staging/payment-confirmation/webhook"
+        },
+        "pawkit": {}
+      },
+      "api": {
+        "AdminQueries": {},
+        "pawkit": {},
+        "payments": {}
+      },
+      "storage": {
         "content": {}
       }
     }

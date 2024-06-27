@@ -6,25 +6,25 @@ const awsmobile = {
     "aws_cloud_logic_custom": [
         {
             "name": "AdminQueries",
-            "endpoint": "https://pfw2yx41zl.execute-api.ap-southeast-1.amazonaws.com/staging",
+            "endpoint": "https://s0baxnvb85.execute-api.ap-southeast-1.amazonaws.com/production",
             "region": "ap-southeast-1"
         },
         {
             "name": "payments",
-            "endpoint": "https://xvw4s1t01g.execute-api.ap-southeast-1.amazonaws.com/staging",
+            "endpoint": "https://07i607lu20.execute-api.ap-southeast-1.amazonaws.com/production",
             "region": "ap-southeast-1"
         }
     ],
-    "aws_appsync_graphqlEndpoint": "https://gnecv3kjo5hfbesrnflggmc4by.appsync-api.ap-southeast-1.amazonaws.com/graphql",
+    "aws_appsync_graphqlEndpoint": "https://z5a6nb4xcnfu5o5o7ejnxspgve.appsync-api.ap-southeast-1.amazonaws.com/graphql",
     "aws_appsync_region": "ap-southeast-1",
     "aws_appsync_authenticationType": "AMAZON_COGNITO_USER_POOLS",
-    "aws_appsync_apiKey": "da2-e6wjp25vrzfgxbn6czogbtkspq",
-    "aws_cognito_identity_pool_id": "ap-southeast-1:d0159b6b-3eed-4e6c-acb3-bcd8bad63a2a",
+    "aws_appsync_apiKey": "da2-hpjrps32sjdofgpswzsdxz3vou",
+    "aws_cognito_identity_pool_id": "ap-southeast-1:7ecbd0f0-7f6d-4aee-89e4-c4534308a383",
     "aws_cognito_region": "ap-southeast-1",
-    "aws_user_pools_id": "ap-southeast-1_KwVJoz3PW",
-    "aws_user_pools_web_client_id": "3apd1akedvjde05d9v4nbepre3",
+    "aws_user_pools_id": "ap-southeast-1_yDeQ6WWT5",
+    "aws_user_pools_web_client_id": "14lipm1180ipb9923dcu5ssige",
     "oauth": {
-        "domain": "pawkit-staging.auth.ap-southeast-1.amazoncognito.com",
+        "domain": "pawkit-production.auth.ap-southeast-1.amazoncognito.com",
         "scope": [
             "phone",
             "email",
@@ -53,7 +53,7 @@ const awsmobile = {
     "aws_cognito_verification_mechanisms": [
         "PHONE_NUMBER"
     ],
-    "aws_user_files_s3_bucket": "pawkitappcontent152309-staging",
+    "aws_user_files_s3_bucket": "pawkitappcontent89450-production",
     "aws_user_files_s3_bucket_region": "ap-southeast-1"
 };
 

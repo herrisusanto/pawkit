@@ -295,22 +295,6 @@
   },
   "hosting": {},
   "parameters": {
-    "AMPLIFY_function_AdminQueries18a98b8c_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "AdminQueries18a98b8c"
-        }
-      ]
-    },
-    "AMPLIFY_function_AdminQueries18a98b8c_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "AdminQueries18a98b8c"
-        }
-      ]
-    },
     "AMPLIFY_function_AdminQueries2bb3090c_deploymentBucketName": {
       "usedBy": [
         {
@@ -324,22 +308,6 @@
         {
           "category": "function",
           "resourceName": "AdminQueries2bb3090c"
-        }
-      ]
-    },
-    "AMPLIFY_function_PawkitCSVToDynamoLambda_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "PawkitCSVToDynamoLambda"
-        }
-      ]
-    },
-    "AMPLIFY_function_PawkitCSVToDynamoLambda_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "PawkitCSVToDynamoLambda"
         }
       ]
     },
@@ -452,38 +420,6 @@
         {
           "category": "function",
           "resourceName": "paymentConfirmation"
-        }
-      ]
-    },
-    "AMPLIFY_function_paymentRequestsLambda_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "paymentRequestsLambda"
-        }
-      ]
-    },
-    "AMPLIFY_function_paymentRequestsLambda_hitpayBaseUrl": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "paymentRequestsLambda"
-        }
-      ]
-    },
-    "AMPLIFY_function_paymentRequestsLambda_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "paymentRequestsLambda"
-        }
-      ]
-    },
-    "AMPLIFY_function_paymentRequestsLambda_secretsPathAmplifyAppId": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "paymentRequestsLambda"
         }
       ]
     },
