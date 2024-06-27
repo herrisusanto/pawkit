@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "auth": {
+      "pawkit": [
+        "read"
+      ]
+    },
+    "api": {
+      "pawkit": [
+        "Query",
+        "Mutation",
+        "Subscription"
+      ]
+    }
+  },
+  "lambdaLayers": [],
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "hitpayEndpoint",
+      "environmentVariableName": "HITPAY_ENDPOINT"
+    },
+    {
+      "cloudFormationParameterName": "webhookUrl",
+      "environmentVariableName": "WEBHOOK_URL"
+    }
+  ],
+  "secretNames": [
+    "HITPAY_API_KEY"
+  ]
+}

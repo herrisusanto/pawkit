@@ -1,0 +1,17 @@
+{
+  "projectName": "pawkit",
+  "version": "3.1",
+  "frontend": "javascript",
+  "javascript": {
+    "framework": "react-native",
+    "config": {
+      "SourceDir": "/",
+      "DistributionDir": "/",
+      "BuildCommand": "eas build -p android",
+      "StartCommand": "npm start"
+    }
+  },
+  "providers": [
+    "awscloudformation"
+  ]
+}

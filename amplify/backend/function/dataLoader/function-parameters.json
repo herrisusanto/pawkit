@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "api": {
+      "pawkit": [
+        "Query",
+        "Mutation",
+        "Subscription"
+      ]
+    },
+    "auth": {
+      "pawkit": [
+        "read"
+      ]
+    }
+  },
+  "lambdaLayers": []
+}

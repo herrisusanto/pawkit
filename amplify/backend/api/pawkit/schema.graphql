@@ -1,0 +1,466 @@
+# This "input" configures a global authorization rule to enable public access to
+# all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
+input AMPLIFY {
+  globalAuthRule: AuthRule = { allow: public }
+} # FOR TESTING ONLY!
+type Booking
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "owners", operations: [create, read, update] }
+      { allow: groups, groups: ["Admin"] }
+    ]
+  ) {
+  id: ID! @index(name: "byId", queryField: "bookingById")
+  customerUsername: String! @primaryKey(sortKeyFields: ["timeSlotId"])
+  owners: [ID!]! # Should contain customerId and serviceProviderName
+  customerId: ID! @index(name: "byCustomer", queryField: "bookingsByCustomer")
+  customer: Customer! @belongsTo(fields: ["customerId"])
+  serviceName: String!
+  serviceProviderName: String!
+  serviceProvider: ServiceProvider! @belongsTo(fields: ["serviceProviderName"])
+  serviceCategory: ServiceCategory!
+  petType: PetType!
+  serviceId: ID! @index(name: "byService", queryField: "bookingsByService")
+  startDateTime: AWSDateTime!
+    @index(name: "byStartDateTime", queryField: "bookingsByStartDateTime")
+  timeSlot: TimeSlot! @belongsTo(fields: ["serviceId", "startDateTime"])
+  timeSlotId: ID! @index(name: "byTimeSlot", queryField: "bookingsByTimeSlot")
+  pets: [Pet!] @manyToMany(relationName: "PetBookings")
+  addOns: [ID!] # Add-on services
+  bookingType: BookingType!
+  amount: Float!
+  currency: Currency! @default(value: "SGD")
+  status: BookingStatus!
+  orderId: ID! @index(name: "byOrder", queryField: "bookingsByOrder")
+}
+
+type Breed
+  @model
+  @auth(
+    rules: [
+      { allow: groups, groups: ["Admin"] }
+      { allow: private, operations: [read] }
+      { allow: private, provider: iam }
+    ]
+  ) {
+  name: String! @primaryKey
+  petType: PetType! @index(name: "byPetType", queryField: "breedsByPetType")
+  coats: [Coat!]
+  undercoatRemoval: Boolean
+  durationUnit: TimeUnit
+  basicGroomingDuration: Int
+  fullGroomingDuration: Int
+}
+
+type Customer
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "id" }
+      { allow: groups, groups: ["ServicePersonnel"], operations: [read] }
+      { allow: groups, groups: ["Admin"] }
+    ]
+  ) {
+  id: ID! @primaryKey
+  username: String! @index(name: "byUsername", queryField: "customerByUsername")
+  isDeactivated: Boolean! @default(value: "false")
+  imageUrl: AWSURL
+  address: Address
+  acceptedDisclaimers: [DisclaimerAcceptance!]
+    @hasMany(indexName: "byCustomer", fields: ["id"])
+  pets: [Pet!] @hasMany(indexName: "byCustomer", fields: ["id"])
+  bookings: [Booking!] @hasMany(indexName: "byCustomer", fields: ["id"])
+  orders: [Order!] @hasMany(indexName: "byCustomer", fields: ["id"])
+  payments: [Payment!] @hasMany(indexName: "byCustomer", fields: ["id"])
+}
+
+type Disclaimer
+  @model
+  @auth(
+    rules: [
+      { allow: groups, groups: ["Admin"] }
+      { allow: private, operations: [read] }
+      { allow: private, provider: iam }
+    ]
+  ) {
+  name: String! @primaryKey
+  serviceName: String
+  serviceProviderName: String
+  serviceCategory: ServiceCategory
+  petType: PetType
+  service: Service
+    @belongsTo(
+      fields: [
+        "serviceName"
+        "serviceProviderName"
+        "serviceCategory"
+        "petType"
+      ]
+    )
+  text: String
+  s3Link: AWSURL
+  supersededBy: Disclaimer @hasOne(fields: ["name"])
+  supersessionDate: AWSDate
+  customerAcceptances: [DisclaimerAcceptance!]
+    @hasMany(indexName: "byDisclaimer", fields: ["name"])
+}
+
+type DisclaimerAcceptance
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "customerId", operations: [create, read] }
+      { allow: groups, groups: ["ServicePersonnel"], operations: [read] }
+      { allow: groups, groups: ["Admin"] }
+    ]
+  ) {
+  id: ID! @primaryKey
+  customerId: ID!
+    @index(name: "byCustomer", queryField: "acceptancesByCustomer")
+  customer: Customer! @belongsTo(fields: ["customerId"])
+  disclaimerName: String!
+    @index(name: "byDisclaimer", queryField: "acceptancesByDisclaimer")
+  disclaimer: Disclaimer! @belongsTo(fields: ["disclaimerName"])
+}
+
+type Order
+  @model
+  @auth(
+    rules: [
+      {
+        allow: owner
+        ownerField: "customerId"
+        operations: [create, read, update]
+      }
+      { allow: groups, groups: ["Admin"] }
+    ]
+  ) {
+  id: ID! @primaryKey
+  customerId: ID! @index(name: "byCustomer", queryField: "ordersByCustomer")
+  customer: Customer! @belongsTo(fields: ["customerId"])
+  currency: Currency! @default(value: "SGD")
+  totalAmount: Float! @default(value: "0")
+  pendingRefundAmount: Float @default(value: "0")
+  refundedAmount: Float @default(value: "0")
+  bookingIds: [ID!]
+  bookings: [Booking!] @hasMany(indexName: "byOrder", fields: ["id"])
+  paymentRequestId: ID
+  status: OrderStatus! @default(value: "PENDING")
+}
+
+type Payment
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "customerId", operations: [create, read] }
+      { allow: groups, groups: ["Admin"] },
+      { allow: private, provider: iam }
+    ]
+  ) {
+  paymentRequestId: ID! @primaryKey
+  orderId: ID! @index(name: "byOrder", queryField: "paymentsByOrder")
+  order: Order! @hasOne(fields: ["orderId"])
+  customerId: ID! @index(name: "byCustomer", queryField: "paymentsByCustomer")
+  customer: Customer! @belongsTo(fields: ["customerId"])
+  name: String
+  email: AWSEmail
+  phone: AWSPhone
+  amount: Float!
+  currency: Currency! @default(value: "SGD")
+  requestCreatedAt: AWSDateTime! @index(name: "byRequestCreatedAt")
+  requestUpdatedAt: AWSDateTime! @index(name: "byRequestUpdatedAt")
+  status: PaymentStatus!
+  purpose: String
+  referenceNumber: ID
+  paymentId: ID
+  paymentMethod: PaymentMethod
+    @index(name: "byPaymentMethod", queryField: "paymentsByPaymentMethod")
+  url: AWSURL!
+  webhookUrl: AWSURL!
+  redirectUrl: AWSURL
+  sendSMS: Boolean
+  sendEmail: Boolean
+  smsStatus: Boolean @default(value: "false")
+  emailStatus: Boolean @default(value: "false")
+  allowRepeatedPayments: Boolean @default(value: "false")
+  expiryDateTime: AWSDateTime
+  errors: AWSJSON
+}
+
+type Pet
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "customerId" }
+      { allow: groups, groups: ["ServicePersonnel"], operations: [read] }
+      { allow: groups, groups: ["Admin"] }
+    ]
+  ) {
+  name: String! @primaryKey(sortKeyFields: ["customerUsername"])
+  customerUsername: String!
+  customerId: ID! @index(name: "byCustomer", queryField: "petsByCustomer")
+  customer: Customer! @belongsTo(fields: ["customerId"])
+  gender: Gender!
+  petType: PetType!
+  isDeleted: Boolean! @default(value: "false")
+  breedName: String @index(name: "byBreed", queryField: "petsByBreed")
+  imageUrl: AWSURL
+  birthdate: AWSDate
+  weightValue: Float
+  weightUnit: WeightUnit
+  additionalInfo: String
+  predefinedBehaviors: [PredefinedBehavior!]
+  customBehaviors: [String!] # Frontend needs to limit input to max 3
+  isNeutered: Boolean
+  isMicrochipped: Boolean
+  microchipNumber: String
+  hasMedicalCondition: Boolean
+  additionalCareInstructions: String
+  bookings: [Booking!] @manyToMany(relationName: "PetBookings")
+  questionAnswerIds: [ID!]
+}
+
+type Question
+  @model
+  @auth(
+    rules: [
+      { allow: groups, groups: ["Admin"] }
+      { allow: private, operations: [read] }
+      { allow: private, provider: iam }
+    ]
+  ) {
+  id: ID!
+  serviceCategory: ServiceCategory! @index(name: "byCategory", queryField: "questionsByCategory")
+  questionString: String!
+}
+
+type QuestionAnswer
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "customerId" }
+      { allow: groups, groups:["Admin", "ServicePersonnel"], operations: [read] }
+    ]
+  ) {
+  petName: String! @primaryKey(sortKeyFields: ["customerUsername", "questionId"]) @index(name: "byPet", queryField: "answersByPet")
+  customerUsername: String!
+  pet: Pet! @hasOne(fields: ["petName", "customerUsername"])
+  customerId: ID! @index(name: "byCustomer", queryField: "answersByCustomer")
+  questionId: ID! @index(name: "byQuestion", queryField: "answersByQuestion")
+  question: Question! @hasOne(fields: ["questionId"])
+  answer: String!
+}
+
+type Service
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "serviceProviderId" }
+      { allow: groups, groups: ["Admin"] }
+      { allow: private, operations: [read, update] }
+      { allow: private, provider: iam }
+    ]
+  ) {
+  id: ID! @index(name: "byId", queryField: "serviceById")
+  name: String!
+    @primaryKey(
+      sortKeyFields: ["serviceProviderName", "serviceCategory", "petType"]
+    )
+  serviceProviderName: String!
+    @index(name: "byServiceProvider", queryField: "servicesByServiceProvider")
+  serviceProvider: ServiceProvider! @belongsTo(fields: ["serviceProviderName"])
+  serviceCategory: ServiceCategory!
+    @index(name: "byCategory", queryField: "servicesByCategory")
+  petType: PetType! @index(name: "byPetType", queryField: "servicesByPetType")
+  defaultDisplay: Boolean! @default(value: "false") # If false, service is hidden from initial view as it is an add-on to a base service.
+  displayPriority: Int
+  onlinePaymentAccepted: Boolean! @default(value: "true")
+  currency: Currency! @default(value: "SGD")
+  basePrice: Float! @index(name: "byPrice", queryField: "servicesByPrice")
+  baseDuration: Int! @index(name: "byDuration", queryField: "servicesByDuration")
+  baseDurationUnit: TimeUnit!
+  additionalPetPrice: Float
+  additionalTimePrice: CustomPrice
+  xsWeightPrice: CustomPrice
+  sWeightPrice: CustomPrice
+  mWeightPrice: CustomPrice
+  lWeightPrice: CustomPrice
+  xlWeightPrice: CustomPrice
+  xxlWeightPrice: CustomPrice
+  shortDescription: String
+  longDescription: String
+  imageUrl: AWSURL
+  serviceBreakdown: String
+  additionalInfo: String
+  faq: String
+  goodToKnow: String
+  parentServiceIds: [ID!]
+  childServiceIds: [ID!]
+  disclaimerName: String
+  disclaimer: Disclaimer @hasOne(fields: ["disclaimerName"])
+  timeSlotIds: [ID!] # Add-on services will refer to the base service's time slots
+  bookingIds: [ID!]
+  requiredQuestionIds: [ID!]
+}
+
+type ServiceProvider
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "id" }
+      { allow: groups, groups: ["Admin"] }
+      { allow: private, operations: [read] }
+      { allow: private, provider: iam }
+    ]
+  ) {
+  id: ID! @index(name: "byId", queryField: "serviceProviderById")
+  name: String! @primaryKey
+  displayName: String
+  description: String
+  imageUrl: AWSURL
+  address: Address
+  website: AWSURL
+  email: AWSEmail
+  phone: AWSPhone
+  operatingTimes: [TimeInterval!]!
+  isHeadquarters: Boolean!
+  headquarters: ServiceProvider @hasOne
+  services: [Service!]
+    @hasMany(indexName: "byServiceProvider", fields: ["name"])
+  bookings: [Booking!] @hasMany
+}
+
+type TimeSlot
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "serviceProviderId" }
+      { allow: groups, groups: ["Admin"] }
+      { allow: private, operations: [read, update] }
+      { allow: private, provider: iam }
+    ]
+  ) {
+  id: ID! @index(name: "byId", queryField: "timeSlotById")
+  serviceId: ID! @primaryKey(sortKeyFields: ["startDateTime"])
+  startDateTime: AWSDateTime! @index(name: "byStartDateTime")
+  endDateTime: AWSDateTime @index(name: "byEndDateTime")
+  capacity: Int! @index(name: "byCapacity")
+  bookingCount: Int! @index(name: "byBookingCount") @default(value: "0")
+  isFull: Boolean! @default(value: "false")
+  bookingIds: [ID!]
+  bookings: [Booking!] @hasMany
+}
+
+type Address {
+  blockNumber: String
+  streetName: String!
+  unitNumber: String
+  postalCode: String!
+}
+
+type CustomPrice {
+  additionalDuration: Int
+  additionalDurationUnit: TimeUnit
+  minWeight: Float
+  maxWeight: Float
+  weightUnit: WeightUnit
+  amount: Float!
+}
+
+type TimeInterval {
+  dayOfWeek: Int!
+  openTime: AWSTime!
+  closeTime: AWSTime!
+}
+
+enum BookingStatus {
+  PENDING # The booking is pending Service Provider confirmation.
+  IN_PROGRESS # The booking is in progress.
+  CONFIRMED # Service Provider confirmed the booking.
+  CANCELLED # The booking was cancelled.
+  COMPLETED # The booking was successfully completed.
+}
+
+enum BookingType {
+  FREE_TRIAL
+  PAID
+}
+
+enum Coat {
+  HAIRLESS
+  SHORT
+  MEDIUM
+  LONG
+}
+
+enum Currency {
+  SGD
+}
+
+enum Gender {
+  FEMALE
+  MALE
+}
+
+enum OrderStatus {
+  PENDING # The order is pending confirmation.
+  CONFIRMED # The order was successfully confirmed.
+  CANCELLED # The order was cancelled.
+}
+
+enum PaymentMethod {
+  CARD
+  CASH
+  PAYNOW_ONLINE
+}
+
+enum PaymentStatus {
+  PENDING # The payment is still in progress.
+  COMPLETED # The payment was successfully completed.
+  FAILED # The payment attempt failed.
+  VOIDED # The payment was voided.
+  REFUNDED # The payment amount was refunded to the customer.
+  SENT # The payment request is in draft status.
+  EXPIRED # The payment request has expired.
+}
+
+enum PetType {
+  DOG
+  CAT
+  RABBIT
+  GUINEA_PIG
+  BIRD
+  OTHER
+  ALL
+}
+
+enum PredefinedBehavior {
+  FEAR_OF_LOUD_NOISES
+  HYPERACTIVE
+  ANXIOUS
+  FRIENDLY_WITH_STRANGERS
+  MIGHT_SNAP
+  RESPONSIVE_TO_COMMANDS
+  RESPONSIVE_TO_TREATS
+}
+
+enum ServiceCategory {
+  VACCINATION
+  GROOMING
+  MEDICAL_SITTING
+}
+
+enum TimeUnit {
+  MINUTES
+  HOURS
+  DAYS
+  WEEKS
+  MONTHS
+  YEARS
+}
+
+enum WeightUnit {
+  KG
+  G
+}

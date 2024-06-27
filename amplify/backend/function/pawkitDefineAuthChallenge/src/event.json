@@ -1,0 +1,15 @@
+{
+  "version": "1",
+  "triggerSource": "DefineAuthChallenge_Authentication",
+  "region": "ap-southeast-1",
+  "userPoolId": "ap-southeast-1_T6klRr19Y",
+  "userName": "user123",
+  "request": {
+    "userAttributes": {},
+    "challengeName": "CUSTOM_CHALLENGE"
+  },
+  "response": {
+    "issueTokens": false,
+    "failAuthentication": false
+  }
+}

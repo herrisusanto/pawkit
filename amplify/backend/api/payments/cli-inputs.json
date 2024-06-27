@@ -1,0 +1,40 @@
+{
+  "version": 1,
+  "paths": {
+    "/v1/payment-requests": {
+      "name": "/v1/payment-requests",
+      "lambdaFunction": "paymentRequests",
+      "permissions": {
+        "setting": "private",
+        "auth": [
+          "create",
+          "read"
+        ],
+        "groups": {
+          "Admin": [
+            "create",
+            "read",
+            "update",
+            "delete"
+          ],
+          "ServicePersonnel": [
+            "create",
+            "read",
+            "update"
+          ],
+          "PetOwners": [
+            "create",
+            "read"
+          ]
+        }
+      }
+    },
+    "/payment-confirmation/webhook": {
+      "name": "/payment-confirmation/webhook",
+      "lambdaFunction": "paymentConfirmation",
+      "permissions": {
+        "setting": "open"
+      }
+    }
+  }
+}

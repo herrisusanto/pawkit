@@ -1,0 +1,8 @@
+{
+ "httpMethod": "POST",
+ "path": "/payment-confirmation/webhook",
+ "headers": {
+  "Content-Type": "application/x-www-form-urlencoded"
+ },
+ "body": "payment_id=9c207e24-afda-460a-9b25-998d2bd67f06&payment_request_id=9c207dee-8583-4d7f-a5aa-cf1a3c720bc3&phone=91234567&amount=599.00&currency=SGD&status=completed&reference_number=ABC123&hmac=723f3cb16af3783923bbb128ee0cdf98b1765f48f62f74987fe1720fb9b43920"
+}

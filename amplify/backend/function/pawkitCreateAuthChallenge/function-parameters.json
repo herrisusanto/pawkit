@@ -1,0 +1,16 @@
+{
+  "trigger": true,
+  "modules": [
+    "create-challenge"
+  ],
+  "parentResource": "pawkit",
+  "functionName": "pawkitCreateAuthChallenge",
+  "resourceName": "pawkitCreateAuthChallenge",
+  "parentStack": "auth",
+  "triggerEnvs": "[]",
+  "triggerDir": "/snapshot/amplify-cli/build/node_modules/@aws-amplify/amplify-category-auth/provider-utils/awscloudformation/triggers/CreateAuthChallenge",
+  "triggerTemplate": "CreateAuthChallenge.json.ejs",
+  "triggerEventPath": "CreateAuthChallenge.event.json",
+  "roleName": "pawkitCreateAuthChallenge",
+  "skipEdit": true
+}

@@ -1,0 +1,37 @@
+# This workflow will do a clean installation of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-nodejs
+
+name: Node.js CI
+
+on:
+  pull_request:
+    branches:
+      - frontend/preview
+  
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20.x]
+        # See supported Node.js release schedule at https://nodejs.org/en/about/releases/
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v4
+      with:
+        node-version: ${{ matrix.node-version }}
+        cache: 'npm'
+    - run: npm ci
+    - run: npm run lint
+    - run: npm test
+    - name: Setup Expo and EAS
+      uses: expo/expo-github-action@v8
+      with:
+        eas-version: latest
+        token: 8GgfYM9BC-9qzpxdjpc3abbfSN0hLJv1BYcaOa8D # TODO: This should be stored as secret in the github repository settings
+    - name: Build for Android on EAS
+      run: eas build -e preview:simulator -p android --non-interactive --no-wait # TODO: Should build for both platforms iOS and Android
+    - name: Deliver preview update for android
+      run: eas update --branch preview -p android --non-interactive

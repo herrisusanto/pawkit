@@ -8,49 +8,51 @@ These instructions will get you a copy of the project up and running on your loc
 
 ### Prerequisites
 
-What things you need to install the software and how to install them
+- NodeJS version 20.x (iron)
+- NPM version 10.x
+- VS Code (Recommended)
 
-```
-Give examples
-```
+You could nvm to manage mutlple versions of NodeJS in your OS.
 
 ### Installing
 
-A step by step series of examples that tell you how to get a development env running
-
-Say what the step will be
+- Install dependencies
 
 ```
-Give the example
+npm i
 ```
-
-And repeat
-
-```
-until finished
-```
-
-End with an example of getting some data out of the system or using it for a little demo
 
 ## Running the tests
 
-Explain how to run the automated tests for this system
+```
+npm run test
+```
 
-### Break down into end to end tests
-
-Explain what these tests test and why
+This will test each component, screen for
+- Expected functionality
+- Expected rendering
 
 ```
-Give an example
+TODO: example
+```
+
+## Running the development app
+
+```
+npm start
+```
+
+## Running the development with storybook
+
+```
+npm run storybook
 ```
 
 ### And coding style tests
 
-Explain what these tests test and why
+- npm run lint
 
-```
-Give an example
-```
+This will make sure the codes are written with the recommended coding style and clean
 
 ## Deployment
 
@@ -58,6 +60,7 @@ Add additional notes about how to deploy this on a live system
 
 ## Built With
 
+* [Expo](https://docs.expo.dev/) - react native tools and services
 * [Tamagui](https://tamagui.dev/docs/intro/introduction) - Style system
 * [Amplify for React Native](https://docs.amplify.aws/react-native/) - Full-stack deployment
 * [GraphQL](https://graphql.org/learn/) - API

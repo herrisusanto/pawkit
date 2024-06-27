@@ -1,0 +1,14 @@
+[
+  {
+    "groupName": "Admin",
+    "precedence": 1
+  },
+  {
+    "groupName": "ServicePersonnel",
+    "precedence": 2
+  },
+  {
+    "groupName": "PetOwners",
+    "precedence": 3
+  }
+]

@@ -1,0 +1,22 @@
+{
+  "permissions": {
+    "auth": {
+      "pawkit": [
+        "read"
+      ]
+    },
+    "api": {
+      "pawkit": [
+        "Query",
+        "Mutation",
+        "Subscription"
+      ]
+    }
+  },
+  "lambdaLayers": [],
+  "secretNames": [
+    "HITPAY_API_KEY",
+    "HITPAY_SALT"
+  ],
+  "environmentVariableList": []
+}

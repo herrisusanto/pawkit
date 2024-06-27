@@ -1,0 +1,25 @@
+{
+  "version": "1",
+  "region": "us-east-1",
+  "userPoolId": "us-east-1_abcdefg",
+  "userName": "janedoe",
+  "callerContext": {
+    "awsSdkVersion": "aws-sdk-unknown-unknown",
+    "clientId": "abcdefghijklmnopqrstuvwxyz"
+  },
+  "triggerSource": "CustomMessage_CreateAuthChallenge",
+  "request": {
+    "userAttributes": {
+      "sub": "12345678-1234-1234-1234-1234567890ab",
+      "phone_number": "+1234567890"
+    },
+    "session": [
+      {
+        "challengeName": "CUSTOM_CHALLENGE",
+        "challengeResult": true,
+        "challengeMetadata": "CODE-123456"
+      }
+    ]
+  },
+  "response": {}
+}

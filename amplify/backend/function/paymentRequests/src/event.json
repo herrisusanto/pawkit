@@ -1,0 +1,11 @@
+{
+  "httpMethod": "POST",
+  "path": "/v1/payment-requests",
+  "queryStringParameters": {
+   "limit": "10"
+  },
+  "headers": {
+   "Content-Type": "application/json"
+  },
+  "body": "{\"amount\":123,\"currency\":\"<string>\",\"payment_methods\":[\"<string>\"],\"email\":\"<string>\",\"name\":\"<string>\",\"phone\":\"<string>\",\"purpose\":\"<string>\",\"reference_number\":\"<string>\",\"redirect_url\":\"<string>\",\"webhook\":\"<string>\",\"allow_repeated_payments\":\"<string>\",\"expiry_date\":\"<string>\",\"expires_after\":\"<string>\",\"send_email\":\"<string>\",\"send_sms\":\"<string>\"}"
+ }
