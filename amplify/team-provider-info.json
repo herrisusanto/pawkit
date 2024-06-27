@@ -139,7 +139,7 @@
           "s3Key": "amplify-builds/paymentRequests-586150612b7953393345-build.zip",
           "secretsPathAmplifyAppId": "dd5j6wo9u36ak",
           "hitpayEndpoint": "https://api.hit-pay.com/v1/payment-requests",
-          "webhookUrl": "https://xvw4s1t01g.execute-api.ap-southeast-1.amazonaws.com/staging/payment-confirmation/webhook"
+          "webhookUrl": "https://07i607lu20.execute-api.ap-southeast-1.amazonaws.com/production/payment-confirmation/webhook"
         },
         "pawkit": {}
       },
