@@ -45,6 +45,7 @@
       }
     },
     "production": {
+      "autoIncrement": true,
       "channel": "production",
       "env": {
        "APP_MODE": "production"
