@@ -1,6 +1,7 @@
 {
   "cli": {
-    "version": ">= 7.3.0"
+    "version": ">= 7.3.0",
+    "appVersionSource": "remote"
   },  
   "build": {
     "development:simulator": {
@@ -45,7 +46,6 @@
       }
     },
     "production": {
-      "autoIncrement": true,
       "channel": "production",
       "env": {
        "APP_MODE": "production"
