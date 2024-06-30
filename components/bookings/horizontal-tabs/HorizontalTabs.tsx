@@ -5,7 +5,7 @@ import BookingSection from "../booking-section/BookingSection";
 import { useCurrentUser } from "@/hooks";
 import { useQuery } from "@tanstack/react-query";
 import { fetchBookingsByCustomer } from "@/api/booking";
-import { BookingStatus } from "@/api/graphql/API";
+import { Booking, BookingStatus } from "@/api/graphql/API";
 
 const HorizontalTabs = () => {
   const { data: user } = useCurrentUser();
@@ -132,15 +132,28 @@ const HorizontalTabs = () => {
       </YStack>
 
       <Tabs.Content value="tab1" flex={1}>
-        <BookingSection bookingData={bookings ?? []} />
+        <BookingSection
+          bookingData={
+            bookings?.sort(
+              (a: Booking, b: Booking) =>
+                new Date(a.startDateTime).getTime() -
+                new Date(b.startDateTime).getTime()
+            ) ?? []
+          }
+        />
       </Tabs.Content>
 
       <Tabs.Content value="tab2" flex={1}>
         <BookingSection
           bookingData={
-            bookings?.filter(
-              (item: any) => item.status === BookingStatus.CONFIRMED
-            ) ?? []
+            bookings
+              ?.sort(
+                (a: Booking, b: Booking) =>
+                  new Date(a.startDateTime).getTime() -
+                  new Date(b.startDateTime).getTime()
+              )
+              .filter((item: any) => item.status === BookingStatus.CONFIRMED) ??
+            []
           }
           // bookingData={bookings?.filter((item) => item.status === "Confirmed") ?? []}
         />
@@ -149,9 +162,14 @@ const HorizontalTabs = () => {
       <Tabs.Content value="tab3" flex={1}>
         <BookingSection
           bookingData={
-            bookings?.filter(
-              (item: any) => item.status === BookingStatus.PENDING
-            ) ?? []
+            bookings
+              ?.sort(
+                (a: Booking, b: Booking) =>
+                  new Date(a.startDateTime).getTime() -
+                  new Date(b.startDateTime).getTime()
+              )
+              .filter((item: any) => item.status === BookingStatus.PENDING) ??
+            []
           }
 
           // bookingData={bookings?.filter((item) => item.status === "Pending")}
@@ -161,9 +179,14 @@ const HorizontalTabs = () => {
       <Tabs.Content value="tab4" flex={1}>
         <BookingSection
           bookingData={
-            bookings?.filter(
-              (item: any) => item.status === BookingStatus.COMPLETED
-            ) ?? []
+            bookings
+              ?.sort(
+                (a: Booking, b: Booking) =>
+                  new Date(a.startDateTime).getTime() -
+                  new Date(b.startDateTime).getTime()
+              )
+              .filter((item: any) => item.status === BookingStatus.COMPLETED) ??
+            []
           }
         />
       </Tabs.Content>

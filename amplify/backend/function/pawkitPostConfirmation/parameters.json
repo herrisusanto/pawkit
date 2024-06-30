@@ -1,4 +1,4 @@
 {
-  "modules": "add-to-group",
-  "resourceName": "pawkitPostConfirmation"
+ "modules": "add-to-group,create-customer",
+ "resourceName": "pawkitPostConfirmation"
 }

@@ -121,19 +121,29 @@ export const CalendarSheet: React.FC<CalendarSheetProps> = ({
               {!hasBookings && <NoActiveBookings />}
               {/** END / No Active Bookings */}
               <YStack pb="$5" rowGap="$4">
-                {bookings?.map((booking) => {
-                  return (
-                    <TouchableOpacity
-                      key={booking.id}
-                      onPress={() => {
-                        onClose && onClose();
-                        router.push(`/bookings/${booking.id}`);
-                      }}
-                    >
-                      <UpcomingBookingItem data={booking as Booking} hidePet />
-                    </TouchableOpacity>
-                  );
-                })}
+                {bookings &&
+                  bookings
+                    .sort(
+                      (a, b) =>
+                        new Date(a.startDateTime).getTime() -
+                        new Date(b.startDateTime).getTime()
+                    )
+                    .map((booking) => {
+                      return (
+                        <TouchableOpacity
+                          key={booking.id}
+                          onPress={() => {
+                            onClose && onClose();
+                            router.push(`/bookings/${booking.id}`);
+                          }}
+                        >
+                          <UpcomingBookingItem
+                            data={booking as Booking}
+                            hidePet
+                          />
+                        </TouchableOpacity>
+                      );
+                    })}
               </YStack>
             </YStack>
           </YStack>

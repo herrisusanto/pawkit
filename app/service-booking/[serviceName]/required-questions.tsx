@@ -75,13 +75,7 @@ export default function RequiredQuestions() {
     }) => addOrder(customerId, currency, initAmount),
   });
   const mutationAddBooking = useMutation({
-    mutationFn: ({
-      input,
-      petName,
-    }: {
-      input: CreateBookingInput;
-      petName: string;
-    }) => addBooking(input, petName),
+    mutationFn: addBooking,
   });
   const mutationCreatePaymentRequest = useMutation({
     mutationFn: createPaymentRequest,
@@ -126,9 +120,10 @@ export default function RequiredQuestions() {
           startDateTime: timeSlot.startDateTime,
           orderId: order.id,
           status: BookingStatus.PENDING,
+          petNames: [petName],
           owners: [],
         };
-        await mutationAddBooking.mutateAsync({ input, petName });
+        await mutationAddBooking.mutateAsync(input);
       }
       const fetchedOrder = await mutationFetchOrder.mutateAsync(order.id);
       const paymentRequest = await mutationCreatePaymentRequest.mutateAsync({

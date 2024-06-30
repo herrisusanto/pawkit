@@ -222,7 +222,7 @@ export default function DetailsYourPet() {
                       onChangeText={(val) => handleInputCustomPetBehavior(val)}
                       value={customPetBehavior.value}
                       flex={1}
-                      size="b3"
+                      style={{ fontWeight: "600", fontSize: 14 }}
                       placeholder="Write here"
                     />
                     <ButtonTamagui

@@ -11,6 +11,21 @@ type GeneratedQuery<InputType, OutputType> = string & {
 export const getBooking = /* GraphQL */ `query GetBooking($customerUsername: String!, $timeSlotId: ID!) {
   getBooking(customerUsername: $customerUsername, timeSlotId: $timeSlotId) {
     id
+    orderId
+    order {
+      id
+      customerId
+      currency
+      totalAmount
+      pendingRefundAmount
+      refundedAmount
+      bookingIds
+      paymentRequestId
+      status
+      createdAt
+      updatedAt
+      __typename
+    }
     customerUsername
     owners
     customerId
@@ -59,6 +74,7 @@ export const getBooking = /* GraphQL */ `query GetBooking($customerUsername: Str
       __typename
     }
     timeSlotId
+    petNames
     pets {
       nextToken
       __typename
@@ -68,7 +84,6 @@ export const getBooking = /* GraphQL */ `query GetBooking($customerUsername: Str
     amount
     currency
     status
-    orderId
     createdAt
     updatedAt
     serviceProviderBookingsName
@@ -99,6 +114,7 @@ export const listBookings = /* GraphQL */ `query ListBookings(
   ) {
     items {
       id
+      orderId
       customerUsername
       owners
       customerId
@@ -109,12 +125,12 @@ export const listBookings = /* GraphQL */ `query ListBookings(
       serviceId
       startDateTime
       timeSlotId
+      petNames
       addOns
       bookingType
       amount
       currency
       status
-      orderId
       createdAt
       updatedAt
       serviceProviderBookingsName
@@ -146,6 +162,7 @@ export const bookingById = /* GraphQL */ `query BookingById(
   ) {
     items {
       id
+      orderId
       customerUsername
       owners
       customerId
@@ -156,12 +173,12 @@ export const bookingById = /* GraphQL */ `query BookingById(
       serviceId
       startDateTime
       timeSlotId
+      petNames
       addOns
       bookingType
       amount
       currency
       status
-      orderId
       createdAt
       updatedAt
       serviceProviderBookingsName
@@ -176,6 +193,54 @@ export const bookingById = /* GraphQL */ `query BookingById(
 ` as GeneratedQuery<
   APITypes.BookingByIdQueryVariables,
   APITypes.BookingByIdQuery
+>;
+export const bookingsByOrder = /* GraphQL */ `query BookingsByOrder(
+  $orderId: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelBookingFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  bookingsByOrder(
+    orderId: $orderId
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      orderId
+      customerUsername
+      owners
+      customerId
+      serviceName
+      serviceProviderName
+      serviceCategory
+      petType
+      serviceId
+      startDateTime
+      timeSlotId
+      petNames
+      addOns
+      bookingType
+      amount
+      currency
+      status
+      createdAt
+      updatedAt
+      serviceProviderBookingsName
+      timeSlotBookingsServiceId
+      timeSlotBookingsStartDateTime
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.BookingsByOrderQueryVariables,
+  APITypes.BookingsByOrderQuery
 >;
 export const bookingsByCustomer = /* GraphQL */ `query BookingsByCustomer(
   $customerId: ID!
@@ -193,6 +258,7 @@ export const bookingsByCustomer = /* GraphQL */ `query BookingsByCustomer(
   ) {
     items {
       id
+      orderId
       customerUsername
       owners
       customerId
@@ -203,12 +269,12 @@ export const bookingsByCustomer = /* GraphQL */ `query BookingsByCustomer(
       serviceId
       startDateTime
       timeSlotId
+      petNames
       addOns
       bookingType
       amount
       currency
       status
-      orderId
       createdAt
       updatedAt
       serviceProviderBookingsName
@@ -240,6 +306,7 @@ export const bookingsByService = /* GraphQL */ `query BookingsByService(
   ) {
     items {
       id
+      orderId
       customerUsername
       owners
       customerId
@@ -250,12 +317,12 @@ export const bookingsByService = /* GraphQL */ `query BookingsByService(
       serviceId
       startDateTime
       timeSlotId
+      petNames
       addOns
       bookingType
       amount
       currency
       status
-      orderId
       createdAt
       updatedAt
       serviceProviderBookingsName
@@ -287,6 +354,7 @@ export const bookingsByStartDateTime = /* GraphQL */ `query BookingsByStartDateT
   ) {
     items {
       id
+      orderId
       customerUsername
       owners
       customerId
@@ -297,12 +365,12 @@ export const bookingsByStartDateTime = /* GraphQL */ `query BookingsByStartDateT
       serviceId
       startDateTime
       timeSlotId
+      petNames
       addOns
       bookingType
       amount
       currency
       status
-      orderId
       createdAt
       updatedAt
       serviceProviderBookingsName
@@ -334,6 +402,7 @@ export const bookingsByTimeSlot = /* GraphQL */ `query BookingsByTimeSlot(
   ) {
     items {
       id
+      orderId
       customerUsername
       owners
       customerId
@@ -344,12 +413,12 @@ export const bookingsByTimeSlot = /* GraphQL */ `query BookingsByTimeSlot(
       serviceId
       startDateTime
       timeSlotId
+      petNames
       addOns
       bookingType
       amount
       currency
       status
-      orderId
       createdAt
       updatedAt
       serviceProviderBookingsName
@@ -364,53 +433,6 @@ export const bookingsByTimeSlot = /* GraphQL */ `query BookingsByTimeSlot(
 ` as GeneratedQuery<
   APITypes.BookingsByTimeSlotQueryVariables,
   APITypes.BookingsByTimeSlotQuery
->;
-export const bookingsByOrder = /* GraphQL */ `query BookingsByOrder(
-  $orderId: ID!
-  $sortDirection: ModelSortDirection
-  $filter: ModelBookingFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  bookingsByOrder(
-    orderId: $orderId
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      customerUsername
-      owners
-      customerId
-      serviceName
-      serviceProviderName
-      serviceCategory
-      petType
-      serviceId
-      startDateTime
-      timeSlotId
-      addOns
-      bookingType
-      amount
-      currency
-      status
-      orderId
-      createdAt
-      updatedAt
-      serviceProviderBookingsName
-      timeSlotBookingsServiceId
-      timeSlotBookingsStartDateTime
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.BookingsByOrderQueryVariables,
-  APITypes.BookingsByOrderQuery
 >;
 export const getBreed = /* GraphQL */ `query GetBreed($name: String!) {
   getBreed(name: $name) {
@@ -2636,6 +2658,7 @@ export const getPetBookings = /* GraphQL */ `query GetPetBookings($id: ID!) {
     petcustomerUsername
     booking {
       id
+      orderId
       customerUsername
       owners
       customerId
@@ -2646,12 +2669,12 @@ export const getPetBookings = /* GraphQL */ `query GetPetBookings($id: ID!) {
       serviceId
       startDateTime
       timeSlotId
+      petNames
       addOns
       bookingType
       amount
       currency
       status
-      orderId
       createdAt
       updatedAt
       serviceProviderBookingsName

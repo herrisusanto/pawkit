@@ -14,6 +14,21 @@ export const createBooking = /* GraphQL */ `mutation CreateBooking(
 ) {
   createBooking(input: $input, condition: $condition) {
     id
+    orderId
+    order {
+      id
+      customerId
+      currency
+      totalAmount
+      pendingRefundAmount
+      refundedAmount
+      bookingIds
+      paymentRequestId
+      status
+      createdAt
+      updatedAt
+      __typename
+    }
     customerUsername
     owners
     customerId
@@ -62,6 +77,7 @@ export const createBooking = /* GraphQL */ `mutation CreateBooking(
       __typename
     }
     timeSlotId
+    petNames
     pets {
       nextToken
       __typename
@@ -71,7 +87,6 @@ export const createBooking = /* GraphQL */ `mutation CreateBooking(
     amount
     currency
     status
-    orderId
     createdAt
     updatedAt
     serviceProviderBookingsName
@@ -90,6 +105,21 @@ export const updateBooking = /* GraphQL */ `mutation UpdateBooking(
 ) {
   updateBooking(input: $input, condition: $condition) {
     id
+    orderId
+    order {
+      id
+      customerId
+      currency
+      totalAmount
+      pendingRefundAmount
+      refundedAmount
+      bookingIds
+      paymentRequestId
+      status
+      createdAt
+      updatedAt
+      __typename
+    }
     customerUsername
     owners
     customerId
@@ -138,6 +168,7 @@ export const updateBooking = /* GraphQL */ `mutation UpdateBooking(
       __typename
     }
     timeSlotId
+    petNames
     pets {
       nextToken
       __typename
@@ -147,7 +178,6 @@ export const updateBooking = /* GraphQL */ `mutation UpdateBooking(
     amount
     currency
     status
-    orderId
     createdAt
     updatedAt
     serviceProviderBookingsName
@@ -166,6 +196,21 @@ export const deleteBooking = /* GraphQL */ `mutation DeleteBooking(
 ) {
   deleteBooking(input: $input, condition: $condition) {
     id
+    orderId
+    order {
+      id
+      customerId
+      currency
+      totalAmount
+      pendingRefundAmount
+      refundedAmount
+      bookingIds
+      paymentRequestId
+      status
+      createdAt
+      updatedAt
+      __typename
+    }
     customerUsername
     owners
     customerId
@@ -214,6 +259,7 @@ export const deleteBooking = /* GraphQL */ `mutation DeleteBooking(
       __typename
     }
     timeSlotId
+    petNames
     pets {
       nextToken
       __typename
@@ -223,7 +269,6 @@ export const deleteBooking = /* GraphQL */ `mutation DeleteBooking(
     amount
     currency
     status
-    orderId
     createdAt
     updatedAt
     serviceProviderBookingsName
@@ -2075,6 +2120,7 @@ export const createPetBookings = /* GraphQL */ `mutation CreatePetBookings(
     petcustomerUsername
     booking {
       id
+      orderId
       customerUsername
       owners
       customerId
@@ -2085,12 +2131,12 @@ export const createPetBookings = /* GraphQL */ `mutation CreatePetBookings(
       serviceId
       startDateTime
       timeSlotId
+      petNames
       addOns
       bookingType
       amount
       currency
       status
-      orderId
       createdAt
       updatedAt
       serviceProviderBookingsName
@@ -2146,6 +2192,7 @@ export const updatePetBookings = /* GraphQL */ `mutation UpdatePetBookings(
     petcustomerUsername
     booking {
       id
+      orderId
       customerUsername
       owners
       customerId
@@ -2156,12 +2203,12 @@ export const updatePetBookings = /* GraphQL */ `mutation UpdatePetBookings(
       serviceId
       startDateTime
       timeSlotId
+      petNames
       addOns
       bookingType
       amount
       currency
       status
-      orderId
       createdAt
       updatedAt
       serviceProviderBookingsName
@@ -2217,6 +2264,7 @@ export const deletePetBookings = /* GraphQL */ `mutation DeletePetBookings(
     petcustomerUsername
     booking {
       id
+      orderId
       customerUsername
       owners
       customerId
@@ -2227,12 +2275,12 @@ export const deletePetBookings = /* GraphQL */ `mutation DeletePetBookings(
       serviceId
       startDateTime
       timeSlotId
+      petNames
       addOns
       bookingType
       amount
       currency
       status
-      orderId
       createdAt
       updatedAt
       serviceProviderBookingsName

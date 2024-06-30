@@ -11,6 +11,21 @@ type GeneratedSubscription<InputType, OutputType> = string & {
 export const onCreateBooking = /* GraphQL */ `subscription OnCreateBooking($filter: ModelSubscriptionBookingFilterInput) {
   onCreateBooking(filter: $filter) {
     id
+    orderId
+    order {
+      id
+      customerId
+      currency
+      totalAmount
+      pendingRefundAmount
+      refundedAmount
+      bookingIds
+      paymentRequestId
+      status
+      createdAt
+      updatedAt
+      __typename
+    }
     customerUsername
     owners
     customerId
@@ -59,6 +74,7 @@ export const onCreateBooking = /* GraphQL */ `subscription OnCreateBooking($filt
       __typename
     }
     timeSlotId
+    petNames
     pets {
       nextToken
       __typename
@@ -68,7 +84,6 @@ export const onCreateBooking = /* GraphQL */ `subscription OnCreateBooking($filt
     amount
     currency
     status
-    orderId
     createdAt
     updatedAt
     serviceProviderBookingsName
@@ -84,6 +99,21 @@ export const onCreateBooking = /* GraphQL */ `subscription OnCreateBooking($filt
 export const onUpdateBooking = /* GraphQL */ `subscription OnUpdateBooking($filter: ModelSubscriptionBookingFilterInput) {
   onUpdateBooking(filter: $filter) {
     id
+    orderId
+    order {
+      id
+      customerId
+      currency
+      totalAmount
+      pendingRefundAmount
+      refundedAmount
+      bookingIds
+      paymentRequestId
+      status
+      createdAt
+      updatedAt
+      __typename
+    }
     customerUsername
     owners
     customerId
@@ -132,6 +162,7 @@ export const onUpdateBooking = /* GraphQL */ `subscription OnUpdateBooking($filt
       __typename
     }
     timeSlotId
+    petNames
     pets {
       nextToken
       __typename
@@ -141,7 +172,6 @@ export const onUpdateBooking = /* GraphQL */ `subscription OnUpdateBooking($filt
     amount
     currency
     status
-    orderId
     createdAt
     updatedAt
     serviceProviderBookingsName
@@ -157,6 +187,21 @@ export const onUpdateBooking = /* GraphQL */ `subscription OnUpdateBooking($filt
 export const onDeleteBooking = /* GraphQL */ `subscription OnDeleteBooking($filter: ModelSubscriptionBookingFilterInput) {
   onDeleteBooking(filter: $filter) {
     id
+    orderId
+    order {
+      id
+      customerId
+      currency
+      totalAmount
+      pendingRefundAmount
+      refundedAmount
+      bookingIds
+      paymentRequestId
+      status
+      createdAt
+      updatedAt
+      __typename
+    }
     customerUsername
     owners
     customerId
@@ -205,6 +250,7 @@ export const onDeleteBooking = /* GraphQL */ `subscription OnDeleteBooking($filt
       __typename
     }
     timeSlotId
+    petNames
     pets {
       nextToken
       __typename
@@ -214,7 +260,6 @@ export const onDeleteBooking = /* GraphQL */ `subscription OnDeleteBooking($filt
     amount
     currency
     status
-    orderId
     createdAt
     updatedAt
     serviceProviderBookingsName
@@ -2050,6 +2095,7 @@ export const onCreatePetBookings = /* GraphQL */ `subscription OnCreatePetBookin
     petcustomerUsername
     booking {
       id
+      orderId
       customerUsername
       owners
       customerId
@@ -2060,12 +2106,12 @@ export const onCreatePetBookings = /* GraphQL */ `subscription OnCreatePetBookin
       serviceId
       startDateTime
       timeSlotId
+      petNames
       addOns
       bookingType
       amount
       currency
       status
-      orderId
       createdAt
       updatedAt
       serviceProviderBookingsName
@@ -2126,6 +2172,7 @@ export const onUpdatePetBookings = /* GraphQL */ `subscription OnUpdatePetBookin
     petcustomerUsername
     booking {
       id
+      orderId
       customerUsername
       owners
       customerId
@@ -2136,12 +2183,12 @@ export const onUpdatePetBookings = /* GraphQL */ `subscription OnUpdatePetBookin
       serviceId
       startDateTime
       timeSlotId
+      petNames
       addOns
       bookingType
       amount
       currency
       status
-      orderId
       createdAt
       updatedAt
       serviceProviderBookingsName
@@ -2202,6 +2249,7 @@ export const onDeletePetBookings = /* GraphQL */ `subscription OnDeletePetBookin
     petcustomerUsername
     booking {
       id
+      orderId
       customerUsername
       owners
       customerId
@@ -2212,12 +2260,12 @@ export const onDeletePetBookings = /* GraphQL */ `subscription OnDeletePetBookin
       serviceId
       startDateTime
       timeSlotId
+      petNames
       addOns
       bookingType
       amount
       currency
       status
-      orderId
       createdAt
       updatedAt
       serviceProviderBookingsName

@@ -30,21 +30,26 @@ export const UpcomingBooking = () => {
           {bookings?.length ?? 0} Bookings
         </Text>
       </XStack>
-      {/* <View px="$5">{true && <NoUpcomingBooking />}</View> */}
-
       {bookings?.length > 0 ? (
         <ListSlider
           items={
             bookings
-              ? bookings?.slice(0, 4).map((item: any) => ({
-                  content: (
-                    <Link href={`/bookings/${item.id}`} asChild>
-                      <View px="$5">
-                        <BookingCard key={item.id} data={item} />
-                      </View>
-                    </Link>
-                  ),
-                }))
+              ? bookings
+                  ?.sort(
+                    (a: Booking, b: Booking) =>
+                      new Date(a.startDateTime).getTime() -
+                      new Date(b.startDateTime).getTime()
+                  )
+                  .slice(0, 4)
+                  .map((item: any) => ({
+                    content: (
+                      <Link href={`/bookings/${item.id}`} asChild>
+                        <View px="$5">
+                          <BookingCard key={item.id} data={item} />
+                        </View>
+                      </Link>
+                    ),
+                  }))
               : []
           }
         />
@@ -151,7 +156,7 @@ export const UpcomingBookingItem = YStack.styleable<UpcomingBookingItemProps>(
                     <Avatar.Image
                       src={
                         petBooking?.pet.imageUrl ||
-                        petDefaultAvatar(petBooking?.pet.breed?.petType)
+                        petDefaultAvatar(petBooking?.pet.petType)
                       }
                       resizeMode="cover"
                       bg="$primary"

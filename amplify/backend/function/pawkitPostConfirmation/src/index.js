@@ -1,4 +1,10 @@
-/**
+/* Amplify Params - DO NOT EDIT
+	API_PAWKIT_GRAPHQLAPIENDPOINTOUTPUT
+	API_PAWKIT_GRAPHQLAPIIDOUTPUT
+	API_PAWKIT_GRAPHQLAPIKEYOUTPUT
+	ENV
+	REGION
+Amplify Params - DO NOT EDIT */ /**
  * @fileoverview
  *
  * This CloudFormation Trigger creates a handler which awaits the other handlers

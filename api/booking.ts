@@ -58,10 +58,7 @@ const generateBookingId = async (customerId: string, timeSlotId: string) => {
 // Create
 // Make sure there is an order before adding a booking
 // Check that disclaimer was accepted before creating booking
-export const addBooking = async (
-  input: CreateBookingInput,
-  petName: string
-) => {
+export const addBooking = async (input: CreateBookingInput) => {
   try {
     let order;
     let orderId = input.orderId;
@@ -106,7 +103,7 @@ export const addBooking = async (
     const booking = bookingResult.data.createBooking;
     logger.info("Called createBooking mutation");
 
-    const [updatedTimeSlot, updatedService, updatedOrder, petBooking] =
+    const [updatedTimeSlot, updatedService, updatedOrder, petBookings] =
       await Promise.all([
         addBookingToTimeSlot(
           booking.serviceId,
@@ -120,9 +117,9 @@ export const addBooking = async (
           booking.currency,
           booking.amount
         ),
-        addPetBookingRelationship(
+        addPetBookingRelationships(
           booking.customerUsername,
-          petName,
+          input.petNames as string[],
           timeSlot.id
         ),
       ]);
@@ -132,12 +129,32 @@ export const addBooking = async (
       updatedOrder,
       updatedTimeSlot,
       updatedService,
-      petBooking,
+      petBookings,
     };
   } catch (error) {
     logger.error("Error creating booking: ", error);
     if (error instanceof CustomError) throw error;
     throw new InternalServerError("Error creating booking");
+  }
+};
+
+export const addPetBookingRelationships = (
+  customerUsername: string,
+  petNames: string[],
+  timeSlotId: string
+) => {
+  try {
+    const petBookingPromises: any[] = [];
+    petNames.forEach((petName) =>
+      petBookingPromises.push(
+        addPetBookingRelationship(customerUsername, petName, timeSlotId)
+      )
+    );
+    return Promise.all(petBookingPromises);
+  } catch (error) {
+    logger.error("Error creating pet booking relationships: ", error);
+    if (error instanceof CustomError) throw error;
+    throw new InternalServerError("Error creating pet booking relationships");
   }
 };
 

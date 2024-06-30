@@ -74,7 +74,7 @@ const HitpayCheckout = () => {
                 textAlign="center"
               >
                 {showCompleted
-                  ? "Your order have been paid"
+                  ? "Your payment has been confirmed"
                   : "It seems there’s a problem in the payment process"}
               </Text>
             </YStack>

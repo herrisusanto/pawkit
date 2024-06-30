@@ -145,6 +145,7 @@ export const customGetBooking = `query CustomGetBooking(
       __typename
     }
     timeSlotId
+    petNames
     pets {
       items {
         pet {
@@ -193,6 +194,7 @@ export const customBookingById = `query CustomBookingById(
  ) {
    items {
      id
+     orderId
      customerUsername
      owners
      customerId
@@ -208,12 +210,12 @@ export const customBookingById = `query CustomBookingById(
      amount
      currency
      status
-     orderId
      createdAt
      updatedAt
      serviceProviderBookingsName
      timeSlotBookingsServiceId
      timeSlotBookingsStartDateTime
+     petNames
      pets {
        items {
          pet {
@@ -254,6 +256,7 @@ export const customBookingsByCustomer = `query CustomBookingsByCustomer(
  ) {
    items {
      id
+     orderId
      customerUsername
      owners
      customerId
@@ -269,11 +272,11 @@ export const customBookingsByCustomer = `query CustomBookingsByCustomer(
      amount
      currency
      status
-     orderId
      createdAt
      updatedAt
      timeSlotBookingsServiceId
      timeSlotBookingsStartDateTime
+     petNames
      pets {
        items {
          pet {

@@ -38,7 +38,6 @@ export const handleSignUp = async ({ phoneNumber }: SignUpParameters) => {
   logger.debug(params);
   try {
     const { isSignUpComplete, userId, nextStep } = await signUp(params);
-    await addCustomer(userId as string, userId as string);
     logger.debug(isSignUpComplete, userId, nextStep);
   } catch (error) {
     logger.error("error signing up:", error);
@@ -69,7 +68,6 @@ export const handleSignUpConfirmation = async ({
   } catch (error) {
     logger.error("error confirming sign up", error);
   }
-  addCustomer(username, username);
 };
 
 export const handleSignIn = async (

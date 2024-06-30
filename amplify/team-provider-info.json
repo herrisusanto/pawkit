@@ -30,7 +30,7 @@
         "pawkitPostConfirmation": {
           "GROUP": "PetOwners",
           "deploymentBucketName": "amplify-pawkit-staging-152309-deployment",
-          "s3Key": "amplify-builds/pawkitPostConfirmation-522b5a7431394b304a51-build.zip"
+          "s3Key": "amplify-builds/pawkitPostConfirmation-35376e4871527a6a4f68-build.zip"
         },
         "pawkitVerifyAuthChallengeResponse": {
           "deploymentBucketName": "amplify-pawkit-staging-152309-deployment",

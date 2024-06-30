@@ -2,93 +2,20 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
-export type Booking = {
-  __typename: "Booking",
-  id: string,
-  customerUsername: string,
-  owners: Array< string >,
-  customerId: string,
-  customer: Customer,
-  serviceName: string,
-  serviceProviderName: string,
-  serviceProvider: ServiceProvider,
-  serviceCategory: ServiceCategory,
-  petType: PetType,
-  serviceId: string,
-  startDateTime: string,
-  timeSlot: TimeSlot,
-  timeSlotId: string,
-  pets?: ModelPetBookingsConnection | null,
-  addOns?: Array< string > | null,
-  bookingType: BookingType,
-  amount: number,
-  currency: Currency,
-  status: BookingStatus,
-  orderId: string,
-  order?: Order | null,
-  createdAt: string,
-  updatedAt: string,
-  serviceProviderBookingsName?: string | null,
-  timeSlotBookingsServiceId?: string | null,
-  timeSlotBookingsStartDateTime?: string | null,
+export type ModelServicePrimaryCompositeKeyConditionInput = {
+  eq?: ModelServicePrimaryCompositeKeyInput | null,
+  le?: ModelServicePrimaryCompositeKeyInput | null,
+  lt?: ModelServicePrimaryCompositeKeyInput | null,
+  ge?: ModelServicePrimaryCompositeKeyInput | null,
+  gt?: ModelServicePrimaryCompositeKeyInput | null,
+  between?: Array< ModelServicePrimaryCompositeKeyInput | null > | null,
+  beginsWith?: ModelServicePrimaryCompositeKeyInput | null,
 };
 
-export type Customer = {
-  __typename: "Customer",
-  id: string,
-  username: string,
-  isDeactivated: boolean,
-  imageUrl?: string | null,
-  address?: Address | null,
-  acceptedDisclaimers?: ModelDisclaimerAcceptanceConnection | null,
-  pets?: ModelPetConnection | null,
-  bookings?: ModelBookingConnection | null,
-  orders?: ModelOrderConnection | null,
-  payments?: ModelPaymentConnection | null,
-  createdAt: string,
-  updatedAt: string,
-};
-
-export type Address = {
-  __typename: "Address",
-  blockNumber?: string | null,
-  streetName: string,
-  unitNumber?: string | null,
-  postalCode: string,
-};
-
-export type ModelDisclaimerAcceptanceConnection = {
-  __typename: "ModelDisclaimerAcceptanceConnection",
-  items:  Array<DisclaimerAcceptance | null >,
-  nextToken?: string | null,
-};
-
-export type DisclaimerAcceptance = {
-  __typename: "DisclaimerAcceptance",
-  id: string,
-  customerId: string,
-  customer: Customer,
-  disclaimerName: string,
-  disclaimer: Disclaimer,
-  createdAt: string,
-  updatedAt: string,
-};
-
-export type Disclaimer = {
-  __typename: "Disclaimer",
-  name: string,
-  serviceName?: string | null,
+export type ModelServicePrimaryCompositeKeyInput = {
   serviceProviderName?: string | null,
   serviceCategory?: ServiceCategory | null,
   petType?: PetType | null,
-  service?: Service | null,
-  text?: string | null,
-  s3Link?: string | null,
-  supersededBy?: Disclaimer | null,
-  supersessionDate?: string | null,
-  customerAcceptances?: ModelDisclaimerAcceptanceConnection | null,
-  createdAt: string,
-  updatedAt: string,
 };
 
 export enum ServiceCategory {
@@ -109,355 +36,39 @@ export enum PetType {
 }
 
 
-export type Service = {
-  __typename: "Service",
-  id: string,
-  name: string,
-  serviceProviderName: string,
-  serviceProvider: ServiceProvider,
-  serviceCategory: ServiceCategory,
-  petType: PetType,
-  defaultDisplay: boolean,
-  displayPriority?: number | null,
-  onlinePaymentAccepted: boolean,
-  currency: Currency,
-  basePrice: number,
-  baseDuration: number,
-  baseDurationUnit: TimeUnit,
-  additionalPetPrice?: number | null,
-  additionalTimePrice?: CustomPrice | null,
-  xsWeightPrice?: CustomPrice | null,
-  sWeightPrice?: CustomPrice | null,
-  mWeightPrice?: CustomPrice | null,
-  lWeightPrice?: CustomPrice | null,
-  xlWeightPrice?: CustomPrice | null,
-  xxlWeightPrice?: CustomPrice | null,
-  shortDescription?: string | null,
-  longDescription?: string | null,
-  imageUrl?: string | null,
-  serviceBreakdown?: string | null,
-  additionalInfo?: string | null,
-  faq?: string | null,
-  goodToKnow?: string | null,
-  parentServiceIds?: Array< string > | null,
-  childServiceIds?: Array< string > | null,
-  disclaimerName?: string | null,
-  disclaimer?: Disclaimer | null,
-  timeSlotIds?: Array< string > | null,
-  bookingIds?: Array< string > | null,
-  requiredQuestionIds?: Array< string > | null,
-  createdAt: string,
-  updatedAt: string,
-  serviceProviderId?: string | null,
-};
-
-export type ServiceProvider = {
-  __typename: "ServiceProvider",
-  id: string,
-  name: string,
-  displayName?: string | null,
-  description?: string | null,
-  imageUrl?: string | null,
-  address?: Address | null,
-  website?: string | null,
-  email?: string | null,
-  phone?: string | null,
-  operatingTimes:  Array<TimeInterval >,
-  isHeadquarters: boolean,
-  headquarters?: ServiceProvider | null,
-  services?: ModelServiceConnection | null,
-  bookings?: ModelBookingConnection | null,
-  createdAt: string,
-  updatedAt: string,
-  serviceProviderHeadquartersName?: string | null,
-};
-
-export type TimeInterval = {
-  __typename: "TimeInterval",
-  dayOfWeek: number,
-  openTime: string,
-  closeTime: string,
-};
-
-export type ModelServiceConnection = {
-  __typename: "ModelServiceConnection",
-  items:  Array<Service | null >,
-  nextToken?: string | null,
-};
-
-export type ModelBookingConnection = {
-  __typename: "ModelBookingConnection",
-  items:  Array<Booking | null >,
-  nextToken?: string | null,
-};
-
-export enum Currency {
-  SGD = "SGD",
-}
-
-
-export enum TimeUnit {
-  MINUTES = "MINUTES",
-  HOURS = "HOURS",
-  DAYS = "DAYS",
-  WEEKS = "WEEKS",
-  MONTHS = "MONTHS",
-  YEARS = "YEARS",
-}
-
-
-export type CustomPrice = {
-  __typename: "CustomPrice",
-  additionalDuration?: number | null,
-  additionalDurationUnit?: TimeUnit | null,
-  minWeight?: number | null,
-  maxWeight?: number | null,
-  weightUnit?: WeightUnit | null,
-  amount: number,
-};
-
-export enum WeightUnit {
-  KG = "KG",
-  G = "G",
-}
-
-
-export type ModelPetConnection = {
-  __typename: "ModelPetConnection",
-  items:  Array<Pet | null >,
-  nextToken?: string | null,
-};
-
-export type Pet = {
-  __typename: "Pet",
-  name: string,
-  customerUsername: string,
-  customerId: string,
-  customer: Customer,
-  gender: Gender,
-  petType: PetType,
-  isDeleted: boolean,
-  breedName?: string | null,
-  imageUrl?: string | null,
-  birthdate?: string | null,
-  weightValue?: number | null,
-  weightUnit?: WeightUnit | null,
-  additionalInfo?: string | null,
-  predefinedBehaviors?: Array< PredefinedBehavior > | null,
-  customBehaviors?: Array< string > | null,
-  isNeutered?: boolean | null,
-  isMicrochipped?: boolean | null,
-  microchipNumber?: string | null,
-  hasMedicalCondition?: boolean | null,
-  additionalCareInstructions?: string | null,
-  bookings?: ModelPetBookingsConnection | null,
-  questionAnswerIds?: Array< string > | null,
-  createdAt: string,
-  updatedAt: string,
-};
-
-export enum Gender {
-  FEMALE = "FEMALE",
-  MALE = "MALE",
-}
-
-
-export enum PredefinedBehavior {
-  FEAR_OF_LOUD_NOISES = "FEAR_OF_LOUD_NOISES",
-  HYPERACTIVE = "HYPERACTIVE",
-  ANXIOUS = "ANXIOUS",
-  FRIENDLY_WITH_STRANGERS = "FRIENDLY_WITH_STRANGERS",
-  MIGHT_SNAP = "MIGHT_SNAP",
-  RESPONSIVE_TO_COMMANDS = "RESPONSIVE_TO_COMMANDS",
-  RESPONSIVE_TO_TREATS = "RESPONSIVE_TO_TREATS",
-}
-
-
-export type ModelPetBookingsConnection = {
-  __typename: "ModelPetBookingsConnection",
-  items:  Array<PetBookings | null >,
-  nextToken?: string | null,
-};
-
-export type PetBookings = {
-  __typename: "PetBookings",
-  id: string,
-  bookingCustomerUsername: string,
-  bookingtimeSlotId: string,
-  petName: string,
-  petcustomerUsername: string,
-  booking: Booking,
-  pet: Pet,
-  createdAt: string,
-  updatedAt: string,
-  owners?: string | null,
-  customerId?: string | null,
-};
-
-export type ModelOrderConnection = {
-  __typename: "ModelOrderConnection",
-  items:  Array<Order | null >,
-  nextToken?: string | null,
-};
-
-export type Order = {
-  __typename: "Order",
-  id: string,
-  customerId: string,
-  customer: Customer,
-  currency: Currency,
-  totalAmount: number,
-  pendingRefundAmount?: number | null,
-  refundedAmount?: number | null,
-  bookingIds?: Array< string > | null,
-  bookings?: ModelBookingConnection | null,
-  paymentRequestId?: string | null,
-  status: OrderStatus,
-  createdAt: string,
-  updatedAt: string,
-};
-
-export enum OrderStatus {
-  PENDING = "PENDING",
-  CONFIRMED = "CONFIRMED",
-  CANCELLED = "CANCELLED",
-}
-
-
-export type ModelPaymentConnection = {
-  __typename: "ModelPaymentConnection",
-  items:  Array<Payment | null >,
-  nextToken?: string | null,
-};
-
-export type Payment = {
-  __typename: "Payment",
-  paymentRequestId: string,
-  orderId: string,
-  order: Order,
-  customerId: string,
-  customer: Customer,
-  name?: string | null,
-  email?: string | null,
-  phone?: string | null,
-  amount: number,
-  currency: Currency,
-  requestCreatedAt: string,
-  requestUpdatedAt: string,
-  status: PaymentStatus,
-  purpose?: string | null,
-  referenceNumber?: string | null,
-  paymentId?: string | null,
-  paymentMethod?: PaymentMethod | null,
-  url: string,
-  webhookUrl: string,
-  redirectUrl?: string | null,
-  sendSMS?: boolean | null,
-  sendEmail?: boolean | null,
-  smsStatus?: boolean | null,
-  emailStatus?: boolean | null,
-  allowRepeatedPayments?: boolean | null,
-  expiryDateTime?: string | null,
-  errors?: string | null,
-  createdAt: string,
-  updatedAt: string,
-};
-
-export enum PaymentStatus {
-  PENDING = "PENDING",
-  COMPLETED = "COMPLETED",
-  FAILED = "FAILED",
-  VOIDED = "VOIDED",
-  REFUNDED = "REFUNDED",
-  SENT = "SENT",
-  EXPIRED = "EXPIRED",
-}
-
-
-export enum PaymentMethod {
-  CARD = "CARD",
-  CASH = "CASH",
-  PAYNOW_ONLINE = "PAYNOW_ONLINE",
-}
-
-
-export type TimeSlot = {
-  __typename: "TimeSlot",
-  id: string,
-  serviceId: string,
-  startDateTime: string,
-  endDateTime?: string | null,
-  capacity: number,
-  bookingCount: number,
-  isFull: boolean,
-  bookingIds?: Array< string > | null,
-  bookings?: ModelBookingConnection | null,
-  createdAt: string,
-  updatedAt: string,
-  serviceProviderId?: string | null,
-};
-
-export enum BookingType {
-  FREE_TRIAL = "FREE_TRIAL",
-  PAID = "PAID",
-}
-
-
-export enum BookingStatus {
-  PENDING = "PENDING",
-  IN_PROGRESS = "IN_PROGRESS",
-  CONFIRMED = "CONFIRMED",
-  CANCELLED = "CANCELLED",
-  COMPLETED = "COMPLETED",
-}
-
-
-export type CreateBookingInput = {
-  id?: string | null,
-  customerUsername: string,
-  owners: Array< string >,
-  customerId: string,
-  serviceName: string,
-  serviceProviderName: string,
-  serviceCategory: ServiceCategory,
-  petType: PetType,
-  serviceId: string,
-  startDateTime: string,
-  timeSlotId: string,
-  addOns?: Array< string > | null,
-  bookingType: BookingType,
-  amount: number,
-  currency: Currency,
-  status: BookingStatus,
-  orderId: string,
-  serviceProviderBookingsName?: string | null,
-  timeSlotBookingsServiceId?: string | null,
-  timeSlotBookingsStartDateTime?: string | null,
-};
-
-export type ModelBookingConditionInput = {
-  owners?: ModelIDInput | null,
-  customerId?: ModelIDInput | null,
-  serviceName?: ModelStringInput | null,
+export type ModelServiceFilterInput = {
+  id?: ModelIDInput | null,
+  name?: ModelStringInput | null,
   serviceProviderName?: ModelStringInput | null,
   serviceCategory?: ModelServiceCategoryInput | null,
   petType?: ModelPetTypeInput | null,
-  serviceId?: ModelIDInput | null,
-  startDateTime?: ModelStringInput | null,
-  addOns?: ModelIDInput | null,
-  bookingType?: ModelBookingTypeInput | null,
-  amount?: ModelFloatInput | null,
+  defaultDisplay?: ModelBooleanInput | null,
+  displayPriority?: ModelIntInput | null,
+  onlinePaymentAccepted?: ModelBooleanInput | null,
   currency?: ModelCurrencyInput | null,
-  status?: ModelBookingStatusInput | null,
-  orderId?: ModelIDInput | null,
-  and?: Array< ModelBookingConditionInput | null > | null,
-  or?: Array< ModelBookingConditionInput | null > | null,
-  not?: ModelBookingConditionInput | null,
+  basePrice?: ModelFloatInput | null,
+  baseDuration?: ModelIntInput | null,
+  baseDurationUnit?: ModelTimeUnitInput | null,
+  additionalPetPrice?: ModelFloatInput | null,
+  shortDescription?: ModelStringInput | null,
+  longDescription?: ModelStringInput | null,
+  imageUrl?: ModelStringInput | null,
+  serviceBreakdown?: ModelStringInput | null,
+  additionalInfo?: ModelStringInput | null,
+  faq?: ModelStringInput | null,
+  goodToKnow?: ModelStringInput | null,
+  parentServiceIds?: ModelIDInput | null,
+  childServiceIds?: ModelIDInput | null,
+  disclaimerName?: ModelStringInput | null,
+  timeSlotIds?: ModelIDInput | null,
+  bookingIds?: ModelIDInput | null,
+  requiredQuestionIds?: ModelIDInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
-  serviceProviderBookingsName?: ModelStringInput | null,
-  timeSlotBookingsServiceId?: ModelIDInput | null,
-  timeSlotBookingsStartDateTime?: ModelStringInput | null,
+  and?: Array< ModelServiceFilterInput | null > | null,
+  or?: Array< ModelServiceFilterInput | null > | null,
+  not?: ModelServiceFilterInput | null,
+  serviceProviderId?: ModelStringInput | null,
 };
 
 export type ModelIDInput = {
@@ -526,12 +137,14 @@ export type ModelPetTypeInput = {
   ne?: PetType | null,
 };
 
-export type ModelBookingTypeInput = {
-  eq?: BookingType | null,
-  ne?: BookingType | null,
+export type ModelBooleanInput = {
+  ne?: boolean | null,
+  eq?: boolean | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
 };
 
-export type ModelFloatInput = {
+export type ModelIntInput = {
   ne?: number | null,
   eq?: number | null,
   le?: number | null,
@@ -548,6 +161,477 @@ export type ModelCurrencyInput = {
   ne?: Currency | null,
 };
 
+export enum Currency {
+  SGD = "SGD",
+}
+
+
+export type ModelFloatInput = {
+  ne?: number | null,
+  eq?: number | null,
+  le?: number | null,
+  lt?: number | null,
+  ge?: number | null,
+  gt?: number | null,
+  between?: Array< number | null > | null,
+  attributeExists?: boolean | null,
+  attributeType?: ModelAttributeTypes | null,
+};
+
+export type ModelTimeUnitInput = {
+  eq?: TimeUnit | null,
+  ne?: TimeUnit | null,
+};
+
+export enum TimeUnit {
+  MINUTES = "MINUTES",
+  HOURS = "HOURS",
+  DAYS = "DAYS",
+  WEEKS = "WEEKS",
+  MONTHS = "MONTHS",
+  YEARS = "YEARS",
+}
+
+
+export enum ModelSortDirection {
+  ASC = "ASC",
+  DESC = "DESC",
+}
+
+
+export type ModelServiceConnection = {
+  __typename: "ModelServiceConnection",
+  items:  Array<Service | null >,
+  nextToken?: string | null,
+};
+
+export type Service = {
+  __typename: "Service",
+  id: string,
+  name: string,
+  serviceProviderName: string,
+  serviceProvider: ServiceProvider,
+  serviceCategory: ServiceCategory,
+  petType: PetType,
+  defaultDisplay: boolean,
+  displayPriority?: number | null,
+  onlinePaymentAccepted: boolean,
+  currency: Currency,
+  basePrice: number,
+  baseDuration: number,
+  baseDurationUnit: TimeUnit,
+  additionalPetPrice?: number | null,
+  additionalTimePrice?: CustomPrice | null,
+  xsWeightPrice?: CustomPrice | null,
+  sWeightPrice?: CustomPrice | null,
+  mWeightPrice?: CustomPrice | null,
+  lWeightPrice?: CustomPrice | null,
+  xlWeightPrice?: CustomPrice | null,
+  xxlWeightPrice?: CustomPrice | null,
+  shortDescription?: string | null,
+  longDescription?: string | null,
+  imageUrl?: string | null,
+  serviceBreakdown?: string | null,
+  additionalInfo?: string | null,
+  faq?: string | null,
+  goodToKnow?: string | null,
+  parentServiceIds?: Array< string > | null,
+  childServiceIds?: Array< string > | null,
+  disclaimerName?: string | null,
+  disclaimer?: Disclaimer | null,
+  timeSlotIds?: Array< string > | null,
+  bookingIds?: Array< string > | null,
+  requiredQuestionIds?: Array< string > | null,
+  createdAt: string,
+  updatedAt: string,
+  serviceProviderId?: string | null,
+};
+
+export type ServiceProvider = {
+  __typename: "ServiceProvider",
+  id: string,
+  name: string,
+  displayName?: string | null,
+  description?: string | null,
+  imageUrl?: string | null,
+  address?: Address | null,
+  website?: string | null,
+  email?: string | null,
+  phone?: string | null,
+  operatingTimes:  Array<TimeInterval >,
+  isHeadquarters: boolean,
+  headquarters?: ServiceProvider | null,
+  services?: ModelServiceConnection | null,
+  bookings?: ModelBookingConnection | null,
+  createdAt: string,
+  updatedAt: string,
+  serviceProviderHeadquartersName?: string | null,
+};
+
+export type Address = {
+  __typename: "Address",
+  blockNumber?: string | null,
+  streetName: string,
+  unitNumber?: string | null,
+  postalCode: string,
+};
+
+export type TimeInterval = {
+  __typename: "TimeInterval",
+  dayOfWeek: number,
+  openTime: string,
+  closeTime: string,
+};
+
+export type ModelBookingConnection = {
+  __typename: "ModelBookingConnection",
+  items:  Array<Booking | null >,
+  nextToken?: string | null,
+};
+
+export type Booking = {
+  __typename: "Booking",
+  id: string,
+  orderId: string,
+  order: Order,
+  customerUsername: string,
+  owners: Array< string >,
+  customerId: string,
+  customer: Customer,
+  serviceName: string,
+  serviceProviderName: string,
+  serviceProvider: ServiceProvider,
+  serviceCategory: ServiceCategory,
+  petType: PetType,
+  serviceId: string,
+  startDateTime: string,
+  timeSlot: TimeSlot,
+  timeSlotId: string,
+  petNames?: Array< string > | null,
+  pets?: ModelPetBookingsConnection | null,
+  addOns?: Array< string > | null,
+  bookingType: BookingType,
+  amount: number,
+  currency: Currency,
+  status: BookingStatus,
+  createdAt: string,
+  updatedAt: string,
+  serviceProviderBookingsName?: string | null,
+  timeSlotBookingsServiceId?: string | null,
+  timeSlotBookingsStartDateTime?: string | null,
+};
+
+export type Order = {
+  __typename: "Order",
+  id: string,
+  customerId: string,
+  customer: Customer,
+  currency: Currency,
+  totalAmount: number,
+  pendingRefundAmount?: number | null,
+  refundedAmount?: number | null,
+  bookingIds?: Array< string > | null,
+  bookings?: ModelBookingConnection | null,
+  paymentRequestId?: string | null,
+  status: OrderStatus,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type Customer = {
+  __typename: "Customer",
+  id: string,
+  username: string,
+  isDeactivated: boolean,
+  imageUrl?: string | null,
+  address?: Address | null,
+  acceptedDisclaimers?: ModelDisclaimerAcceptanceConnection | null,
+  pets?: ModelPetConnection | null,
+  bookings?: ModelBookingConnection | null,
+  orders?: ModelOrderConnection | null,
+  payments?: ModelPaymentConnection | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type ModelDisclaimerAcceptanceConnection = {
+  __typename: "ModelDisclaimerAcceptanceConnection",
+  items:  Array<DisclaimerAcceptance | null >,
+  nextToken?: string | null,
+};
+
+export type DisclaimerAcceptance = {
+  __typename: "DisclaimerAcceptance",
+  id: string,
+  customerId: string,
+  customer: Customer,
+  disclaimerName: string,
+  disclaimer: Disclaimer,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type Disclaimer = {
+  __typename: "Disclaimer",
+  name: string,
+  serviceName?: string | null,
+  serviceProviderName?: string | null,
+  serviceCategory?: ServiceCategory | null,
+  petType?: PetType | null,
+  service?: Service | null,
+  text?: string | null,
+  s3Link?: string | null,
+  supersededBy?: Disclaimer | null,
+  supersessionDate?: string | null,
+  customerAcceptances?: ModelDisclaimerAcceptanceConnection | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export type ModelPetConnection = {
+  __typename: "ModelPetConnection",
+  items:  Array<Pet | null >,
+  nextToken?: string | null,
+};
+
+export type Pet = {
+  __typename: "Pet",
+  name: string,
+  customerUsername: string,
+  customerId: string,
+  customer: Customer,
+  gender: Gender,
+  petType: PetType,
+  isDeleted: boolean,
+  breedName?: string | null,
+  imageUrl?: string | null,
+  birthdate?: string | null,
+  weightValue?: number | null,
+  weightUnit?: WeightUnit | null,
+  additionalInfo?: string | null,
+  predefinedBehaviors?: Array< PredefinedBehavior > | null,
+  customBehaviors?: Array< string > | null,
+  isNeutered?: boolean | null,
+  isMicrochipped?: boolean | null,
+  microchipNumber?: string | null,
+  hasMedicalCondition?: boolean | null,
+  additionalCareInstructions?: string | null,
+  bookings?: ModelPetBookingsConnection | null,
+  questionAnswerIds?: Array< string > | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export enum Gender {
+  FEMALE = "FEMALE",
+  MALE = "MALE",
+}
+
+
+export enum WeightUnit {
+  KG = "KG",
+  G = "G",
+}
+
+
+export enum PredefinedBehavior {
+  FEAR_OF_LOUD_NOISES = "FEAR_OF_LOUD_NOISES",
+  HYPERACTIVE = "HYPERACTIVE",
+  ANXIOUS = "ANXIOUS",
+  FRIENDLY_WITH_STRANGERS = "FRIENDLY_WITH_STRANGERS",
+  MIGHT_SNAP = "MIGHT_SNAP",
+  RESPONSIVE_TO_COMMANDS = "RESPONSIVE_TO_COMMANDS",
+  RESPONSIVE_TO_TREATS = "RESPONSIVE_TO_TREATS",
+}
+
+
+export type ModelPetBookingsConnection = {
+  __typename: "ModelPetBookingsConnection",
+  items:  Array<PetBookings | null >,
+  nextToken?: string | null,
+};
+
+export type PetBookings = {
+  __typename: "PetBookings",
+  id: string,
+  bookingCustomerUsername: string,
+  bookingtimeSlotId: string,
+  petName: string,
+  petcustomerUsername: string,
+  booking: Booking,
+  pet: Pet,
+  createdAt: string,
+  updatedAt: string,
+  owners?: string | null,
+  customerId?: string | null,
+};
+
+export type ModelOrderConnection = {
+  __typename: "ModelOrderConnection",
+  items:  Array<Order | null >,
+  nextToken?: string | null,
+};
+
+export type ModelPaymentConnection = {
+  __typename: "ModelPaymentConnection",
+  items:  Array<Payment | null >,
+  nextToken?: string | null,
+};
+
+export type Payment = {
+  __typename: "Payment",
+  paymentRequestId: string,
+  orderId: string,
+  order: Order,
+  customerId: string,
+  customer: Customer,
+  name?: string | null,
+  email?: string | null,
+  phone?: string | null,
+  amount: number,
+  currency: Currency,
+  requestCreatedAt: string,
+  requestUpdatedAt: string,
+  status: PaymentStatus,
+  purpose?: string | null,
+  referenceNumber?: string | null,
+  paymentId?: string | null,
+  paymentMethod?: PaymentMethod | null,
+  url: string,
+  webhookUrl: string,
+  redirectUrl?: string | null,
+  sendSMS?: boolean | null,
+  sendEmail?: boolean | null,
+  smsStatus?: boolean | null,
+  emailStatus?: boolean | null,
+  allowRepeatedPayments?: boolean | null,
+  expiryDateTime?: string | null,
+  errors?: string | null,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export enum PaymentStatus {
+  PENDING = "PENDING",
+  COMPLETED = "COMPLETED",
+  FAILED = "FAILED",
+  VOIDED = "VOIDED",
+  REFUNDED = "REFUNDED",
+  SENT = "SENT",
+  EXPIRED = "EXPIRED",
+}
+
+
+export enum PaymentMethod {
+  CARD = "CARD",
+  CASH = "CASH",
+  PAYNOW_ONLINE = "PAYNOW_ONLINE",
+}
+
+
+export enum OrderStatus {
+  PENDING = "PENDING",
+  CONFIRMED = "CONFIRMED",
+  CANCELLED = "CANCELLED",
+}
+
+
+export type TimeSlot = {
+  __typename: "TimeSlot",
+  id: string,
+  serviceId: string,
+  startDateTime: string,
+  endDateTime?: string | null,
+  capacity: number,
+  bookingCount: number,
+  isFull: boolean,
+  bookingIds?: Array< string > | null,
+  bookings?: ModelBookingConnection | null,
+  createdAt: string,
+  updatedAt: string,
+  serviceProviderId?: string | null,
+};
+
+export enum BookingType {
+  FREE_TRIAL = "FREE_TRIAL",
+  PAID = "PAID",
+}
+
+
+export enum BookingStatus {
+  PENDING = "PENDING",
+  IN_PROGRESS = "IN_PROGRESS",
+  CONFIRMED = "CONFIRMED",
+  CANCELLED = "CANCELLED",
+  COMPLETED = "COMPLETED",
+}
+
+
+export type CustomPrice = {
+  __typename: "CustomPrice",
+  additionalDuration?: number | null,
+  additionalDurationUnit?: TimeUnit | null,
+  minWeight?: number | null,
+  maxWeight?: number | null,
+  weightUnit?: WeightUnit | null,
+  amount: number,
+};
+
+export type CreateBookingInput = {
+  id?: string | null,
+  orderId: string,
+  customerUsername: string,
+  owners: Array< string >,
+  customerId: string,
+  serviceName: string,
+  serviceProviderName: string,
+  serviceCategory: ServiceCategory,
+  petType: PetType,
+  serviceId: string,
+  startDateTime: string,
+  timeSlotId: string,
+  petNames?: Array< string > | null,
+  addOns?: Array< string > | null,
+  bookingType: BookingType,
+  amount: number,
+  currency: Currency,
+  status: BookingStatus,
+  serviceProviderBookingsName?: string | null,
+  timeSlotBookingsServiceId?: string | null,
+  timeSlotBookingsStartDateTime?: string | null,
+};
+
+export type ModelBookingConditionInput = {
+  orderId?: ModelIDInput | null,
+  owners?: ModelIDInput | null,
+  customerId?: ModelIDInput | null,
+  serviceName?: ModelStringInput | null,
+  serviceProviderName?: ModelStringInput | null,
+  serviceCategory?: ModelServiceCategoryInput | null,
+  petType?: ModelPetTypeInput | null,
+  serviceId?: ModelIDInput | null,
+  startDateTime?: ModelStringInput | null,
+  petNames?: ModelStringInput | null,
+  addOns?: ModelIDInput | null,
+  bookingType?: ModelBookingTypeInput | null,
+  amount?: ModelFloatInput | null,
+  currency?: ModelCurrencyInput | null,
+  status?: ModelBookingStatusInput | null,
+  and?: Array< ModelBookingConditionInput | null > | null,
+  or?: Array< ModelBookingConditionInput | null > | null,
+  not?: ModelBookingConditionInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  serviceProviderBookingsName?: ModelStringInput | null,
+  timeSlotBookingsServiceId?: ModelIDInput | null,
+  timeSlotBookingsStartDateTime?: ModelStringInput | null,
+};
+
+export type ModelBookingTypeInput = {
+  eq?: BookingType | null,
+  ne?: BookingType | null,
+};
+
 export type ModelBookingStatusInput = {
   eq?: BookingStatus | null,
   ne?: BookingStatus | null,
@@ -555,6 +639,7 @@ export type ModelBookingStatusInput = {
 
 export type UpdateBookingInput = {
   id?: string | null,
+  orderId?: string | null,
   customerUsername: string,
   owners?: Array< string > | null,
   customerId?: string | null,
@@ -565,12 +650,12 @@ export type UpdateBookingInput = {
   serviceId?: string | null,
   startDateTime?: string | null,
   timeSlotId: string,
+  petNames?: Array< string > | null,
   addOns?: Array< string > | null,
   bookingType?: BookingType | null,
   amount?: number | null,
   currency?: Currency | null,
   status?: BookingStatus | null,
-  orderId?: string | null,
   serviceProviderBookingsName?: string | null,
   timeSlotBookingsServiceId?: string | null,
   timeSlotBookingsStartDateTime?: string | null,
@@ -618,30 +703,6 @@ export type ModelCoatListInput = {
   ne?: Array< Coat | null > | null,
   contains?: Coat | null,
   notContains?: Coat | null,
-};
-
-export type ModelBooleanInput = {
-  ne?: boolean | null,
-  eq?: boolean | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
-};
-
-export type ModelTimeUnitInput = {
-  eq?: TimeUnit | null,
-  ne?: TimeUnit | null,
-};
-
-export type ModelIntInput = {
-  ne?: number | null,
-  eq?: number | null,
-  le?: number | null,
-  lt?: number | null,
-  ge?: number | null,
-  gt?: number | null,
-  between?: Array< number | null > | null,
-  attributeExists?: boolean | null,
-  attributeType?: ModelAttributeTypes | null,
 };
 
 export type Breed = {
@@ -1364,6 +1425,7 @@ export type ModelIDKeyConditionInput = {
 
 export type ModelBookingFilterInput = {
   id?: ModelIDInput | null,
+  orderId?: ModelIDInput | null,
   customerUsername?: ModelStringInput | null,
   owners?: ModelIDInput | null,
   customerId?: ModelIDInput | null,
@@ -1374,12 +1436,12 @@ export type ModelBookingFilterInput = {
   serviceId?: ModelIDInput | null,
   startDateTime?: ModelStringInput | null,
   timeSlotId?: ModelIDInput | null,
+  petNames?: ModelStringInput | null,
   addOns?: ModelIDInput | null,
   bookingType?: ModelBookingTypeInput | null,
   amount?: ModelFloatInput | null,
   currency?: ModelCurrencyInput | null,
   status?: ModelBookingStatusInput | null,
-  orderId?: ModelIDInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   and?: Array< ModelBookingFilterInput | null > | null,
@@ -1389,12 +1451,6 @@ export type ModelBookingFilterInput = {
   timeSlotBookingsServiceId?: ModelIDInput | null,
   timeSlotBookingsStartDateTime?: ModelStringInput | null,
 };
-
-export enum ModelSortDirection {
-  ASC = "ASC",
-  DESC = "DESC",
-}
-
 
 export type ModelBreedFilterInput = {
   name?: ModelStringInput | null,
@@ -1612,57 +1668,6 @@ export type ModelQuestionAnswerConnection = {
   nextToken?: string | null,
 };
 
-export type ModelServicePrimaryCompositeKeyConditionInput = {
-  eq?: ModelServicePrimaryCompositeKeyInput | null,
-  le?: ModelServicePrimaryCompositeKeyInput | null,
-  lt?: ModelServicePrimaryCompositeKeyInput | null,
-  ge?: ModelServicePrimaryCompositeKeyInput | null,
-  gt?: ModelServicePrimaryCompositeKeyInput | null,
-  between?: Array< ModelServicePrimaryCompositeKeyInput | null > | null,
-  beginsWith?: ModelServicePrimaryCompositeKeyInput | null,
-};
-
-export type ModelServicePrimaryCompositeKeyInput = {
-  serviceProviderName?: string | null,
-  serviceCategory?: ServiceCategory | null,
-  petType?: PetType | null,
-};
-
-export type ModelServiceFilterInput = {
-  id?: ModelIDInput | null,
-  name?: ModelStringInput | null,
-  serviceProviderName?: ModelStringInput | null,
-  serviceCategory?: ModelServiceCategoryInput | null,
-  petType?: ModelPetTypeInput | null,
-  defaultDisplay?: ModelBooleanInput | null,
-  displayPriority?: ModelIntInput | null,
-  onlinePaymentAccepted?: ModelBooleanInput | null,
-  currency?: ModelCurrencyInput | null,
-  basePrice?: ModelFloatInput | null,
-  baseDuration?: ModelIntInput | null,
-  baseDurationUnit?: ModelTimeUnitInput | null,
-  additionalPetPrice?: ModelFloatInput | null,
-  shortDescription?: ModelStringInput | null,
-  longDescription?: ModelStringInput | null,
-  imageUrl?: ModelStringInput | null,
-  serviceBreakdown?: ModelStringInput | null,
-  additionalInfo?: ModelStringInput | null,
-  faq?: ModelStringInput | null,
-  goodToKnow?: ModelStringInput | null,
-  parentServiceIds?: ModelIDInput | null,
-  childServiceIds?: ModelIDInput | null,
-  disclaimerName?: ModelStringInput | null,
-  timeSlotIds?: ModelIDInput | null,
-  bookingIds?: ModelIDInput | null,
-  requiredQuestionIds?: ModelIDInput | null,
-  createdAt?: ModelStringInput | null,
-  updatedAt?: ModelStringInput | null,
-  and?: Array< ModelServiceFilterInput | null > | null,
-  or?: Array< ModelServiceFilterInput | null > | null,
-  not?: ModelServiceFilterInput | null,
-  serviceProviderId?: ModelStringInput | null,
-};
-
 export type ModelServiceProviderFilterInput = {
   id?: ModelIDInput | null,
   name?: ModelStringInput | null,
@@ -1727,6 +1732,7 @@ export type ModelPetBookingsFilterInput = {
 
 export type ModelSubscriptionBookingFilterInput = {
   id?: ModelSubscriptionIDInput | null,
+  orderId?: ModelSubscriptionIDInput | null,
   customerUsername?: ModelSubscriptionStringInput | null,
   customerId?: ModelSubscriptionIDInput | null,
   serviceName?: ModelSubscriptionStringInput | null,
@@ -1736,12 +1742,12 @@ export type ModelSubscriptionBookingFilterInput = {
   serviceId?: ModelSubscriptionIDInput | null,
   startDateTime?: ModelSubscriptionStringInput | null,
   timeSlotId?: ModelSubscriptionIDInput | null,
+  petNames?: ModelSubscriptionStringInput | null,
   addOns?: ModelSubscriptionIDInput | null,
   bookingType?: ModelSubscriptionStringInput | null,
   amount?: ModelSubscriptionFloatInput | null,
   currency?: ModelSubscriptionStringInput | null,
   status?: ModelSubscriptionStringInput | null,
-  orderId?: ModelSubscriptionIDInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionBookingFilterInput | null > | null,
@@ -2044,6 +2050,90 @@ export type ModelSubscriptionPetBookingsFilterInput = {
   customerId?: ModelStringInput | null,
 };
 
+export type CustomListServicesQueryVariables = {
+  name?: string | null,
+  serviceProviderNameServiceCategoryPetType?: ModelServicePrimaryCompositeKeyConditionInput | null,
+  filter?: ModelServiceFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
+};
+
+export type CustomListServicesQuery = {
+  listServices?:  {
+    __typename: "ModelServiceConnection",
+    items:  Array< {
+      __typename: "Service",
+      id: string,
+      name: string,
+      serviceProviderName: string,
+      serviceCategory: ServiceCategory,
+      petType: PetType,
+      defaultDisplay: boolean,
+      displayPriority?: number | null,
+      onlinePaymentAccepted: boolean,
+      currency: Currency,
+      basePrice: number,
+      baseDuration: number,
+      baseDurationUnit: TimeUnit,
+      additionalPetPrice?: number | null,
+      xsWeightPrice?:  {
+        __typename: "CustomPrice",
+        minWeight?: number | null,
+        maxWeight?: number | null,
+        amount: number,
+      } | null,
+      sWeightPrice?:  {
+        __typename: "CustomPrice",
+        minWeight?: number | null,
+        maxWeight?: number | null,
+        amount: number,
+      } | null,
+      mWeightPrice?:  {
+        __typename: "CustomPrice",
+        minWeight?: number | null,
+        maxWeight?: number | null,
+        amount: number,
+      } | null,
+      lWeightPrice?:  {
+        __typename: "CustomPrice",
+        minWeight?: number | null,
+        maxWeight?: number | null,
+        amount: number,
+      } | null,
+      xlWeightPrice?:  {
+        __typename: "CustomPrice",
+        minWeight?: number | null,
+        maxWeight?: number | null,
+        amount: number,
+      } | null,
+      xxlWeightPrice?:  {
+        __typename: "CustomPrice",
+        minWeight?: number | null,
+        maxWeight?: number | null,
+        amount: number,
+      } | null,
+      shortDescription?: string | null,
+      longDescription?: string | null,
+      imageUrl?: string | null,
+      serviceBreakdown?: string | null,
+      additionalInfo?: string | null,
+      faq?: string | null,
+      goodToKnow?: string | null,
+      parentServiceIds?: Array< string > | null,
+      childServiceIds?: Array< string > | null,
+      disclaimerName?: string | null,
+      timeSlotIds?: Array< string > | null,
+      bookingIds?: Array< string > | null,
+      requiredQuestionIds?: Array< string > | null,
+      createdAt: string,
+      updatedAt: string,
+      serviceProviderId?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type CustomGetBookingQueryVariables = {
   customerUsername: string,
   timeSlotId: string,
@@ -2108,6 +2198,7 @@ export type CustomGetBookingQuery = {
       serviceProviderId?: string | null,
     },
     timeSlotId: string,
+    petNames?: Array< string > | null,
     pets?:  {
       __typename: "ModelPetBookingsConnection",
       items:  Array< {
@@ -2127,7 +2218,7 @@ export type CustomGetBookingQuery = {
     currency: Currency,
     status: BookingStatus,
     orderId: string,
-    order?:  {
+    order:  {
       __typename: "Order",
       id: string,
       customerId: string,
@@ -2140,7 +2231,7 @@ export type CustomGetBookingQuery = {
       status: OrderStatus,
       createdAt: string,
       updatedAt: string,
-    } | null,
+    },
     createdAt: string,
     updatedAt: string,
     serviceProviderBookingsName?: string | null,
@@ -2159,6 +2250,7 @@ export type CustomBookingByIdQuery = {
     items:  Array< {
       __typename: "Booking",
       id: string,
+      orderId: string,
       customerUsername: string,
       owners: Array< string >,
       customerId: string,
@@ -2174,16 +2266,12 @@ export type CustomBookingByIdQuery = {
       amount: number,
       currency: Currency,
       status: BookingStatus,
-      orderId: string,
       createdAt: string,
       updatedAt: string,
       serviceProviderBookingsName?: string | null,
       timeSlotBookingsServiceId?: string | null,
       timeSlotBookingsStartDateTime?: string | null,
-      order?:  {
-        __typename: "Order",
-        status: OrderStatus,
-      } | null,
+      petNames?: Array< string > | null,
       pets?:  {
         __typename: "ModelPetBookingsConnection",
         items:  Array< {
@@ -2230,6 +2318,7 @@ export type CustomBookingsByCustomerQuery = {
     items:  Array< {
       __typename: "Booking",
       id: string,
+      orderId: string,
       customerUsername: string,
       owners: Array< string >,
       customerId: string,
@@ -2245,11 +2334,11 @@ export type CustomBookingsByCustomerQuery = {
       amount: number,
       currency: Currency,
       status: BookingStatus,
-      orderId: string,
       createdAt: string,
       updatedAt: string,
       timeSlotBookingsServiceId?: string | null,
       timeSlotBookingsStartDateTime?: string | null,
+      petNames?: Array< string > | null,
       pets?:  {
         __typename: "ModelPetBookingsConnection",
         items:  Array< {
@@ -2275,6 +2364,21 @@ export type CreateBookingMutation = {
   createBooking?:  {
     __typename: "Booking",
     id: string,
+    orderId: string,
+    order:  {
+      __typename: "Order",
+      id: string,
+      customerId: string,
+      currency: Currency,
+      totalAmount: number,
+      pendingRefundAmount?: number | null,
+      refundedAmount?: number | null,
+      bookingIds?: Array< string > | null,
+      paymentRequestId?: string | null,
+      status: OrderStatus,
+      createdAt: string,
+      updatedAt: string,
+    },
     customerUsername: string,
     owners: Array< string >,
     customerId: string,
@@ -2323,6 +2427,7 @@ export type CreateBookingMutation = {
       serviceProviderId?: string | null,
     },
     timeSlotId: string,
+    petNames?: Array< string > | null,
     pets?:  {
       __typename: "ModelPetBookingsConnection",
       nextToken?: string | null,
@@ -2332,21 +2437,6 @@ export type CreateBookingMutation = {
     amount: number,
     currency: Currency,
     status: BookingStatus,
-    orderId: string,
-    order?:  {
-      __typename: "Order",
-      id: string,
-      customerId: string,
-      currency: Currency,
-      totalAmount: number,
-      pendingRefundAmount?: number | null,
-      refundedAmount?: number | null,
-      bookingIds?: Array< string > | null,
-      paymentRequestId?: string | null,
-      status: OrderStatus,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
     createdAt: string,
     updatedAt: string,
     serviceProviderBookingsName?: string | null,
@@ -2364,6 +2454,21 @@ export type UpdateBookingMutation = {
   updateBooking?:  {
     __typename: "Booking",
     id: string,
+    orderId: string,
+    order:  {
+      __typename: "Order",
+      id: string,
+      customerId: string,
+      currency: Currency,
+      totalAmount: number,
+      pendingRefundAmount?: number | null,
+      refundedAmount?: number | null,
+      bookingIds?: Array< string > | null,
+      paymentRequestId?: string | null,
+      status: OrderStatus,
+      createdAt: string,
+      updatedAt: string,
+    },
     customerUsername: string,
     owners: Array< string >,
     customerId: string,
@@ -2412,6 +2517,7 @@ export type UpdateBookingMutation = {
       serviceProviderId?: string | null,
     },
     timeSlotId: string,
+    petNames?: Array< string > | null,
     pets?:  {
       __typename: "ModelPetBookingsConnection",
       nextToken?: string | null,
@@ -2421,21 +2527,6 @@ export type UpdateBookingMutation = {
     amount: number,
     currency: Currency,
     status: BookingStatus,
-    orderId: string,
-    order?:  {
-      __typename: "Order",
-      id: string,
-      customerId: string,
-      currency: Currency,
-      totalAmount: number,
-      pendingRefundAmount?: number | null,
-      refundedAmount?: number | null,
-      bookingIds?: Array< string > | null,
-      paymentRequestId?: string | null,
-      status: OrderStatus,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
     createdAt: string,
     updatedAt: string,
     serviceProviderBookingsName?: string | null,
@@ -2453,6 +2544,21 @@ export type DeleteBookingMutation = {
   deleteBooking?:  {
     __typename: "Booking",
     id: string,
+    orderId: string,
+    order:  {
+      __typename: "Order",
+      id: string,
+      customerId: string,
+      currency: Currency,
+      totalAmount: number,
+      pendingRefundAmount?: number | null,
+      refundedAmount?: number | null,
+      bookingIds?: Array< string > | null,
+      paymentRequestId?: string | null,
+      status: OrderStatus,
+      createdAt: string,
+      updatedAt: string,
+    },
     customerUsername: string,
     owners: Array< string >,
     customerId: string,
@@ -2501,6 +2607,7 @@ export type DeleteBookingMutation = {
       serviceProviderId?: string | null,
     },
     timeSlotId: string,
+    petNames?: Array< string > | null,
     pets?:  {
       __typename: "ModelPetBookingsConnection",
       nextToken?: string | null,
@@ -2510,21 +2617,6 @@ export type DeleteBookingMutation = {
     amount: number,
     currency: Currency,
     status: BookingStatus,
-    orderId: string,
-    order?:  {
-      __typename: "Order",
-      id: string,
-      customerId: string,
-      currency: Currency,
-      totalAmount: number,
-      pendingRefundAmount?: number | null,
-      refundedAmount?: number | null,
-      bookingIds?: Array< string > | null,
-      paymentRequestId?: string | null,
-      status: OrderStatus,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
     createdAt: string,
     updatedAt: string,
     serviceProviderBookingsName?: string | null,
@@ -4340,6 +4432,7 @@ export type CreatePetBookingsMutation = {
     booking:  {
       __typename: "Booking",
       id: string,
+      orderId: string,
       customerUsername: string,
       owners: Array< string >,
       customerId: string,
@@ -4350,12 +4443,12 @@ export type CreatePetBookingsMutation = {
       serviceId: string,
       startDateTime: string,
       timeSlotId: string,
+      petNames?: Array< string > | null,
       addOns?: Array< string > | null,
       bookingType: BookingType,
       amount: number,
       currency: Currency,
       status: BookingStatus,
-      orderId: string,
       createdAt: string,
       updatedAt: string,
       serviceProviderBookingsName?: string | null,
@@ -4410,6 +4503,7 @@ export type UpdatePetBookingsMutation = {
     booking:  {
       __typename: "Booking",
       id: string,
+      orderId: string,
       customerUsername: string,
       owners: Array< string >,
       customerId: string,
@@ -4420,12 +4514,12 @@ export type UpdatePetBookingsMutation = {
       serviceId: string,
       startDateTime: string,
       timeSlotId: string,
+      petNames?: Array< string > | null,
       addOns?: Array< string > | null,
       bookingType: BookingType,
       amount: number,
       currency: Currency,
       status: BookingStatus,
-      orderId: string,
       createdAt: string,
       updatedAt: string,
       serviceProviderBookingsName?: string | null,
@@ -4480,6 +4574,7 @@ export type DeletePetBookingsMutation = {
     booking:  {
       __typename: "Booking",
       id: string,
+      orderId: string,
       customerUsername: string,
       owners: Array< string >,
       customerId: string,
@@ -4490,12 +4585,12 @@ export type DeletePetBookingsMutation = {
       serviceId: string,
       startDateTime: string,
       timeSlotId: string,
+      petNames?: Array< string > | null,
       addOns?: Array< string > | null,
       bookingType: BookingType,
       amount: number,
       currency: Currency,
       status: BookingStatus,
-      orderId: string,
       createdAt: string,
       updatedAt: string,
       serviceProviderBookingsName?: string | null,
@@ -4543,6 +4638,21 @@ export type GetBookingQuery = {
   getBooking?:  {
     __typename: "Booking",
     id: string,
+    orderId: string,
+    order:  {
+      __typename: "Order",
+      id: string,
+      customerId: string,
+      currency: Currency,
+      totalAmount: number,
+      pendingRefundAmount?: number | null,
+      refundedAmount?: number | null,
+      bookingIds?: Array< string > | null,
+      paymentRequestId?: string | null,
+      status: OrderStatus,
+      createdAt: string,
+      updatedAt: string,
+    },
     customerUsername: string,
     owners: Array< string >,
     customerId: string,
@@ -4591,6 +4701,7 @@ export type GetBookingQuery = {
       serviceProviderId?: string | null,
     },
     timeSlotId: string,
+    petNames?: Array< string > | null,
     pets?:  {
       __typename: "ModelPetBookingsConnection",
       nextToken?: string | null,
@@ -4600,21 +4711,6 @@ export type GetBookingQuery = {
     amount: number,
     currency: Currency,
     status: BookingStatus,
-    orderId: string,
-    order?:  {
-      __typename: "Order",
-      id: string,
-      customerId: string,
-      currency: Currency,
-      totalAmount: number,
-      pendingRefundAmount?: number | null,
-      refundedAmount?: number | null,
-      bookingIds?: Array< string > | null,
-      paymentRequestId?: string | null,
-      status: OrderStatus,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
     createdAt: string,
     updatedAt: string,
     serviceProviderBookingsName?: string | null,
@@ -4638,6 +4734,7 @@ export type ListBookingsQuery = {
     items:  Array< {
       __typename: "Booking",
       id: string,
+      orderId: string,
       customerUsername: string,
       owners: Array< string >,
       customerId: string,
@@ -4648,12 +4745,12 @@ export type ListBookingsQuery = {
       serviceId: string,
       startDateTime: string,
       timeSlotId: string,
+      petNames?: Array< string > | null,
       addOns?: Array< string > | null,
       bookingType: BookingType,
       amount: number,
       currency: Currency,
       status: BookingStatus,
-      orderId: string,
       createdAt: string,
       updatedAt: string,
       serviceProviderBookingsName?: string | null,
@@ -4678,6 +4775,7 @@ export type BookingByIdQuery = {
     items:  Array< {
       __typename: "Booking",
       id: string,
+      orderId: string,
       customerUsername: string,
       owners: Array< string >,
       customerId: string,
@@ -4688,172 +4786,12 @@ export type BookingByIdQuery = {
       serviceId: string,
       startDateTime: string,
       timeSlotId: string,
+      petNames?: Array< string > | null,
       addOns?: Array< string > | null,
       bookingType: BookingType,
       amount: number,
       currency: Currency,
       status: BookingStatus,
-      orderId: string,
-      createdAt: string,
-      updatedAt: string,
-      serviceProviderBookingsName?: string | null,
-      timeSlotBookingsServiceId?: string | null,
-      timeSlotBookingsStartDateTime?: string | null,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type BookingsByCustomerQueryVariables = {
-  customerId: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelBookingFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type BookingsByCustomerQuery = {
-  bookingsByCustomer?:  {
-    __typename: "ModelBookingConnection",
-    items:  Array< {
-      __typename: "Booking",
-      id: string,
-      customerUsername: string,
-      owners: Array< string >,
-      customerId: string,
-      serviceName: string,
-      serviceProviderName: string,
-      serviceCategory: ServiceCategory,
-      petType: PetType,
-      serviceId: string,
-      startDateTime: string,
-      timeSlotId: string,
-      addOns?: Array< string > | null,
-      bookingType: BookingType,
-      amount: number,
-      currency: Currency,
-      status: BookingStatus,
-      orderId: string,
-      createdAt: string,
-      updatedAt: string,
-      serviceProviderBookingsName?: string | null,
-      timeSlotBookingsServiceId?: string | null,
-      timeSlotBookingsStartDateTime?: string | null,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type BookingsByServiceQueryVariables = {
-  serviceId: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelBookingFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type BookingsByServiceQuery = {
-  bookingsByService?:  {
-    __typename: "ModelBookingConnection",
-    items:  Array< {
-      __typename: "Booking",
-      id: string,
-      customerUsername: string,
-      owners: Array< string >,
-      customerId: string,
-      serviceName: string,
-      serviceProviderName: string,
-      serviceCategory: ServiceCategory,
-      petType: PetType,
-      serviceId: string,
-      startDateTime: string,
-      timeSlotId: string,
-      addOns?: Array< string > | null,
-      bookingType: BookingType,
-      amount: number,
-      currency: Currency,
-      status: BookingStatus,
-      orderId: string,
-      createdAt: string,
-      updatedAt: string,
-      serviceProviderBookingsName?: string | null,
-      timeSlotBookingsServiceId?: string | null,
-      timeSlotBookingsStartDateTime?: string | null,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type BookingsByStartDateTimeQueryVariables = {
-  startDateTime: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelBookingFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type BookingsByStartDateTimeQuery = {
-  bookingsByStartDateTime?:  {
-    __typename: "ModelBookingConnection",
-    items:  Array< {
-      __typename: "Booking",
-      id: string,
-      customerUsername: string,
-      owners: Array< string >,
-      customerId: string,
-      serviceName: string,
-      serviceProviderName: string,
-      serviceCategory: ServiceCategory,
-      petType: PetType,
-      serviceId: string,
-      startDateTime: string,
-      timeSlotId: string,
-      addOns?: Array< string > | null,
-      bookingType: BookingType,
-      amount: number,
-      currency: Currency,
-      status: BookingStatus,
-      orderId: string,
-      createdAt: string,
-      updatedAt: string,
-      serviceProviderBookingsName?: string | null,
-      timeSlotBookingsServiceId?: string | null,
-      timeSlotBookingsStartDateTime?: string | null,
-    } | null >,
-    nextToken?: string | null,
-  } | null,
-};
-
-export type BookingsByTimeSlotQueryVariables = {
-  timeSlotId: string,
-  sortDirection?: ModelSortDirection | null,
-  filter?: ModelBookingFilterInput | null,
-  limit?: number | null,
-  nextToken?: string | null,
-};
-
-export type BookingsByTimeSlotQuery = {
-  bookingsByTimeSlot?:  {
-    __typename: "ModelBookingConnection",
-    items:  Array< {
-      __typename: "Booking",
-      id: string,
-      customerUsername: string,
-      owners: Array< string >,
-      customerId: string,
-      serviceName: string,
-      serviceProviderName: string,
-      serviceCategory: ServiceCategory,
-      petType: PetType,
-      serviceId: string,
-      startDateTime: string,
-      timeSlotId: string,
-      addOns?: Array< string > | null,
-      bookingType: BookingType,
-      amount: number,
-      currency: Currency,
-      status: BookingStatus,
-      orderId: string,
       createdAt: string,
       updatedAt: string,
       serviceProviderBookingsName?: string | null,
@@ -4878,6 +4816,7 @@ export type BookingsByOrderQuery = {
     items:  Array< {
       __typename: "Booking",
       id: string,
+      orderId: string,
       customerUsername: string,
       owners: Array< string >,
       customerId: string,
@@ -4888,12 +4827,176 @@ export type BookingsByOrderQuery = {
       serviceId: string,
       startDateTime: string,
       timeSlotId: string,
+      petNames?: Array< string > | null,
       addOns?: Array< string > | null,
       bookingType: BookingType,
       amount: number,
       currency: Currency,
       status: BookingStatus,
+      createdAt: string,
+      updatedAt: string,
+      serviceProviderBookingsName?: string | null,
+      timeSlotBookingsServiceId?: string | null,
+      timeSlotBookingsStartDateTime?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type BookingsByCustomerQueryVariables = {
+  customerId: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelBookingFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type BookingsByCustomerQuery = {
+  bookingsByCustomer?:  {
+    __typename: "ModelBookingConnection",
+    items:  Array< {
+      __typename: "Booking",
+      id: string,
       orderId: string,
+      customerUsername: string,
+      owners: Array< string >,
+      customerId: string,
+      serviceName: string,
+      serviceProviderName: string,
+      serviceCategory: ServiceCategory,
+      petType: PetType,
+      serviceId: string,
+      startDateTime: string,
+      timeSlotId: string,
+      petNames?: Array< string > | null,
+      addOns?: Array< string > | null,
+      bookingType: BookingType,
+      amount: number,
+      currency: Currency,
+      status: BookingStatus,
+      createdAt: string,
+      updatedAt: string,
+      serviceProviderBookingsName?: string | null,
+      timeSlotBookingsServiceId?: string | null,
+      timeSlotBookingsStartDateTime?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type BookingsByServiceQueryVariables = {
+  serviceId: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelBookingFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type BookingsByServiceQuery = {
+  bookingsByService?:  {
+    __typename: "ModelBookingConnection",
+    items:  Array< {
+      __typename: "Booking",
+      id: string,
+      orderId: string,
+      customerUsername: string,
+      owners: Array< string >,
+      customerId: string,
+      serviceName: string,
+      serviceProviderName: string,
+      serviceCategory: ServiceCategory,
+      petType: PetType,
+      serviceId: string,
+      startDateTime: string,
+      timeSlotId: string,
+      petNames?: Array< string > | null,
+      addOns?: Array< string > | null,
+      bookingType: BookingType,
+      amount: number,
+      currency: Currency,
+      status: BookingStatus,
+      createdAt: string,
+      updatedAt: string,
+      serviceProviderBookingsName?: string | null,
+      timeSlotBookingsServiceId?: string | null,
+      timeSlotBookingsStartDateTime?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type BookingsByStartDateTimeQueryVariables = {
+  startDateTime: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelBookingFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type BookingsByStartDateTimeQuery = {
+  bookingsByStartDateTime?:  {
+    __typename: "ModelBookingConnection",
+    items:  Array< {
+      __typename: "Booking",
+      id: string,
+      orderId: string,
+      customerUsername: string,
+      owners: Array< string >,
+      customerId: string,
+      serviceName: string,
+      serviceProviderName: string,
+      serviceCategory: ServiceCategory,
+      petType: PetType,
+      serviceId: string,
+      startDateTime: string,
+      timeSlotId: string,
+      petNames?: Array< string > | null,
+      addOns?: Array< string > | null,
+      bookingType: BookingType,
+      amount: number,
+      currency: Currency,
+      status: BookingStatus,
+      createdAt: string,
+      updatedAt: string,
+      serviceProviderBookingsName?: string | null,
+      timeSlotBookingsServiceId?: string | null,
+      timeSlotBookingsStartDateTime?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
+export type BookingsByTimeSlotQueryVariables = {
+  timeSlotId: string,
+  sortDirection?: ModelSortDirection | null,
+  filter?: ModelBookingFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+};
+
+export type BookingsByTimeSlotQuery = {
+  bookingsByTimeSlot?:  {
+    __typename: "ModelBookingConnection",
+    items:  Array< {
+      __typename: "Booking",
+      id: string,
+      orderId: string,
+      customerUsername: string,
+      owners: Array< string >,
+      customerId: string,
+      serviceName: string,
+      serviceProviderName: string,
+      serviceCategory: ServiceCategory,
+      petType: PetType,
+      serviceId: string,
+      startDateTime: string,
+      timeSlotId: string,
+      petNames?: Array< string > | null,
+      addOns?: Array< string > | null,
+      bookingType: BookingType,
+      amount: number,
+      currency: Currency,
+      status: BookingStatus,
       createdAt: string,
       updatedAt: string,
       serviceProviderBookingsName?: string | null,
@@ -6869,6 +6972,7 @@ export type GetPetBookingsQuery = {
     booking:  {
       __typename: "Booking",
       id: string,
+      orderId: string,
       customerUsername: string,
       owners: Array< string >,
       customerId: string,
@@ -6879,12 +6983,12 @@ export type GetPetBookingsQuery = {
       serviceId: string,
       startDateTime: string,
       timeSlotId: string,
+      petNames?: Array< string > | null,
       addOns?: Array< string > | null,
       bookingType: BookingType,
       amount: number,
       currency: Currency,
       status: BookingStatus,
-      orderId: string,
       createdAt: string,
       updatedAt: string,
       serviceProviderBookingsName?: string | null,
@@ -7012,6 +7116,21 @@ export type OnCreateBookingSubscription = {
   onCreateBooking?:  {
     __typename: "Booking",
     id: string,
+    orderId: string,
+    order:  {
+      __typename: "Order",
+      id: string,
+      customerId: string,
+      currency: Currency,
+      totalAmount: number,
+      pendingRefundAmount?: number | null,
+      refundedAmount?: number | null,
+      bookingIds?: Array< string > | null,
+      paymentRequestId?: string | null,
+      status: OrderStatus,
+      createdAt: string,
+      updatedAt: string,
+    },
     customerUsername: string,
     owners: Array< string >,
     customerId: string,
@@ -7060,6 +7179,7 @@ export type OnCreateBookingSubscription = {
       serviceProviderId?: string | null,
     },
     timeSlotId: string,
+    petNames?: Array< string > | null,
     pets?:  {
       __typename: "ModelPetBookingsConnection",
       nextToken?: string | null,
@@ -7069,21 +7189,6 @@ export type OnCreateBookingSubscription = {
     amount: number,
     currency: Currency,
     status: BookingStatus,
-    orderId: string,
-    order?:  {
-      __typename: "Order",
-      id: string,
-      customerId: string,
-      currency: Currency,
-      totalAmount: number,
-      pendingRefundAmount?: number | null,
-      refundedAmount?: number | null,
-      bookingIds?: Array< string > | null,
-      paymentRequestId?: string | null,
-      status: OrderStatus,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
     createdAt: string,
     updatedAt: string,
     serviceProviderBookingsName?: string | null,
@@ -7100,6 +7205,21 @@ export type OnUpdateBookingSubscription = {
   onUpdateBooking?:  {
     __typename: "Booking",
     id: string,
+    orderId: string,
+    order:  {
+      __typename: "Order",
+      id: string,
+      customerId: string,
+      currency: Currency,
+      totalAmount: number,
+      pendingRefundAmount?: number | null,
+      refundedAmount?: number | null,
+      bookingIds?: Array< string > | null,
+      paymentRequestId?: string | null,
+      status: OrderStatus,
+      createdAt: string,
+      updatedAt: string,
+    },
     customerUsername: string,
     owners: Array< string >,
     customerId: string,
@@ -7148,6 +7268,7 @@ export type OnUpdateBookingSubscription = {
       serviceProviderId?: string | null,
     },
     timeSlotId: string,
+    petNames?: Array< string > | null,
     pets?:  {
       __typename: "ModelPetBookingsConnection",
       nextToken?: string | null,
@@ -7157,21 +7278,6 @@ export type OnUpdateBookingSubscription = {
     amount: number,
     currency: Currency,
     status: BookingStatus,
-    orderId: string,
-    order?:  {
-      __typename: "Order",
-      id: string,
-      customerId: string,
-      currency: Currency,
-      totalAmount: number,
-      pendingRefundAmount?: number | null,
-      refundedAmount?: number | null,
-      bookingIds?: Array< string > | null,
-      paymentRequestId?: string | null,
-      status: OrderStatus,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
     createdAt: string,
     updatedAt: string,
     serviceProviderBookingsName?: string | null,
@@ -7188,6 +7294,21 @@ export type OnDeleteBookingSubscription = {
   onDeleteBooking?:  {
     __typename: "Booking",
     id: string,
+    orderId: string,
+    order:  {
+      __typename: "Order",
+      id: string,
+      customerId: string,
+      currency: Currency,
+      totalAmount: number,
+      pendingRefundAmount?: number | null,
+      refundedAmount?: number | null,
+      bookingIds?: Array< string > | null,
+      paymentRequestId?: string | null,
+      status: OrderStatus,
+      createdAt: string,
+      updatedAt: string,
+    },
     customerUsername: string,
     owners: Array< string >,
     customerId: string,
@@ -7236,6 +7357,7 @@ export type OnDeleteBookingSubscription = {
       serviceProviderId?: string | null,
     },
     timeSlotId: string,
+    petNames?: Array< string > | null,
     pets?:  {
       __typename: "ModelPetBookingsConnection",
       nextToken?: string | null,
@@ -7245,21 +7367,6 @@ export type OnDeleteBookingSubscription = {
     amount: number,
     currency: Currency,
     status: BookingStatus,
-    orderId: string,
-    order?:  {
-      __typename: "Order",
-      id: string,
-      customerId: string,
-      currency: Currency,
-      totalAmount: number,
-      pendingRefundAmount?: number | null,
-      refundedAmount?: number | null,
-      bookingIds?: Array< string > | null,
-      paymentRequestId?: string | null,
-      status: OrderStatus,
-      createdAt: string,
-      updatedAt: string,
-    } | null,
     createdAt: string,
     updatedAt: string,
     serviceProviderBookingsName?: string | null,
@@ -9067,6 +9174,7 @@ export type OnCreatePetBookingsSubscription = {
     booking:  {
       __typename: "Booking",
       id: string,
+      orderId: string,
       customerUsername: string,
       owners: Array< string >,
       customerId: string,
@@ -9077,12 +9185,12 @@ export type OnCreatePetBookingsSubscription = {
       serviceId: string,
       startDateTime: string,
       timeSlotId: string,
+      petNames?: Array< string > | null,
       addOns?: Array< string > | null,
       bookingType: BookingType,
       amount: number,
       currency: Currency,
       status: BookingStatus,
-      orderId: string,
       createdAt: string,
       updatedAt: string,
       serviceProviderBookingsName?: string | null,
@@ -9138,6 +9246,7 @@ export type OnUpdatePetBookingsSubscription = {
     booking:  {
       __typename: "Booking",
       id: string,
+      orderId: string,
       customerUsername: string,
       owners: Array< string >,
       customerId: string,
@@ -9148,12 +9257,12 @@ export type OnUpdatePetBookingsSubscription = {
       serviceId: string,
       startDateTime: string,
       timeSlotId: string,
+      petNames?: Array< string > | null,
       addOns?: Array< string > | null,
       bookingType: BookingType,
       amount: number,
       currency: Currency,
       status: BookingStatus,
-      orderId: string,
       createdAt: string,
       updatedAt: string,
       serviceProviderBookingsName?: string | null,
@@ -9209,6 +9318,7 @@ export type OnDeletePetBookingsSubscription = {
     booking:  {
       __typename: "Booking",
       id: string,
+      orderId: string,
       customerUsername: string,
       owners: Array< string >,
       customerId: string,
@@ -9219,12 +9329,12 @@ export type OnDeletePetBookingsSubscription = {
       serviceId: string,
       startDateTime: string,
       timeSlotId: string,
+      petNames?: Array< string > | null,
       addOns?: Array< string > | null,
       bookingType: BookingType,
       amount: number,
       currency: Currency,
       status: BookingStatus,
-      orderId: string,
       createdAt: string,
       updatedAt: string,
       serviceProviderBookingsName?: string | null,

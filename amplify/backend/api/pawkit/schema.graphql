@@ -1,8 +1,9 @@
 # This "input" configures a global authorization rule to enable public access to
 # all models in this schema. Learn more about authorization rules here: https://docs.amplify.aws/cli/graphql/authorization-rules
-# input AMPLIFY {
-#   globalAuthRule: AuthRule = { allow: public }
-# } # FOR TESTING ONLY!
+input AMPLIFY {
+  globalAuthRule: AuthRule = { allow: public }
+} # FOR TESTING ONLY!
+
 type Booking
   @model
   @auth(
@@ -12,6 +13,8 @@ type Booking
     ]
   ) {
   id: ID! @index(name: "byId", queryField: "bookingById")
+  orderId: ID! @index(name: "byOrder", queryField: "bookingsByOrder")
+  order: Order! @belongsTo(fields: ["orderId"])
   customerUsername: String! @primaryKey(sortKeyFields: ["timeSlotId"])
   owners: [ID!]! # Should contain customerId and serviceProviderName
   customerId: ID! @index(name: "byCustomer", queryField: "bookingsByCustomer")
@@ -26,13 +29,13 @@ type Booking
     @index(name: "byStartDateTime", queryField: "bookingsByStartDateTime")
   timeSlot: TimeSlot! @belongsTo(fields: ["serviceId", "startDateTime"])
   timeSlotId: ID! @index(name: "byTimeSlot", queryField: "bookingsByTimeSlot")
+  petNames: [String!]!
   pets: [Pet!] @manyToMany(relationName: "PetBookings")
   addOns: [ID!] # Add-on services
   bookingType: BookingType!
   amount: Float!
   currency: Currency! @default(value: "SGD")
   status: BookingStatus!
-  orderId: ID! @index(name: "byOrder", queryField: "bookingsByOrder")
 }
 
 type Breed
@@ -58,8 +61,8 @@ type Customer
   @auth(
     rules: [
       { allow: owner, ownerField: "id" }
-      { allow: groups, groups: ["ServicePersonnel"], operations: [read] }
-      { allow: groups, groups: ["Admin"] }
+      { allow: groups, groups: ["ServicePersonnel", "Admin"], operations: [read] }
+      { allow: private, provider: iam }
     ]
   ) {
   id: ID! @primaryKey
