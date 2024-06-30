@@ -18,18 +18,22 @@ import AuthConfirmationScreen from "./auth-confirmation";
 import { Redirect } from "expo-router";
 import { useMutation } from "@tanstack/react-query";
 import { useCurrentUser } from "@/hooks";
+import FullScreenLoadingState from "@/components/common/FullScreenLoadingState/FullScreenLoadingState";
 
 type SignInScreenProps = {
   onSubmit: (username: string) => void;
 };
 
-export const authAtom = atom<{
+type AuthAtomType = {
   step:
     | "SIGN_IN"
     | "CONFIRM_SIGN_UP"
     | "CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE"
+    | "COMPLETE_AUTO_SIGN_IN"
     | "DONE";
-}>({
+};
+
+export const authAtom = atom<AuthAtomType>({
   step: "SIGN_IN",
 });
 
@@ -104,9 +108,10 @@ const AuthScreen: React.FC<SignInScreenProps> = () => {
         confirmationCode,
       });
       const signUpStep = result.nextStep.signUpStep;
-      if (signUpStep === "DONE") {
+      if (signUpStep === "DONE" || signUpStep === "COMPLETE_AUTO_SIGN_IN") {
         setAuthState({ step: signUpStep });
-      } else if (signUpStep === "CONFIRM_SIGN_UP") {
+      }
+      if (signUpStep === "CONFIRM_SIGN_UP") {
         showInvalidCodeError();
       }
     } catch (error) {
@@ -172,6 +177,9 @@ const AuthScreen: React.FC<SignInScreenProps> = () => {
   switch (step) {
     case "DONE":
       screen = <Redirect href="/pet-onboarding" />;
+      break;
+    case "COMPLETE_AUTO_SIGN_IN":
+      screen = <FullScreenLoadingState shouldAutoSignIn />;
       break;
     case "CONFIRM_SIGN_UP":
       screen = (
