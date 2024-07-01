@@ -2,14 +2,14 @@ projects:
   pawkit:
     schemaPath: amplify/backend/api/pawkit/schema.json
     includes:
-      - graphql/**/*.ts
+      - api/graphql/**/*.ts
     excludes:
-      - graphql/API.ts
-      - graphql/api/*.ts
+      - api/graphql/API.ts
+      - api/*.ts
     extensions:
       amplify:
         codeGenTarget: typescript
-        generatedFileName: graphql/API.ts
+        generatedFileName: api/graphql/API.ts
         docsFilePath: graphql
         frontend: javascript
         framework: react-native
