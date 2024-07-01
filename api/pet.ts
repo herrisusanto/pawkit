@@ -21,14 +21,22 @@ import {
   InternalServerError,
   NotFoundError,
 } from "./errors";
-import { fetchBooking, fetchBookingsByPet } from "./booking";
-import { fetchServiceById } from "./service";
+import {
+  fetchBooking,
+  fetchBookingsByPet,
+  fetchServiceById,
+} from "./service-booking";
 
 const logger = new ConsoleLogger("api/pets.ts");
 
 // Create
 export const addPet = async (input: CreatePetInput) => {
   try {
+    const petTypeString = input.petType.toString();
+    input["breedName"] =
+      input.breedName === ""
+        ? `Unknown ${petTypeString.charAt(0) + petTypeString.slice(1).toLowerCase()} Breed`
+        : input.breedName;
     const result = await graphqlClient.graphql({
       query: createPet,
       variables: {

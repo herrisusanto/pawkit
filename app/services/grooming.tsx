@@ -19,7 +19,7 @@ import { TouchableOpacity } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { useCurrentUser } from "@/hooks";
 import { fetchPetsByCustomer } from "@/api/pet";
-import { fetchServices } from "@/api/service";
+import { fetchServices } from "@/api/service-booking";
 import { Pet, Service, ServiceCategory } from "@/api/graphql/API";
 import { useAtom } from "jotai";
 import { selectedGroomingServicesAtom } from "@/atoms/services/selected-grooming-services.atom";
@@ -41,7 +41,7 @@ const GroomingScreen = () => {
   const selectedPet = useMemo(() => {
     return pets?.find((pet) => pet.name === selectedPetId);
   }, [selectedPetId, pets]);
-  const { data: services } = useQuery({
+  const { data: servicesData } = useQuery({
     queryKey: [
       "services",
       user?.userId,
@@ -53,10 +53,42 @@ const GroomingScreen = () => {
         filter: {
           serviceCategory: { eq: ServiceCategory.GROOMING },
           petType: { eq: selectedPet?.petType },
+          defaultDisplay: { eq: true },
         },
       }),
+    select(data) {
+      return data?.sort(
+        (a: Service, b: Service) =>
+          (a.displayPriority || 0) - (b.displayPriority || 0)
+      );
+    },
     enabled: !!selectedPet,
   });
+  const { data: addonsData } = useQuery({
+    queryKey: [
+      "addons",
+      user?.userId,
+      ServiceCategory.GROOMING,
+      selectedPet?.petType,
+    ],
+    queryFn: () =>
+      fetchServices({
+        filter: {
+          serviceCategory: { eq: ServiceCategory.GROOMING },
+          petType: { eq: selectedPet?.petType },
+          defaultDisplay: { eq: false },
+        },
+      }),
+    select(data) {
+      return data?.sort(
+        (a: Service, b: Service) =>
+          (a.displayPriority || 0) - (b.displayPriority || 0)
+      );
+    },
+    enabled: !!selectedPet,
+  });
+  const services: Service[] = servicesData;
+  const addons: Service[] = addonsData;
   const selectedService = useMemo(() => {
     const selectedPetService = selectedPetsService.find(
       (petService) => petService.petId === selectedPetId
@@ -66,10 +98,10 @@ const GroomingScreen = () => {
     );
   }, [selectedPetsService, services, selectedPetId]);
   const selectedServiceAddons = useMemo(() => {
-    return services?.filter((service) =>
+    return addons?.filter((service) =>
       selectedService?.childServiceIds?.includes(service.id)
     );
-  }, [services, selectedService]);
+  }, [addons, selectedService]);
   const selectedPetService = useMemo(
     () => selectedPetsService.find((item: any) => item.petId === selectedPetId),
     [selectedPetsService, selectedPetId]

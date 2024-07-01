@@ -10,7 +10,7 @@ import { Image, Sheet, Text, View, XStack, YStack } from "tamagui";
 import { UpcomingBookingItem } from "../upcoming-booking/UpcomingBooking";
 import { useQuery } from "@tanstack/react-query";
 import { Booking } from "@/api/graphql/API";
-import { fetchBookings } from "@/api/booking";
+import { fetchBookings } from "@/api/service-booking";
 
 const { height } = Dimensions.get("window");
 

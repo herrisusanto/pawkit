@@ -6,7 +6,7 @@ import moment from "moment";
 import { petDefaultAvatar } from "@/components/my-pet/pet-default-avatar/petDefaultAvatar";
 import { ListSlider } from "@/components/common/ListSlider/ListSlider";
 import { Link } from "expo-router";
-import { fetchBookingsByCustomer } from "@/api/booking";
+import { fetchBookingsByCustomer } from "@/api/service-booking";
 import { useQuery } from "@tanstack/react-query";
 import { useCurrentUser } from "@/hooks";
 import BookingCard from "@/components/bookings/booking-card/BookingCard";

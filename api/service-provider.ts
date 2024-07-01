@@ -12,7 +12,10 @@ import {
   updateServiceProvider,
 } from "./graphql/mutations";
 import { getServiceProvider, listServiceProviders } from "./graphql/queries";
-import { fetchServicesByServiceProvider, removeService } from "./service";
+import {
+  fetchServicesByServiceProvider,
+  removeService,
+} from "./service-booking";
 import { BadRequestError, CustomError, InternalServerError } from "./errors";
 
 const logger = new ConsoleLogger("api/service-provider.ts");

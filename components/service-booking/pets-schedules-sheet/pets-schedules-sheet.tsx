@@ -8,7 +8,7 @@ import { Calendar } from "@/components/common/Calendar/Calendar";
 import { Button } from "@/components/common/Button/Button";
 import { Pet, Service, TimeSlot } from "@/api/graphql/API";
 import { useQuery } from "@tanstack/react-query";
-import { fetchTimeSlots } from "@/api/time-slot";
+import { fetchTimeSlots, fetchServices } from "@/api/service-booking";
 import {
   useContinueServiceBookingAllowed,
   useCurrentUser,
@@ -18,7 +18,6 @@ import { useAtom } from "jotai";
 import { SelectedPetServiceType } from "@/types/services/selected-pet-service.type";
 import { PetAvatar } from "@/components/services/pet-avatar/PetAvatar";
 import { fetchPetsByCustomer } from "@/api/pet";
-import { fetchServices } from "@/api/service";
 import { useLocalSearchParams } from "expo-router";
 
 const { height, width } = Dimensions.get("window");

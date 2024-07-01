@@ -8,9 +8,25 @@ type GeneratedQuery<InputType, OutputType> = string & {
   __generatedQueryOutput: OutputType;
 };
 
-export const getBooking = /* GraphQL */ `query GetBooking($customerUsername: String!, $timeSlotId: ID!) {
+export const getBooking =
+  /* GraphQL */ `query GetBooking($customerUsername: String!, $timeSlotId: ID!) {
   getBooking(customerUsername: $customerUsername, timeSlotId: $timeSlotId) {
     id
+    orderId
+    order {
+      id
+      customerId
+      currency
+      totalAmount
+      pendingRefundAmount
+      refundedAmount
+      bookingIds
+      paymentRequestId
+      status
+      createdAt
+      updatedAt
+      __typename
+    }
     customerUsername
     owners
     customerId
@@ -59,6 +75,7 @@ export const getBooking = /* GraphQL */ `query GetBooking($customerUsername: Str
       __typename
     }
     timeSlotId
+    petNames
     pets {
       nextToken
       __typename
@@ -68,7 +85,6 @@ export const getBooking = /* GraphQL */ `query GetBooking($customerUsername: Str
     amount
     currency
     status
-    orderId
     createdAt
     updatedAt
     serviceProviderBookingsName
@@ -78,9 +94,9 @@ export const getBooking = /* GraphQL */ `query GetBooking($customerUsername: Str
   }
 }
 ` as GeneratedQuery<
-  APITypes.GetBookingQueryVariables,
-  APITypes.GetBookingQuery
->;
+    APITypes.GetBookingQueryVariables,
+    APITypes.GetBookingQuery
+  >;
 export const listBookings = /* GraphQL */ `query ListBookings(
   $customerUsername: String
   $timeSlotId: ModelIDKeyConditionInput
@@ -99,6 +115,7 @@ export const listBookings = /* GraphQL */ `query ListBookings(
   ) {
     items {
       id
+      orderId
       customerUsername
       owners
       customerId
@@ -109,12 +126,12 @@ export const listBookings = /* GraphQL */ `query ListBookings(
       serviceId
       startDateTime
       timeSlotId
+      petNames
       addOns
       bookingType
       amount
       currency
       status
-      orderId
       createdAt
       updatedAt
       serviceProviderBookingsName
@@ -146,6 +163,7 @@ export const bookingById = /* GraphQL */ `query BookingById(
   ) {
     items {
       id
+      orderId
       customerUsername
       owners
       customerId
@@ -156,12 +174,12 @@ export const bookingById = /* GraphQL */ `query BookingById(
       serviceId
       startDateTime
       timeSlotId
+      petNames
       addOns
       bookingType
       amount
       currency
       status
-      orderId
       createdAt
       updatedAt
       serviceProviderBookingsName
@@ -176,6 +194,54 @@ export const bookingById = /* GraphQL */ `query BookingById(
 ` as GeneratedQuery<
   APITypes.BookingByIdQueryVariables,
   APITypes.BookingByIdQuery
+>;
+export const bookingsByOrder = /* GraphQL */ `query BookingsByOrder(
+  $orderId: ID!
+  $sortDirection: ModelSortDirection
+  $filter: ModelBookingFilterInput
+  $limit: Int
+  $nextToken: String
+) {
+  bookingsByOrder(
+    orderId: $orderId
+    sortDirection: $sortDirection
+    filter: $filter
+    limit: $limit
+    nextToken: $nextToken
+  ) {
+    items {
+      id
+      orderId
+      customerUsername
+      owners
+      customerId
+      serviceName
+      serviceProviderName
+      serviceCategory
+      petType
+      serviceId
+      startDateTime
+      timeSlotId
+      petNames
+      addOns
+      bookingType
+      amount
+      currency
+      status
+      createdAt
+      updatedAt
+      serviceProviderBookingsName
+      timeSlotBookingsServiceId
+      timeSlotBookingsStartDateTime
+      __typename
+    }
+    nextToken
+    __typename
+  }
+}
+` as GeneratedQuery<
+  APITypes.BookingsByOrderQueryVariables,
+  APITypes.BookingsByOrderQuery
 >;
 export const bookingsByCustomer = /* GraphQL */ `query BookingsByCustomer(
   $customerId: ID!
@@ -193,6 +259,7 @@ export const bookingsByCustomer = /* GraphQL */ `query BookingsByCustomer(
   ) {
     items {
       id
+      orderId
       customerUsername
       owners
       customerId
@@ -203,12 +270,12 @@ export const bookingsByCustomer = /* GraphQL */ `query BookingsByCustomer(
       serviceId
       startDateTime
       timeSlotId
+      petNames
       addOns
       bookingType
       amount
       currency
       status
-      orderId
       createdAt
       updatedAt
       serviceProviderBookingsName
@@ -240,6 +307,7 @@ export const bookingsByService = /* GraphQL */ `query BookingsByService(
   ) {
     items {
       id
+      orderId
       customerUsername
       owners
       customerId
@@ -250,12 +318,12 @@ export const bookingsByService = /* GraphQL */ `query BookingsByService(
       serviceId
       startDateTime
       timeSlotId
+      petNames
       addOns
       bookingType
       amount
       currency
       status
-      orderId
       createdAt
       updatedAt
       serviceProviderBookingsName
@@ -271,7 +339,8 @@ export const bookingsByService = /* GraphQL */ `query BookingsByService(
   APITypes.BookingsByServiceQueryVariables,
   APITypes.BookingsByServiceQuery
 >;
-export const bookingsByStartDateTime = /* GraphQL */ `query BookingsByStartDateTime(
+export const bookingsByStartDateTime =
+  /* GraphQL */ `query BookingsByStartDateTime(
   $startDateTime: AWSDateTime!
   $sortDirection: ModelSortDirection
   $filter: ModelBookingFilterInput
@@ -287,6 +356,7 @@ export const bookingsByStartDateTime = /* GraphQL */ `query BookingsByStartDateT
   ) {
     items {
       id
+      orderId
       customerUsername
       owners
       customerId
@@ -297,12 +367,12 @@ export const bookingsByStartDateTime = /* GraphQL */ `query BookingsByStartDateT
       serviceId
       startDateTime
       timeSlotId
+      petNames
       addOns
       bookingType
       amount
       currency
       status
-      orderId
       createdAt
       updatedAt
       serviceProviderBookingsName
@@ -315,9 +385,9 @@ export const bookingsByStartDateTime = /* GraphQL */ `query BookingsByStartDateT
   }
 }
 ` as GeneratedQuery<
-  APITypes.BookingsByStartDateTimeQueryVariables,
-  APITypes.BookingsByStartDateTimeQuery
->;
+    APITypes.BookingsByStartDateTimeQueryVariables,
+    APITypes.BookingsByStartDateTimeQuery
+  >;
 export const bookingsByTimeSlot = /* GraphQL */ `query BookingsByTimeSlot(
   $timeSlotId: ID!
   $sortDirection: ModelSortDirection
@@ -334,6 +404,7 @@ export const bookingsByTimeSlot = /* GraphQL */ `query BookingsByTimeSlot(
   ) {
     items {
       id
+      orderId
       customerUsername
       owners
       customerId
@@ -344,12 +415,12 @@ export const bookingsByTimeSlot = /* GraphQL */ `query BookingsByTimeSlot(
       serviceId
       startDateTime
       timeSlotId
+      petNames
       addOns
       bookingType
       amount
       currency
       status
-      orderId
       createdAt
       updatedAt
       serviceProviderBookingsName
@@ -364,53 +435,6 @@ export const bookingsByTimeSlot = /* GraphQL */ `query BookingsByTimeSlot(
 ` as GeneratedQuery<
   APITypes.BookingsByTimeSlotQueryVariables,
   APITypes.BookingsByTimeSlotQuery
->;
-export const bookingsByOrder = /* GraphQL */ `query BookingsByOrder(
-  $orderId: ID!
-  $sortDirection: ModelSortDirection
-  $filter: ModelBookingFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  bookingsByOrder(
-    orderId: $orderId
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      id
-      customerUsername
-      owners
-      customerId
-      serviceName
-      serviceProviderName
-      serviceCategory
-      petType
-      serviceId
-      startDateTime
-      timeSlotId
-      addOns
-      bookingType
-      amount
-      currency
-      status
-      orderId
-      createdAt
-      updatedAt
-      serviceProviderBookingsName
-      timeSlotBookingsServiceId
-      timeSlotBookingsStartDateTime
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.BookingsByOrderQueryVariables,
-  APITypes.BookingsByOrderQuery
 >;
 export const getBreed = /* GraphQL */ `query GetBreed($name: String!) {
   getBreed(name: $name) {
@@ -599,7 +623,8 @@ export const customerByUsername = /* GraphQL */ `query CustomerByUsername(
   APITypes.CustomerByUsernameQueryVariables,
   APITypes.CustomerByUsernameQuery
 >;
-export const getDisclaimer = /* GraphQL */ `query GetDisclaimer($name: String!) {
+export const getDisclaimer =
+  /* GraphQL */ `query GetDisclaimer($name: String!) {
   getDisclaimer(name: $name) {
     name
     serviceName
@@ -664,9 +689,9 @@ export const getDisclaimer = /* GraphQL */ `query GetDisclaimer($name: String!) 
   }
 }
 ` as GeneratedQuery<
-  APITypes.GetDisclaimerQueryVariables,
-  APITypes.GetDisclaimerQuery
->;
+    APITypes.GetDisclaimerQueryVariables,
+    APITypes.GetDisclaimerQuery
+  >;
 export const listDisclaimers = /* GraphQL */ `query ListDisclaimers(
   $name: String
   $filter: ModelDisclaimerFilterInput
@@ -702,7 +727,8 @@ export const listDisclaimers = /* GraphQL */ `query ListDisclaimers(
   APITypes.ListDisclaimersQueryVariables,
   APITypes.ListDisclaimersQuery
 >;
-export const getDisclaimerAcceptance = /* GraphQL */ `query GetDisclaimerAcceptance($id: ID!) {
+export const getDisclaimerAcceptance =
+  /* GraphQL */ `query GetDisclaimerAcceptance($id: ID!) {
   getDisclaimerAcceptance(id: $id) {
     id
     customerId
@@ -735,10 +761,11 @@ export const getDisclaimerAcceptance = /* GraphQL */ `query GetDisclaimerAccepta
   }
 }
 ` as GeneratedQuery<
-  APITypes.GetDisclaimerAcceptanceQueryVariables,
-  APITypes.GetDisclaimerAcceptanceQuery
->;
-export const listDisclaimerAcceptances = /* GraphQL */ `query ListDisclaimerAcceptances(
+    APITypes.GetDisclaimerAcceptanceQueryVariables,
+    APITypes.GetDisclaimerAcceptanceQuery
+  >;
+export const listDisclaimerAcceptances =
+  /* GraphQL */ `query ListDisclaimerAcceptances(
   $id: ID
   $filter: ModelDisclaimerAcceptanceFilterInput
   $limit: Int
@@ -765,9 +792,9 @@ export const listDisclaimerAcceptances = /* GraphQL */ `query ListDisclaimerAcce
   }
 }
 ` as GeneratedQuery<
-  APITypes.ListDisclaimerAcceptancesQueryVariables,
-  APITypes.ListDisclaimerAcceptancesQuery
->;
+    APITypes.ListDisclaimerAcceptancesQueryVariables,
+    APITypes.ListDisclaimerAcceptancesQuery
+  >;
 export const acceptancesByCustomer = /* GraphQL */ `query AcceptancesByCustomer(
   $customerId: ID!
   $sortDirection: ModelSortDirection
@@ -798,7 +825,8 @@ export const acceptancesByCustomer = /* GraphQL */ `query AcceptancesByCustomer(
   APITypes.AcceptancesByCustomerQueryVariables,
   APITypes.AcceptancesByCustomerQuery
 >;
-export const acceptancesByDisclaimer = /* GraphQL */ `query AcceptancesByDisclaimer(
+export const acceptancesByDisclaimer =
+  /* GraphQL */ `query AcceptancesByDisclaimer(
   $disclaimerName: String!
   $sortDirection: ModelSortDirection
   $filter: ModelDisclaimerAcceptanceFilterInput
@@ -825,9 +853,9 @@ export const acceptancesByDisclaimer = /* GraphQL */ `query AcceptancesByDisclai
   }
 }
 ` as GeneratedQuery<
-  APITypes.AcceptancesByDisclaimerQueryVariables,
-  APITypes.AcceptancesByDisclaimerQuery
->;
+    APITypes.AcceptancesByDisclaimerQueryVariables,
+    APITypes.AcceptancesByDisclaimerQuery
+  >;
 export const getOrder = /* GraphQL */ `query GetOrder($id: ID!) {
   getOrder(id: $id) {
     id
@@ -930,7 +958,8 @@ export const ordersByCustomer = /* GraphQL */ `query OrdersByCustomer(
   APITypes.OrdersByCustomerQueryVariables,
   APITypes.OrdersByCustomerQuery
 >;
-export const getPayment = /* GraphQL */ `query GetPayment($paymentRequestId: ID!) {
+export const getPayment =
+  /* GraphQL */ `query GetPayment($paymentRequestId: ID!) {
   getPayment(paymentRequestId: $paymentRequestId) {
     paymentRequestId
     orderId
@@ -986,9 +1015,9 @@ export const getPayment = /* GraphQL */ `query GetPayment($paymentRequestId: ID!
   }
 }
 ` as GeneratedQuery<
-  APITypes.GetPaymentQueryVariables,
-  APITypes.GetPaymentQuery
->;
+    APITypes.GetPaymentQueryVariables,
+    APITypes.GetPaymentQuery
+  >;
 export const listPayments = /* GraphQL */ `query ListPayments(
   $paymentRequestId: ID
   $filter: ModelPaymentFilterInput
@@ -1145,7 +1174,8 @@ export const paymentsByCustomer = /* GraphQL */ `query PaymentsByCustomer(
   APITypes.PaymentsByCustomerQueryVariables,
   APITypes.PaymentsByCustomerQuery
 >;
-export const paymentsByRequestCreatedAt = /* GraphQL */ `query PaymentsByRequestCreatedAt(
+export const paymentsByRequestCreatedAt =
+  /* GraphQL */ `query PaymentsByRequestCreatedAt(
   $requestCreatedAt: AWSDateTime!
   $sortDirection: ModelSortDirection
   $filter: ModelPaymentFilterInput
@@ -1194,10 +1224,11 @@ export const paymentsByRequestCreatedAt = /* GraphQL */ `query PaymentsByRequest
   }
 }
 ` as GeneratedQuery<
-  APITypes.PaymentsByRequestCreatedAtQueryVariables,
-  APITypes.PaymentsByRequestCreatedAtQuery
->;
-export const paymentsByRequestUpdatedAt = /* GraphQL */ `query PaymentsByRequestUpdatedAt(
+    APITypes.PaymentsByRequestCreatedAtQueryVariables,
+    APITypes.PaymentsByRequestCreatedAtQuery
+  >;
+export const paymentsByRequestUpdatedAt =
+  /* GraphQL */ `query PaymentsByRequestUpdatedAt(
   $requestUpdatedAt: AWSDateTime!
   $sortDirection: ModelSortDirection
   $filter: ModelPaymentFilterInput
@@ -1246,10 +1277,11 @@ export const paymentsByRequestUpdatedAt = /* GraphQL */ `query PaymentsByRequest
   }
 }
 ` as GeneratedQuery<
-  APITypes.PaymentsByRequestUpdatedAtQueryVariables,
-  APITypes.PaymentsByRequestUpdatedAtQuery
->;
-export const paymentsByPaymentMethod = /* GraphQL */ `query PaymentsByPaymentMethod(
+    APITypes.PaymentsByRequestUpdatedAtQueryVariables,
+    APITypes.PaymentsByRequestUpdatedAtQuery
+  >;
+export const paymentsByPaymentMethod =
+  /* GraphQL */ `query PaymentsByPaymentMethod(
   $paymentMethod: PaymentMethod!
   $sortDirection: ModelSortDirection
   $filter: ModelPaymentFilterInput
@@ -1298,10 +1330,11 @@ export const paymentsByPaymentMethod = /* GraphQL */ `query PaymentsByPaymentMet
   }
 }
 ` as GeneratedQuery<
-  APITypes.PaymentsByPaymentMethodQueryVariables,
-  APITypes.PaymentsByPaymentMethodQuery
->;
-export const getPet = /* GraphQL */ `query GetPet($name: String!, $customerUsername: String!) {
+    APITypes.PaymentsByPaymentMethodQueryVariables,
+    APITypes.PaymentsByPaymentMethodQuery
+  >;
+export const getPet =
+  /* GraphQL */ `query GetPet($name: String!, $customerUsername: String!) {
   getPet(name: $name, customerUsername: $customerUsername) {
     name
     customerUsername
@@ -1984,7 +2017,8 @@ export const serviceById = /* GraphQL */ `query ServiceById(
   APITypes.ServiceByIdQueryVariables,
   APITypes.ServiceByIdQuery
 >;
-export const servicesByServiceProvider = /* GraphQL */ `query ServicesByServiceProvider(
+export const servicesByServiceProvider =
+  /* GraphQL */ `query ServicesByServiceProvider(
   $serviceProviderName: String!
   $sortDirection: ModelSortDirection
   $filter: ModelServiceFilterInput
@@ -2035,9 +2069,9 @@ export const servicesByServiceProvider = /* GraphQL */ `query ServicesByServiceP
   }
 }
 ` as GeneratedQuery<
-  APITypes.ServicesByServiceProviderQueryVariables,
-  APITypes.ServicesByServiceProviderQuery
->;
+    APITypes.ServicesByServiceProviderQueryVariables,
+    APITypes.ServicesByServiceProviderQuery
+  >;
 export const servicesByCategory = /* GraphQL */ `query ServicesByCategory(
   $serviceCategory: ServiceCategory!
   $sortDirection: ModelSortDirection
@@ -2254,7 +2288,8 @@ export const servicesByDuration = /* GraphQL */ `query ServicesByDuration(
   APITypes.ServicesByDurationQueryVariables,
   APITypes.ServicesByDurationQuery
 >;
-export const getServiceProvider = /* GraphQL */ `query GetServiceProvider($name: String!) {
+export const getServiceProvider =
+  /* GraphQL */ `query GetServiceProvider($name: String!) {
   getServiceProvider(name: $name) {
     id
     name
@@ -2308,9 +2343,9 @@ export const getServiceProvider = /* GraphQL */ `query GetServiceProvider($name:
   }
 }
 ` as GeneratedQuery<
-  APITypes.GetServiceProviderQueryVariables,
-  APITypes.GetServiceProviderQuery
->;
+    APITypes.GetServiceProviderQueryVariables,
+    APITypes.GetServiceProviderQuery
+  >;
 export const listServiceProviders = /* GraphQL */ `query ListServiceProviders(
   $name: String
   $filter: ModelServiceProviderFilterInput
@@ -2385,7 +2420,8 @@ export const serviceProviderById = /* GraphQL */ `query ServiceProviderById(
   APITypes.ServiceProviderByIdQueryVariables,
   APITypes.ServiceProviderByIdQuery
 >;
-export const getTimeSlot = /* GraphQL */ `query GetTimeSlot($serviceId: ID!, $startDateTime: AWSDateTime!) {
+export const getTimeSlot =
+  /* GraphQL */ `query GetTimeSlot($serviceId: ID!, $startDateTime: AWSDateTime!) {
   getTimeSlot(serviceId: $serviceId, startDateTime: $startDateTime) {
     id
     serviceId
@@ -2406,9 +2442,9 @@ export const getTimeSlot = /* GraphQL */ `query GetTimeSlot($serviceId: ID!, $st
   }
 }
 ` as GeneratedQuery<
-  APITypes.GetTimeSlotQueryVariables,
-  APITypes.GetTimeSlotQuery
->;
+    APITypes.GetTimeSlotQueryVariables,
+    APITypes.GetTimeSlotQuery
+  >;
 export const listTimeSlots = /* GraphQL */ `query ListTimeSlots(
   $serviceId: ID
   $startDateTime: ModelStringKeyConditionInput
@@ -2483,7 +2519,8 @@ export const timeSlotById = /* GraphQL */ `query TimeSlotById(
   APITypes.TimeSlotByIdQueryVariables,
   APITypes.TimeSlotByIdQuery
 >;
-export const timeSlotsByStartDateTime = /* GraphQL */ `query TimeSlotsByStartDateTime(
+export const timeSlotsByStartDateTime =
+  /* GraphQL */ `query TimeSlotsByStartDateTime(
   $startDateTime: AWSDateTime!
   $sortDirection: ModelSortDirection
   $filter: ModelTimeSlotFilterInput
@@ -2516,10 +2553,11 @@ export const timeSlotsByStartDateTime = /* GraphQL */ `query TimeSlotsByStartDat
   }
 }
 ` as GeneratedQuery<
-  APITypes.TimeSlotsByStartDateTimeQueryVariables,
-  APITypes.TimeSlotsByStartDateTimeQuery
->;
-export const timeSlotsByEndDateTime = /* GraphQL */ `query TimeSlotsByEndDateTime(
+    APITypes.TimeSlotsByStartDateTimeQueryVariables,
+    APITypes.TimeSlotsByStartDateTimeQuery
+  >;
+export const timeSlotsByEndDateTime =
+  /* GraphQL */ `query TimeSlotsByEndDateTime(
   $endDateTime: AWSDateTime!
   $sortDirection: ModelSortDirection
   $filter: ModelTimeSlotFilterInput
@@ -2552,9 +2590,9 @@ export const timeSlotsByEndDateTime = /* GraphQL */ `query TimeSlotsByEndDateTim
   }
 }
 ` as GeneratedQuery<
-  APITypes.TimeSlotsByEndDateTimeQueryVariables,
-  APITypes.TimeSlotsByEndDateTimeQuery
->;
+    APITypes.TimeSlotsByEndDateTimeQueryVariables,
+    APITypes.TimeSlotsByEndDateTimeQuery
+  >;
 export const timeSlotsByCapacity = /* GraphQL */ `query TimeSlotsByCapacity(
   $capacity: Int!
   $sortDirection: ModelSortDirection
@@ -2591,7 +2629,8 @@ export const timeSlotsByCapacity = /* GraphQL */ `query TimeSlotsByCapacity(
   APITypes.TimeSlotsByCapacityQueryVariables,
   APITypes.TimeSlotsByCapacityQuery
 >;
-export const timeSlotsByBookingCount = /* GraphQL */ `query TimeSlotsByBookingCount(
+export const timeSlotsByBookingCount =
+  /* GraphQL */ `query TimeSlotsByBookingCount(
   $bookingCount: Int!
   $sortDirection: ModelSortDirection
   $filter: ModelTimeSlotFilterInput
@@ -2624,9 +2663,9 @@ export const timeSlotsByBookingCount = /* GraphQL */ `query TimeSlotsByBookingCo
   }
 }
 ` as GeneratedQuery<
-  APITypes.TimeSlotsByBookingCountQueryVariables,
-  APITypes.TimeSlotsByBookingCountQuery
->;
+    APITypes.TimeSlotsByBookingCountQueryVariables,
+    APITypes.TimeSlotsByBookingCountQuery
+  >;
 export const getPetBookings = /* GraphQL */ `query GetPetBookings($id: ID!) {
   getPetBookings(id: $id) {
     id
@@ -2636,6 +2675,7 @@ export const getPetBookings = /* GraphQL */ `query GetPetBookings($id: ID!) {
     petcustomerUsername
     booking {
       id
+      orderId
       customerUsername
       owners
       customerId
@@ -2646,12 +2686,12 @@ export const getPetBookings = /* GraphQL */ `query GetPetBookings($id: ID!) {
       serviceId
       startDateTime
       timeSlotId
+      petNames
       addOns
       bookingType
       amount
       currency
       status
-      orderId
       createdAt
       updatedAt
       serviceProviderBookingsName
@@ -2721,7 +2761,8 @@ export const listPetBookings = /* GraphQL */ `query ListPetBookings(
   APITypes.ListPetBookingsQueryVariables,
   APITypes.ListPetBookingsQuery
 >;
-export const petBookingsByBookingCustomerUsernameAndBookingtimeSlotId = /* GraphQL */ `query PetBookingsByBookingCustomerUsernameAndBookingtimeSlotId(
+export const petBookingsByBookingCustomerUsernameAndBookingtimeSlotId =
+  /* GraphQL */ `query PetBookingsByBookingCustomerUsernameAndBookingtimeSlotId(
   $bookingCustomerUsername: String!
   $bookingtimeSlotId: ModelIDKeyConditionInput
   $sortDirection: ModelSortDirection
@@ -2754,10 +2795,11 @@ export const petBookingsByBookingCustomerUsernameAndBookingtimeSlotId = /* Graph
   }
 }
 ` as GeneratedQuery<
-  APITypes.PetBookingsByBookingCustomerUsernameAndBookingtimeSlotIdQueryVariables,
-  APITypes.PetBookingsByBookingCustomerUsernameAndBookingtimeSlotIdQuery
->;
-export const petBookingsByPetNameAndPetcustomerUsername = /* GraphQL */ `query PetBookingsByPetNameAndPetcustomerUsername(
+    APITypes.PetBookingsByBookingCustomerUsernameAndBookingtimeSlotIdQueryVariables,
+    APITypes.PetBookingsByBookingCustomerUsernameAndBookingtimeSlotIdQuery
+  >;
+export const petBookingsByPetNameAndPetcustomerUsername =
+  /* GraphQL */ `query PetBookingsByPetNameAndPetcustomerUsername(
   $petName: String!
   $petcustomerUsername: ModelStringKeyConditionInput
   $sortDirection: ModelSortDirection
@@ -2790,6 +2832,6 @@ export const petBookingsByPetNameAndPetcustomerUsername = /* GraphQL */ `query P
   }
 }
 ` as GeneratedQuery<
-  APITypes.PetBookingsByPetNameAndPetcustomerUsernameQueryVariables,
-  APITypes.PetBookingsByPetNameAndPetcustomerUsernameQuery
->;
+    APITypes.PetBookingsByPetNameAndPetcustomerUsernameQueryVariables,
+    APITypes.PetBookingsByPetNameAndPetcustomerUsernameQuery
+  >;

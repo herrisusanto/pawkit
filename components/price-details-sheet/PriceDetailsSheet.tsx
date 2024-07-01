@@ -1,7 +1,7 @@
 import { Button } from "@/components/common/Button/Button";
 import { ArrowUpIcon, CloseOutlinedIcon } from "@/components/common/Icons";
 import { fetchPetsByCustomer } from "@/api/pet";
-import { fetchServices } from "@/api/service";
+import { fetchServices } from "@/api/service-booking";
 import { useCurrentUser, useServiceBookingAtom } from "@/hooks";
 import { useQuery } from "@tanstack/react-query";
 import React, {

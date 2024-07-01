@@ -14,24 +14,15 @@ import {
 const logger = new ConsoleLogger("api/order.ts");
 
 // Create
-export const addOrder = async (
-  customerId: string,
-  currency: Currency,
-  initAmount: number
-) => {
+export const addOrder = async (customerId: string, currency: Currency) => {
   try {
-    if (!customerId) {
-      logger.error("Customer id is required");
-      throw new BadRequestError("Customer id is required");
-    }
-
     const result = await graphqlClient.graphql({
       query: createOrder,
       variables: {
         input: {
           customerId,
           currency,
-          totalAmount: initAmount,
+          totalAmount: 0,
           status: OrderStatus.PENDING,
           bookingIds: [],
         },

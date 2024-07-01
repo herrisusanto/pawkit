@@ -1,6 +1,6 @@
 import { Pet, Service } from "@/api/graphql/API";
 import { fetchPetsByCustomer } from "@/api/pet";
-import { fetchServices } from "@/api/service";
+import { fetchServices } from "@/api/service-booking";
 import {
   getCustomPrice,
   ServiceCustomPrice,

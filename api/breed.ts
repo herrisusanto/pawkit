@@ -39,7 +39,9 @@ export const fetchBreeds = async (variables: ListBreedsQueryVariables) => {
       variables,
     });
     logger.info("Called breedsByPetType query");
-    return result.data.listBreeds.items;
+    return result.data.listBreeds.items.filter(
+      (breed) => !breed.name.includes("Unknown")
+    );
   } catch (error) {
     logger.error("Error fetching breeds: ", error);
     throw new InternalServerError("Error fetching breeds");
@@ -55,7 +57,9 @@ export const fetchBreedsByPetType = async (petType: PetType) => {
       },
     });
     logger.info("Called breedsByPetType query");
-    return result.data.breedsByPetType.items;
+    return result.data.breedsByPetType.items.filter(
+      (breed) => !breed.name.includes("Unknown")
+    );
   } catch (error) {
     logger.error(`Error fetching breeds for ${petType}: `, error);
     throw new InternalServerError("Error fetching breeds");

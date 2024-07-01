@@ -1,4 +1,4 @@
-import { fetchBookingById } from "@/api/booking";
+import { fetchBookingById } from "@/api/service-booking";
 import { Button } from "@/components/common/Button/Button";
 import {
   AddressIcon,

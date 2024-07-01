@@ -1,8 +1,6 @@
-import { addBooking } from "@/api/booking";
+import { AddBookingInput, addBooking } from "@/api/service-booking";
 import {
-  BookingStatus,
   BookingType,
-  CreateBookingInput,
   Currency,
   Pet,
   Service,
@@ -67,12 +65,10 @@ export default function RequiredQuestions() {
     mutationFn: ({
       customerId,
       currency,
-      initAmount,
     }: {
       customerId: string;
       currency: Currency;
-      initAmount: number;
-    }) => addOrder(customerId, currency, initAmount),
+    }) => addOrder(customerId, currency),
   });
   const mutationAddBooking = useMutation({
     mutationFn: addBooking,
@@ -96,32 +92,22 @@ export default function RequiredQuestions() {
     try {
       const order = await mutationCreateOrder.mutateAsync({
         currency: Currency.SGD,
-        initAmount: 0,
         customerId: user?.userId as string,
       });
       for (const petService of selectedPetsServices) {
         const service = petService.service as Service;
         const petName = petService?.petId as string;
         const timeSlot = petService?.timeSlot as TimeSlot;
-        const timeSlotId = timeSlot.id as string;
-        const input: CreateBookingInput = {
+        const input: AddBookingInput = {
           currency: service.currency,
           amount: priceDetailsRef.current.estimatedPrice,
           bookingType: BookingType.PAID,
-          serviceName: service.name,
           customerId: user?.userId as string,
-          customerUsername: user?.userId as string,
           serviceId: service.id,
-          petType: service.petType,
-          serviceCategory: service.serviceCategory,
-          serviceProviderName: service.serviceProviderName,
           addOns: petService.addons,
-          timeSlotId,
           startDateTime: timeSlot.startDateTime,
           orderId: order.id,
-          status: BookingStatus.PENDING,
           petNames: [petName],
-          owners: [],
         };
         await mutationAddBooking.mutateAsync(input);
       }

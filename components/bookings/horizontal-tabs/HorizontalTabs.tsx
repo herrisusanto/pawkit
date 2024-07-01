@@ -4,7 +4,7 @@ import { StackProps, TabLayout, Tabs, Text, YStack } from "tamagui";
 import BookingSection from "../booking-section/BookingSection";
 import { useCurrentUser } from "@/hooks";
 import { useQuery } from "@tanstack/react-query";
-import { fetchBookingsByCustomer } from "@/api/booking";
+import { fetchBookingsByCustomer } from "@/api/service-booking";
 import { Booking, BookingStatus } from "@/api/graphql/API";
 
 const HorizontalTabs = () => {
