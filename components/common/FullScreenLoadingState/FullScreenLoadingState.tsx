@@ -21,12 +21,7 @@ const FullScreenLoadingState: React.FC<FullScreenLoadingStateProps> = ({
       if (shouldAutoSignIn) {
         const autoSignInResult = await mutationAutoSignIn.mutateAsync();
         const autoSignInStep = autoSignInResult.nextStep.signInStep;
-        if (
-          autoSignInStep === "DONE" ||
-          autoSignInStep === "CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE"
-        ) {
-          setAuthState({ step: autoSignInStep });
-        }
+        setAuthState({ step: autoSignInStep });
       }
     })();
     // eslint-disable-next-line react-hooks/exhaustive-deps

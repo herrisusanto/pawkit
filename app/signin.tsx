@@ -7,11 +7,15 @@ import {
   View,
   XStack,
   YStack,
-  CheckedState,
   Sheet,
   ScrollView,
 } from "tamagui";
-import { FieldValues, SubmitHandler, useFormContext } from "react-hook-form";
+import {
+  Controller,
+  FieldValues,
+  SubmitHandler,
+  useFormContext,
+} from "react-hook-form";
 import { InputNumber } from "@/components/common/InputNumber/InputNumber";
 import { Button } from "@/components/common/Button/Button";
 import { Check } from "@tamagui/lucide-icons";
@@ -33,7 +37,6 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ onSubmit, loading }) => {
   LogBox.ignoreAllLogs();
   const { control, handleSubmit, formState } = useFormContext();
   const { isValid } = formState;
-  const [tncChecked, setTncChecked] = useState<CheckedState>(false);
   const [open, setOpen] = useState<boolean>(false);
   const [openPrivacyPolicy, setOpenPrivacyPolicy] = useState<boolean>(false);
 
@@ -85,16 +88,26 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ onSubmit, loading }) => {
             </YStack>
             <YStack width="100%" pb="$2" gap="$4">
               <XStack gap="$2">
-                <Checkbox
-                  defaultChecked={tncChecked}
-                  onCheckedChange={(checked) => {
-                    setTncChecked(checked);
+                <Controller
+                  control={control}
+                  name="terms_and_conditions"
+                  rules={{
+                    required: true,
                   }}
-                >
-                  <Checkbox.Indicator bg="$primary" br="$3">
-                    <Check color="#fff" />
-                  </Checkbox.Indicator>
-                </Checkbox>
+                  render={({ field }) => (
+                    <Checkbox
+                      {...field}
+                      defaultChecked={field.value || false}
+                      onCheckedChange={(checked) => {
+                        field.onChange(checked);
+                      }}
+                    >
+                      <Checkbox.Indicator bg="$primary" br="$3">
+                        <Check color="#fff" />
+                      </Checkbox.Indicator>
+                    </Checkbox>
+                  )}
+                />
                 <YStack>
                   <XStack>
                     <Text fontSize="$c1" fontWeight="$6">
@@ -122,7 +135,7 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ onSubmit, loading }) => {
               <Button
                 onPress={handleSubmit(onSubmit)}
                 type="primary"
-                disabled={!tncChecked || !isValid}
+                disabled={!isValid}
                 loading={loading}
               >
                 Sign In

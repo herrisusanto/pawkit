@@ -1,53 +1,36 @@
-import moment, { Moment } from "moment";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 type CountdownProps = {
-  value?: Moment;
-  showHours?: boolean;
+  value?: number;
   onTimeout?: () => void;
 };
 
 const Countdown: React.FC<CountdownProps> = ({
-  value = moment().add(2, "minute"),
-  showHours,
+  value = 60 * 2,
   onTimeout,
 }: any) => {
-  const [timer, setTimer] = useState<Moment>(moment());
-  const intervalRef = useRef<NodeJS.Timeout>();
+  const [secondsRemaining, setSecondsRemaining] = useState(value);
 
   useEffect(() => {
-    const newValue = value.add(3, "second");
-    if (newValue.diff(moment(), "second") > 0) {
-      intervalRef.current = setInterval(() => {
-        setTimer(moment(newValue).subtract(1, "second"));
+    const interval = setInterval(() => {
+      if (secondsRemaining > 0) {
+        setSecondsRemaining(secondsRemaining - 1);
+      } else if (secondsRemaining === 0) {
+        onTimeout && onTimeout();
+      }
+    }, 1000);
 
-        if (newValue.diff(moment(), "second") === 0) {
-          clearInterval(intervalRef.current);
-          onTimeout && onTimeout();
-        }
-      }, 1000);
-    }
-
-    return () => clearInterval(intervalRef.current);
+    return () => clearInterval(interval);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [value]);
+  }, [secondsRemaining]);
 
-  const remainingTime = moment.duration(timer.diff(moment()), "milliseconds");
+  const formatTime = (seconds: number) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${minutes}:${remainingSeconds < 10 ? "0" : ""}${remainingSeconds}`;
+  };
 
-  const remainingHours =
-    remainingTime.hours().toString().length === 1
-      ? "0" + remainingTime.hours() + ":"
-      : remainingTime.hours();
-  const remainingMinutes =
-    remainingTime.minutes().toString().length === 1
-      ? "0" + remainingTime.minutes()
-      : remainingTime.minutes();
-  const remainingSeconds =
-    remainingTime.seconds().toString().length === 1
-      ? "0" + remainingTime.seconds()
-      : remainingTime.seconds();
-
-  return `${showHours ? remainingHours : ""}${remainingMinutes}:${remainingSeconds}`;
+  return formatTime(secondsRemaining);
 };
 
 export default Countdown;

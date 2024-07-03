@@ -25,12 +25,7 @@ type SignInScreenProps = {
 };
 
 type AuthAtomType = {
-  step:
-    | "SIGN_IN"
-    | "CONFIRM_SIGN_UP"
-    | "CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE"
-    | "COMPLETE_AUTO_SIGN_IN"
-    | "DONE";
+  step: string;
 };
 
 export const authAtom = atom<AuthAtomType>({
@@ -64,13 +59,7 @@ const AuthScreen: React.FC<SignInScreenProps> = () => {
         options: { authFlowType: "CUSTOM_WITHOUT_SRP" },
       });
       const signInStep = result.nextStep.signInStep;
-      if (
-        signInStep === "CONFIRM_SIGN_UP" ||
-        signInStep === "CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE" ||
-        signInStep === "DONE"
-      ) {
-        setAuthState({ step: signInStep });
-      }
+      setAuthState({ step: signInStep });
     } catch (error) {
       if (JSON.stringify(error).includes("UserNotFoundException")) {
         handleSignUp(phoneNumber);
@@ -84,14 +73,14 @@ const AuthScreen: React.FC<SignInScreenProps> = () => {
         username,
         password: Math.random().toString(36).slice(-8),
         options: {
-          autoSignIn: { authFlowType: "CUSTOM_WITHOUT_SRP" },
-          userAttributes: {},
+          autoSignIn: true,
+          userAttributes: {
+            phone_number: username,
+          },
         },
       });
       const signUpStep = result.nextStep.signUpStep;
-      if (signUpStep === "CONFIRM_SIGN_UP" || signUpStep === "DONE") {
-        setAuthState({ step: signUpStep });
-      }
+      setAuthState({ step: signUpStep });
     } catch (error) {
       console.log(JSON.stringify(error));
     }
@@ -108,9 +97,7 @@ const AuthScreen: React.FC<SignInScreenProps> = () => {
         confirmationCode,
       });
       const signUpStep = result.nextStep.signUpStep;
-      if (signUpStep === "DONE" || signUpStep === "COMPLETE_AUTO_SIGN_IN") {
-        setAuthState({ step: signUpStep });
-      }
+      setAuthState({ step: signUpStep });
       if (signUpStep === "CONFIRM_SIGN_UP") {
         showInvalidCodeError();
       }
@@ -130,9 +117,11 @@ const AuthScreen: React.FC<SignInScreenProps> = () => {
         challengeResponse,
       });
       const signInStep = result.nextStep.signInStep;
-      if (signInStep === "DONE") {
-        setAuthState({ step: signInStep });
-      } else if (signInStep === "CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE") {
+      setAuthState({ step: signInStep });
+      if (
+        signInStep === "CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE" ||
+        signInStep === "CONFIRM_SIGN_IN_WITH_SMS_CODE"
+      ) {
         showInvalidCodeError();
       }
     } catch (error) {
@@ -191,6 +180,15 @@ const AuthScreen: React.FC<SignInScreenProps> = () => {
       );
       break;
     case "CONFIRM_SIGN_IN_WITH_CUSTOM_CHALLENGE":
+      screen = (
+        <AuthConfirmationScreen
+          onSubmit={handleSignInConfirmation}
+          onResendCode={handleResendSignInCode}
+          loading={isPending}
+        />
+      );
+      break;
+    case "CONFIRM_SIGN_IN_WITH_SMS_CODE":
       screen = (
         <AuthConfirmationScreen
           onSubmit={handleSignInConfirmation}

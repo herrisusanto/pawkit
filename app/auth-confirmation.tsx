@@ -9,7 +9,6 @@ import {
 } from "react-hook-form";
 import { OtpInput } from "react-native-otp-entry";
 import { Button } from "@/components/common/Button/Button";
-import moment from "moment";
 import Countdown from "@/components/common/Countdown/Countdown";
 import { TouchableOpacity } from "react-native";
 import { ResendSignUpCodeOutput, SignInOutput } from "aws-amplify/auth";
@@ -26,7 +25,7 @@ const AuthConfirmationScreen: FC<AuthConfirmationScreenProps> = ({
   loading,
 }) => {
   const { control, handleSubmit, getValues, formState } = useFormContext();
-  const [timer, setTimer] = useState(moment().add(2, "minute"));
+  const [timer, setTimer] = useState(60 * 2);
   const { isValid } = formState;
   const [timeout, setTimeout] = useState(false);
 
@@ -35,7 +34,7 @@ const AuthConfirmationScreen: FC<AuthConfirmationScreenProps> = ({
       if (onResendCode) {
         await onResendCode();
         setTimeout(false);
-        setTimer(moment().add(2, "minute"));
+        setTimer(60 * 2);
       }
     } catch (error) {
       console.log(error);
