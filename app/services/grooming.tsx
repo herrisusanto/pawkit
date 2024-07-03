@@ -76,7 +76,7 @@ const GroomingScreen = () => {
         filter: {
           serviceCategory: { eq: ServiceCategory.GROOMING },
           petType: { eq: selectedPet?.petType },
-          defaultDisplay: { eq: false },
+          parentServiceIds: { attributeExists: true },
         },
       }),
     select(data) {

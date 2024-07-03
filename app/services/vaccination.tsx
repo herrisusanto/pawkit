@@ -76,7 +76,7 @@ const VaccinationScreen = () => {
         filter: {
           serviceCategory: { eq: ServiceCategory.VACCINATION },
           petType: { eq: selectedPet?.petType },
-          defaultDisplay: { eq: false },
+          parentServiceIds: { attributeExists: true },
         },
       }),
     select(data) {
