@@ -38,6 +38,7 @@ export enum PetType {
 
 export type ModelServiceFilterInput = {
   id?: ModelIDInput | null,
+  serviceProviderId?: ModelIDInput | null,
   name?: ModelStringInput | null,
   serviceProviderName?: ModelStringInput | null,
   serviceCategory?: ModelServiceCategoryInput | null,
@@ -68,7 +69,6 @@ export type ModelServiceFilterInput = {
   and?: Array< ModelServiceFilterInput | null > | null,
   or?: Array< ModelServiceFilterInput | null > | null,
   not?: ModelServiceFilterInput | null,
-  serviceProviderId?: ModelStringInput | null,
 };
 
 export type ModelIDInput = {
@@ -208,6 +208,7 @@ export type ModelServiceConnection = {
 export type Service = {
   __typename: "Service",
   id: string,
+  serviceProviderId: string,
   name: string,
   serviceProviderName: string,
   serviceProvider: ServiceProvider,
@@ -244,7 +245,6 @@ export type Service = {
   requiredQuestionIds?: Array< string > | null,
   createdAt: string,
   updatedAt: string,
-  serviceProviderId?: string | null,
 };
 
 export type ServiceProvider = {
@@ -756,7 +756,6 @@ export type ModelCustomerConditionInput = {
   not?: ModelCustomerConditionInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
-  id?: ModelStringInput | null,
 };
 
 export type UpdateCustomerInput = {
@@ -1165,6 +1164,7 @@ export type DeleteQuestionAnswerInput = {
 
 export type CreateServiceInput = {
   id?: string | null,
+  serviceProviderId: string,
   name: string,
   serviceProviderName: string,
   serviceCategory: ServiceCategory,
@@ -1209,6 +1209,7 @@ export type CustomPriceInput = {
 };
 
 export type ModelServiceConditionInput = {
+  serviceProviderId?: ModelIDInput | null,
   defaultDisplay?: ModelBooleanInput | null,
   displayPriority?: ModelIntInput | null,
   onlinePaymentAccepted?: ModelBooleanInput | null,
@@ -1235,11 +1236,11 @@ export type ModelServiceConditionInput = {
   not?: ModelServiceConditionInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
-  serviceProviderId?: ModelStringInput | null,
 };
 
 export type UpdateServiceInput = {
   id?: string | null,
+  serviceProviderId?: string | null,
   name: string,
   serviceProviderName: string,
   serviceCategory: ServiceCategory,
@@ -1830,14 +1831,14 @@ export type ModelSubscriptionIntInput = {
 };
 
 export type ModelSubscriptionCustomerFilterInput = {
-  username?: ModelSubscriptionStringInput | null,
+  id?: ModelSubscriptionIDInput | null,
   isDeactivated?: ModelSubscriptionBooleanInput | null,
   imageUrl?: ModelSubscriptionStringInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionCustomerFilterInput | null > | null,
   or?: Array< ModelSubscriptionCustomerFilterInput | null > | null,
-  id?: ModelStringInput | null,
+  username?: ModelStringInput | null,
 };
 
 export type ModelSubscriptionDisclaimerFilterInput = {
@@ -2128,7 +2129,7 @@ export type CustomListServicesQuery = {
       requiredQuestionIds?: Array< string > | null,
       createdAt: string,
       updatedAt: string,
-      serviceProviderId?: string | null,
+      serviceProviderId: string,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -2833,6 +2834,7 @@ export type CreateDisclaimerMutation = {
     service?:  {
       __typename: "Service",
       id: string,
+      serviceProviderId: string,
       name: string,
       serviceProviderName: string,
       serviceCategory: ServiceCategory,
@@ -2860,7 +2862,6 @@ export type CreateDisclaimerMutation = {
       requiredQuestionIds?: Array< string > | null,
       createdAt: string,
       updatedAt: string,
-      serviceProviderId?: string | null,
     } | null,
     text?: string | null,
     s3Link?: string | null,
@@ -2903,6 +2904,7 @@ export type UpdateDisclaimerMutation = {
     service?:  {
       __typename: "Service",
       id: string,
+      serviceProviderId: string,
       name: string,
       serviceProviderName: string,
       serviceCategory: ServiceCategory,
@@ -2930,7 +2932,6 @@ export type UpdateDisclaimerMutation = {
       requiredQuestionIds?: Array< string > | null,
       createdAt: string,
       updatedAt: string,
-      serviceProviderId?: string | null,
     } | null,
     text?: string | null,
     s3Link?: string | null,
@@ -2973,6 +2974,7 @@ export type DeleteDisclaimerMutation = {
     service?:  {
       __typename: "Service",
       id: string,
+      serviceProviderId: string,
       name: string,
       serviceProviderName: string,
       serviceCategory: ServiceCategory,
@@ -3000,7 +3002,6 @@ export type DeleteDisclaimerMutation = {
       requiredQuestionIds?: Array< string > | null,
       createdAt: string,
       updatedAt: string,
-      serviceProviderId?: string | null,
     } | null,
     text?: string | null,
     s3Link?: string | null,
@@ -3777,6 +3778,7 @@ export type CreateServiceMutation = {
   createService?:  {
     __typename: "Service",
     id: string,
+    serviceProviderId: string,
     name: string,
     serviceProviderName: string,
     serviceProvider:  {
@@ -3895,7 +3897,6 @@ export type CreateServiceMutation = {
     requiredQuestionIds?: Array< string > | null,
     createdAt: string,
     updatedAt: string,
-    serviceProviderId?: string | null,
   } | null,
 };
 
@@ -3908,6 +3909,7 @@ export type UpdateServiceMutation = {
   updateService?:  {
     __typename: "Service",
     id: string,
+    serviceProviderId: string,
     name: string,
     serviceProviderName: string,
     serviceProvider:  {
@@ -4026,7 +4028,6 @@ export type UpdateServiceMutation = {
     requiredQuestionIds?: Array< string > | null,
     createdAt: string,
     updatedAt: string,
-    serviceProviderId?: string | null,
   } | null,
 };
 
@@ -4039,6 +4040,7 @@ export type DeleteServiceMutation = {
   deleteService?:  {
     __typename: "Service",
     id: string,
+    serviceProviderId: string,
     name: string,
     serviceProviderName: string,
     serviceProvider:  {
@@ -4157,7 +4159,6 @@ export type DeleteServiceMutation = {
     requiredQuestionIds?: Array< string > | null,
     createdAt: string,
     updatedAt: string,
-    serviceProviderId?: string | null,
   } | null,
 };
 
@@ -5186,6 +5187,7 @@ export type GetDisclaimerQuery = {
     service?:  {
       __typename: "Service",
       id: string,
+      serviceProviderId: string,
       name: string,
       serviceProviderName: string,
       serviceCategory: ServiceCategory,
@@ -5213,7 +5215,6 @@ export type GetDisclaimerQuery = {
       requiredQuestionIds?: Array< string > | null,
       createdAt: string,
       updatedAt: string,
-      serviceProviderId?: string | null,
     } | null,
     text?: string | null,
     s3Link?: string | null,
@@ -6186,6 +6187,7 @@ export type GetServiceQuery = {
   getService?:  {
     __typename: "Service",
     id: string,
+    serviceProviderId: string,
     name: string,
     serviceProviderName: string,
     serviceProvider:  {
@@ -6304,7 +6306,6 @@ export type GetServiceQuery = {
     requiredQuestionIds?: Array< string > | null,
     createdAt: string,
     updatedAt: string,
-    serviceProviderId?: string | null,
   } | null,
 };
 
@@ -6323,6 +6324,7 @@ export type ListServicesQuery = {
     items:  Array< {
       __typename: "Service",
       id: string,
+      serviceProviderId: string,
       name: string,
       serviceProviderName: string,
       serviceCategory: ServiceCategory,
@@ -6350,7 +6352,6 @@ export type ListServicesQuery = {
       requiredQuestionIds?: Array< string > | null,
       createdAt: string,
       updatedAt: string,
-      serviceProviderId?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -6370,6 +6371,7 @@ export type ServiceByIdQuery = {
     items:  Array< {
       __typename: "Service",
       id: string,
+      serviceProviderId: string,
       name: string,
       serviceProviderName: string,
       serviceCategory: ServiceCategory,
@@ -6397,7 +6399,6 @@ export type ServiceByIdQuery = {
       requiredQuestionIds?: Array< string > | null,
       createdAt: string,
       updatedAt: string,
-      serviceProviderId?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -6417,6 +6418,7 @@ export type ServicesByServiceProviderQuery = {
     items:  Array< {
       __typename: "Service",
       id: string,
+      serviceProviderId: string,
       name: string,
       serviceProviderName: string,
       serviceCategory: ServiceCategory,
@@ -6444,7 +6446,6 @@ export type ServicesByServiceProviderQuery = {
       requiredQuestionIds?: Array< string > | null,
       createdAt: string,
       updatedAt: string,
-      serviceProviderId?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -6464,6 +6465,7 @@ export type ServicesByCategoryQuery = {
     items:  Array< {
       __typename: "Service",
       id: string,
+      serviceProviderId: string,
       name: string,
       serviceProviderName: string,
       serviceCategory: ServiceCategory,
@@ -6491,7 +6493,6 @@ export type ServicesByCategoryQuery = {
       requiredQuestionIds?: Array< string > | null,
       createdAt: string,
       updatedAt: string,
-      serviceProviderId?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -6511,6 +6512,7 @@ export type ServicesByPetTypeQuery = {
     items:  Array< {
       __typename: "Service",
       id: string,
+      serviceProviderId: string,
       name: string,
       serviceProviderName: string,
       serviceCategory: ServiceCategory,
@@ -6538,7 +6540,6 @@ export type ServicesByPetTypeQuery = {
       requiredQuestionIds?: Array< string > | null,
       createdAt: string,
       updatedAt: string,
-      serviceProviderId?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -6558,6 +6559,7 @@ export type ServicesByPriceQuery = {
     items:  Array< {
       __typename: "Service",
       id: string,
+      serviceProviderId: string,
       name: string,
       serviceProviderName: string,
       serviceCategory: ServiceCategory,
@@ -6585,7 +6587,6 @@ export type ServicesByPriceQuery = {
       requiredQuestionIds?: Array< string > | null,
       createdAt: string,
       updatedAt: string,
-      serviceProviderId?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -6605,6 +6606,7 @@ export type ServicesByDurationQuery = {
     items:  Array< {
       __typename: "Service",
       id: string,
+      serviceProviderId: string,
       name: string,
       serviceProviderName: string,
       serviceCategory: ServiceCategory,
@@ -6632,7 +6634,6 @@ export type ServicesByDurationQuery = {
       requiredQuestionIds?: Array< string > | null,
       createdAt: string,
       updatedAt: string,
-      serviceProviderId?: string | null,
     } | null >,
     nextToken?: string | null,
   } | null,
@@ -7434,7 +7435,7 @@ export type OnDeleteBreedSubscription = {
 
 export type OnCreateCustomerSubscriptionVariables = {
   filter?: ModelSubscriptionCustomerFilterInput | null,
-  id?: string | null,
+  username?: string | null,
 };
 
 export type OnCreateCustomerSubscription = {
@@ -7478,7 +7479,7 @@ export type OnCreateCustomerSubscription = {
 
 export type OnUpdateCustomerSubscriptionVariables = {
   filter?: ModelSubscriptionCustomerFilterInput | null,
-  id?: string | null,
+  username?: string | null,
 };
 
 export type OnUpdateCustomerSubscription = {
@@ -7522,7 +7523,7 @@ export type OnUpdateCustomerSubscription = {
 
 export type OnDeleteCustomerSubscriptionVariables = {
   filter?: ModelSubscriptionCustomerFilterInput | null,
-  id?: string | null,
+  username?: string | null,
 };
 
 export type OnDeleteCustomerSubscription = {
@@ -7579,6 +7580,7 @@ export type OnCreateDisclaimerSubscription = {
     service?:  {
       __typename: "Service",
       id: string,
+      serviceProviderId: string,
       name: string,
       serviceProviderName: string,
       serviceCategory: ServiceCategory,
@@ -7606,7 +7608,6 @@ export type OnCreateDisclaimerSubscription = {
       requiredQuestionIds?: Array< string > | null,
       createdAt: string,
       updatedAt: string,
-      serviceProviderId?: string | null,
     } | null,
     text?: string | null,
     s3Link?: string | null,
@@ -7648,6 +7649,7 @@ export type OnUpdateDisclaimerSubscription = {
     service?:  {
       __typename: "Service",
       id: string,
+      serviceProviderId: string,
       name: string,
       serviceProviderName: string,
       serviceCategory: ServiceCategory,
@@ -7675,7 +7677,6 @@ export type OnUpdateDisclaimerSubscription = {
       requiredQuestionIds?: Array< string > | null,
       createdAt: string,
       updatedAt: string,
-      serviceProviderId?: string | null,
     } | null,
     text?: string | null,
     s3Link?: string | null,
@@ -7717,6 +7718,7 @@ export type OnDeleteDisclaimerSubscription = {
     service?:  {
       __typename: "Service",
       id: string,
+      serviceProviderId: string,
       name: string,
       serviceProviderName: string,
       serviceCategory: ServiceCategory,
@@ -7744,7 +7746,6 @@ export type OnDeleteDisclaimerSubscription = {
       requiredQuestionIds?: Array< string > | null,
       createdAt: string,
       updatedAt: string,
-      serviceProviderId?: string | null,
     } | null,
     text?: string | null,
     s3Link?: string | null,
@@ -8518,6 +8519,7 @@ export type OnCreateServiceSubscription = {
   onCreateService?:  {
     __typename: "Service",
     id: string,
+    serviceProviderId: string,
     name: string,
     serviceProviderName: string,
     serviceProvider:  {
@@ -8636,7 +8638,6 @@ export type OnCreateServiceSubscription = {
     requiredQuestionIds?: Array< string > | null,
     createdAt: string,
     updatedAt: string,
-    serviceProviderId?: string | null,
   } | null,
 };
 
@@ -8649,6 +8650,7 @@ export type OnUpdateServiceSubscription = {
   onUpdateService?:  {
     __typename: "Service",
     id: string,
+    serviceProviderId: string,
     name: string,
     serviceProviderName: string,
     serviceProvider:  {
@@ -8767,7 +8769,6 @@ export type OnUpdateServiceSubscription = {
     requiredQuestionIds?: Array< string > | null,
     createdAt: string,
     updatedAt: string,
-    serviceProviderId?: string | null,
   } | null,
 };
 
@@ -8780,6 +8781,7 @@ export type OnDeleteServiceSubscription = {
   onDeleteService?:  {
     __typename: "Service",
     id: string,
+    serviceProviderId: string,
     name: string,
     serviceProviderName: string,
     serviceProvider:  {
@@ -8898,7 +8900,6 @@ export type OnDeleteServiceSubscription = {
     requiredQuestionIds?: Array< string > | null,
     createdAt: string,
     updatedAt: string,
-    serviceProviderId?: string | null,
   } | null,
 };
 

@@ -193,7 +193,7 @@ export const addBooking = async (input: AddBookingInput) => {
           id,
           orderId: input.orderId,
           customerUsername: input.customerId,
-          owners: [input.customerId, service.serviceProviderName],
+          owners: [input.customerId, service.serviceProviderId],
           customerId: input.customerId,
           serviceName: service.name,
           serviceProviderName: service.serviceProviderName,
@@ -1530,6 +1530,7 @@ export const removeTimeSlot = async (
 };
 
 // Delete
+// TODO: Soft delete service
 export const removeService = async (
   name: string,
   serviceProviderName: string,

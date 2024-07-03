@@ -630,6 +630,7 @@ export const getDisclaimer = /* GraphQL */ `query GetDisclaimer($name: String!) 
     petType
     service {
       id
+      serviceProviderId
       name
       serviceProviderName
       serviceCategory
@@ -657,7 +658,6 @@ export const getDisclaimer = /* GraphQL */ `query GetDisclaimer($name: String!) 
       requiredQuestionIds
       createdAt
       updatedAt
-      serviceProviderId
       __typename
     }
     text
@@ -1770,6 +1770,7 @@ export const getService = /* GraphQL */ `query GetService(
     petType: $petType
   ) {
     id
+    serviceProviderId
     name
     serviceProviderName
     serviceProvider {
@@ -1888,7 +1889,6 @@ export const getService = /* GraphQL */ `query GetService(
     requiredQuestionIds
     createdAt
     updatedAt
-    serviceProviderId
     __typename
   }
 }
@@ -1914,6 +1914,7 @@ export const listServices = /* GraphQL */ `query ListServices(
   ) {
     items {
       id
+      serviceProviderId
       name
       serviceProviderName
       serviceCategory
@@ -1941,7 +1942,6 @@ export const listServices = /* GraphQL */ `query ListServices(
       requiredQuestionIds
       createdAt
       updatedAt
-      serviceProviderId
       __typename
     }
     nextToken
@@ -1968,6 +1968,7 @@ export const serviceById = /* GraphQL */ `query ServiceById(
   ) {
     items {
       id
+      serviceProviderId
       name
       serviceProviderName
       serviceCategory
@@ -1995,7 +1996,6 @@ export const serviceById = /* GraphQL */ `query ServiceById(
       requiredQuestionIds
       createdAt
       updatedAt
-      serviceProviderId
       __typename
     }
     nextToken
@@ -2022,6 +2022,7 @@ export const servicesByServiceProvider = /* GraphQL */ `query ServicesByServiceP
   ) {
     items {
       id
+      serviceProviderId
       name
       serviceProviderName
       serviceCategory
@@ -2049,7 +2050,6 @@ export const servicesByServiceProvider = /* GraphQL */ `query ServicesByServiceP
       requiredQuestionIds
       createdAt
       updatedAt
-      serviceProviderId
       __typename
     }
     nextToken
@@ -2076,6 +2076,7 @@ export const servicesByCategory = /* GraphQL */ `query ServicesByCategory(
   ) {
     items {
       id
+      serviceProviderId
       name
       serviceProviderName
       serviceCategory
@@ -2103,7 +2104,6 @@ export const servicesByCategory = /* GraphQL */ `query ServicesByCategory(
       requiredQuestionIds
       createdAt
       updatedAt
-      serviceProviderId
       __typename
     }
     nextToken
@@ -2130,6 +2130,7 @@ export const servicesByPetType = /* GraphQL */ `query ServicesByPetType(
   ) {
     items {
       id
+      serviceProviderId
       name
       serviceProviderName
       serviceCategory
@@ -2157,7 +2158,6 @@ export const servicesByPetType = /* GraphQL */ `query ServicesByPetType(
       requiredQuestionIds
       createdAt
       updatedAt
-      serviceProviderId
       __typename
     }
     nextToken
@@ -2184,6 +2184,7 @@ export const servicesByPrice = /* GraphQL */ `query ServicesByPrice(
   ) {
     items {
       id
+      serviceProviderId
       name
       serviceProviderName
       serviceCategory
@@ -2211,7 +2212,6 @@ export const servicesByPrice = /* GraphQL */ `query ServicesByPrice(
       requiredQuestionIds
       createdAt
       updatedAt
-      serviceProviderId
       __typename
     }
     nextToken
@@ -2238,6 +2238,7 @@ export const servicesByDuration = /* GraphQL */ `query ServicesByDuration(
   ) {
     items {
       id
+      serviceProviderId
       name
       serviceProviderName
       serviceCategory
@@ -2265,7 +2266,6 @@ export const servicesByDuration = /* GraphQL */ `query ServicesByDuration(
       requiredQuestionIds
       createdAt
       updatedAt
-      serviceProviderId
       __typename
     }
     nextToken
