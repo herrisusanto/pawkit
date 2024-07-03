@@ -328,9 +328,9 @@ export const onDeleteBreed = /* GraphQL */ `subscription OnDeleteBreed($filter: 
 >;
 export const onCreateCustomer = /* GraphQL */ `subscription OnCreateCustomer(
   $filter: ModelSubscriptionCustomerFilterInput
-  $id: String
+  $username: String
 ) {
-  onCreateCustomer(filter: $filter, id: $id) {
+  onCreateCustomer(filter: $filter, username: $username) {
     id
     username
     isDeactivated
@@ -373,9 +373,9 @@ export const onCreateCustomer = /* GraphQL */ `subscription OnCreateCustomer(
 >;
 export const onUpdateCustomer = /* GraphQL */ `subscription OnUpdateCustomer(
   $filter: ModelSubscriptionCustomerFilterInput
-  $id: String
+  $username: String
 ) {
-  onUpdateCustomer(filter: $filter, id: $id) {
+  onUpdateCustomer(filter: $filter, username: $username) {
     id
     username
     isDeactivated
@@ -418,9 +418,9 @@ export const onUpdateCustomer = /* GraphQL */ `subscription OnUpdateCustomer(
 >;
 export const onDeleteCustomer = /* GraphQL */ `subscription OnDeleteCustomer(
   $filter: ModelSubscriptionCustomerFilterInput
-  $id: String
+  $username: String
 ) {
-  onDeleteCustomer(filter: $filter, id: $id) {
+  onDeleteCustomer(filter: $filter, username: $username) {
     id
     username
     isDeactivated
@@ -472,6 +472,7 @@ export const onCreateDisclaimer = /* GraphQL */ `subscription OnCreateDisclaimer
     petType
     service {
       id
+      serviceProviderId
       name
       serviceProviderName
       serviceCategory
@@ -499,7 +500,6 @@ export const onCreateDisclaimer = /* GraphQL */ `subscription OnCreateDisclaimer
       requiredQuestionIds
       createdAt
       updatedAt
-      serviceProviderId
       __typename
     }
     text
@@ -542,6 +542,7 @@ export const onUpdateDisclaimer = /* GraphQL */ `subscription OnUpdateDisclaimer
     petType
     service {
       id
+      serviceProviderId
       name
       serviceProviderName
       serviceCategory
@@ -569,7 +570,6 @@ export const onUpdateDisclaimer = /* GraphQL */ `subscription OnUpdateDisclaimer
       requiredQuestionIds
       createdAt
       updatedAt
-      serviceProviderId
       __typename
     }
     text
@@ -612,6 +612,7 @@ export const onDeleteDisclaimer = /* GraphQL */ `subscription OnDeleteDisclaimer
     petType
     service {
       id
+      serviceProviderId
       name
       serviceProviderName
       serviceCategory
@@ -639,7 +640,6 @@ export const onDeleteDisclaimer = /* GraphQL */ `subscription OnDeleteDisclaimer
       requiredQuestionIds
       createdAt
       updatedAt
-      serviceProviderId
       __typename
     }
     text
@@ -1427,6 +1427,7 @@ export const onCreateService = /* GraphQL */ `subscription OnCreateService(
 ) {
   onCreateService(filter: $filter, serviceProviderId: $serviceProviderId) {
     id
+    serviceProviderId
     name
     serviceProviderName
     serviceProvider {
@@ -1545,7 +1546,6 @@ export const onCreateService = /* GraphQL */ `subscription OnCreateService(
     requiredQuestionIds
     createdAt
     updatedAt
-    serviceProviderId
     __typename
   }
 }
@@ -1559,6 +1559,7 @@ export const onUpdateService = /* GraphQL */ `subscription OnUpdateService(
 ) {
   onUpdateService(filter: $filter, serviceProviderId: $serviceProviderId) {
     id
+    serviceProviderId
     name
     serviceProviderName
     serviceProvider {
@@ -1677,7 +1678,6 @@ export const onUpdateService = /* GraphQL */ `subscription OnUpdateService(
     requiredQuestionIds
     createdAt
     updatedAt
-    serviceProviderId
     __typename
   }
 }
@@ -1691,6 +1691,7 @@ export const onDeleteService = /* GraphQL */ `subscription OnDeleteService(
 ) {
   onDeleteService(filter: $filter, serviceProviderId: $serviceProviderId) {
     id
+    serviceProviderId
     name
     serviceProviderName
     serviceProvider {
@@ -1809,7 +1810,6 @@ export const onDeleteService = /* GraphQL */ `subscription OnDeleteService(
     requiredQuestionIds
     createdAt
     updatedAt
-    serviceProviderId
     __typename
   }
 }
