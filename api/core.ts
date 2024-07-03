@@ -7,6 +7,11 @@ const BASE62_CHARSET =
 
 export const graphqlClient = generateClient();
 
+export function getCognitoSubUsername(userId: string): string {
+  // https://docs.amplify.aws/gen1/react-native/build-a-backend/graphqlapi/customize-authorization-rules/
+  return `${userId}::${userId}`;
+}
+
 export function hashToBase62(hash: Uint8Array, length: number): string {
   let bigint = BigInt("0x" + Buffer.from(hash).toString("hex"));
 
