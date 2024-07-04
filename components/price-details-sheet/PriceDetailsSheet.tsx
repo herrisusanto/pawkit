@@ -204,9 +204,12 @@ export const PriceDetailsSheet = forwardRef<
             <YStack px="$5">
               <XStack py="$5" jc="space-between">
                 <XStack ai="center" columnGap="$3.5">
-                  <View h="$1.5" w="$1.5" rotate="180deg">
-                    <ArrowUpIcon />
-                  </View>
+                  <TouchableOpacity onPress={handleClose}>
+                    <View h="$1.5" w="$1.5" rotate="180deg">
+                      <ArrowUpIcon />
+                    </View>
+                  </TouchableOpacity>
+
                   <Text
                     fontSize="$b2"
                     fontWeight="$6"

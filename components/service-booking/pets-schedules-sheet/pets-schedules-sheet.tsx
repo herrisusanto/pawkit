@@ -2,7 +2,15 @@ import { HOME_HEADER_HEIGHT, TABS_HEIGHT } from "@/constants";
 import moment, { Moment } from "moment";
 import React, { useMemo, useState } from "react";
 import { Dimensions, TouchableOpacity } from "react-native";
-import { Sheet, Text, View, XStack, YStack, getToken } from "tamagui";
+import {
+  ScrollView,
+  Sheet,
+  Text,
+  View,
+  XStack,
+  YStack,
+  getToken,
+} from "tamagui";
 import { CalendarIcon, CloseOutlinedIcon } from "@/components/common/Icons";
 import { Calendar } from "@/components/common/Calendar/Calendar";
 import { Button } from "@/components/common/Button/Button";
@@ -124,24 +132,20 @@ export const PetsSchedulesSheet = View.styleable(({ ...props }, ref) => {
       <Text fontSize="$b1" fontWeight="$5">
         Selected Pet(s)
       </Text>
-      <XStack fw="wrap" columnGap="$5" rowGap="$4">
-        {selectedPetsServices?.map((item) => {
-          const pet = pets?.find((pet) => pet.name === item.petId);
-          return (
-            <TouchableOpacity
-              key={item.petId}
-              onPress={() => {
-                setSelectedPetService(item);
-              }}
-            >
-              <PetAvatar
-                data={pet as Pet}
-                isSelected={item.petId === selectedPetService?.petId}
-              />
-            </TouchableOpacity>
-          );
-        })}
-      </XStack>
+      <ScrollView horizontal marginLeft={-25} marginRight={-25}>
+        <XStack
+          paddingLeft={25}
+          paddingRight={25}
+          fw="wrap"
+          columnGap="$5"
+          rowGap="$4"
+        >
+          {selectedPetsServices?.map((item) => {
+            const pet = pets?.find((pet) => pet.name === item.petId);
+            return <PetAvatar key={item.petId} data={pet as Pet} />;
+          })}
+        </XStack>
+      </ScrollView>
     </>
   );
 
