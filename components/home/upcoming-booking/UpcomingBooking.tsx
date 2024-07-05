@@ -26,9 +26,6 @@ export const UpcomingBooking = () => {
         <Text fontSize="$b2" fontWeight="$7">
           Upcoming Booking
         </Text>
-        <Text fontSize="$c1" fontWeight="$4" color="$natural2">
-          {bookings?.length ?? 0} Bookings
-        </Text>
       </XStack>
       {bookings?.length > 0 ? (
         <ListSlider

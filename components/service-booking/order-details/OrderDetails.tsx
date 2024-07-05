@@ -24,8 +24,8 @@ export function OrderDetails() {
       <Input
         control={control}
         name="address"
-        label="Address"
-        placeholder="Input owner address"
+        label="Please enter your full address, including postal code and unit number"
+        placeholder="Input address"
       />
       <PetsSchedulesSheet />
     </YStack>
