@@ -32,7 +32,7 @@ export default (_: ConfigContext): ExpoConfig => ({
   name: appName,
   slug: "pawkit",
   owner: "pawkit_tech", // TODO: If necessary owner should be determined later
-  version: "3.0.0",
+  version: "3.0.1",
   orientation: "portrait",
   icon: "./assets/icon.png",
   userInterfaceStyle: "light",
@@ -43,7 +43,7 @@ export default (_: ConfigContext): ExpoConfig => ({
   assetBundlePatterns: ["**/*"],
   ios: {
     bundleIdentifier: bundleID,
-    supportsTablet: true,
+    supportsTablet: false,
   },
   android: {
     package: bundleID,
@@ -61,6 +61,7 @@ export default (_: ConfigContext): ExpoConfig => ({
     eas: {
       projectId: "d0def609-df17-4d6a-90ec-8a066c68f0f1",
     },
+    updates: {},
   },
   updates: {
     url: "https://u.expo.dev/d0def609-df17-4d6a-90ec-8a066c68f0f1",
