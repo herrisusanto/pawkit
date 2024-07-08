@@ -59,6 +59,9 @@ const AuthScreen: React.FC<SignInScreenProps> = () => {
         options: { authFlowType: "CUSTOM_WITHOUT_SRP" },
       });
       const signInStep = result.nextStep.signInStep;
+      if (signInStep === "CONFIRM_SIGN_UP") {
+        handleResendSignUpCode();
+      }
       setAuthState({ step: signInStep });
     } catch (error) {
       if (JSON.stringify(error).includes("UserNotFoundException")) {
@@ -102,7 +105,10 @@ const AuthScreen: React.FC<SignInScreenProps> = () => {
         showInvalidCodeError();
       }
     } catch (error) {
-      if (JSON.stringify(error).includes("CodeMismatchException")) {
+      if (String(error).includes("ExpiredCodeException")) {
+        showExpiredCodeError();
+      }
+      if (String(error).includes("CodeMismatchException")) {
         showInvalidCodeError();
       }
     }
@@ -125,7 +131,10 @@ const AuthScreen: React.FC<SignInScreenProps> = () => {
         showInvalidCodeError();
       }
     } catch (error) {
-      if (JSON.stringify(error).includes("CodeMismatchException")) {
+      if (String(error).includes("ExpiredCodeException")) {
+        showExpiredCodeError();
+      }
+      if (String(error).includes("CodeMismatchException")) {
         showInvalidCodeError();
       }
     }
@@ -134,6 +143,12 @@ const AuthScreen: React.FC<SignInScreenProps> = () => {
   const showInvalidCodeError = () => {
     form.setError("confirmation_code", {
       message: "Invalid verification code",
+    });
+  };
+
+  const showExpiredCodeError = () => {
+    form.setError("confirmation_code", {
+      message: "Expired verification code",
     });
   };
 
