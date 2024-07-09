@@ -13,32 +13,6 @@ const questionAnswer = [
     answer:
       "Treat your pet to a basic dog grooming session with our care team. With grooming done in the comfort of your own home, your pet will feel safe, relaxed, and pampered.\n\nWhat is included in Basic Dog Grooming? \n- Pre grooming consultation \n- General health evaluation \n- Nail clipping & filing \n- Ear cleaning \n- Shaving of paw pads \n- Shaving of sanitary area \n- Bathing and drying \n- Brushing and combing",
   },
-  {
-    question:
-      "Lorem Ipsum Lorem Ipsum Lorem Ipsum   Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum   IpsumLorem Ipsum Lorem Ipsum Lorem Ipsum   Ipsum?",
-    answer:
-      "Treat your pet to a basic dog grooming session with our care team. With grooming done in the comfort of your own home, your pet will feel safe, relaxed, and pampered.\n\nWhat is included in Basic Dog Grooming? \n- Pre grooming consultation \n- General health evaluation \n- Nail clipping & filing \n- Ear cleaning \n- Shaving of paw pads \n- Shaving of sanitary area \n- Bathing and drying \n- Brushing and combing",
-  },
-  {
-    question: "Lorem Ipsum Lorem Ipsum Lorem?",
-    answer:
-      "Treat your pet to a basic dog grooming session with our care team. With grooming done in the comfort of your own home, your pet will feel safe, relaxed, and pampered.\n\nWhat is included in Basic Dog Grooming? \n- Pre grooming consultation \n- General health evaluation \n- Nail clipping & filing \n- Ear cleaning \n- Shaving of paw pads \n- Shaving of sanitary area \n- Bathing and drying \n- Brushing and combing",
-  },
-  {
-    question: "How to register our pet?",
-    answer:
-      "Treat your pet to a basic dog grooming session with our care team. With grooming done in the comfort of your own home, your pet will feel safe, relaxed, and pampered.\n\nWhat is included in Basic Dog Grooming? \n- Pre grooming consultation \n- General health evaluation \n- Nail clipping & filing \n- Ear cleaning \n- Shaving of paw pads \n- Shaving of sanitary area \n- Bathing and drying \n- Brushing and combing",
-  },
-  {
-    question: "Lorem Ipsum Lorem Ipsum Lorem?",
-    answer:
-      "Treat your pet to a basic dog grooming session with our care team. With grooming done in the comfort of your own home, your pet will feel safe, relaxed, and pampered.\n\nWhat is included in Basic Dog Grooming? \n- Pre grooming consultation \n- General health evaluation \n- Nail clipping & filing \n- Ear cleaning \n- Shaving of paw pads \n- Shaving of sanitary area \n- Bathing and drying \n- Brushing and combing",
-  },
-  {
-    question: "How to register our pet?",
-    answer:
-      "Treat your pet to a basic dog grooming session with our care team. With grooming done in the comfort of your own home, your pet will feel safe, relaxed, and pampered.\n\nWhat is included in Basic Dog Grooming? \n- Pre grooming consultation \n- General health evaluation \n- Nail clipping & filing \n- Ear cleaning \n- Shaving of paw pads \n- Shaving of sanitary area \n- Bathing and drying \n- Brushing and combing",
-  },
 ];
 
 export const ContentHelpCenter = () => {
@@ -46,11 +20,6 @@ export const ContentHelpCenter = () => {
     <YStack rowGap="$4" p="$5" pb="$10" flex={1} bg="white">
       <Text fontSize="$b2" fontWeight="$7">
         Welcome to Pawkit help center!
-      </Text>
-      <Text fontSize="$c2">
-        Lorem ipsum lorem ipsum dolor sil amet lorem ipsum dolor sil amet lorem
-        ipsum dolor sil amet lorem ipsum dolor sil amet lorem ipsum dolor sil
-        amet lorem ipsum dolor sil amet
       </Text>
       <Text fontSize="$b2" fontWeight="$7">
         FAQ

@@ -1,7 +1,10 @@
 import { petOnboardingAtom } from "@/app/pet-onboarding/state";
 import { AvatarPicker } from "@/components/common/AvatarPicker/AvatarPicker";
 import { Button } from "@/components/common/Button/Button";
-import { CheckButtonGroup } from "@/components/common/CheckButtonGroup/CheckButtonGroup";
+import {
+  CheckButtonGroup,
+  CheckButtonProps,
+} from "@/components/common/CheckButtonGroup/CheckButtonGroup";
 import { MaleIcon, FemaleIcon } from "@/components/common/Icons";
 import { TypeBirdIcon } from "@/components/common/Icons/TypeBirdIcon";
 import { TypeCatIcon } from "@/components/common/Icons/TypeCatIcon";
@@ -31,6 +34,40 @@ export const AboutYourPetForm: React.FC<AboutYourPetFormProps> = ({
   const { petId } = state;
   const { control, handleSubmit, formState } = useFormContext();
   const { isSubmitting, isValid } = formState;
+
+  const petTypes: CheckButtonProps[] = [
+    {
+      petIcon: (strokeColor) => <TypeDogIcon strokeColor={strokeColor} />,
+      value: PetType.DOG,
+      available: true,
+    },
+    {
+      petIcon: (strokeColor) => <TypeCatIcon strokeColor={strokeColor} />,
+      value: PetType.CAT,
+      available: true,
+    },
+    {
+      petIcon: (strokeColor) => <TypeRabbitIcon strokeColor={strokeColor} />,
+      value: PetType.RABBIT,
+      available: false,
+    },
+    {
+      petIcon: (strokeColor) => <TypeGuineaPigIcon strokeColor={strokeColor} />,
+      value: PetType.GUINEA_PIG,
+      available: false,
+    },
+    {
+      petIcon: (strokeColor) => <TypeBirdIcon strokeColor={strokeColor} />,
+      value: PetType.BIRD,
+      available: false,
+    },
+    {
+      petIcon: (strokeColor) => <TypeTurtleIcon strokeColor={strokeColor} />,
+      children: <TypeTurtleIcon />,
+      value: PetType.OTHER,
+      available: false,
+    },
+  ];
 
   const disableNextButton = () => {
     if (!isValid) {
@@ -104,51 +141,7 @@ export const AboutYourPetForm: React.FC<AboutYourPetFormProps> = ({
           multiple={false}
           control={control}
           name="petType"
-          items={[
-            {
-              petIcon: (strokeColor) => (
-                <TypeDogIcon strokeColor={strokeColor} />
-              ),
-              value: PetType.DOG,
-              available: true,
-            },
-            {
-              petIcon: (strokeColor) => (
-                <TypeCatIcon strokeColor={strokeColor} />
-              ),
-              value: PetType.CAT,
-              available: true,
-            },
-            {
-              petIcon: (strokeColor) => (
-                <TypeRabbitIcon strokeColor={strokeColor} />
-              ),
-              value: PetType.RABBIT,
-              available: false,
-            },
-            {
-              petIcon: (strokeColor) => (
-                <TypeGuineaPigIcon strokeColor={strokeColor} />
-              ),
-              value: PetType.GUINEA_PIG,
-              available: false,
-            },
-            {
-              petIcon: (strokeColor) => (
-                <TypeBirdIcon strokeColor={strokeColor} />
-              ),
-              value: PetType.BIRD,
-              available: false,
-            },
-            {
-              petIcon: (strokeColor) => (
-                <TypeTurtleIcon strokeColor={strokeColor} />
-              ),
-              children: <TypeTurtleIcon />,
-              value: PetType.OTHER,
-              available: false,
-            },
-          ]}
+          items={petTypes.slice(0, 2)}
           renderItem={({ value, onChange, checked, petIcon, available }) => {
             const itemWidth = width - 48;
             const size = itemWidth / 3;
