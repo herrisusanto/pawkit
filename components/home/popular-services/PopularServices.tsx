@@ -86,7 +86,7 @@ export const PopularServices = () => {
         Popular Services
       </Text>
       <XStack fw="wrap" columnGap="$2" rowGap="$6">
-        {serviceList.map((item) => {
+        {serviceList.slice(0, 2).map((item) => {
           const itemWidth = width - 69;
           return (
             <TouchableOpacity
