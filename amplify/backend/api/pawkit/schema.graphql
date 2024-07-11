@@ -236,6 +236,8 @@ type Question
   id: ID!
   serviceCategory: ServiceCategory! @index(name: "byCategory", queryField: "questionsByCategory")
   questionString: String!
+  questionType: QuestionType!
+  followUpQuestionIds: [ID!]
 }
 
 type QuestionAnswer
@@ -447,6 +449,11 @@ enum PredefinedBehavior {
   MIGHT_SNAP
   RESPONSIVE_TO_COMMANDS
   RESPONSIVE_TO_TREATS
+}
+
+enum QuestionType {
+  TEXT
+  BOOLEAN
 }
 
 enum ServiceCategory {
