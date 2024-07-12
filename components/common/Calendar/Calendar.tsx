@@ -20,6 +20,10 @@ const SCREEN_WIDTH = Dimensions.get("screen").width;
 
 const weekDays = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
 const years = moment("2080-01-01").diff("1979-01-01", "year");
+const monthsAsOptions = Array.apply(0, Array(12)).map((_, i) => {
+  const formattedMonth = moment().month(i).format("MMM");
+  return { label: formattedMonth, value: String(i) };
+});
 const yearsAsOptions = Array.from({ length: years }).map((_, i) => {
   const formattedYear = moment("1979-01-01")
     .add(i + 1, "year")
@@ -97,6 +101,11 @@ export const Calendar = StyledView.styleable<CalendarProps>(
       setVisibleMonth(month);
     };
 
+    const handleMonthChange = (month: string) => {
+      const updatedMonth = moment(visibleMonth).set("month", Number(month));
+      setVisibleMonth(updatedMonth);
+    };
+
     const handleChange = (dayNumber: number) => {
       const newDate = moment(visibleMonth).set("date", dayNumber);
       onChange && onChange(newDate);
@@ -120,9 +129,16 @@ export const Calendar = StyledView.styleable<CalendarProps>(
             {...headerContainerProps}
           >
             <XStack columnGap="$2">
-              <Text fontSize="$b3" fontWeight="$5">
-                {visibleMonth.format("MMM,")}
-              </Text>
+              <Dropdown
+                items={monthsAsOptions}
+                onChange={(value) => handleMonthChange(value)}
+                menuProps={{ minWidth: "$5" }}
+                onOpenChange={onDropdownOpenChange}
+              >
+                <Text fontSize="$b3" fontWeight="$5">
+                  {visibleMonth.format("MMM,")}
+                </Text>
+              </Dropdown>
               <Dropdown
                 items={yearsAsOptions}
                 onChange={(value) => handleYearChange(value)}
