@@ -1086,11 +1086,21 @@ export type CreateQuestionInput = {
   id?: string | null,
   serviceCategory: ServiceCategory,
   questionString: string,
+  questionType: QuestionType,
+  followUpQuestionIds?: Array< string > | null,
 };
+
+export enum QuestionType {
+  TEXT = "TEXT",
+  BOOLEAN = "BOOLEAN",
+}
+
 
 export type ModelQuestionConditionInput = {
   serviceCategory?: ModelServiceCategoryInput | null,
   questionString?: ModelStringInput | null,
+  questionType?: ModelQuestionTypeInput | null,
+  followUpQuestionIds?: ModelIDInput | null,
   and?: Array< ModelQuestionConditionInput | null > | null,
   or?: Array< ModelQuestionConditionInput | null > | null,
   not?: ModelQuestionConditionInput | null,
@@ -1098,11 +1108,18 @@ export type ModelQuestionConditionInput = {
   updatedAt?: ModelStringInput | null,
 };
 
+export type ModelQuestionTypeInput = {
+  eq?: QuestionType | null,
+  ne?: QuestionType | null,
+};
+
 export type Question = {
   __typename: "Question",
   id: string,
   serviceCategory: ServiceCategory,
   questionString: string,
+  questionType: QuestionType,
+  followUpQuestionIds?: Array< string > | null,
   createdAt: string,
   updatedAt: string,
 };
@@ -1111,6 +1128,8 @@ export type UpdateQuestionInput = {
   id: string,
   serviceCategory?: ServiceCategory | null,
   questionString?: string | null,
+  questionType?: QuestionType | null,
+  followUpQuestionIds?: Array< string > | null,
 };
 
 export type DeleteQuestionInput = {
@@ -1621,6 +1640,8 @@ export type ModelQuestionFilterInput = {
   id?: ModelIDInput | null,
   serviceCategory?: ModelServiceCategoryInput | null,
   questionString?: ModelStringInput | null,
+  questionType?: ModelQuestionTypeInput | null,
+  followUpQuestionIds?: ModelIDInput | null,
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   and?: Array< ModelQuestionFilterInput | null > | null,
@@ -1948,6 +1969,8 @@ export type ModelSubscriptionQuestionFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   serviceCategory?: ModelSubscriptionStringInput | null,
   questionString?: ModelSubscriptionStringInput | null,
+  questionType?: ModelSubscriptionStringInput | null,
+  followUpQuestionIds?: ModelSubscriptionIDInput | null,
   createdAt?: ModelSubscriptionStringInput | null,
   updatedAt?: ModelSubscriptionStringInput | null,
   and?: Array< ModelSubscriptionQuestionFilterInput | null > | null,

@@ -491,6 +491,7 @@ export const createDisclaimer = /* GraphQL */ `mutation CreateDisclaimer(
     petType
     service {
       id
+      serviceProviderId
       name
       serviceProviderName
       serviceCategory
@@ -518,7 +519,6 @@ export const createDisclaimer = /* GraphQL */ `mutation CreateDisclaimer(
       requiredQuestionIds
       createdAt
       updatedAt
-      serviceProviderId
       __typename
     }
     text
@@ -562,6 +562,7 @@ export const updateDisclaimer = /* GraphQL */ `mutation UpdateDisclaimer(
     petType
     service {
       id
+      serviceProviderId
       name
       serviceProviderName
       serviceCategory
@@ -589,7 +590,6 @@ export const updateDisclaimer = /* GraphQL */ `mutation UpdateDisclaimer(
       requiredQuestionIds
       createdAt
       updatedAt
-      serviceProviderId
       __typename
     }
     text
@@ -633,6 +633,7 @@ export const deleteDisclaimer = /* GraphQL */ `mutation DeleteDisclaimer(
     petType
     service {
       id
+      serviceProviderId
       name
       serviceProviderName
       serviceCategory
@@ -660,7 +661,6 @@ export const deleteDisclaimer = /* GraphQL */ `mutation DeleteDisclaimer(
       requiredQuestionIds
       createdAt
       updatedAt
-      serviceProviderId
       __typename
     }
     text
@@ -1252,6 +1252,8 @@ export const createQuestion = /* GraphQL */ `mutation CreateQuestion(
     id
     serviceCategory
     questionString
+    questionType
+    followUpQuestionIds
     createdAt
     updatedAt
     __typename
@@ -1269,6 +1271,8 @@ export const updateQuestion = /* GraphQL */ `mutation UpdateQuestion(
     id
     serviceCategory
     questionString
+    questionType
+    followUpQuestionIds
     createdAt
     updatedAt
     __typename
@@ -1286,6 +1290,8 @@ export const deleteQuestion = /* GraphQL */ `mutation DeleteQuestion(
     id
     serviceCategory
     questionString
+    questionType
+    followUpQuestionIds
     createdAt
     updatedAt
     __typename
@@ -1333,6 +1339,8 @@ export const createQuestionAnswer = /* GraphQL */ `mutation CreateQuestionAnswer
       id
       serviceCategory
       questionString
+      questionType
+      followUpQuestionIds
       createdAt
       updatedAt
       __typename
@@ -1385,6 +1393,8 @@ export const updateQuestionAnswer = /* GraphQL */ `mutation UpdateQuestionAnswer
       id
       serviceCategory
       questionString
+      questionType
+      followUpQuestionIds
       createdAt
       updatedAt
       __typename
@@ -1437,6 +1447,8 @@ export const deleteQuestionAnswer = /* GraphQL */ `mutation DeleteQuestionAnswer
       id
       serviceCategory
       questionString
+      questionType
+      followUpQuestionIds
       createdAt
       updatedAt
       __typename
@@ -1457,6 +1469,7 @@ export const createService = /* GraphQL */ `mutation CreateService(
 ) {
   createService(input: $input, condition: $condition) {
     id
+    serviceProviderId
     name
     serviceProviderName
     serviceProvider {
@@ -1575,7 +1588,6 @@ export const createService = /* GraphQL */ `mutation CreateService(
     requiredQuestionIds
     createdAt
     updatedAt
-    serviceProviderId
     __typename
   }
 }
@@ -1589,6 +1601,7 @@ export const updateService = /* GraphQL */ `mutation UpdateService(
 ) {
   updateService(input: $input, condition: $condition) {
     id
+    serviceProviderId
     name
     serviceProviderName
     serviceProvider {
@@ -1707,7 +1720,6 @@ export const updateService = /* GraphQL */ `mutation UpdateService(
     requiredQuestionIds
     createdAt
     updatedAt
-    serviceProviderId
     __typename
   }
 }
@@ -1721,6 +1733,7 @@ export const deleteService = /* GraphQL */ `mutation DeleteService(
 ) {
   deleteService(input: $input, condition: $condition) {
     id
+    serviceProviderId
     name
     serviceProviderName
     serviceProvider {
@@ -1839,7 +1852,6 @@ export const deleteService = /* GraphQL */ `mutation DeleteService(
     requiredQuestionIds
     createdAt
     updatedAt
-    serviceProviderId
     __typename
   }
 }
