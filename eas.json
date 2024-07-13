@@ -53,6 +53,13 @@
     }
   },
   "submit": {
-    "production": {}
+    "production": {
+     "android": {
+      "applicationId": "com.pawkit.production"
+     },
+     "ios": {
+      "bundleIdentifier": "com.pawkit.user"
+     }
+    }
   }
 }

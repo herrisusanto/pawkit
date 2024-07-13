@@ -1,15 +1,17 @@
 import { ExpoConfig, ConfigContext } from "expo/config";
 
 const mode = process.env.APP_MODE as "development" | "preview" | "production";
+const platform = process.env.PLATFORM as "android" | "ios";
+const isAndroid = platform === "android";
 
 const getBundleID = () => {
   switch (mode) {
     case "production":
-      return "com.pawkit.production";
+      return isAndroid ? "com.pawkit.production" : "com.pawkit.user";
     case "preview":
-      return "com.nodal.pawkit.preview";
+      return "com.pawkit.preview";
     default:
-      return "com.nodal.pawkit.development";
+      return "com.pawkit.development";
   }
 };
 
