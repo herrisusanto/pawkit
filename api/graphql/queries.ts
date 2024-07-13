@@ -1509,6 +1509,9 @@ export const getQuestion = /* GraphQL */ `query GetQuestion($id: ID!) {
     id
     serviceCategory
     questionString
+    questionType
+    followUpQuestionIds
+    isRequired
     createdAt
     updatedAt
     __typename
@@ -1528,6 +1531,9 @@ export const listQuestions = /* GraphQL */ `query ListQuestions(
       id
       serviceCategory
       questionString
+      questionType
+      followUpQuestionIds
+      isRequired
       createdAt
       updatedAt
       __typename
@@ -1558,6 +1564,9 @@ export const questionsByCategory = /* GraphQL */ `query QuestionsByCategory(
       id
       serviceCategory
       questionString
+      questionType
+      followUpQuestionIds
+      isRequired
       createdAt
       updatedAt
       __typename
@@ -1613,6 +1622,9 @@ export const getQuestionAnswer = /* GraphQL */ `query GetQuestionAnswer(
       id
       serviceCategory
       questionString
+      questionType
+      followUpQuestionIds
+      isRequired
       createdAt
       updatedAt
       __typename

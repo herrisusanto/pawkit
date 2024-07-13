@@ -1252,6 +1252,9 @@ export const createQuestion = /* GraphQL */ `mutation CreateQuestion(
     id
     serviceCategory
     questionString
+    questionType
+    followUpQuestionIds
+    isRequired
     createdAt
     updatedAt
     __typename
@@ -1269,6 +1272,9 @@ export const updateQuestion = /* GraphQL */ `mutation UpdateQuestion(
     id
     serviceCategory
     questionString
+    questionType
+    followUpQuestionIds
+    isRequired
     createdAt
     updatedAt
     __typename
@@ -1286,6 +1292,9 @@ export const deleteQuestion = /* GraphQL */ `mutation DeleteQuestion(
     id
     serviceCategory
     questionString
+    questionType
+    followUpQuestionIds
+    isRequired
     createdAt
     updatedAt
     __typename
@@ -1333,6 +1342,9 @@ export const createQuestionAnswer = /* GraphQL */ `mutation CreateQuestionAnswer
       id
       serviceCategory
       questionString
+      questionType
+      followUpQuestionIds
+      isRequired
       createdAt
       updatedAt
       __typename
@@ -1385,6 +1397,9 @@ export const updateQuestionAnswer = /* GraphQL */ `mutation UpdateQuestionAnswer
       id
       serviceCategory
       questionString
+      questionType
+      followUpQuestionIds
+      isRequired
       createdAt
       updatedAt
       __typename
@@ -1437,6 +1452,9 @@ export const deleteQuestionAnswer = /* GraphQL */ `mutation DeleteQuestionAnswer
       id
       serviceCategory
       questionString
+      questionType
+      followUpQuestionIds
+      isRequired
       createdAt
       updatedAt
       __typename

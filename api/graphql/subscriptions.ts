@@ -1228,6 +1228,9 @@ export const onCreateQuestion = /* GraphQL */ `subscription OnCreateQuestion($fi
     id
     serviceCategory
     questionString
+    questionType
+    followUpQuestionIds
+    isRequired
     createdAt
     updatedAt
     __typename
@@ -1242,6 +1245,9 @@ export const onUpdateQuestion = /* GraphQL */ `subscription OnUpdateQuestion($fi
     id
     serviceCategory
     questionString
+    questionType
+    followUpQuestionIds
+    isRequired
     createdAt
     updatedAt
     __typename
@@ -1256,6 +1262,9 @@ export const onDeleteQuestion = /* GraphQL */ `subscription OnDeleteQuestion($fi
     id
     serviceCategory
     questionString
+    questionType
+    followUpQuestionIds
+    isRequired
     createdAt
     updatedAt
     __typename
@@ -1303,6 +1312,9 @@ export const onCreateQuestionAnswer = /* GraphQL */ `subscription OnCreateQuesti
       id
       serviceCategory
       questionString
+      questionType
+      followUpQuestionIds
+      isRequired
       createdAt
       updatedAt
       __typename
@@ -1355,6 +1367,9 @@ export const onUpdateQuestionAnswer = /* GraphQL */ `subscription OnUpdateQuesti
       id
       serviceCategory
       questionString
+      questionType
+      followUpQuestionIds
+      isRequired
       createdAt
       updatedAt
       __typename
@@ -1407,6 +1422,9 @@ export const onDeleteQuestionAnswer = /* GraphQL */ `subscription OnDeleteQuesti
       id
       serviceCategory
       questionString
+      questionType
+      followUpQuestionIds
+      isRequired
       createdAt
       updatedAt
       __typename

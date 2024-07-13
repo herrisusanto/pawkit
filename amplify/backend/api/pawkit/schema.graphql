@@ -238,6 +238,7 @@ type Question
   questionString: String!
   questionType: QuestionType!
   followUpQuestionIds: [ID!]
+  isRequired: Boolean! @default(value: "true")
 }
 
 type QuestionAnswer
@@ -453,7 +454,8 @@ enum PredefinedBehavior {
 
 enum QuestionType {
   TEXT
-  BOOLEAN
+  YES_NO
+  DATE
 }
 
 enum ServiceCategory {

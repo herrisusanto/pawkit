@@ -46,6 +46,7 @@ import {
   deleteService,
   deleteTimeSlot,
   updateBooking,
+  updateQuestion,
   updateService,
   updateTimeSlot,
 } from "./graphql/mutations";
@@ -834,6 +835,28 @@ export const fetchBookingById = async (id: string) => {
   }
 };
 
+export const fetchQuestion = async (id: string) => {
+  try {
+    if (!id) {
+      logger.error("Question id is required");
+      throw new BadRequestError("Question id is required");
+    }
+
+    const result = await graphqlClient.graphql({
+      query: getQuestion,
+      variables: {
+        id,
+      },
+    });
+    logger.info("Called getQuestion query");
+    return result.data.getQuestion;
+  } catch (error) {
+    logger.error(`Error fetching question with id=${id}: `, error);
+    if (error instanceof CustomError) throw error;
+    throw new InternalServerError("Error fetching question");
+  }
+};
+
 // Update
 export const modifyService = async (input: UpdateServiceInput) => {
   try {
@@ -1189,6 +1212,61 @@ export const removeBookingFromService = async (
     );
     if (error instanceof CustomError) throw error;
     throw new InternalServerError("Error removing booking from service");
+  }
+};
+
+export const addQuestionAsFollowUp = async (
+  parentQuestionId: string,
+  childQuestionId: string
+) => {
+  if (!parentQuestionId || !childQuestionId) {
+    logger.error("Parent and child question ids are required");
+    throw new BadRequestError("Parent and child question ids are required");
+  }
+
+  if (parentQuestionId === childQuestionId) {
+    logger.error("Parent and child question ids are the same");
+    throw new BadRequestError("Parent and child question ids are the same");
+  }
+
+  try {
+    const parent = await fetchQuestion(parentQuestionId);
+    if (!parent) {
+      logger.error(`Parent question id=${parentQuestionId} not found`);
+      throw new NotFoundError("Parent question not found");
+    }
+
+    const child = await fetchQuestion(childQuestionId);
+    if (!child) {
+      logger.error(`Child question id=${childQuestionId} not found`);
+      throw new NotFoundError("Child question not found");
+    }
+
+    const childQuestionIds = parent.followUpQuestionIds || [];
+    if (childQuestionIds.includes(childQuestionId)) {
+      logger.warn(
+        `Child question id=${childQuestionId} already exists in parent question id=${parentQuestionId}`
+      );
+      return parent;
+    }
+
+    const updatedParent = await graphqlClient.graphql({
+      query: updateQuestion,
+      variables: {
+        input: {
+          id: parentQuestionId,
+          followUpQuestionIds: [...childQuestionIds, childQuestionId],
+        },
+      },
+    });
+
+    logger.info("Adding question as follow-up");
+    logger.debug("Updated parent: ", updatedParent);
+    return updatedParent;
+  } catch (error) {
+    logger.error("Error adding question as follow-up: ", error);
+    if (error instanceof CustomError) throw error;
+    throw new InternalServerError("Error adding question as follow-up");
   }
 };
 
