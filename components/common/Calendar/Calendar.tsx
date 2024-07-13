@@ -109,6 +109,8 @@ export const Calendar = StyledView.styleable<CalendarProps>(
       }
     }, [defaultValue]);
 
+    const totalRows = Math.ceil((prefixDays + numberOfDays + suffixDays) / 7);
+
     return (
       <StyledView ref={ref} {...props}>
         <YStack rowGap="$3.5">
@@ -250,6 +252,18 @@ export const Calendar = StyledView.styleable<CalendarProps>(
                 />
               );
             })}
+            {totalRows < 6 &&
+              Array.from({ length: 7 }).map((_, i) => {
+                const size = SCREEN_WIDTH - paddingX * 2;
+                const dividedSize = size / 7;
+                return (
+                  <CalendarCell
+                    key={`{suffix}_${i}`}
+                    bg="$colorTransparent"
+                    size={dividedSize - 2}
+                  />
+                );
+              })}
           </XStack>
         </YStack>
       </StyledView>
