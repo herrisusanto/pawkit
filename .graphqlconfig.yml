@@ -10,7 +10,7 @@ projects:
       amplify:
         codeGenTarget: typescript
         generatedFileName: api/graphql/API.ts
-        docsFilePath: graphql
+        docsFilePath: api/graphql
         frontend: javascript
         framework: react-native
 extensions:
