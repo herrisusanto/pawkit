@@ -45,10 +45,18 @@
        "APP_MODE": "preview"
       }
     },
-    "production": {
+    "production:ios": {
       "channel": "production",
       "env": {
-       "APP_MODE": "production"
+       "APP_MODE": "production",
+       "PLATFORM": "ios"
+      }
+    },
+    "production:android": {
+      "channel": "production",
+      "env": {
+       "APP_MODE": "production",
+       "PLATFORM": "android"
       }
     }
   },
