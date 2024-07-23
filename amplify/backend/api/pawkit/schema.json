@@ -1560,27 +1560,14 @@
           "name" : "getPet",
           "description" : null,
           "args" : [ {
-            "name" : "name",
+            "name" : "id",
             "description" : null,
             "type" : {
               "kind" : "NON_NULL",
               "name" : null,
               "ofType" : {
                 "kind" : "SCALAR",
-                "name" : "String",
-                "ofType" : null
-              }
-            },
-            "defaultValue" : null
-          }, {
-            "name" : "customerUsername",
-            "description" : null,
-            "type" : {
-              "kind" : "NON_NULL",
-              "name" : null,
-              "ofType" : {
-                "kind" : "SCALAR",
-                "name" : "String",
+                "name" : "ID",
                 "ofType" : null
               }
             },
@@ -1597,24 +1584,6 @@
           "name" : "listPets",
           "description" : null,
           "args" : [ {
-            "name" : "name",
-            "description" : null,
-            "type" : {
-              "kind" : "SCALAR",
-              "name" : "String",
-              "ofType" : null
-            },
-            "defaultValue" : null
-          }, {
-            "name" : "customerUsername",
-            "description" : null,
-            "type" : {
-              "kind" : "INPUT_OBJECT",
-              "name" : "ModelStringKeyConditionInput",
-              "ofType" : null
-            },
-            "defaultValue" : null
-          }, {
             "name" : "filter",
             "description" : null,
             "type" : {
@@ -1638,15 +1607,6 @@
             "type" : {
               "kind" : "SCALAR",
               "name" : "String",
-              "ofType" : null
-            },
-            "defaultValue" : null
-          }, {
-            "name" : "sortDirection",
-            "description" : null,
-            "type" : {
-              "kind" : "ENUM",
-              "name" : "ModelSortDirection",
               "ofType" : null
             },
             "defaultValue" : null
@@ -1904,33 +1864,7 @@
           "name" : "getQuestionAnswer",
           "description" : null,
           "args" : [ {
-            "name" : "petName",
-            "description" : null,
-            "type" : {
-              "kind" : "NON_NULL",
-              "name" : null,
-              "ofType" : {
-                "kind" : "SCALAR",
-                "name" : "String",
-                "ofType" : null
-              }
-            },
-            "defaultValue" : null
-          }, {
-            "name" : "customerUsername",
-            "description" : null,
-            "type" : {
-              "kind" : "NON_NULL",
-              "name" : null,
-              "ofType" : {
-                "kind" : "SCALAR",
-                "name" : "String",
-                "ofType" : null
-              }
-            },
-            "defaultValue" : null
-          }, {
-            "name" : "questionId",
+            "name" : "id",
             "description" : null,
             "type" : {
               "kind" : "NON_NULL",
@@ -1954,24 +1888,6 @@
           "name" : "listQuestionAnswers",
           "description" : null,
           "args" : [ {
-            "name" : "petName",
-            "description" : null,
-            "type" : {
-              "kind" : "SCALAR",
-              "name" : "String",
-              "ofType" : null
-            },
-            "defaultValue" : null
-          }, {
-            "name" : "customerUsernameQuestionId",
-            "description" : null,
-            "type" : {
-              "kind" : "INPUT_OBJECT",
-              "name" : "ModelQuestionAnswerPrimaryCompositeKeyConditionInput",
-              "ofType" : null
-            },
-            "defaultValue" : null
-          }, {
             "name" : "filter",
             "description" : null,
             "type" : {
@@ -1995,15 +1911,6 @@
             "type" : {
               "kind" : "SCALAR",
               "name" : "String",
-              "ofType" : null
-            },
-            "defaultValue" : null
-          }, {
-            "name" : "sortDirection",
-            "description" : null,
-            "type" : {
-              "kind" : "ENUM",
-              "name" : "ModelSortDirection",
               "ofType" : null
             },
             "defaultValue" : null
@@ -2019,67 +1926,7 @@
           "name" : "answersByPet",
           "description" : null,
           "args" : [ {
-            "name" : "petName",
-            "description" : null,
-            "type" : {
-              "kind" : "NON_NULL",
-              "name" : null,
-              "ofType" : {
-                "kind" : "SCALAR",
-                "name" : "String",
-                "ofType" : null
-              }
-            },
-            "defaultValue" : null
-          }, {
-            "name" : "sortDirection",
-            "description" : null,
-            "type" : {
-              "kind" : "ENUM",
-              "name" : "ModelSortDirection",
-              "ofType" : null
-            },
-            "defaultValue" : null
-          }, {
-            "name" : "filter",
-            "description" : null,
-            "type" : {
-              "kind" : "INPUT_OBJECT",
-              "name" : "ModelQuestionAnswerFilterInput",
-              "ofType" : null
-            },
-            "defaultValue" : null
-          }, {
-            "name" : "limit",
-            "description" : null,
-            "type" : {
-              "kind" : "SCALAR",
-              "name" : "Int",
-              "ofType" : null
-            },
-            "defaultValue" : null
-          }, {
-            "name" : "nextToken",
-            "description" : null,
-            "type" : {
-              "kind" : "SCALAR",
-              "name" : "String",
-              "ofType" : null
-            },
-            "defaultValue" : null
-          } ],
-          "type" : {
-            "kind" : "OBJECT",
-            "name" : "ModelQuestionAnswerConnection",
-            "ofType" : null
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
-          "name" : "answersByCustomer",
-          "description" : null,
-          "args" : [ {
-            "name" : "customerId",
+            "name" : "petId",
             "description" : null,
             "type" : {
               "kind" : "NON_NULL",
@@ -3357,28 +3204,19 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "petBookingsByPetNameAndPetcustomerUsername",
+          "name" : "petBookingsByPetId",
           "description" : null,
           "args" : [ {
-            "name" : "petName",
+            "name" : "petId",
             "description" : null,
             "type" : {
               "kind" : "NON_NULL",
               "name" : null,
               "ofType" : {
                 "kind" : "SCALAR",
-                "name" : "String",
+                "name" : "ID",
                 "ofType" : null
               }
-            },
-            "defaultValue" : null
-          }, {
-            "name" : "petcustomerUsername",
-            "description" : null,
-            "type" : {
-              "kind" : "INPUT_OBJECT",
-              "name" : "ModelStringKeyConditionInput",
-              "ofType" : null
             },
             "defaultValue" : null
           }, {
@@ -3683,7 +3521,22 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "petNames",
+          "name" : "address",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "String",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "petIds",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -3697,7 +3550,7 @@
                 "name" : null,
                 "ofType" : {
                   "kind" : "SCALAR",
-                  "name" : "String",
+                  "name" : "ID",
                   "ofType" : null
                 }
               }
@@ -4186,12 +4039,12 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "imageUrl",
+          "name" : "s3ImageKey",
           "description" : null,
           "args" : [ ],
           "type" : {
             "kind" : "SCALAR",
-            "name" : "AWSURL",
+            "name" : "String",
             "ofType" : null
           },
           "isDeprecated" : false,
@@ -4490,15 +4343,6 @@
         "kind" : "SCALAR",
         "name" : "Boolean",
         "description" : "Built-in Boolean",
-        "fields" : null,
-        "inputFields" : null,
-        "interfaces" : null,
-        "enumValues" : null,
-        "possibleTypes" : null
-      }, {
-        "kind" : "SCALAR",
-        "name" : "AWSURL",
-        "description" : "The `AWSURL` scalar type provided by AWS AppSync, represents a valid URL string (Ex: <https://www.amazon.com/>). The URL may use any scheme and may also be a local URL (Ex: <http://localhost/>).  URLs without schemes like \"**amazon.com**\" or \"**www.amazon.com**\" are considered invalid. URLs which contain double slashes (two consecutive forward slashes) in their path are also considered invalid.",
         "fields" : null,
         "inputFields" : null,
         "interfaces" : null,
@@ -5122,6 +4966,17 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
+          "name" : "s3ImageKey",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
           "name" : "onlinePaymentAccepted",
           "description" : null,
           "args" : [ ],
@@ -5302,17 +5157,6 @@
           "type" : {
             "kind" : "SCALAR",
             "name" : "String",
-            "ofType" : null
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
-          "name" : "imageUrl",
-          "description" : null,
-          "args" : [ ],
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "AWSURL",
             "ofType" : null
           },
           "isDeprecated" : false,
@@ -5570,12 +5414,12 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "imageUrl",
+          "name" : "s3ImageKey",
           "description" : null,
           "args" : [ ],
           "type" : {
             "kind" : "SCALAR",
-            "name" : "AWSURL",
+            "name" : "String",
             "ofType" : null
           },
           "isDeprecated" : false,
@@ -5824,6 +5668,15 @@
         "possibleTypes" : null
       }, {
         "kind" : "SCALAR",
+        "name" : "AWSURL",
+        "description" : "The `AWSURL` scalar type provided by AWS AppSync, represents a valid URL string (Ex: <https://www.amazon.com/>). The URL may use any scheme and may also be a local URL (Ex: <http://localhost/>).  URLs without schemes like \"**amazon.com**\" or \"**www.amazon.com**\" are considered invalid. URLs which contain double slashes (two consecutive forward slashes) in their path are also considered invalid.",
+        "fields" : null,
+        "inputFields" : null,
+        "interfaces" : null,
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "SCALAR",
         "name" : "AWSEmail",
         "description" : "The `AWSEmail` scalar type provided by AWS AppSync, represents an Email address string that complies with [RFC 822](https://www.ietf.org/rfc/rfc822.txt). For example, \"**username@example.com**\" is a valid Email address.",
         "fields" : null,
@@ -6029,6 +5882,15 @@
           },
           "defaultValue" : null
         }, {
+          "name" : "s3ImageKey",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
           "name" : "onlinePaymentAccepted",
           "description" : null,
           "type" : {
@@ -6093,15 +5955,6 @@
           "defaultValue" : null
         }, {
           "name" : "longDescription",
-          "description" : null,
-          "type" : {
-            "kind" : "INPUT_OBJECT",
-            "name" : "ModelStringInput",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "imageUrl",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
@@ -7302,11 +7155,20 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "petNames",
+          "name" : "address",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
             "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "petIds",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelIDInput",
             "ofType" : null
           },
           "defaultValue" : null
@@ -7795,7 +7657,7 @@
         "name" : "Pet",
         "description" : null,
         "fields" : [ {
-          "name" : "name",
+          "name" : "id",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -7803,14 +7665,14 @@
             "name" : null,
             "ofType" : {
               "kind" : "SCALAR",
-              "name" : "String",
+              "name" : "ID",
               "ofType" : null
             }
           },
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "customerUsername",
+          "name" : "name",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -7911,12 +7773,12 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "imageUrl",
+          "name" : "s3ImageKey",
           "description" : null,
           "args" : [ ],
           "type" : {
             "kind" : "SCALAR",
-            "name" : "AWSURL",
+            "name" : "String",
             "ofType" : null
           },
           "isDeprecated" : false,
@@ -8311,7 +8173,7 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
-          "name" : "petName",
+          "name" : "petId",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -8319,22 +8181,7 @@
             "name" : null,
             "ofType" : {
               "kind" : "SCALAR",
-              "name" : "String",
-              "ofType" : null
-            }
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
-          "name" : "petcustomerUsername",
-          "description" : null,
-          "args" : [ ],
-          "type" : {
-            "kind" : "NON_NULL",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "String",
+              "name" : "ID",
               "ofType" : null
             }
           },
@@ -8460,20 +8307,11 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "petName",
+          "name" : "petId",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
-            "name" : "ModelStringInput",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "petcustomerUsername",
-          "description" : null,
-          "type" : {
-            "kind" : "INPUT_OBJECT",
-            "name" : "ModelStringInput",
+            "name" : "ModelIDInput",
             "ofType" : null
           },
           "defaultValue" : null
@@ -8558,16 +8396,16 @@
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
-          "name" : "name",
+          "name" : "id",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
-            "name" : "ModelStringInput",
+            "name" : "ModelIDInput",
             "ofType" : null
           },
           "defaultValue" : null
         }, {
-          "name" : "customerUsername",
+          "name" : "name",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
@@ -8621,7 +8459,7 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "imageUrl",
+          "name" : "s3ImageKey",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
@@ -8730,15 +8568,6 @@
           "defaultValue" : null
         }, {
           "name" : "questionAnswerIds",
-          "description" : null,
-          "type" : {
-            "kind" : "INPUT_OBJECT",
-            "name" : "ModelIDInput",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "id",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
@@ -10678,7 +10507,7 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "imageUrl",
+          "name" : "s3ImageKey",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
@@ -10918,82 +10747,6 @@
           "type" : {
             "kind" : "INPUT_OBJECT",
             "name" : "ModelDisclaimerFilterInput",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        } ],
-        "interfaces" : null,
-        "enumValues" : null,
-        "possibleTypes" : null
-      }, {
-        "kind" : "INPUT_OBJECT",
-        "name" : "ModelStringKeyConditionInput",
-        "description" : null,
-        "fields" : null,
-        "inputFields" : [ {
-          "name" : "eq",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "le",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "lt",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "ge",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "gt",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "between",
-          "description" : null,
-          "type" : {
-            "kind" : "LIST",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "String",
-              "ofType" : null
-            }
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "beginsWith",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
             "ofType" : null
           },
           "defaultValue" : null
@@ -11345,7 +11098,7 @@
         "name" : "QuestionAnswer",
         "description" : null,
         "fields" : [ {
-          "name" : "petName",
+          "name" : "petId",
           "description" : null,
           "args" : [ ],
           "type" : {
@@ -11353,22 +11106,7 @@
             "name" : null,
             "ofType" : {
               "kind" : "SCALAR",
-              "name" : "String",
-              "ofType" : null
-            }
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
-          "name" : "customerUsername",
-          "description" : null,
-          "args" : [ ],
-          "type" : {
-            "kind" : "NON_NULL",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "String",
+              "name" : "ID",
               "ofType" : null
             }
           },
@@ -11384,21 +11122,6 @@
             "ofType" : {
               "kind" : "OBJECT",
               "name" : "Pet",
-              "ofType" : null
-            }
-          },
-          "isDeprecated" : false,
-          "deprecationReason" : null
-        }, {
-          "name" : "customerId",
-          "description" : null,
-          "args" : [ ],
-          "type" : {
-            "kind" : "NON_NULL",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "ID",
               "ofType" : null
             }
           },
@@ -11450,6 +11173,21 @@
           "isDeprecated" : false,
           "deprecationReason" : null
         }, {
+          "name" : "id",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "ID",
+              "ofType" : null
+            }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
           "name" : "createdAt",
           "description" : null,
           "args" : [ ],
@@ -11476,6 +11214,17 @@
               "name" : "AWSDateTime",
               "ofType" : null
             }
+          },
+          "isDeprecated" : false,
+          "deprecationReason" : null
+        }, {
+          "name" : "customerId",
+          "description" : null,
+          "args" : [ ],
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
           },
           "isDeprecated" : false,
           "deprecationReason" : null
@@ -11525,132 +11274,11 @@
         "possibleTypes" : null
       }, {
         "kind" : "INPUT_OBJECT",
-        "name" : "ModelQuestionAnswerPrimaryCompositeKeyConditionInput",
-        "description" : null,
-        "fields" : null,
-        "inputFields" : [ {
-          "name" : "eq",
-          "description" : null,
-          "type" : {
-            "kind" : "INPUT_OBJECT",
-            "name" : "ModelQuestionAnswerPrimaryCompositeKeyInput",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "le",
-          "description" : null,
-          "type" : {
-            "kind" : "INPUT_OBJECT",
-            "name" : "ModelQuestionAnswerPrimaryCompositeKeyInput",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "lt",
-          "description" : null,
-          "type" : {
-            "kind" : "INPUT_OBJECT",
-            "name" : "ModelQuestionAnswerPrimaryCompositeKeyInput",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "ge",
-          "description" : null,
-          "type" : {
-            "kind" : "INPUT_OBJECT",
-            "name" : "ModelQuestionAnswerPrimaryCompositeKeyInput",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "gt",
-          "description" : null,
-          "type" : {
-            "kind" : "INPUT_OBJECT",
-            "name" : "ModelQuestionAnswerPrimaryCompositeKeyInput",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "between",
-          "description" : null,
-          "type" : {
-            "kind" : "LIST",
-            "name" : null,
-            "ofType" : {
-              "kind" : "INPUT_OBJECT",
-              "name" : "ModelQuestionAnswerPrimaryCompositeKeyInput",
-              "ofType" : null
-            }
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "beginsWith",
-          "description" : null,
-          "type" : {
-            "kind" : "INPUT_OBJECT",
-            "name" : "ModelQuestionAnswerPrimaryCompositeKeyInput",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        } ],
-        "interfaces" : null,
-        "enumValues" : null,
-        "possibleTypes" : null
-      }, {
-        "kind" : "INPUT_OBJECT",
-        "name" : "ModelQuestionAnswerPrimaryCompositeKeyInput",
-        "description" : null,
-        "fields" : null,
-        "inputFields" : [ {
-          "name" : "customerUsername",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "questionId",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "ID",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        } ],
-        "interfaces" : null,
-        "enumValues" : null,
-        "possibleTypes" : null
-      }, {
-        "kind" : "INPUT_OBJECT",
         "name" : "ModelQuestionAnswerFilterInput",
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
-          "name" : "petName",
-          "description" : null,
-          "type" : {
-            "kind" : "INPUT_OBJECT",
-            "name" : "ModelStringInput",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "customerUsername",
-          "description" : null,
-          "type" : {
-            "kind" : "INPUT_OBJECT",
-            "name" : "ModelStringInput",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "customerId",
+          "name" : "petId",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
@@ -11735,6 +11363,15 @@
           "type" : {
             "kind" : "INPUT_OBJECT",
             "name" : "ModelQuestionAnswerFilterInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "customerId",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
             "ofType" : null
           },
           "defaultValue" : null
@@ -11935,7 +11572,7 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "imageUrl",
+          "name" : "s3ImageKey",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
@@ -12082,6 +11719,82 @@
         } ],
         "inputFields" : null,
         "interfaces" : [ ],
+        "enumValues" : null,
+        "possibleTypes" : null
+      }, {
+        "kind" : "INPUT_OBJECT",
+        "name" : "ModelStringKeyConditionInput",
+        "description" : null,
+        "fields" : null,
+        "inputFields" : [ {
+          "name" : "eq",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "le",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "lt",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "ge",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "gt",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "between",
+          "description" : null,
+          "type" : {
+            "kind" : "LIST",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "String",
+              "ofType" : null
+            }
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "beginsWith",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        } ],
+        "interfaces" : null,
         "enumValues" : null,
         "possibleTypes" : null
       }, {
@@ -13788,7 +13501,20 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "petNames",
+          "name" : "address",
+          "description" : null,
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "String",
+              "ofType" : null
+            }
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "petIds",
           "description" : null,
           "type" : {
             "kind" : "NON_NULL",
@@ -13801,7 +13527,7 @@
                 "name" : null,
                 "ofType" : {
                   "kind" : "SCALAR",
-                  "name" : "String",
+                  "name" : "ID",
                   "ofType" : null
                 }
               }
@@ -13995,11 +13721,20 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "petNames",
+          "name" : "address",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
             "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "petIds",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelIDInput",
             "ofType" : null
           },
           "defaultValue" : null
@@ -14262,7 +13997,16 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "petNames",
+          "name" : "address",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "petIds",
           "description" : null,
           "type" : {
             "kind" : "LIST",
@@ -14272,7 +14016,7 @@
               "name" : null,
               "ofType" : {
                 "kind" : "SCALAR",
-                "name" : "String",
+                "name" : "ID",
                 "ofType" : null
               }
             }
@@ -14748,11 +14492,11 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "imageUrl",
+          "name" : "s3ImageKey",
           "description" : null,
           "type" : {
             "kind" : "SCALAR",
-            "name" : "AWSURL",
+            "name" : "String",
             "ofType" : null
           },
           "defaultValue" : null
@@ -14846,7 +14590,7 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "imageUrl",
+          "name" : "s3ImageKey",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
@@ -14948,11 +14692,11 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "imageUrl",
+          "name" : "s3ImageKey",
           "description" : null,
           "type" : {
             "kind" : "SCALAR",
-            "name" : "AWSURL",
+            "name" : "String",
             "ofType" : null
           },
           "defaultValue" : null
@@ -16684,20 +16428,16 @@
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
-          "name" : "name",
+          "name" : "id",
           "description" : null,
           "type" : {
-            "kind" : "NON_NULL",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "String",
-              "ofType" : null
-            }
+            "kind" : "SCALAR",
+            "name" : "ID",
+            "ofType" : null
           },
           "defaultValue" : null
         }, {
-          "name" : "customerUsername",
+          "name" : "name",
           "description" : null,
           "type" : {
             "kind" : "NON_NULL",
@@ -16771,11 +16511,11 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "imageUrl",
+          "name" : "s3ImageKey",
           "description" : null,
           "type" : {
             "kind" : "SCALAR",
-            "name" : "AWSURL",
+            "name" : "String",
             "ofType" : null
           },
           "defaultValue" : null
@@ -16921,6 +16661,15 @@
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
+          "name" : "name",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
           "name" : "customerId",
           "description" : null,
           "type" : {
@@ -16966,7 +16715,7 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "imageUrl",
+          "name" : "s3ImageKey",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
@@ -17145,29 +16894,25 @@
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
-          "name" : "name",
+          "name" : "id",
           "description" : null,
           "type" : {
             "kind" : "NON_NULL",
             "name" : null,
             "ofType" : {
               "kind" : "SCALAR",
-              "name" : "String",
+              "name" : "ID",
               "ofType" : null
             }
           },
           "defaultValue" : null
         }, {
-          "name" : "customerUsername",
+          "name" : "name",
           "description" : null,
           "type" : {
-            "kind" : "NON_NULL",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "String",
-              "ofType" : null
-            }
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
           },
           "defaultValue" : null
         }, {
@@ -17216,11 +16961,11 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "imageUrl",
+          "name" : "s3ImageKey",
           "description" : null,
           "type" : {
             "kind" : "SCALAR",
-            "name" : "AWSURL",
+            "name" : "String",
             "ofType" : null
           },
           "defaultValue" : null
@@ -17366,27 +17111,14 @@
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
-          "name" : "name",
+          "name" : "id",
           "description" : null,
           "type" : {
             "kind" : "NON_NULL",
             "name" : null,
             "ofType" : {
               "kind" : "SCALAR",
-              "name" : "String",
-              "ofType" : null
-            }
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "customerUsername",
-          "description" : null,
-          "type" : {
-            "kind" : "NON_NULL",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "String",
+              "name" : "ID",
               "ofType" : null
             }
           },
@@ -17692,33 +17424,7 @@
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
-          "name" : "petName",
-          "description" : null,
-          "type" : {
-            "kind" : "NON_NULL",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "String",
-              "ofType" : null
-            }
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "customerUsername",
-          "description" : null,
-          "type" : {
-            "kind" : "NON_NULL",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "String",
-              "ofType" : null
-            }
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "customerId",
+          "name" : "petId",
           "description" : null,
           "type" : {
             "kind" : "NON_NULL",
@@ -17756,6 +17462,15 @@
             }
           },
           "defaultValue" : null
+        }, {
+          "name" : "id",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "ID",
+            "ofType" : null
+          },
+          "defaultValue" : null
         } ],
         "interfaces" : null,
         "enumValues" : null,
@@ -17766,7 +17481,16 @@
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
-          "name" : "customerId",
+          "name" : "petId",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelIDInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "questionId",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
@@ -17836,6 +17560,15 @@
             "ofType" : null
           },
           "defaultValue" : null
+        }, {
+          "name" : "customerId",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
         } ],
         "interfaces" : null,
         "enumValues" : null,
@@ -17846,33 +17579,7 @@
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
-          "name" : "petName",
-          "description" : null,
-          "type" : {
-            "kind" : "NON_NULL",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "String",
-              "ofType" : null
-            }
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "customerUsername",
-          "description" : null,
-          "type" : {
-            "kind" : "NON_NULL",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "String",
-              "ofType" : null
-            }
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "customerId",
+          "name" : "petId",
           "description" : null,
           "type" : {
             "kind" : "SCALAR",
@@ -17884,13 +17591,9 @@
           "name" : "questionId",
           "description" : null,
           "type" : {
-            "kind" : "NON_NULL",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "ID",
-              "ofType" : null
-            }
+            "kind" : "SCALAR",
+            "name" : "ID",
+            "ofType" : null
           },
           "defaultValue" : null
         }, {
@@ -17900,6 +17603,19 @@
             "kind" : "SCALAR",
             "name" : "String",
             "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "id",
+          "description" : null,
+          "type" : {
+            "kind" : "NON_NULL",
+            "name" : null,
+            "ofType" : {
+              "kind" : "SCALAR",
+              "name" : "ID",
+              "ofType" : null
+            }
           },
           "defaultValue" : null
         } ],
@@ -17912,33 +17628,7 @@
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
-          "name" : "petName",
-          "description" : null,
-          "type" : {
-            "kind" : "NON_NULL",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "String",
-              "ofType" : null
-            }
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "customerUsername",
-          "description" : null,
-          "type" : {
-            "kind" : "NON_NULL",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "String",
-              "ofType" : null
-            }
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "questionId",
+          "name" : "id",
           "description" : null,
           "type" : {
             "kind" : "NON_NULL",
@@ -18052,6 +17742,15 @@
           "type" : {
             "kind" : "SCALAR",
             "name" : "Int",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "s3ImageKey",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
             "ofType" : null
           },
           "defaultValue" : null
@@ -18207,15 +17906,6 @@
           "type" : {
             "kind" : "SCALAR",
             "name" : "String",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "imageUrl",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "AWSURL",
             "ofType" : null
           },
           "defaultValue" : null
@@ -18453,6 +18143,15 @@
           },
           "defaultValue" : null
         }, {
+          "name" : "s3ImageKey",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
           "name" : "onlinePaymentAccepted",
           "description" : null,
           "type" : {
@@ -18517,15 +18216,6 @@
           "defaultValue" : null
         }, {
           "name" : "longDescription",
-          "description" : null,
-          "type" : {
-            "kind" : "INPUT_OBJECT",
-            "name" : "ModelStringInput",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "imageUrl",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
@@ -18774,6 +18464,15 @@
           },
           "defaultValue" : null
         }, {
+          "name" : "s3ImageKey",
+          "description" : null,
+          "type" : {
+            "kind" : "SCALAR",
+            "name" : "String",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
           "name" : "onlinePaymentAccepted",
           "description" : null,
           "type" : {
@@ -18905,15 +18604,6 @@
           "type" : {
             "kind" : "SCALAR",
             "name" : "String",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "imageUrl",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "AWSURL",
             "ofType" : null
           },
           "defaultValue" : null
@@ -19158,11 +18848,11 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "imageUrl",
+          "name" : "s3ImageKey",
           "description" : null,
           "type" : {
             "kind" : "SCALAR",
-            "name" : "AWSURL",
+            "name" : "String",
             "ofType" : null
           },
           "defaultValue" : null
@@ -19321,7 +19011,7 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "imageUrl",
+          "name" : "s3ImageKey",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
@@ -19486,11 +19176,11 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "imageUrl",
+          "name" : "s3ImageKey",
           "description" : null,
           "type" : {
             "kind" : "SCALAR",
-            "name" : "AWSURL",
+            "name" : "String",
             "ofType" : null
           },
           "defaultValue" : null
@@ -19989,27 +19679,14 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "petName",
+          "name" : "petId",
           "description" : null,
           "type" : {
             "kind" : "NON_NULL",
             "name" : null,
             "ofType" : {
               "kind" : "SCALAR",
-              "name" : "String",
-              "ofType" : null
-            }
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "petcustomerUsername",
-          "description" : null,
-          "type" : {
-            "kind" : "NON_NULL",
-            "name" : null,
-            "ofType" : {
-              "kind" : "SCALAR",
-              "name" : "String",
+              "name" : "ID",
               "ofType" : null
             }
           },
@@ -20042,20 +19719,11 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "petName",
+          "name" : "petId",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
-            "name" : "ModelStringInput",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "petcustomerUsername",
-          "description" : null,
-          "type" : {
-            "kind" : "INPUT_OBJECT",
-            "name" : "ModelStringInput",
+            "name" : "ModelIDInput",
             "ofType" : null
           },
           "defaultValue" : null
@@ -20171,20 +19839,11 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "petName",
+          "name" : "petId",
           "description" : null,
           "type" : {
             "kind" : "SCALAR",
-            "name" : "String",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "petcustomerUsername",
-          "description" : null,
-          "type" : {
-            "kind" : "SCALAR",
-            "name" : "String",
+            "name" : "ID",
             "ofType" : null
           },
           "defaultValue" : null
@@ -21465,11 +21124,20 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "petNames",
+          "name" : "address",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
             "name" : "ModelSubscriptionStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
+          "name" : "petIds",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelSubscriptionIDInput",
             "ofType" : null
           },
           "defaultValue" : null
@@ -22213,7 +21881,7 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "imageUrl",
+          "name" : "s3ImageKey",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
@@ -22919,16 +22587,16 @@
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
-          "name" : "name",
+          "name" : "id",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
-            "name" : "ModelSubscriptionStringInput",
+            "name" : "ModelSubscriptionIDInput",
             "ofType" : null
           },
           "defaultValue" : null
         }, {
-          "name" : "customerUsername",
+          "name" : "name",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
@@ -22973,7 +22641,7 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "imageUrl",
+          "name" : "s3ImageKey",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
@@ -23082,15 +22750,6 @@
           "defaultValue" : null
         }, {
           "name" : "questionAnswerIds",
-          "description" : null,
-          "type" : {
-            "kind" : "INPUT_OBJECT",
-            "name" : "ModelSubscriptionIDInput",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "id",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
@@ -23268,20 +22927,11 @@
         "description" : null,
         "fields" : null,
         "inputFields" : [ {
-          "name" : "petName",
+          "name" : "petId",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
-            "name" : "ModelSubscriptionStringInput",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "customerUsername",
-          "description" : null,
-          "type" : {
-            "kind" : "INPUT_OBJECT",
-            "name" : "ModelSubscriptionStringInput",
+            "name" : "ModelSubscriptionIDInput",
             "ofType" : null
           },
           "defaultValue" : null
@@ -23438,6 +23088,15 @@
           },
           "defaultValue" : null
         }, {
+          "name" : "s3ImageKey",
+          "description" : null,
+          "type" : {
+            "kind" : "INPUT_OBJECT",
+            "name" : "ModelSubscriptionStringInput",
+            "ofType" : null
+          },
+          "defaultValue" : null
+        }, {
           "name" : "onlinePaymentAccepted",
           "description" : null,
           "type" : {
@@ -23502,15 +23161,6 @@
           "defaultValue" : null
         }, {
           "name" : "longDescription",
-          "description" : null,
-          "type" : {
-            "kind" : "INPUT_OBJECT",
-            "name" : "ModelSubscriptionStringInput",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "imageUrl",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
@@ -23698,7 +23348,7 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "imageUrl",
+          "name" : "s3ImageKey",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
@@ -24002,20 +23652,11 @@
           },
           "defaultValue" : null
         }, {
-          "name" : "petName",
+          "name" : "petId",
           "description" : null,
           "type" : {
             "kind" : "INPUT_OBJECT",
-            "name" : "ModelSubscriptionStringInput",
-            "ofType" : null
-          },
-          "defaultValue" : null
-        }, {
-          "name" : "petcustomerUsername",
-          "description" : null,
-          "type" : {
-            "kind" : "INPUT_OBJECT",
-            "name" : "ModelSubscriptionStringInput",
+            "name" : "ModelSubscriptionIDInput",
             "ofType" : null
           },
           "defaultValue" : null

@@ -26,8 +26,8 @@ export const MyPets = () => {
         {pets?.map((item) => {
           return (
             <TouchableOpacity
-              key={item.name}
-              onPress={() => router.push(`/my-pet/${item.name}`)}
+              key={item.id}
+              onPress={() => router.push(`/my-pet/${item.id}`)}
             >
               <PetAvatar data={item as Pet} />
             </TouchableOpacity>

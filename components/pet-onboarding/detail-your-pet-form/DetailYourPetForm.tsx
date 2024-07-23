@@ -9,23 +9,13 @@ import { useQuery } from "@tanstack/react-query";
 import { useAtomValue } from "jotai";
 import React from "react";
 import { SubmitHandler, useFormContext } from "react-hook-form";
-import { Text, View, XStack, YStack, styled } from "tamagui";
+import { Text, View, XStack, YStack } from "tamagui";
 import { fetchBreedsByPetType } from "@/api/breed";
 import moment from "moment";
 
 type DetailYourPetFormProps = {
   onSubmit: SubmitHandler<any>;
 };
-
-const ReadOnlyInput = styled(View, {
-  borderRadius: "$2",
-  borderColor: "#BDBDBD",
-  borderWidth: 1,
-  justifyContent: "center",
-  paddingHorizontal: "$3",
-  bg: "#FCFCFC",
-  height: 42,
-});
 
 export const DetailYourPetForm: React.FC<DetailYourPetFormProps> = ({
   onSubmit,
@@ -61,7 +51,7 @@ export const DetailYourPetForm: React.FC<DetailYourPetFormProps> = ({
             control={control}
             name="birthdate"
             label="Birthday"
-            placeholder="Select"
+            placeholder="I Don't Know"
             disabledDates={(date) => {
               return date.isAfter(moment());
             }}
@@ -69,8 +59,8 @@ export const DetailYourPetForm: React.FC<DetailYourPetFormProps> = ({
           <Select
             control={control}
             name="breedName"
-            label="Breed (Optional)"
-            placeholder="Select"
+            label="Breed"
+            placeholder="I Don't Know"
             options={
               breeds
                 ? [
@@ -92,6 +82,8 @@ export const DetailYourPetForm: React.FC<DetailYourPetFormProps> = ({
                 flex={1}
                 label="Weight"
                 placeholder="Input Pet Weight"
+                suffix={<Text>Kg</Text>}
+                requiredMark
                 rules={{
                   required: "Weight is required",
                   pattern: {
@@ -100,9 +92,6 @@ export const DetailYourPetForm: React.FC<DetailYourPetFormProps> = ({
                   },
                 }}
               />
-              <ReadOnlyInput>
-                <Text>Kg</Text>
-              </ReadOnlyInput>
             </XStack>
           </YStack>
           <TextArea

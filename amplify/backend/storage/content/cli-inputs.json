@@ -1,32 +1,13 @@
 {
   "resourceName": "content",
-  "policyUUID": "49d37517",
-  "bucketName": "pawkitappcontent",
-  "storageAccess": "authAndGuest",
-  "guestAccess": [
-    "READ"
-  ],
+  "policyUUID": "0ee77a97",
+  "bucketName": "pawkit-app-content",
+  "storageAccess": "auth",
+  "guestAccess": [],
   "authAccess": [
     "CREATE_AND_UPDATE",
     "READ",
     "DELETE"
   ],
-  "triggerFunction": "dataLoader",
-  "groupAccess": {
-    "PetOwners": [
-      "CREATE_AND_UPDATE",
-      "READ",
-      "DELETE"
-    ],
-    "ServicePersonnel": [
-      "CREATE_AND_UPDATE",
-      "READ",
-      "DELETE"
-    ],
-    "Admin": [
-      "CREATE_AND_UPDATE",
-      "READ",
-      "DELETE"
-    ]
-  }
+  "triggerFunction": "NONE"
 }

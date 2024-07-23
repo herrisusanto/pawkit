@@ -1,6 +1,11 @@
 import { generateClient } from "aws-amplify/api";
+import { getUrl, uploadData } from "@aws-amplify/storage";
 import * as Crypto from "expo-crypto";
 import { Buffer } from "buffer";
+import { ConsoleLogger } from "aws-amplify/utils";
+import { InternalServerError } from "./errors";
+
+const logger = new ConsoleLogger("api/core.ts");
 
 const BASE62_CHARSET =
   "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -37,4 +42,48 @@ export async function generateCustomerSpecificShortId(
     { encoding: Crypto.CryptoEncoding.HEX }
   );
   return hashToBase62(Buffer.from(hash, "hex"), length);
+}
+
+// https://docs.amplify.aws/gen1/react-native/build-a-backend/storage/upload/
+export async function uploadFile(
+  imageKey: string,
+  accessLevel: "guest" | "protected" | "private",
+  file: File
+) {
+  try {
+    const result = await uploadData({
+      key: imageKey,
+      data: file,
+      options: {
+        accessLevel,
+      },
+    }).result;
+    logger.info("Succeeded: ", result);
+  } catch (error) {
+    logger.error("Failed: ", error);
+    throw new InternalServerError("Error uploading file");
+  }
+}
+
+export async function getFileUrl(
+  imageKey: string,
+  accessLevel: "guest" | "protected" | "private"
+) {
+  try {
+    const getUrlResult = await getUrl({
+      key: imageKey,
+      // Alternatively, path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg`
+      options: {
+        accessLevel,
+        validateObjectExistence: false, // Check if object exists before creating a URL
+        expiresIn: 20, // validity of the URL, in seconds. defaults to 900 (15 minutes) and maxes at 3600 (1 hour)
+        // useAccelerateEndpoint: true // Whether to use accelerate endpoint
+      },
+    });
+    logger.info("signed URL: ", getUrlResult.url);
+    logger.info("URL expires at: ", getUrlResult.expiresAt);
+  } catch (error) {
+    logger.error("Failed: ", error);
+    throw new InternalServerError("Error getting file url");
+  }
 }

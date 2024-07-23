@@ -3,7 +3,10 @@ import { BookingStatus } from "./graphql/API";
 const bookingStatusTransitions: Record<BookingStatus, BookingStatus[]> = {
   [BookingStatus.PENDING]: [BookingStatus.CONFIRMED, BookingStatus.CANCELLED],
   [BookingStatus.IN_PROGRESS]: [BookingStatus.COMPLETED],
-  [BookingStatus.CONFIRMED]: [BookingStatus.COMPLETED, BookingStatus.CANCELLED],
+  [BookingStatus.CONFIRMED]: [
+    BookingStatus.IN_PROGRESS,
+    BookingStatus.CANCELLED,
+  ],
   [BookingStatus.COMPLETED]: [],
   [BookingStatus.CANCELLED]: [],
 };

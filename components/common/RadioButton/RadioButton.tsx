@@ -1,7 +1,7 @@
 import { Text, View, ViewProps, getToken, styled } from "tamagui";
 import React, { PropsWithChildren, useMemo } from "react";
 import { IconProps } from "../Icons";
-import { Control, useController } from "react-hook-form";
+import { Control, useController, UseControllerProps } from "react-hook-form";
 
 interface RadioButtonProps extends PropsWithChildren {
   control: Control<any, any>;
@@ -9,6 +9,7 @@ interface RadioButtonProps extends PropsWithChildren {
   icon?: React.ReactElement;
   value: string;
   iconProps?: IconProps;
+  rules?: UseControllerProps["rules"];
 }
 
 const StyledView = styled(View, {
@@ -35,10 +36,13 @@ const StyledView = styled(View, {
 });
 
 export const RadioButton = StyledView.styleable<RadioButtonProps & ViewProps>(
-  ({ control, icon, value, name, iconProps, children, ...props }, ref) => {
+  (
+    { control, icon, value, name, iconProps, children, rules, ...props },
+    ref
+  ) => {
     const {
       field: { onChange, value: controlledValue },
-    } = useController({ control, name });
+    } = useController({ control, name, rules });
     const checked = useMemo(() => {
       return (
         controlledValue === value ||

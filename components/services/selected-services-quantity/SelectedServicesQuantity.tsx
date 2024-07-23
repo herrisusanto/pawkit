@@ -64,8 +64,10 @@ export const SelectedServicesQuantity: React.FC<
 
     const extraPrices: ExtraPrices[] = [];
     selectedServices?.forEach((service) => {
-      const serviceData = servicesData?.find((s) => s.id === service.serviceId);
-      const pet = petsData?.find((pet) => pet.name === service.petId);
+      const serviceData = servicesData?.find(
+        (s: any) => s.id === service.serviceId
+      );
+      const pet = petsData?.find((pet) => pet.id === service.petId);
 
       const serviceCustomPrice = getCustomPrice(
         pet as Pet,
@@ -127,7 +129,7 @@ export const SelectedServicesQuantity: React.FC<
         {withAdditionalPrice &&
           additionalPrices.map((additional) => {
             return (
-              <>
+              <YStack key={additional.name}>
                 {additional.amount > 0 &&
                 serviceQty.name === additional.serviceName ? (
                   <XStack jc="space-between" paddingLeft="$2">
@@ -139,7 +141,7 @@ export const SelectedServicesQuantity: React.FC<
                     </Text>
                   </XStack>
                 ) : null}
-              </>
+              </YStack>
             );
           })}
       </YStack>

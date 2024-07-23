@@ -2,7 +2,6 @@ import { Button } from "@/components/common/Button/Button";
 import { Header } from "@/components/common/Header/Header";
 import { Input } from "@/components/common/Input/Input";
 import { InputNumber } from "@/components/common/InputNumber/InputNumber";
-import ReadOnlyInput from "@/components/common/ReadOnlyInput/ReadOnlyInput";
 import { icons } from "@/constants";
 import { handleUpdateAttributes } from "@/api/user";
 import { useUserAttributes } from "@/hooks";
@@ -88,24 +87,22 @@ export default function UpdatePersonalData() {
               name="name"
               label="Full Name"
               placeholder="Input Full Name"
+              requiredMark
               rules={{ required: "Full name is required" }}
             />
             <YStack width="100%" gap="$2">
-              <Text fontSize="$c1" fontWeight="600">
-                Phone Number
-              </Text>
               <XStack gap="$2">
-                <ReadOnlyInput>
-                  <Text color="$natural0">+65</Text>
-                </ReadOnlyInput>
                 <InputNumber
                   name="phone_number"
                   control={control}
                   flex={1}
+                  label="Phone Number"
+                  prefix={<Text color="$natural0">+65</Text>}
                   placeholder="Input phone number"
                   inputProps={{
                     readOnly: true,
                   }}
+                  requiredMark
                   rules={{
                     required: "Phone number is required",
                     pattern: /^\d{8}$/,
@@ -118,6 +115,7 @@ export default function UpdatePersonalData() {
               name="email"
               label="Email"
               placeholder="Email"
+              requiredMark
               rules={{
                 required: "Email is required",
                 pattern: {

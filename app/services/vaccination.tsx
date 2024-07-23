@@ -39,7 +39,7 @@ const VaccinationScreen = () => {
     enabled: !!user,
   });
   const selectedPet = useMemo(() => {
-    return pets?.find((pet) => pet.name === selectedPetId);
+    return pets?.find((pet) => pet.id === selectedPetId);
   }, [selectedPetId, pets]);
   const { data: servicesData } = useQuery({
     queryKey: [
@@ -201,7 +201,7 @@ const VaccinationScreen = () => {
 
   useEffect(() => {
     if (pets?.length) {
-      setSelectedPetId(pets[0].name);
+      setSelectedPetId(pets[0].id);
     }
   }, [pets]);
 
@@ -213,12 +213,12 @@ const VaccinationScreen = () => {
           {pets?.map((item) => {
             return (
               <TouchableOpacity
-                key={item.name}
-                onPress={() => setSelectedPetId(item.name)}
+                key={item.id}
+                onPress={() => setSelectedPetId(item.id)}
               >
                 <PetAvatar
                   data={item as Pet}
-                  isSelected={item.name === selectedPetId}
+                  isSelected={item.id === selectedPetId}
                 />
               </TouchableOpacity>
             );

@@ -4,7 +4,7 @@ import { OrderDetails } from "@/components/service-booking/order-details/OrderDe
 import { OwnerDetails } from "@/components/service-booking/owner-details/OwnerDetails";
 import { StepsIndicator } from "@/components/service-booking/steps-indicator/StepsIndicator";
 import { useContinueServiceBookingAllowed } from "@/hooks";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateUserAttributes } from "aws-amplify/auth";
 import { router, Stack, useLocalSearchParams } from "expo-router";
 import { FieldValues, SubmitHandler, useFormContext } from "react-hook-form";
@@ -14,8 +14,12 @@ export default function () {
   const form = useFormContext();
   const { serviceName } = useLocalSearchParams();
   const allowed = useContinueServiceBookingAllowed(serviceName as string);
+  const queryClient = useQueryClient();
   const mutationUpdateUserAttributes = useMutation({
     mutationFn: updateUserAttributes,
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: ["user_attributes"] });
+    },
   });
 
   const watchName = form.watch("name");
@@ -26,9 +30,7 @@ export default function () {
     try {
       if (!disableContinueButton()) {
         await mutationUpdateUserAttributes.mutateAsync({
-          userAttributes: {
-            address: values["address"],
-          },
+          userAttributes: values,
         });
         router.push(`/service-booking/${serviceName}/required-questions`);
       }

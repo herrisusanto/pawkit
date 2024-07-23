@@ -193,7 +193,7 @@ export const NoUpcomingBooking = YStack.styleable(({ ...props }, ref) => {
       <XStack px="$3" jc="space-between" ai="center" columnGap="$3">
         <View>
           <Image
-            source={{ uri: images.catNapImg, width: 116, height: 74 }}
+            source={{ uri: images.noBooking, width: 116, height: 74 }}
             height={74}
             width={116}
             resizeMode="contain"

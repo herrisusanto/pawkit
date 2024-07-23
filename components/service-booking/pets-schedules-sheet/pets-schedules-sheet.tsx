@@ -82,7 +82,7 @@ export const PetsSchedulesSheet = View.styleable(({ ...props }, ref) => {
     );
     const petService = selectedPetsServices[petServiceIdx];
     const service = services?.find(
-      (service) => service.id === petService.serviceId
+      (service: any) => service.id === petService.serviceId
     );
     const updatedPetService = {
       ...petService,
@@ -105,7 +105,7 @@ export const PetsSchedulesSheet = View.styleable(({ ...props }, ref) => {
     );
     const petService = selectedPetsServices[petServiceIdx];
     const service = services?.find(
-      (service) => service.id === petService.serviceId
+      (service: any) => service.id === petService.serviceId
     );
     const isSelected = selectedPetService.timeSlot?.id === timeSlot.id;
     const updatedPetService = {
@@ -141,7 +141,7 @@ export const PetsSchedulesSheet = View.styleable(({ ...props }, ref) => {
           rowGap="$4"
         >
           {selectedPetsServices?.map((item) => {
-            const pet = pets?.find((pet) => pet.name === item.petId);
+            const pet = pets?.find((pet) => pet.id === item.petId);
             return <PetAvatar key={item.petId} data={pet as Pet} />;
           })}
         </XStack>
@@ -256,61 +256,66 @@ export const PetsSchedulesSheet = View.styleable(({ ...props }, ref) => {
                     gap="$2.5"
                     px="$5"
                   >
-                    {timeSlots.map((timeSlot, i) => {
-                      const itemWidth = width * 0.5;
-                      const calculatedWidth =
-                        itemWidth -
-                        getToken("$5", "space") -
-                        getToken("$2.5", "space");
-                      const isSelected =
-                        timeSlot.id === selectedPetService?.timeSlot?.id;
-                      const alreadySelected = selectedPetsServices.some(
-                        (petService) => petService.timeSlot?.id === timeSlot.id
-                      );
-                      return (
-                        <View
-                          key={timeSlot.id}
-                          py="$2.5"
-                          px="$5"
-                          w={calculatedWidth}
-                          bc={
-                            isSelected
-                              ? "$primary"
-                              : alreadySelected
-                                ? "$red"
-                                : "$natural2"
-                          }
-                          bg={
-                            isSelected
-                              ? "$thirdy"
-                              : alreadySelected
-                                ? "$error"
-                                : "$colorTransparent"
-                          }
-                          bw="$0.5"
-                          br="$2"
-                          onPress={() =>
-                            (!alreadySelected || isSelected) &&
-                            handleSelectTimeSlot(timeSlot)
-                          }
-                        >
-                          <Text
-                            adjustsFontSizeToFit
-                            numberOfLines={1}
-                            fontSize="$c1"
-                            fontWeight="$5"
-                            textAlign="center"
-                            color={
-                              alreadySelected && !isSelected
-                                ? "$accent0"
-                                : "$textSecondary"
+                    {timeSlots
+                      .filter((time) => time.startDateTime > moment().format())
+                      .map((timeSlot, i) => {
+                        const itemWidth = width * 0.5;
+                        const calculatedWidth =
+                          itemWidth -
+                          getToken("$5", "space") -
+                          getToken("$2.5", "space");
+                        const isSelected =
+                          timeSlot.id === selectedPetService?.timeSlot?.id;
+                        const alreadySelected = selectedPetsServices.some(
+                          (petService) =>
+                            petService.timeSlot?.id === timeSlot.id
+                        );
+                        return (
+                          <View
+                            key={timeSlot.id}
+                            py="$2.5"
+                            px="$5"
+                            w={calculatedWidth}
+                            bc={
+                              isSelected
+                                ? "$primary"
+                                : alreadySelected
+                                  ? "$red"
+                                  : "$natural2"
+                            }
+                            bg={
+                              isSelected
+                                ? "$thirdy"
+                                : alreadySelected
+                                  ? "$error"
+                                  : "$colorTransparent"
+                            }
+                            bw="$0.5"
+                            br="$2"
+                            onPress={() =>
+                              (!alreadySelected || isSelected) &&
+                              handleSelectTimeSlot(timeSlot)
                             }
                           >
-                            {moment(timeSlot.startDateTime).format("hh : mm A")}
-                          </Text>
-                        </View>
-                      );
-                    })}
+                            <Text
+                              adjustsFontSizeToFit
+                              numberOfLines={1}
+                              fontSize="$c1"
+                              fontWeight="$5"
+                              textAlign="center"
+                              color={
+                                alreadySelected && !isSelected
+                                  ? "$accent0"
+                                  : "$textSecondary"
+                              }
+                            >
+                              {moment(timeSlot.startDateTime).format(
+                                "hh : mm A"
+                              )}
+                            </Text>
+                          </View>
+                        );
+                      })}
                   </XStack>
                 </YStack>
               )}

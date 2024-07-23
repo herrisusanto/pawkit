@@ -76,7 +76,7 @@ const AuthScreen: React.FC<SignInScreenProps> = () => {
         username,
         password: Math.random().toString(36).slice(-8),
         options: {
-          autoSignIn: true,
+          autoSignIn: { authFlowType: "CUSTOM_WITHOUT_SRP" },
           userAttributes: {
             phone_number: username,
           },
@@ -100,6 +100,7 @@ const AuthScreen: React.FC<SignInScreenProps> = () => {
         confirmationCode,
       });
       const signUpStep = result.nextStep.signUpStep;
+      form.resetField("confirmation_code");
       setAuthState({ step: signUpStep });
       if (signUpStep === "CONFIRM_SIGN_UP") {
         showInvalidCodeError();

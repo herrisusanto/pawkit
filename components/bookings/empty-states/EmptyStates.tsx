@@ -13,15 +13,14 @@ const EmptyStates = ({
   return (
     <YStack ai="center" padding="$3" pt="$8" flex={1} gap="$4">
       <Image
+        resizeMode="contain"
         source={{
-          uri: images.emptyBooking,
-          width: 192,
-          height: 191,
+          uri: images.noBooking,
         }}
-        height={191}
+        height={191 / 2}
         width={192}
       />
-      <YStack>
+      <YStack ai="center" gap="$2">
         <Text fontSize="$b3" fontWeight="$6">
           {title}
         </Text>

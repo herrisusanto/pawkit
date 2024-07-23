@@ -11,9 +11,7 @@ const logoPawkit = require("../assets/images/logo-pawkit.png");
 const logoPawkitBlack = require("../assets/images/logo-pawkit-black.png");
 const logoPawkitBackdrop = require("../assets/images/logo-backdrop.png");
 const petGrooming = require("../assets/images/pet-grooming.png");
-const sleepyCat = require("../assets/images/sleepy-cat.png");
 const tempServiceImg = require("../assets/images/temp-service-img.png");
-const catNapImg = require("../assets/images/cat-nap.png");
 const dogIllustration = require("../assets/images/dog-illustration.png");
 const paynow = require("../assets/images/paynow.png");
 const applepay = require("../assets/images/applepay.png");
@@ -23,7 +21,6 @@ const uob = require("../assets/images/uob.png");
 const amex = require("../assets/images/amex.png");
 const visa = require("../assets/images/visa.png");
 const mastercard = require("../assets/images/mastercard.png");
-const emptyBooking = require("../assets/images/empty-booking.png");
 const helpCenter = require("../assets/images/help-center-illustration.png");
 const defaultAvatar = require("../assets/images/default_avatar.png");
 const catDefaultAvatar = require("../assets/images/cat-default-avatar.png");
@@ -31,6 +28,7 @@ const dogDefaultAvatar = require("../assets/images/dog-default-avatar.png");
 const defaultAvatarCircle = require("../assets/images/default-avatar-circle.png");
 const failed = require("../assets/images/failed.png");
 const serviceDefaultImage = require("../assets/images/service-default-image.png");
+const noBooking = require("../assets/images/no-booking.png");
 
 export default {
   petLogin,
@@ -44,9 +42,7 @@ export default {
   turtleOutlined,
   logoPawkit,
   petGrooming,
-  sleepyCat,
   tempServiceImg,
-  catNapImg,
   dogIllustration,
   paynow,
   applepay,
@@ -58,7 +54,6 @@ export default {
   mastercard,
   logoPawkitBlack,
   logoPawkitBackdrop,
-  emptyBooking,
   helpCenter,
   defaultAvatar,
   catDefaultAvatar,
@@ -66,4 +61,5 @@ export default {
   defaultAvatarCircle,
   failed,
   serviceDefaultImage,
+  noBooking,
 };

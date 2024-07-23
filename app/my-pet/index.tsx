@@ -37,8 +37,8 @@ function MyPet() {
       <ScrollView showsVerticalScrollIndicator={false}>
         {pets?.map((item) => (
           <ListItemView
-            key={item.name}
-            onPress={() => router.push(`/my-pet/${item.name}`)}
+            key={item.id}
+            onPress={() => router.push(`/my-pet/${item.id}`)}
             m="$2"
           >
             <XStack gap="$3" alignItems="center">

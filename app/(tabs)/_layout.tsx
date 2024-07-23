@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Tabs } from "expo-router";
 import {
   BookingIcon,
@@ -9,13 +9,19 @@ import { PortalProvider, View, getToken } from "tamagui";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { Platform } from "react-native";
 import { TABS_HEIGHT } from "@/constants";
+import { useMediaLibraryPermissions } from "expo-image-picker";
 
 // You can explore the built-in icon families and icons on the web at https://icons.expo.fyi/
 
 const isAndroid = Platform.OS === "android";
 
 export default function TabLayout() {
+  const [, requestPermission] = useMediaLibraryPermissions();
   const insets = useSafeAreaInsets();
+
+  useEffect(() => {
+    requestPermission();
+  }, [requestPermission]);
 
   const androidTabBarSytle = {
     paddingTop: 16,

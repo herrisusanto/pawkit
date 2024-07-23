@@ -38,7 +38,7 @@ export default function DetailsYourPet() {
   const queryClient = useQueryClient();
   const { data: pet } = useQuery({
     queryKey: ["pets", user?.userId, petId],
-    queryFn: () => fetchPet(user?.userId as string, petId as string),
+    queryFn: () => fetchPet(petId as string),
     enabled: !!user && !!petId,
   });
   const mutationUpdatePet = useMutation({
@@ -64,13 +64,14 @@ export default function DetailsYourPet() {
     saveChanges(formattedValues);
   };
 
-  const saveChanges: SubmitHandler<FieldValues> = async (values) => {
+  const saveChanges: SubmitHandler<FieldValues> = async ({
+    image,
+    ...values
+  }) => {
     try {
       if (petId) {
         await mutationUpdatePet.mutateAsync({
-          name: petId,
-          customerId: user?.userId as string,
-          customerUsername: user?.username as string,
+          id: petId,
           weightValue: Number(values["weightValue"]),
           ...values,
         });
@@ -176,7 +177,7 @@ export default function DetailsYourPet() {
   }, [pet]);
 
   return (
-    <ScrollView>
+    <ScrollView automaticallyAdjustKeyboardInsets>
       <View bg="$accent0">
         <YStack rowGap="$5" bg="#fff" pb="$5" px="$5" mb="$3">
           <StepsIndicator

@@ -14,24 +14,41 @@ import { useLocalSearchParams } from "expo-router";
 import moment from "moment";
 import * as Linking from "expo-linking";
 import { Avatar, Text, XStack, YStack, getToken } from "tamagui";
+import { fetchPayment } from "@/api/payment";
+import { Booking } from "@/api/graphql/API";
+import { fetchOrder } from "@/api/order";
 
 const BookingDetails = () => {
   const { data: user } = useCurrentUser();
   const { id } = useLocalSearchParams();
   const { data: bookings } = useQuery({
-    queryKey: ["booking", user?.userId, id],
+    queryKey: ["bookings", user?.userId, id],
     queryFn: () => fetchBookingById(id as string),
     enabled: !!user && !!id,
+  });
+  const { data: order } = useQuery({
+    queryKey: ["orders", bookings?.booking.orderId],
+    queryFn: () => fetchOrder(bookings?.booking.orderId as string),
+    enabled: !!bookings?.booking.orderId,
+  });
+  const { data: paymentRequest } = useQuery({
+    queryKey: ["payment_requests", order?.paymentRequestId],
+    queryFn: () => fetchPayment(order?.paymentRequestId as string),
+    enabled: !!order?.paymentRequestId,
   });
 
   const handleContactUs = async () => {
     const phoneNumber = "6588540207";
     const textContent = `Hello Pawkit! I would like to amend my booking. My booking reference number is ${id}`;
     const url = `whatsapp://send?phone=${phoneNumber}&text=${textContent}`;
-    const canOpen = await Linking.canOpenURL(url);
-    if (canOpen) {
-      Linking.openURL(url);
-    } else {
+    try {
+      const canOpen = await Linking.canOpenURL(url);
+      if (canOpen) {
+        Linking.openURL(url);
+      } else {
+        throw new Error("Cannot open URL");
+      }
+    } catch {
       Linking.openURL(`https://wa.me/${phoneNumber}?text=${textContent}`);
     }
   };
@@ -43,7 +60,7 @@ const BookingDetails = () => {
           Booking
         </Text>
         <YStack rowGap="$3.5">
-          <UpcomingBookingItem hidePet data={bookings?.booking} />
+          <UpcomingBookingItem hidePet data={bookings?.booking as Booking} />
           <XStack>
             <YStack w="$full" rowGap="$2">
               <XStack ai="center" columnGap="$2">
@@ -105,10 +122,7 @@ const BookingDetails = () => {
                   flex={1}
                   lineHeight={18}
                 >
-                  {bookings?.booking.serviceProvider?.address?.blockNumber} 90,{" "}
-                  {bookings?.booking.serviceProvider?.address?.streetName},
-                  Singapore{" "}
-                  {bookings?.booking.serviceProvider?.address?.postalCode}
+                  {bookings?.booking.address}
                 </Text>
               </XStack>
               <XStack ai="center" columnGap="$2">
@@ -150,7 +164,7 @@ const BookingDetails = () => {
                   </Text>
                 </XStack>
                 <Text fontSize="$c1" fontWeight="$4" color="$textSecondary">
-                  {bookings?.booking.order?.payment?.paymentMethod}
+                  {paymentRequest?.paymentMethod}
                 </Text>
               </XStack>
             </YStack>

@@ -26,6 +26,8 @@ export function OrderDetails() {
         name="address"
         label="Please enter your full address, including postal code and unit number"
         placeholder="Input address"
+        requiredMark
+        rules={{ required: "Address is required" }}
       />
       <PetsSchedulesSheet />
     </YStack>

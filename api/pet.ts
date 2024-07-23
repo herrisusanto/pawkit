@@ -1,4 +1,4 @@
-import { graphqlClient } from "./core";
+import { graphqlClient, uploadFile } from "./core";
 import {
   getPet,
   getQuestion,
@@ -106,22 +106,6 @@ export const fetchPetsByBooking = async (
       result.data.petBookingsByBookingCustomerUsernameAndBookingtimeSlotId
         .items;
     return petBookings;
-    // logger.debug("PetBookings:", petBookings);
-    // const enhancedPetBookings = [];
-    // const errors = [];
-    // for (const petBooking of petBookings) {
-    //   logger.debug("PetBooking:", petBooking);
-    //   try {
-    //     const pet = await fetchPet(petBooking.petName, petBooking.petcustomerUsername);
-    //     if (pet) {
-    //       enhancedPetBookings.push({ ...petBooking, petImageUrl: pet.imageUrl, petBirthDate: pet.birthdate });
-    //     }
-    //   } catch (error) {
-    //     logger.error(`Pet with name=${petBooking.petName} and owner=${petBooking.petcustomerUsername} not found`);
-    //     errors.push(error);
-    //   }
-    // }
-    // return { enhancedPetBookings, errors };
   } catch (error) {
     logger.error(
       `Error fetching bookings for customer ${customerUsername} at time slot ${timeSlotId}: `,
@@ -132,68 +116,49 @@ export const fetchPetsByBooking = async (
   }
 };
 
-export const fetchPet = async (customerUsername: string, name: string) => {
+export const fetchPet = async (id: string) => {
   try {
-    if (!customerUsername) {
-      logger.error("Customer username is required");
-      throw new BadRequestError("Customer username is required");
-    }
-
-    if (!name) {
-      logger.error("Pet name is required");
-      throw new BadRequestError("Pet name is required");
-    }
-
     const result = await graphqlClient.graphql({
       query: getPet,
       variables: {
-        name,
-        customerUsername,
+        id,
       },
     });
     logger.info("Called getPet query");
 
     const pet = result.data.getPet;
     if (!pet) {
-      logger.error(`Pet named ${name} owned by ${customerUsername} not found`);
+      logger.error(`Pet id=${id} not found`);
       throw new NotFoundError("Pet not found");
     }
 
     if (pet.isDeleted) {
-      logger.error(
-        `Pet named ${name} owned by ${customerUsername} is already deleted`
-      );
+      logger.error(`Pet id=${id} is already deleted`);
       throw new NotFoundError("Pet is deleted");
     }
     return pet;
   } catch (error) {
-    logger.error(`Error fetching pet named ${name}: `, error);
+    logger.error(`Error fetching pet id=${id}: `, error);
     if (error instanceof CustomError) throw error;
     throw new InternalServerError("Error fetching pet");
   }
 };
 
 export const fetchPetQuestionAnswersForService = async (
-  customerUsername: string,
-  petName: string,
-  serviceId: string
+  serviceId: string,
+  petId: string
 ) => {
+  if (!serviceId) {
+    logger.error("Service ID is required");
+    throw new BadRequestError("Service ID is required");
+  }
+
+  if (!petId) {
+    logger.error("Pet ID is required");
+    throw new BadRequestError("Pet ID is required");
+  }
+
   try {
-    if (!customerUsername) {
-      logger.error("Customer username is required");
-      throw new BadRequestError("Customer username is required");
-    }
-
-    if (!petName) {
-      logger.error("Pet name is required");
-      throw new BadRequestError("Pet name is required");
-    }
-
-    if (!serviceId) {
-      logger.error("Question ID is required");
-      throw new BadRequestError("Question ID is required");
-    }
-
     const service = await fetchServiceById(serviceId);
     if (!service) {
       logger.error(`Service with id=${serviceId} not found`);
@@ -208,30 +173,28 @@ export const fetchPetQuestionAnswersForService = async (
       return [];
     }
 
-    const promises = service.requiredQuestionIds.map(async (questionId) => {
+    const promises = service.requiredQuestionIds.map(async (id) => {
       try {
         const questionAnswer = await graphqlClient.graphql({
           query: getQuestionAnswer,
           variables: {
-            customerUsername,
-            petName,
-            questionId,
+            id,
           },
         });
         const question = await graphqlClient.graphql({
           query: getQuestion,
           variables: {
-            id: questionId,
+            id,
           },
         });
         return {
-          id: questionId,
+          id,
           question: question?.data.getQuestion?.questionString,
           answer: questionAnswer.data.getQuestionAnswer?.answer,
         };
       } catch (error) {
         logger.error(
-          `Error fetching answer for question with id=${questionId}: `,
+          `Error fetching answer for question with id=${id}: `,
           error
         );
         return null;
@@ -240,7 +203,7 @@ export const fetchPetQuestionAnswersForService = async (
     return await Promise.all(promises);
   } catch (error) {
     logger.error(
-      `Error fetching question answers for pet ${petName} for service id=${serviceId}: `,
+      `Error fetching question answers for pet id=${petId} for service id=${serviceId}: `,
       error
     );
     if (error instanceof CustomError) throw error;
@@ -251,18 +214,14 @@ export const fetchPetQuestionAnswersForService = async (
 // Update
 export const modifyPet = async (input: UpdatePetInput) => {
   try {
-    const pet = await fetchPet(input.customerUsername, input.name);
+    const pet = await fetchPet(input.id);
     if (!pet) {
-      logger.error(
-        `Pet named ${input.name} owned by ${input.customerUsername} not found`
-      );
+      logger.error(`Pet id=${input.id} not found`);
       throw new NotFoundError("Pet not found");
     }
 
     if (pet.isDeleted) {
-      logger.error(
-        `Pet named ${input.name} owned by ${input.customerUsername} is already deleted`
-      );
+      logger.error(`Pet id=${input.id} is already deleted`);
       throw new ConflictError("Pet is already deleted");
     }
 
@@ -280,20 +239,43 @@ export const modifyPet = async (input: UpdatePetInput) => {
   }
 };
 
-// SOFT Delete
-export const removePet = async (customerUsername: string, name: string) => {
+export const uploadPetImage = async (
+  userId: string,
+  petId: string,
+  image: File
+) => {
+  if (!petId) {
+    logger.error("Pet ID is required");
+    throw new BadRequestError("Pet ID is required");
+  }
+
+  if (!image) {
+    logger.error("Image is required");
+    throw new BadRequestError("Image is required");
+  }
+
+  const imageKey = `${userId}/pets/${petId}/profile.jpg`;
+
   try {
-    if (!customerUsername) {
-      logger.error("Customer username is required");
-      throw new BadRequestError("Customer username is required");
-    }
+    // Upload image to s3
+    await uploadFile(imageKey, "protected", image);
 
-    if (!name) {
-      logger.error("Pet name is required");
-      throw new BadRequestError("Pet name is required");
-    }
+    // Update pet with image key
+    const updatedPet = await modifyPet({
+      id: petId,
+      s3ImageKey: imageKey,
+    });
+    logger.info(`Uploaded image for pet id=${petId}`);
+    return updatedPet;
+  } catch (error) {
+    logger.error("Error uploading image: ", error);
+  }
+};
 
-    const petBookings = await fetchBookingsByPet(customerUsername, name);
+// SOFT Delete
+export const removePet = async (id: string) => {
+  try {
+    const petBookings = await fetchBookingsByPet(id);
     if (petBookings.length > 0) {
       petBookings.map(async (petBooking) => {
         const { booking } = await fetchBooking(
@@ -304,23 +286,18 @@ export const removePet = async (customerUsername: string, name: string) => {
           booking?.status !== BookingStatus.COMPLETED &&
           booking?.status !== BookingStatus.CANCELLED
         ) {
-          logger.error(
-            `Pet named ${name} owned by ${customerUsername} has an active booking`
-          );
+          logger.error(`Pet id=${id} has an active booking`);
           throw new ConflictError("Pet has a booking that is not cancelled");
         }
       });
     }
 
-    logger.info(
-      `Initiating soft deletion of pet named ${name} owned by ${customerUsername}`
-    );
+    logger.info(`Initiating soft deletion of pet id=${id}`);
     return await graphqlClient.graphql({
       query: updatePet,
       variables: {
         input: {
-          name,
-          customerUsername,
+          id,
           isDeleted: true,
         },
       },

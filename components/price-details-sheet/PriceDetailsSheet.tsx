@@ -93,7 +93,10 @@ export const PriceDetailsSheet = forwardRef<
         (service: Service) => service.id === selectedService.serviceId
       );
 
-      const pet = petsData?.find((pet) => pet.name === selectedService.petId);
+      const pet = petsData?.find((pet) => {
+        return pet.id === selectedService.petId;
+      });
+
       const additionalPrice = getAdditionalPrice(
         pet?.weightValue ?? 0,
         service as Service
@@ -129,7 +132,7 @@ export const PriceDetailsSheet = forwardRef<
   };
 
   const renderPet = (petId: string) => {
-    const pet = petsData?.find((pet) => pet.name === petId);
+    const pet = petsData?.find((pet) => pet.id === petId);
     return (
       <YStack key={petId} ai="center" maxWidth={35} rowGap="$2">
         <PetAvatar data={pet as Pet} size="$3" />
@@ -232,7 +235,11 @@ export const PriceDetailsSheet = forwardRef<
                   )}
                 </XStack>
                 <Text fontSize="$c1" fontWeight="$7">
-                  Selected Vaccination
+                  Selected{" "}
+                  {serviceName.replace(
+                    serviceName[0],
+                    serviceName[0].toUpperCase()
+                  )}
                 </Text>
                 <SelectedServicesQuantity
                   selectedServices={selectedPetsServices}

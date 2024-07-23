@@ -52,7 +52,12 @@ export const CalendarSheet: React.FC<CalendarSheetProps> = ({
     return (
       <YStack py={30} rowGap="$4" jc="center" ai="center">
         <YStack rowGap={30} jc="center" ai="center">
-          <Image source={images.sleepyCat} />
+          <Image
+            resizeMode="contain"
+            source={images.noBooking}
+            height={191 / 2}
+            width={192}
+          />
           <YStack rowGap="$2" ai="center">
             <Text fontSize="$b3" fontWeight="$6">
               No Active Bookings

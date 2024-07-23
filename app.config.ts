@@ -34,7 +34,7 @@ export default (_: ConfigContext): ExpoConfig => ({
   name: appName,
   slug: "pawkit",
   owner: "pawkit_tech", // TODO: If necessary owner should be determined later
-  version: "3.0.1",
+  version: "3.0.2",
   orientation: "portrait",
   icon: "./assets/icon.png",
   userInterfaceStyle: "light",
@@ -46,6 +46,9 @@ export default (_: ConfigContext): ExpoConfig => ({
   ios: {
     bundleIdentifier: bundleID,
     supportsTablet: false,
+    infoPlist: {
+      LSApplicationQueriesSchemes: ["whatsapp"],
+    },
   },
   android: {
     package: bundleID,

@@ -1,12 +1,4 @@
-import { AddBookingInput, addBooking } from "@/api/service-booking";
-import {
-  BookingType,
-  Currency,
-  Pet,
-  Service,
-  ServiceCategory,
-  TimeSlot,
-} from "@/api/graphql/API";
+import { Currency, Order, Pet, ServiceCategory } from "@/api/graphql/API";
 import { addOrder, fetchOrder } from "@/api/order";
 import { createPaymentRequest } from "@/api/payment";
 import {
@@ -31,12 +23,13 @@ import {
 import { SelectedPetServiceType } from "@/types/services/selected-pet-service.type";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import { useAtomValue } from "jotai";
+import { useAtom, useAtomValue } from "jotai";
 import moment from "moment";
 import { useMemo, useState, useRef } from "react";
 import { FieldValues, SubmitHandler, useFormContext } from "react-hook-form";
 import { Alert, TouchableOpacity } from "react-native";
 import { getToken, ScrollView, Text, View, XStack, YStack } from "tamagui";
+import { serviceBookingAtom } from "@/atoms/service-booking/state.atom";
 
 export default function RequiredQuestions() {
   const router = useRouter();
@@ -44,11 +37,14 @@ export default function RequiredQuestions() {
   const { control, handleSubmit, watch, formState } = useFormContext();
   const { isSubmitting } = formState;
   const watchVaccinated = watch("vaccinated", "false");
+  const address = watch("address", "");
   const priceDetailsRef = useRef<PriceDetailsSheetRef>({ estimatedPrice: 0 });
   const { data: user } = useCurrentUser();
   const userAttributes = useUserAttributes();
   const serviceAtom = useServiceBookingAtom(serviceName as string);
   const selectedPetsServices = useAtomValue(serviceAtom);
+  const [serviceBookingState, setServiceBooking] = useAtom(serviceBookingAtom);
+  const { orderId } = serviceBookingState;
   const [selectedPetService, setSelectedPetService] =
     useState<SelectedPetServiceType>(selectedPetsServices[0]);
   const { data: pets } = useQuery({
@@ -57,7 +53,7 @@ export default function RequiredQuestions() {
     enabled: !!user && !!selectedPetService,
   });
   const selectedPet = useMemo(() => {
-    return pets?.find((pet) => pet.name === selectedPetService.petId);
+    return pets?.find((pet) => pet.id === selectedPetService.petId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedPetService, pets]);
   const mutationFetchOrder = useMutation({ mutationFn: fetchOrder });
@@ -70,9 +66,6 @@ export default function RequiredQuestions() {
       currency: Currency;
     }) => addOrder(customerId, currency),
   });
-  const mutationAddBooking = useMutation({
-    mutationFn: addBooking,
-  });
   const mutationCreatePaymentRequest = useMutation({
     mutationFn: createPaymentRequest,
   });
@@ -81,42 +74,32 @@ export default function RequiredQuestions() {
     queryKey: ["essential-questions", user?.userId],
     queryFn: () =>
       fetchPetQuestionAnswersForService(
-        user?.userId as string,
-        selectedPet?.name as string,
-        selectedPetService.serviceId as string
+        selectedPetService.serviceId as string,
+        selectedPet?.id as string
       ),
     enabled: !!user && !!selectedPetService,
   });
 
   const submit: SubmitHandler<FieldValues> = async (values) => {
     try {
-      const order = await mutationCreateOrder.mutateAsync({
-        currency: Currency.SGD,
-        customerId: user?.userId as string,
-      });
-      for (const petService of selectedPetsServices) {
-        const service = petService.service as Service;
-        const petName = petService?.petId as string;
-        const timeSlot = petService?.timeSlot as TimeSlot;
-        const input: AddBookingInput = {
-          currency: service.currency,
-          amount: priceDetailsRef.current.estimatedPrice,
-          bookingType: BookingType.PAID,
+      let fetchedOrder: Order;
+      if (!orderId) {
+        const order = await mutationCreateOrder.mutateAsync({
+          currency: Currency.SGD,
           customerId: user?.userId as string,
-          serviceId: service.id,
-          addOns: petService.addons,
-          startDateTime: timeSlot.startDateTime,
-          orderId: order.id,
-          petNames: [petName],
-        };
-        await mutationAddBooking.mutateAsync(input);
+        });
+        setServiceBooking({ orderId: order.id });
+        fetchedOrder = (await mutationFetchOrder.mutateAsync(
+          order.id
+        )) as Order;
+      } else {
+        fetchedOrder = (await mutationFetchOrder.mutateAsync(orderId)) as Order;
       }
-      const fetchedOrder = await mutationFetchOrder.mutateAsync(order.id);
       const paymentRequest = await mutationCreatePaymentRequest.mutateAsync({
         customerId: user?.userId as string,
         orderId: fetchedOrder?.id as string,
         input: {
-          amount: fetchedOrder?.totalAmount as number,
+          amount: priceDetailsRef.current.estimatedPrice,
           currency: fetchedOrder?.currency as Currency,
           name: user?.userId as string,
           phone: userAttributes?.phone_number as string,
@@ -125,7 +108,7 @@ export default function RequiredQuestions() {
         },
       });
       router.push(
-        `/service-booking/${serviceName}/hitpay-checkout?url=${paymentRequest.url}`
+        `/service-booking/${serviceName}/hitpay-checkout?amount=${paymentRequest.payment?.amount}&url=${paymentRequest.url}`
       );
     } catch (error) {
       Alert.alert("Couldn't continue the booking");
@@ -140,7 +123,7 @@ export default function RequiredQuestions() {
       </Text>
       <XStack fw="wrap" columnGap="$5" rowGap="$4">
         {selectedPetsServices?.map((item) => {
-          const pet = pets?.find((pet) => pet.name === item.petId);
+          const pet = pets?.find((pet) => pet.id === item.petId);
           return (
             <TouchableOpacity
               key={item.petId}
@@ -265,7 +248,11 @@ export default function RequiredQuestions() {
           },
         }}
       />
-      <ScrollView bg="$accent0" showsVerticalScrollIndicator={false}>
+      <ScrollView
+        bg="$accent0"
+        showsVerticalScrollIndicator={false}
+        automaticallyAdjustKeyboardInsets
+      >
         <YStack rowGap="$5" pb={99 + getToken("$5", "space")}>
           <YStack rowGap="$2">
             {/** Steps Indicator */}
@@ -300,7 +287,7 @@ export default function RequiredQuestions() {
                     <View w="$10">
                       <Text>Home Address</Text>
                     </View>
-                    <Text>: {userAttributes?.address}</Text>
+                    <Text>: {address}</Text>
                   </XStack>
                 </YStack>
               </YStack>

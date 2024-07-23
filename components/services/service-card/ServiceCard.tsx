@@ -1,6 +1,6 @@
 import { Button } from "@/components/common/Button/Button";
 import { CloseOutlinedIcon } from "@/components/common/Icons";
-import { Service } from "@/api/graphql/API";
+import { CustomPrice, Service } from "@/api/graphql/API";
 import React, { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { Image, Sheet, Text, XStack, YStack } from "tamagui";
@@ -30,8 +30,18 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   };
 
   const servicePrice = () => {
-    if (data.xxlWeightPrice && data.xxlWeightPrice.amount > 0) {
-      return `S$ ${data.basePrice} - S$ ${data.basePrice + data.xxlWeightPrice.amount}`;
+    const keys: (keyof Service)[] = [
+      "xsWeightPrice",
+      "sWeightPrice",
+      "mWeightPrice",
+      "lWeightPrice",
+      "xlWeightPrice",
+      "xxlWeightPrice",
+    ];
+    const maxSizeKey = keys.reverse().find((key) => data[key] != null);
+    if (maxSizeKey && data[maxSizeKey]) {
+      const maxPrice = data[maxSizeKey] as CustomPrice;
+      return `S$ ${data.basePrice} - S$ ${data.basePrice + maxPrice.amount}`;
     } else {
       return `S$ ${data.basePrice}`;
     }
@@ -53,7 +63,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
           </YStack>
           <Image
             source={{
-              uri: data?.imageUrl || images.serviceDefaultImage,
+              uri: images.serviceDefaultImage,
               width: 82,
               height: 82,
             }}

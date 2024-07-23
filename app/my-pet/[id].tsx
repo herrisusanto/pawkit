@@ -16,12 +16,14 @@ function MyAccount() {
   LogBox.ignoreLogs(["??"]);
   const [isUserCreated] = useState<boolean>(true);
   const { data: user } = useCurrentUser();
-  const { name } = useLocalSearchParams();
+  const { id } = useLocalSearchParams();
   const { data: pet } = useQuery({
-    queryKey: ["pets", user?.userId, name],
-    queryFn: () => fetchPet(user?.userId as string, name as string),
-    enabled: !!user && !!name,
+    queryKey: ["pets", user?.userId, id],
+    queryFn: () => fetchPet(id as string),
+    enabled: !!user && !!id,
   });
+
+  console.log(pet?.s3ImageKey);
 
   return (
     <ScrollView backgroundColor="$bgGrey" flex={1}>

@@ -13,8 +13,8 @@ import {
   listBookings,
   listPetBookings,
   listTimeSlots,
-  petBookingsByPetNameAndPetcustomerUsername,
   timeSlotById,
+  petBookingsByPetId,
 } from "./graphql/queries";
 import {
   BookingStatus,
@@ -29,7 +29,6 @@ import {
   ListServicesQueryVariables,
   ListTimeSlotsQueryVariables,
   ModelPetBookingsFilterInput,
-  ModelStringKeyConditionInput,
   PetType,
   ServiceCategory,
   UpdateBookingInput,
@@ -82,7 +81,8 @@ export type AddBookingInput = {
   customerId: string;
   serviceId: string;
   startDateTime: string;
-  petNames: string[];
+  address: string;
+  petIds: string[];
   addOns: string[];
   bookingType: BookingType;
   amount: number;
@@ -203,7 +203,8 @@ export const addBooking = async (input: AddBookingInput) => {
           serviceId: input.serviceId,
           startDateTime: input.startDateTime,
           timeSlotId: timeSlot.id,
-          petNames: input.petNames,
+          address: input.address,
+          petIds: input.petIds,
           addOns: input.addOns,
           bookingType: input.bookingType,
           amount: input.amount,
@@ -231,8 +232,8 @@ export const addBooking = async (input: AddBookingInput) => {
         ),
         addPetBookingRelationships(
           booking.customerUsername,
-          input.petNames,
-          timeSlot.id
+          timeSlot.id,
+          input.petIds
         ),
       ]);
 
@@ -252,14 +253,14 @@ export const addBooking = async (input: AddBookingInput) => {
 
 export const addPetBookingRelationships = (
   customerUsername: string,
-  petNames: string[],
-  timeSlotId: string
+  timeSlotId: string,
+  petIds: string[]
 ) => {
   try {
     const petBookingPromises: any[] = [];
-    petNames.forEach((petName) =>
+    petIds.forEach((petId) =>
       petBookingPromises.push(
-        addPetBookingRelationship(customerUsername, petName, timeSlotId)
+        addPetBookingRelationship(customerUsername, timeSlotId, petId)
       )
     );
     return Promise.all(petBookingPromises);
@@ -272,33 +273,32 @@ export const addPetBookingRelationships = (
 
 export const addPetBookingRelationship = async (
   customerUsername: string,
-  petName: string,
-  timeSlotId: string
+  timeSlotId: string,
+  petId: string
 ) => {
+  if (!customerUsername) {
+    logger.error("Customer username is required");
+    throw new BadRequestError("Customer username is required");
+  }
+
+  if (!timeSlotId) {
+    logger.error("Time slot id is required");
+    throw new BadRequestError("Time slot id is required");
+  }
+
+  if (!petId) {
+    logger.error("Pet id is required");
+    throw new BadRequestError("Pet id is required");
+  }
+
   try {
-    if (!customerUsername) {
-      logger.error("Customer username is required");
-      throw new BadRequestError("Customer username is required");
-    }
-
-    if (!petName) {
-      logger.error("Pet name is required");
-      throw new BadRequestError("Pet name is required");
-    }
-
-    if (!timeSlotId) {
-      logger.error("Time slot id is required");
-      throw new BadRequestError("Time slot id is required");
-    }
-
     const result = await graphqlClient.graphql({
       query: createPetBookings,
       variables: {
         input: {
           bookingCustomerUsername: customerUsername,
           bookingtimeSlotId: timeSlotId,
-          petName,
-          petcustomerUsername: customerUsername,
+          petId,
         },
       },
     });
@@ -666,37 +666,23 @@ export const fetchBookingsByOrder = async (orderId: string) => {
   }
 };
 
-export const fetchBookingsByPet = async (
-  petName: string,
-  customerUsername: string
-) => {
+export const fetchBookingsByPet = async (petId: string) => {
+  if (!petId) {
+    logger.error("Pet id is required");
+    throw new BadRequestError("Pet id is required");
+  }
+
   try {
-    if (!petName) {
-      logger.error("Pet name is required");
-      throw new BadRequestError("Pet name is required");
-    }
-
-    if (!customerUsername) {
-      logger.error("Customer username is required");
-      throw new BadRequestError("Customer username is required");
-    }
-
     const result = await graphqlClient.graphql({
-      query: petBookingsByPetNameAndPetcustomerUsername,
+      query: petBookingsByPetId,
       variables: {
-        petName,
-        petcustomerUsername: {
-          eq: customerUsername,
-        } as ModelStringKeyConditionInput,
+        petId,
       },
     });
-    logger.info("Called petBookingsByPetNameAndPetcustomerUsername query");
-    return result.data.petBookingsByPetNameAndPetcustomerUsername.items;
+    logger.info("Called petBookingsByPetId query");
+    return result.data.petBookingsByPetId.items;
   } catch (error) {
-    logger.error(
-      `Error fetching bookings for pet named ${petName} owned by ${customerUsername}: `,
-      error
-    );
+    logger.error(`Error fetching bookings for pet id=${petId}: `, error);
     if (error instanceof CustomError) throw error;
     throw new InternalServerError("Error fetching bookings");
   }

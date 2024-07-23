@@ -22,6 +22,7 @@ export type InputProps = {
   labelProps?: TextProps;
   inputProps?: TamaguiInputProps;
   errorProps?: TextProps;
+  requiredMark?: boolean;
   disabled?: boolean;
 };
 
@@ -55,6 +56,7 @@ export const Input = StyledView.styleable<InputProps>(
       prefixIcon,
       prefixIconProps,
       disabled = false,
+      requiredMark,
       ...props
     },
     ref
@@ -67,14 +69,17 @@ export const Input = StyledView.styleable<InputProps>(
     return (
       <StyledView ref={ref} {...props}>
         {label && (
-          <Text
-            fontSize="$c1"
-            fontWeight="$5"
-            color="$textPrimary"
-            {...labelProps}
-          >
-            {label}
-          </Text>
+          <XStack gap="$1">
+            <Text
+              fontSize="$c1"
+              fontWeight="$5"
+              color="$textPrimary"
+              {...labelProps}
+            >
+              {label}
+            </Text>
+            {requiredMark && <Text color="$error">*</Text>}
+          </XStack>
         )}
         <XStack
           h={42}

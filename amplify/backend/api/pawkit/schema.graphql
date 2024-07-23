@@ -29,7 +29,8 @@ type Booking
     @index(name: "byStartDateTime", queryField: "bookingsByStartDateTime")
   timeSlot: TimeSlot! @belongsTo(fields: ["serviceId", "startDateTime"])
   timeSlotId: ID! @index(name: "byTimeSlot", queryField: "bookingsByTimeSlot")
-  petNames: [String!]!
+  address: String!
+  petIds: [ID!]!
   pets: [Pet!] @manyToMany(relationName: "PetBookings")
   addOns: [ID!] # Add-on services
   bookingType: BookingType!
@@ -68,7 +69,7 @@ type Customer
   id: ID! @primaryKey
   username: String! @index(name: "byUsername", queryField: "customerByUsername")
   isDeactivated: Boolean! @default(value: "false")
-  imageUrl: AWSURL
+  s3ImageKey: String
   address: Address
   acceptedDisclaimers: [DisclaimerAcceptance!]
     @hasMany(indexName: "byCustomer", fields: ["id"])
@@ -200,15 +201,15 @@ type Pet
       { allow: groups, groups: ["Admin"] }
     ]
   ) {
-  name: String! @primaryKey(sortKeyFields: ["customerUsername"])
-  customerUsername: String!
+  id: ID!
+  name: String!
   customerId: ID! @index(name: "byCustomer", queryField: "petsByCustomer")
   customer: Customer! @belongsTo(fields: ["customerId"])
   gender: Gender!
   petType: PetType!
   isDeleted: Boolean! @default(value: "false")
   breedName: String @index(name: "byBreed", queryField: "petsByBreed")
-  imageUrl: AWSURL
+  s3ImageKey: String
   birthdate: AWSDate
   weightValue: Float
   weightUnit: WeightUnit
@@ -249,10 +250,8 @@ type QuestionAnswer
       { allow: groups, groups:["Admin", "ServicePersonnel"], operations: [read] }
     ]
   ) {
-  petName: String! @primaryKey(sortKeyFields: ["customerUsername", "questionId"]) @index(name: "byPet", queryField: "answersByPet")
-  customerUsername: String!
-  pet: Pet! @hasOne(fields: ["petName", "customerUsername"])
-  customerId: ID! @index(name: "byCustomer", queryField: "answersByCustomer")
+  petId: ID! @index(name: "byPet", queryField: "answersByPet")
+  pet: Pet! @hasOne(fields: ["petId"])
   questionId: ID! @index(name: "byQuestion", queryField: "answersByQuestion")
   question: Question! @hasOne(fields: ["questionId"])
   answer: String!
@@ -282,6 +281,7 @@ type Service
   petType: PetType! @index(name: "byPetType", queryField: "servicesByPetType")
   defaultDisplay: Boolean! @default(value: "false") # If false, service is hidden from initial view as it is an add-on to a base service.
   displayPriority: Int
+  s3ImageKey: String
   onlinePaymentAccepted: Boolean! @default(value: "true")
   currency: Currency! @default(value: "SGD")
   basePrice: Float! @index(name: "byPrice", queryField: "servicesByPrice")
@@ -297,7 +297,6 @@ type Service
   xxlWeightPrice: CustomPrice
   shortDescription: String
   longDescription: String
-  imageUrl: AWSURL
   serviceBreakdown: String
   additionalInfo: String
   faq: String
@@ -325,7 +324,7 @@ type ServiceProvider
   name: String! @primaryKey
   displayName: String
   description: String
-  imageUrl: AWSURL
+  s3ImageKey: String
   address: Address
   website: AWSURL
   email: AWSEmail

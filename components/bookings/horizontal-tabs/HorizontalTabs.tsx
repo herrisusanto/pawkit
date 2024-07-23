@@ -131,7 +131,7 @@ const HorizontalTabs = () => {
         </Tabs.List>
       </YStack>
 
-      <Tabs.Content value="tab1" flex={1}>
+      <Tabs.Content value="tab1" flex={1} overflow="hidden">
         <BookingSection
           bookingData={
             bookings?.sort(
@@ -143,7 +143,7 @@ const HorizontalTabs = () => {
         />
       </Tabs.Content>
 
-      <Tabs.Content value="tab2" flex={1}>
+      <Tabs.Content value="tab2" flex={1} overflow="hidden">
         <BookingSection
           bookingData={
             bookings
@@ -155,11 +155,10 @@ const HorizontalTabs = () => {
               .filter((item: any) => item.status === BookingStatus.CONFIRMED) ??
             []
           }
-          // bookingData={bookings?.filter((item) => item.status === "Confirmed") ?? []}
         />
       </Tabs.Content>
 
-      <Tabs.Content value="tab3" flex={1}>
+      <Tabs.Content value="tab3" flex={1} overflow="hidden">
         <BookingSection
           bookingData={
             bookings
@@ -171,12 +170,10 @@ const HorizontalTabs = () => {
               .filter((item: any) => item.status === BookingStatus.PENDING) ??
             []
           }
-
-          // bookingData={bookings?.filter((item) => item.status === "Pending")}
         />
       </Tabs.Content>
 
-      <Tabs.Content value="tab4" flex={1}>
+      <Tabs.Content value="tab4" flex={1} overflow="hidden">
         <BookingSection
           bookingData={
             bookings

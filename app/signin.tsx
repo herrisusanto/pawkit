@@ -33,7 +33,6 @@ type SignInScreenProps = {
 };
 
 const SignInScreen: React.FC<SignInScreenProps> = ({ onSubmit, loading }) => {
-  // NOTE: TEMPORARY, FIX LATER
   LogBox.ignoreAllLogs();
   const { control, handleSubmit, formState } = useFormContext();
   const { isValid } = formState;
@@ -46,7 +45,7 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ onSubmit, loading }) => {
 
   return (
     <>
-      <ScrollView>
+      <ScrollView bg="#fff" automaticallyAdjustKeyboardInsets>
         <SignInContainer>
           <TopBanner />
           <YStackContainer gap="$4">
@@ -67,15 +66,14 @@ const SignInScreen: React.FC<SignInScreenProps> = ({ onSubmit, loading }) => {
                 Phone Number
               </Text>
               <XStack gap="$2">
-                <ReadOnlyInput>
-                  <Text>+65</Text>
-                </ReadOnlyInput>
                 <InputNumber
+                  prefix={<Text>+65</Text>}
                   disabled
                   name="phone_number"
                   control={control}
                   flex={1}
                   placeholder="Input phone number"
+                  inputProps={{ autoFocus: true }}
                   rules={{
                     required: "Phone number is required",
                     pattern: /^\d{8}$/,
@@ -209,23 +207,11 @@ const SignInContainer = styled(View, {
 const YStackContainer = styled(YStack, {
   flex: 1,
   width: "100%",
-  marginTop: -15,
   padding: 16,
-  backgroundColor: "#fff",
   borderTopRightRadius: 24,
   borderTopLeftRadius: 24,
-  height: height - 281 + 15,
+  height: height - 281,
   alignItems: "center",
-});
-
-const ReadOnlyInput = styled(View, {
-  borderRadius: "$2",
-  borderColor: "#BDBDBD",
-  borderWidth: 1,
-  justifyContent: "center",
-  paddingHorizontal: "$3",
-  bg: "#FCFCFC",
-  height: 42,
 });
 
 export default SignInScreen;

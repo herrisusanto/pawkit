@@ -19,11 +19,14 @@ type InputProps = {
   placeholder?: string;
   prefix?: React.ReactElement;
   prefixProps?: IconProps;
+  suffix?: React.ReactElement;
+  suffixProps?: IconProps;
   rules?: UseControllerProps["rules"];
   labelProps?: TextProps;
   inputContainerProps?: XStackProps;
   inputProps?: TamaguiInputProps;
   errorProps?: TextProps;
+  requiredMark?: boolean;
 };
 
 const StyledView = styled(View, {
@@ -57,6 +60,9 @@ export const InputNumber = StyledView.styleable<InputProps>(
       rules,
       prefix,
       prefixProps,
+      suffix,
+      suffixProps,
+      requiredMark,
       ...props
     },
     ref
@@ -71,14 +77,17 @@ export const InputNumber = StyledView.styleable<InputProps>(
     return (
       <StyledView ref={ref} {...props}>
         {label && (
-          <Text
-            fontSize="$c1"
-            fontWeight="$5"
-            color="$textPrimary"
-            {...labelProps}
-          >
-            {label}
-          </Text>
+          <XStack gap="$1">
+            <Text
+              fontSize="$c1"
+              fontWeight="$5"
+              color="$textPrimary"
+              {...labelProps}
+            >
+              {label}
+            </Text>
+            {requiredMark && <Text color="$error">*</Text>}
+          </XStack>
         )}
         <XStack columnGap="$2">
           {prefix && (
@@ -117,6 +126,21 @@ export const InputNumber = StyledView.styleable<InputProps>(
               {...inputProps}
             />
           </XStack>
+          {suffix && (
+            <XStack
+              h={42}
+              bw="$0.5"
+              bc={invalid ? "$error" : "$natural0"}
+              br="$2"
+              px="$2.5"
+              ai="center"
+              gap="$2.5"
+              bg={invalid ? "$bgError" : "$formColor"}
+              {...suffixProps}
+            >
+              {suffix}
+            </XStack>
+          )}
         </XStack>
         {error && (
           <Text fontSize="$c2" fontWeight="$4" color="$error" {...errorProps}>

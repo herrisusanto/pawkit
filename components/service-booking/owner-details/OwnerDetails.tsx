@@ -28,12 +28,22 @@ export function OwnerDetails() {
         name="name"
         label="Name"
         placeholder="Input owner name"
+        requiredMark
+        rules={{ required: "Owner name is required" }}
       />
       <Input
         control={control}
         name="email"
         label="Email"
         placeholder="Input owner email"
+        requiredMark
+        rules={{
+          required: "Email is required",
+          pattern: {
+            value: /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
+            message: "Invalid Email",
+          },
+        }}
       />
       <InputNumber
         control={control}

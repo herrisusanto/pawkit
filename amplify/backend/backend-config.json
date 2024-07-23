@@ -306,22 +306,6 @@
   },
   "hosting": {},
   "parameters": {
-    "AMPLIFY_function_AdminQueries18a98b8c_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "AdminQueries18a98b8c"
-        }
-      ]
-    },
-    "AMPLIFY_function_AdminQueries18a98b8c_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "AdminQueries18a98b8c"
-        }
-      ]
-    },
     "AMPLIFY_function_AdminQueries2bb3090c_deploymentBucketName": {
       "usedBy": [
         {
@@ -335,22 +319,6 @@
         {
           "category": "function",
           "resourceName": "AdminQueries2bb3090c"
-        }
-      ]
-    },
-    "AMPLIFY_function_PawkitCSVToDynamoLambda_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "PawkitCSVToDynamoLambda"
-        }
-      ]
-    },
-    "AMPLIFY_function_PawkitCSVToDynamoLambda_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "PawkitCSVToDynamoLambda"
         }
       ]
     },
@@ -466,38 +434,6 @@
         }
       ]
     },
-    "AMPLIFY_function_paymentRequestsLambda_deploymentBucketName": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "paymentRequestsLambda"
-        }
-      ]
-    },
-    "AMPLIFY_function_paymentRequestsLambda_hitpayBaseUrl": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "paymentRequestsLambda"
-        }
-      ]
-    },
-    "AMPLIFY_function_paymentRequestsLambda_s3Key": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "paymentRequestsLambda"
-        }
-      ]
-    },
-    "AMPLIFY_function_paymentRequestsLambda_secretsPathAmplifyAppId": {
-      "usedBy": [
-        {
-          "category": "function",
-          "resourceName": "paymentRequestsLambda"
-        }
-      ]
-    },
     "AMPLIFY_function_paymentRequests_deploymentBucketName": {
       "usedBy": [
         {
@@ -541,45 +477,7 @@
   },
   "storage": {
     "content": {
-      "dependsOn": [
-        {
-          "attributes": [
-            "Name",
-            "Arn",
-            "LambdaExecutionRole"
-          ],
-          "category": "function",
-          "resourceName": "dataLoader"
-        },
-        {
-          "attributes": [
-            "UserPoolId"
-          ],
-          "category": "auth",
-          "resourceName": "pawkit"
-        },
-        {
-          "attributes": [
-            "PetOwnersGroupRole"
-          ],
-          "category": "auth",
-          "resourceName": "userPoolGroups"
-        },
-        {
-          "attributes": [
-            "ServicePersonnelGroupRole"
-          ],
-          "category": "auth",
-          "resourceName": "userPoolGroups"
-        },
-        {
-          "attributes": [
-            "AdminGroupRole"
-          ],
-          "category": "auth",
-          "resourceName": "userPoolGroups"
-        }
-      ],
+      "dependsOn": [],
       "providerPlugin": "awscloudformation",
       "service": "S3"
     }

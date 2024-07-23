@@ -32,13 +32,7 @@ const AboutPet: React.FC<AboutPetProps> = ({ data }) => {
   const queryClient = useQueryClient();
 
   const mutationDeletePet = useMutation({
-    mutationFn: ({
-      customerUsername,
-      name,
-    }: {
-      customerUsername: string;
-      name: string;
-    }) => removePet(customerUsername, name),
+    mutationFn: ({ id }: { id: string }) => removePet(id),
   });
 
   const [openDeletePetModal, setOpenDeletePetModal] = useState<boolean>(false);
@@ -47,7 +41,7 @@ const AboutPet: React.FC<AboutPetProps> = ({ data }) => {
 
   const handleUpdate = () => {
     if (data) {
-      setState({ petId: data?.name as string });
+      setState({ petId: data?.id as string });
       router.push({
         pathname: "/pet-onboarding/about-your-pet",
         params: { from: pathname },
@@ -58,8 +52,7 @@ const AboutPet: React.FC<AboutPetProps> = ({ data }) => {
   const handleRemove = async () => {
     try {
       await mutationDeletePet.mutateAsync({
-        name: (data?.name as string) ?? "",
-        customerUsername: user?.userId as string,
+        id: (data?.id as string) ?? "",
       });
       invalidateQueries();
       router.canGoBack() && router.back();

@@ -33,7 +33,7 @@ export const getBooking = /* GraphQL */ `query GetBooking($customerUsername: Str
       id
       username
       isDeactivated
-      imageUrl
+      s3ImageKey
       createdAt
       updatedAt
       __typename
@@ -45,7 +45,7 @@ export const getBooking = /* GraphQL */ `query GetBooking($customerUsername: Str
       name
       displayName
       description
-      imageUrl
+      s3ImageKey
       website
       email
       phone
@@ -74,7 +74,8 @@ export const getBooking = /* GraphQL */ `query GetBooking($customerUsername: Str
       __typename
     }
     timeSlotId
-    petNames
+    address
+    petIds
     pets {
       nextToken
       __typename
@@ -125,7 +126,8 @@ export const listBookings = /* GraphQL */ `query ListBookings(
       serviceId
       startDateTime
       timeSlotId
-      petNames
+      address
+      petIds
       addOns
       bookingType
       amount
@@ -173,7 +175,8 @@ export const bookingById = /* GraphQL */ `query BookingById(
       serviceId
       startDateTime
       timeSlotId
-      petNames
+      address
+      petIds
       addOns
       bookingType
       amount
@@ -221,7 +224,8 @@ export const bookingsByOrder = /* GraphQL */ `query BookingsByOrder(
       serviceId
       startDateTime
       timeSlotId
-      petNames
+      address
+      petIds
       addOns
       bookingType
       amount
@@ -269,7 +273,8 @@ export const bookingsByCustomer = /* GraphQL */ `query BookingsByCustomer(
       serviceId
       startDateTime
       timeSlotId
-      petNames
+      address
+      petIds
       addOns
       bookingType
       amount
@@ -317,7 +322,8 @@ export const bookingsByService = /* GraphQL */ `query BookingsByService(
       serviceId
       startDateTime
       timeSlotId
-      petNames
+      address
+      petIds
       addOns
       bookingType
       amount
@@ -365,7 +371,8 @@ export const bookingsByStartDateTime = /* GraphQL */ `query BookingsByStartDateT
       serviceId
       startDateTime
       timeSlotId
-      petNames
+      address
+      petIds
       addOns
       bookingType
       amount
@@ -413,7 +420,8 @@ export const bookingsByTimeSlot = /* GraphQL */ `query BookingsByTimeSlot(
       serviceId
       startDateTime
       timeSlotId
-      petNames
+      address
+      petIds
       addOns
       bookingType
       amount
@@ -522,7 +530,7 @@ export const getCustomer = /* GraphQL */ `query GetCustomer($id: ID!) {
     id
     username
     isDeactivated
-    imageUrl
+    s3ImageKey
     address {
       blockNumber
       streetName
@@ -577,7 +585,7 @@ export const listCustomers = /* GraphQL */ `query ListCustomers(
       id
       username
       isDeactivated
-      imageUrl
+      s3ImageKey
       createdAt
       updatedAt
       __typename
@@ -608,7 +616,7 @@ export const customerByUsername = /* GraphQL */ `query CustomerByUsername(
       id
       username
       isDeactivated
-      imageUrl
+      s3ImageKey
       createdAt
       updatedAt
       __typename
@@ -637,6 +645,7 @@ export const getDisclaimer = /* GraphQL */ `query GetDisclaimer($name: String!) 
       petType
       defaultDisplay
       displayPriority
+      s3ImageKey
       onlinePaymentAccepted
       currency
       basePrice
@@ -645,7 +654,6 @@ export const getDisclaimer = /* GraphQL */ `query GetDisclaimer($name: String!) 
       additionalPetPrice
       shortDescription
       longDescription
-      imageUrl
       serviceBreakdown
       additionalInfo
       faq
@@ -732,7 +740,7 @@ export const getDisclaimerAcceptance = /* GraphQL */ `query GetDisclaimerAccepta
       id
       username
       isDeactivated
-      imageUrl
+      s3ImageKey
       createdAt
       updatedAt
       __typename
@@ -858,7 +866,7 @@ export const getOrder = /* GraphQL */ `query GetOrder($id: ID!) {
       id
       username
       isDeactivated
-      imageUrl
+      s3ImageKey
       createdAt
       updatedAt
       __typename
@@ -975,7 +983,7 @@ export const getPayment = /* GraphQL */ `query GetPayment($paymentRequestId: ID!
       id
       username
       isDeactivated
-      imageUrl
+      s3ImageKey
       createdAt
       updatedAt
       __typename
@@ -1323,16 +1331,16 @@ export const paymentsByPaymentMethod = /* GraphQL */ `query PaymentsByPaymentMet
   APITypes.PaymentsByPaymentMethodQueryVariables,
   APITypes.PaymentsByPaymentMethodQuery
 >;
-export const getPet = /* GraphQL */ `query GetPet($name: String!, $customerUsername: String!) {
-  getPet(name: $name, customerUsername: $customerUsername) {
+export const getPet = /* GraphQL */ `query GetPet($id: ID!) {
+  getPet(id: $id) {
+    id
     name
-    customerUsername
     customerId
     customer {
       id
       username
       isDeactivated
-      imageUrl
+      s3ImageKey
       createdAt
       updatedAt
       __typename
@@ -1341,7 +1349,7 @@ export const getPet = /* GraphQL */ `query GetPet($name: String!, $customerUsern
     petType
     isDeleted
     breedName
-    imageUrl
+    s3ImageKey
     birthdate
     weightValue
     weightUnit
@@ -1364,31 +1372,17 @@ export const getPet = /* GraphQL */ `query GetPet($name: String!, $customerUsern
   }
 }
 ` as GeneratedQuery<APITypes.GetPetQueryVariables, APITypes.GetPetQuery>;
-export const listPets = /* GraphQL */ `query ListPets(
-  $name: String
-  $customerUsername: ModelStringKeyConditionInput
-  $filter: ModelPetFilterInput
-  $limit: Int
-  $nextToken: String
-  $sortDirection: ModelSortDirection
-) {
-  listPets(
-    name: $name
-    customerUsername: $customerUsername
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-    sortDirection: $sortDirection
-  ) {
+export const listPets = /* GraphQL */ `query ListPets($filter: ModelPetFilterInput, $limit: Int, $nextToken: String) {
+  listPets(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
+      id
       name
-      customerUsername
       customerId
       gender
       petType
       isDeleted
       breedName
-      imageUrl
+      s3ImageKey
       birthdate
       weightValue
       weightUnit
@@ -1425,14 +1419,14 @@ export const petsByCustomer = /* GraphQL */ `query PetsByCustomer(
     nextToken: $nextToken
   ) {
     items {
+      id
       name
-      customerUsername
       customerId
       gender
       petType
       isDeleted
       breedName
-      imageUrl
+      s3ImageKey
       birthdate
       weightValue
       weightUnit
@@ -1472,14 +1466,14 @@ export const petsByBreed = /* GraphQL */ `query PetsByBreed(
     nextToken: $nextToken
   ) {
     items {
+      id
       name
-      customerUsername
       customerId
       gender
       petType
       isDeleted
       breedName
-      imageUrl
+      s3ImageKey
       birthdate
       weightValue
       weightUnit
@@ -1579,27 +1573,18 @@ export const questionsByCategory = /* GraphQL */ `query QuestionsByCategory(
   APITypes.QuestionsByCategoryQueryVariables,
   APITypes.QuestionsByCategoryQuery
 >;
-export const getQuestionAnswer = /* GraphQL */ `query GetQuestionAnswer(
-  $petName: String!
-  $customerUsername: String!
-  $questionId: ID!
-) {
-  getQuestionAnswer(
-    petName: $petName
-    customerUsername: $customerUsername
-    questionId: $questionId
-  ) {
-    petName
-    customerUsername
+export const getQuestionAnswer = /* GraphQL */ `query GetQuestionAnswer($id: ID!) {
+  getQuestionAnswer(id: $id) {
+    petId
     pet {
+      id
       name
-      customerUsername
       customerId
       gender
       petType
       isDeleted
       breedName
-      imageUrl
+      s3ImageKey
       birthdate
       weightValue
       weightUnit
@@ -1616,7 +1601,6 @@ export const getQuestionAnswer = /* GraphQL */ `query GetQuestionAnswer(
       updatedAt
       __typename
     }
-    customerId
     questionId
     question {
       id
@@ -1630,8 +1614,10 @@ export const getQuestionAnswer = /* GraphQL */ `query GetQuestionAnswer(
       __typename
     }
     answer
+    id
     createdAt
     updatedAt
+    customerId
     __typename
   }
 }
@@ -1640,29 +1626,19 @@ export const getQuestionAnswer = /* GraphQL */ `query GetQuestionAnswer(
   APITypes.GetQuestionAnswerQuery
 >;
 export const listQuestionAnswers = /* GraphQL */ `query ListQuestionAnswers(
-  $petName: String
-  $customerUsernameQuestionId: ModelQuestionAnswerPrimaryCompositeKeyConditionInput
   $filter: ModelQuestionAnswerFilterInput
   $limit: Int
   $nextToken: String
-  $sortDirection: ModelSortDirection
 ) {
-  listQuestionAnswers(
-    petName: $petName
-    customerUsernameQuestionId: $customerUsernameQuestionId
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-    sortDirection: $sortDirection
-  ) {
+  listQuestionAnswers(filter: $filter, limit: $limit, nextToken: $nextToken) {
     items {
-      petName
-      customerUsername
-      customerId
+      petId
       questionId
       answer
+      id
       createdAt
       updatedAt
+      customerId
       __typename
     }
     nextToken
@@ -1674,27 +1650,27 @@ export const listQuestionAnswers = /* GraphQL */ `query ListQuestionAnswers(
   APITypes.ListQuestionAnswersQuery
 >;
 export const answersByPet = /* GraphQL */ `query AnswersByPet(
-  $petName: String!
+  $petId: ID!
   $sortDirection: ModelSortDirection
   $filter: ModelQuestionAnswerFilterInput
   $limit: Int
   $nextToken: String
 ) {
   answersByPet(
-    petName: $petName
+    petId: $petId
     sortDirection: $sortDirection
     filter: $filter
     limit: $limit
     nextToken: $nextToken
   ) {
     items {
-      petName
-      customerUsername
-      customerId
+      petId
       questionId
       answer
+      id
       createdAt
       updatedAt
+      customerId
       __typename
     }
     nextToken
@@ -1704,38 +1680,6 @@ export const answersByPet = /* GraphQL */ `query AnswersByPet(
 ` as GeneratedQuery<
   APITypes.AnswersByPetQueryVariables,
   APITypes.AnswersByPetQuery
->;
-export const answersByCustomer = /* GraphQL */ `query AnswersByCustomer(
-  $customerId: ID!
-  $sortDirection: ModelSortDirection
-  $filter: ModelQuestionAnswerFilterInput
-  $limit: Int
-  $nextToken: String
-) {
-  answersByCustomer(
-    customerId: $customerId
-    sortDirection: $sortDirection
-    filter: $filter
-    limit: $limit
-    nextToken: $nextToken
-  ) {
-    items {
-      petName
-      customerUsername
-      customerId
-      questionId
-      answer
-      createdAt
-      updatedAt
-      __typename
-    }
-    nextToken
-    __typename
-  }
-}
-` as GeneratedQuery<
-  APITypes.AnswersByCustomerQueryVariables,
-  APITypes.AnswersByCustomerQuery
 >;
 export const answersByQuestion = /* GraphQL */ `query AnswersByQuestion(
   $questionId: ID!
@@ -1752,13 +1696,13 @@ export const answersByQuestion = /* GraphQL */ `query AnswersByQuestion(
     nextToken: $nextToken
   ) {
     items {
-      petName
-      customerUsername
-      customerId
+      petId
       questionId
       answer
+      id
       createdAt
       updatedAt
+      customerId
       __typename
     }
     nextToken
@@ -1790,7 +1734,7 @@ export const getService = /* GraphQL */ `query GetService(
       name
       displayName
       description
-      imageUrl
+      s3ImageKey
       website
       email
       phone
@@ -1804,6 +1748,7 @@ export const getService = /* GraphQL */ `query GetService(
     petType
     defaultDisplay
     displayPriority
+    s3ImageKey
     onlinePaymentAccepted
     currency
     basePrice
@@ -1875,7 +1820,6 @@ export const getService = /* GraphQL */ `query GetService(
     }
     shortDescription
     longDescription
-    imageUrl
     serviceBreakdown
     additionalInfo
     faq
@@ -1933,6 +1877,7 @@ export const listServices = /* GraphQL */ `query ListServices(
       petType
       defaultDisplay
       displayPriority
+      s3ImageKey
       onlinePaymentAccepted
       currency
       basePrice
@@ -1941,7 +1886,6 @@ export const listServices = /* GraphQL */ `query ListServices(
       additionalPetPrice
       shortDescription
       longDescription
-      imageUrl
       serviceBreakdown
       additionalInfo
       faq
@@ -1987,6 +1931,7 @@ export const serviceById = /* GraphQL */ `query ServiceById(
       petType
       defaultDisplay
       displayPriority
+      s3ImageKey
       onlinePaymentAccepted
       currency
       basePrice
@@ -1995,7 +1940,6 @@ export const serviceById = /* GraphQL */ `query ServiceById(
       additionalPetPrice
       shortDescription
       longDescription
-      imageUrl
       serviceBreakdown
       additionalInfo
       faq
@@ -2041,6 +1985,7 @@ export const servicesByServiceProvider = /* GraphQL */ `query ServicesByServiceP
       petType
       defaultDisplay
       displayPriority
+      s3ImageKey
       onlinePaymentAccepted
       currency
       basePrice
@@ -2049,7 +1994,6 @@ export const servicesByServiceProvider = /* GraphQL */ `query ServicesByServiceP
       additionalPetPrice
       shortDescription
       longDescription
-      imageUrl
       serviceBreakdown
       additionalInfo
       faq
@@ -2095,6 +2039,7 @@ export const servicesByCategory = /* GraphQL */ `query ServicesByCategory(
       petType
       defaultDisplay
       displayPriority
+      s3ImageKey
       onlinePaymentAccepted
       currency
       basePrice
@@ -2103,7 +2048,6 @@ export const servicesByCategory = /* GraphQL */ `query ServicesByCategory(
       additionalPetPrice
       shortDescription
       longDescription
-      imageUrl
       serviceBreakdown
       additionalInfo
       faq
@@ -2149,6 +2093,7 @@ export const servicesByPetType = /* GraphQL */ `query ServicesByPetType(
       petType
       defaultDisplay
       displayPriority
+      s3ImageKey
       onlinePaymentAccepted
       currency
       basePrice
@@ -2157,7 +2102,6 @@ export const servicesByPetType = /* GraphQL */ `query ServicesByPetType(
       additionalPetPrice
       shortDescription
       longDescription
-      imageUrl
       serviceBreakdown
       additionalInfo
       faq
@@ -2203,6 +2147,7 @@ export const servicesByPrice = /* GraphQL */ `query ServicesByPrice(
       petType
       defaultDisplay
       displayPriority
+      s3ImageKey
       onlinePaymentAccepted
       currency
       basePrice
@@ -2211,7 +2156,6 @@ export const servicesByPrice = /* GraphQL */ `query ServicesByPrice(
       additionalPetPrice
       shortDescription
       longDescription
-      imageUrl
       serviceBreakdown
       additionalInfo
       faq
@@ -2257,6 +2201,7 @@ export const servicesByDuration = /* GraphQL */ `query ServicesByDuration(
       petType
       defaultDisplay
       displayPriority
+      s3ImageKey
       onlinePaymentAccepted
       currency
       basePrice
@@ -2265,7 +2210,6 @@ export const servicesByDuration = /* GraphQL */ `query ServicesByDuration(
       additionalPetPrice
       shortDescription
       longDescription
-      imageUrl
       serviceBreakdown
       additionalInfo
       faq
@@ -2294,7 +2238,7 @@ export const getServiceProvider = /* GraphQL */ `query GetServiceProvider($name:
     name
     displayName
     description
-    imageUrl
+    s3ImageKey
     address {
       blockNumber
       streetName
@@ -2317,7 +2261,7 @@ export const getServiceProvider = /* GraphQL */ `query GetServiceProvider($name:
       name
       displayName
       description
-      imageUrl
+      s3ImageKey
       website
       email
       phone
@@ -2364,7 +2308,7 @@ export const listServiceProviders = /* GraphQL */ `query ListServiceProviders(
       name
       displayName
       description
-      imageUrl
+      s3ImageKey
       website
       email
       phone
@@ -2401,7 +2345,7 @@ export const serviceProviderById = /* GraphQL */ `query ServiceProviderById(
       name
       displayName
       description
-      imageUrl
+      s3ImageKey
       website
       email
       phone
@@ -2666,8 +2610,7 @@ export const getPetBookings = /* GraphQL */ `query GetPetBookings($id: ID!) {
     id
     bookingCustomerUsername
     bookingtimeSlotId
-    petName
-    petcustomerUsername
+    petId
     booking {
       id
       orderId
@@ -2681,7 +2624,8 @@ export const getPetBookings = /* GraphQL */ `query GetPetBookings($id: ID!) {
       serviceId
       startDateTime
       timeSlotId
-      petNames
+      address
+      petIds
       addOns
       bookingType
       amount
@@ -2695,14 +2639,14 @@ export const getPetBookings = /* GraphQL */ `query GetPetBookings($id: ID!) {
       __typename
     }
     pet {
+      id
       name
-      customerUsername
       customerId
       gender
       petType
       isDeleted
       breedName
-      imageUrl
+      s3ImageKey
       birthdate
       weightValue
       weightUnit
@@ -2740,8 +2684,7 @@ export const listPetBookings = /* GraphQL */ `query ListPetBookings(
       id
       bookingCustomerUsername
       bookingtimeSlotId
-      petName
-      petcustomerUsername
+      petId
       createdAt
       updatedAt
       owners
@@ -2776,8 +2719,7 @@ export const petBookingsByBookingCustomerUsernameAndBookingtimeSlotId = /* Graph
       id
       bookingCustomerUsername
       bookingtimeSlotId
-      petName
-      petcustomerUsername
+      petId
       createdAt
       updatedAt
       owners
@@ -2792,17 +2734,15 @@ export const petBookingsByBookingCustomerUsernameAndBookingtimeSlotId = /* Graph
   APITypes.PetBookingsByBookingCustomerUsernameAndBookingtimeSlotIdQueryVariables,
   APITypes.PetBookingsByBookingCustomerUsernameAndBookingtimeSlotIdQuery
 >;
-export const petBookingsByPetNameAndPetcustomerUsername = /* GraphQL */ `query PetBookingsByPetNameAndPetcustomerUsername(
-  $petName: String!
-  $petcustomerUsername: ModelStringKeyConditionInput
+export const petBookingsByPetId = /* GraphQL */ `query PetBookingsByPetId(
+  $petId: ID!
   $sortDirection: ModelSortDirection
   $filter: ModelPetBookingsFilterInput
   $limit: Int
   $nextToken: String
 ) {
-  petBookingsByPetNameAndPetcustomerUsername(
-    petName: $petName
-    petcustomerUsername: $petcustomerUsername
+  petBookingsByPetId(
+    petId: $petId
     sortDirection: $sortDirection
     filter: $filter
     limit: $limit
@@ -2812,8 +2752,7 @@ export const petBookingsByPetNameAndPetcustomerUsername = /* GraphQL */ `query P
       id
       bookingCustomerUsername
       bookingtimeSlotId
-      petName
-      petcustomerUsername
+      petId
       createdAt
       updatedAt
       owners
@@ -2825,6 +2764,6 @@ export const petBookingsByPetNameAndPetcustomerUsername = /* GraphQL */ `query P
   }
 }
 ` as GeneratedQuery<
-  APITypes.PetBookingsByPetNameAndPetcustomerUsernameQueryVariables,
-  APITypes.PetBookingsByPetNameAndPetcustomerUsernameQuery
+  APITypes.PetBookingsByPetIdQueryVariables,
+  APITypes.PetBookingsByPetIdQuery
 >;

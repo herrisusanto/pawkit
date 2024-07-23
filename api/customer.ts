@@ -1,5 +1,5 @@
 import { ConsoleLogger } from "aws-amplify/utils";
-import { graphqlClient } from "./core";
+import { graphqlClient, uploadFile } from "./core";
 import {
   CreateCustomerInput,
   CreateDisclaimerAcceptanceInput,
@@ -179,5 +179,34 @@ export const reactivateCustomer = async (userId: string) => {
     logger.error("Error reactivating customer: ", error);
     if (error instanceof CustomError) throw error;
     throw new InternalServerError("Error reactivating customer");
+  }
+};
+
+export const uploadCustomerImage = async (userId: string, image: File) => {
+  if (!userId) {
+    logger.error("User ID is required");
+    throw new BadRequestError("User ID is required");
+  }
+
+  if (!image) {
+    logger.error("Image is required");
+    throw new BadRequestError("Image is required");
+  }
+
+  const imageKey = `${userId}/profile.jpg`;
+
+  try {
+    // Upload image to S3
+    await uploadFile(imageKey, "protected", image);
+
+    // Update customer with image key
+    const updatedCustomer = await modifyCustomer({
+      id: userId,
+      s3ImageKey: imageKey,
+    });
+    logger.info("Uploaded image for customer with id=", userId);
+    return updatedCustomer;
+  } catch (error) {
+    logger.error("Error uploading image for customer: ", error);
   }
 };

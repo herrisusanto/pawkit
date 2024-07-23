@@ -9,6 +9,7 @@ import { CameraIcon } from "../Icons";
 
 type AvatarPickerProps = {
   avatarProps?: AvatarProps;
+  source?: string;
 };
 
 const StyledView = styled(TamaguiView, {
@@ -16,14 +17,14 @@ const StyledView = styled(TamaguiView, {
 });
 
 export const AvatarPicker = StyledView.styleable<AvatarPickerProps>(
-  ({ avatarProps, ...props }, ref) => {
+  ({ avatarProps, source, ...props }, ref) => {
     return (
       <StyledView ref={ref} {...props}>
         <Avatar circular size={100} {...avatarProps}>
           <Avatar.Image
             accessibilityLabel="Avatar"
             aria-label="Avatar"
-            src="https://via.placeholder.com/150"
+            src={source || "https://via.placeholder.com/150"}
           />
           <Avatar.Fallback backgroundColor="$natural0" />
         </Avatar>

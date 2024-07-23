@@ -7,7 +7,7 @@ export default function PetOnboardingLayout() {
   const insets = useSafeAreaInsets();
   const form = useForm({
     mode: "all",
-    defaultValues: { birthdate: null, breedName: "" },
+    defaultValues: { birthdate: null, breedName: "", image: null },
   });
 
   return (

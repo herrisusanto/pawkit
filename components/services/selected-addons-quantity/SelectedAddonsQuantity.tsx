@@ -70,13 +70,13 @@ export const SelectedAddonsQuantity: React.FC<SelectedAddonsQuantityProps> = ({
 
     addonPetIds?.forEach((addon) => {
       const addonData = servicesData?.find(
-        (service) => service.id === addon.id
+        (service: any) => service.id === addon.id
       );
       const addonQty = addonPetIds.filter(
         (addonPet) => addonPet.id === addon.id
       ).length;
 
-      const pet = petsData?.find((pet) => pet.name === addon.petId);
+      const pet = petsData?.find((pet) => pet.id === addon.petId);
       const addonCustomPrice = getCustomPrice(pet as Pet, addonData as Service);
 
       if (addonCustomPrice) {
@@ -128,7 +128,7 @@ export const SelectedAddonsQuantity: React.FC<SelectedAddonsQuantityProps> = ({
         {withAdditionalPrice &&
           additionalPrices.map((additional) => {
             return (
-              <>
+              <YStack key={additional.name}>
                 {additional.amount > 0 &&
                 addonQty.name === additional.serviceName ? (
                   <XStack jc="space-between" paddingLeft="$2">
@@ -140,7 +140,7 @@ export const SelectedAddonsQuantity: React.FC<SelectedAddonsQuantityProps> = ({
                     </Text>
                   </XStack>
                 ) : null}
-              </>
+              </YStack>
             );
           })}
       </YStack>

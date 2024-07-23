@@ -1,4 +1,3 @@
-import { petOnboardingAtom } from "@/app/pet-onboarding/state";
 import { AvatarPicker } from "@/components/common/AvatarPicker/AvatarPicker";
 import { Button } from "@/components/common/Button/Button";
 import {
@@ -15,11 +14,11 @@ import { TypeTurtleIcon } from "@/components/common/Icons/TypeTurtleIcon";
 import { Input } from "@/components/common/Input/Input";
 import { RadioButton } from "@/components/common/RadioButton/RadioButton";
 import { PetType } from "@/api/graphql/API";
-import { useAtomValue } from "jotai";
 import React from "react";
 import { SubmitHandler, useFormContext } from "react-hook-form";
 import { Dimensions } from "react-native";
 import { YStack, Text, View, XStack, getToken } from "tamagui";
+import * as ImagePicker from "expo-image-picker";
 
 const { width } = Dimensions.get("screen");
 
@@ -30,10 +29,19 @@ type AboutYourPetFormProps = {
 export const AboutYourPetForm: React.FC<AboutYourPetFormProps> = ({
   onSubmit,
 }) => {
-  const state = useAtomValue(petOnboardingAtom);
-  const { petId } = state;
-  const { control, handleSubmit, formState } = useFormContext();
+  const { control, handleSubmit, formState, setValue, watch } =
+    useFormContext();
   const { isSubmitting, isValid } = formState;
+  const image = watch("image");
+
+  const handleImagePicker = async () => {
+    const result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+    });
+
+    const firstAsset = result.assets?.[0];
+    setValue("image", firstAsset?.uri);
+  };
 
   const petTypes: CheckButtonProps[] = [
     {
@@ -84,7 +92,7 @@ export const AboutYourPetForm: React.FC<AboutYourPetFormProps> = ({
           <Text fontSize={22} fontWeight="$7">
             About Your Pet
           </Text>
-          <AvatarPicker />
+          <AvatarPicker source={image} onPress={handleImagePicker} />
         </YStack>
         {/** Inputs */}
         <Input
@@ -92,8 +100,9 @@ export const AboutYourPetForm: React.FC<AboutYourPetFormProps> = ({
           name="name"
           label="Pet Name"
           placeholder="Input Pet Name"
-          disabled={!!petId}
+          requiredMark
           rules={{
+            required: "Pet name is required",
             pattern: {
               value: /^[A-Za-z\s]+$/,
               message: "Invalid Pet name format",
@@ -105,9 +114,12 @@ export const AboutYourPetForm: React.FC<AboutYourPetFormProps> = ({
           }}
         />
         <YStack rowGap="$1.5">
-          <Text fontSize="$c1" fontWeight="$5">
-            Gender
-          </Text>
+          <XStack gap="$1">
+            <Text fontSize="$c1" fontWeight="$5">
+              Gender
+            </Text>
+            <Text color="$error">*</Text>
+          </XStack>
           <XStack columnGap="$3.5">
             <RadioButton
               control={control}
@@ -115,6 +127,7 @@ export const AboutYourPetForm: React.FC<AboutYourPetFormProps> = ({
               value="MALE"
               flex={1}
               icon={<MaleIcon />}
+              rules={{ required: "Gender is required" }}
             >
               Male
             </RadioButton>
@@ -133,15 +146,19 @@ export const AboutYourPetForm: React.FC<AboutYourPetFormProps> = ({
       {/** Select Input */}
       <YStack rowGap={28} pt="$5">
         <YStack ai="center" rowGap="$2">
-          <Text fontSize="$t3" fontWeight="$7">
-            Select Species
-          </Text>
+          <XStack gap="$1">
+            <Text fontSize="$t3" fontWeight="$7">
+              Select Species
+            </Text>
+            <Text color="$error">*</Text>
+          </XStack>
         </YStack>
         <CheckButtonGroup
           multiple={false}
           control={control}
           name="petType"
           items={petTypes.slice(0, 2)}
+          rules={{ required: "Pet type is required" }}
           renderItem={({ value, onChange, checked, petIcon, available }) => {
             const itemWidth = width - 48;
             const size = itemWidth / 3;

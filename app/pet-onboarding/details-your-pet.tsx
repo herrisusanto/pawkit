@@ -7,13 +7,15 @@ import { useAtom } from "jotai";
 import { FieldValues, SubmitHandler, useFormContext } from "react-hook-form";
 import { ScrollView, YStack } from "tamagui";
 import { petOnboardingAtom } from "./state";
-import { addPet, fetchPet, modifyPet } from "@/api/pet";
+import { addPet, fetchPet, modifyPet, uploadPetImage } from "@/api/pet";
 import { useEffect } from "react";
 import moment from "moment";
 import { CreatePetInput, UpdatePetInput } from "@/api/graphql/API";
 
 export default function DetailsYourPet() {
   const form = useFormContext();
+  const { formState } = form;
+  const { isValid } = formState;
   const { from } = useLocalSearchParams();
   const router = useRouter();
   const [state, setState] = useAtom(petOnboardingAtom);
@@ -23,7 +25,7 @@ export default function DetailsYourPet() {
   const queryClient = useQueryClient();
   const { data: pet } = useQuery({
     queryKey: ["pets", user?.userId, petId],
-    queryFn: () => fetchPet(user?.userId as string, petId as string),
+    queryFn: () => fetchPet(petId as string),
     enabled: !!user && !!petId,
   });
   const mutationCreatePet = useMutation({
@@ -41,8 +43,12 @@ export default function DetailsYourPet() {
     router.push({ pathname: "/pet-onboarding/pet-behavior", params: { from } });
   };
 
-  const handleSkip: SubmitHandler<FieldValues> = async (values) => {
-    await saveChanges(values);
+  const handleSaveAndSkip: SubmitHandler<FieldValues> = async (values) => {
+    isValid && (await saveChanges(values));
+    handleSkip();
+  };
+
+  const handleSkip = () => {
     setState({ petId: null });
     router.replace("/home");
   };
@@ -61,14 +67,15 @@ export default function DetailsYourPet() {
     nextStep();
   };
 
-  const saveChanges: SubmitHandler<FieldValues> = async (values) => {
+  const saveChanges: SubmitHandler<FieldValues> = async ({
+    image,
+    ...values
+  }) => {
     try {
       let pet;
       if (petId) {
         pet = await mutationUpdatePet.mutateAsync({
-          name: petId,
-          customerId: user?.userId as string,
-          customerUsername: user?.username as string,
+          id: petId,
           ...values,
         });
       } else {
@@ -78,14 +85,22 @@ export default function DetailsYourPet() {
           breedName: values["breedName"],
           petType: values["petType"],
           customerId: user?.userId as string,
-          customerUsername: user?.username as string,
           ...values,
           isDeleted: false,
         });
       }
-      setState({ petId: pet?.name });
+
+      if (String(image).startsWith("file:///")) {
+        const imageFile = await fetch(image);
+        const blob = await imageFile.blob();
+        const file = new File([blob], pet.name);
+        await uploadPetImage(user?.userId as string, pet.id, file);
+      }
+
+      setState({ petId: pet?.id });
       invalidateQueries();
     } catch (error) {
+      console.log(error);
       console.log("mutationCreatePet", JSON.stringify(error));
     }
   };
@@ -118,7 +133,11 @@ export default function DetailsYourPet() {
         <StepsIndicator
           onBack={goBack}
           currentStep={2}
-          onSkip={fromPetOnboarding ? form.handleSubmit(handleSkip) : undefined}
+          onSkip={
+            fromPetOnboarding && isValid
+              ? form.handleSubmit(handleSaveAndSkip)
+              : handleSkip
+          }
         />
         <DetailYourPetForm onSubmit={submit} />
       </YStack>
