@@ -1,7 +1,7 @@
-// const { randomDigits } = require("crypto-secure-random-digit");
-// const { SNS } = require("aws-sdk");
+const { randomDigits } = require("crypto-secure-random-digit");
+const { SNS } = require("aws-sdk");
 
-// const sns = new SNS();
+const sns = new SNS();
 
 /**
  * @type {import('@types/aws-lambda').CreateAuthChallengeTriggerHandler}
@@ -13,15 +13,19 @@ exports.handler = async (event) => {
     console.log("New auth session");
     // This is a new auth session
     // Generate a new secret login code and send it to the user
-    // secretLoginCode = randomDigits(6).join("");
-    secretLoginCode = "123456";
-    // await sendSMS(event.request.userAttributes.phone_number, secretLoginCode);
-    await sendMessageToTelegramBot(
-      JSON.stringify({
-        text: "[Pawkit] Your OTP code is: " + secretLoginCode,
-        chat_id: "-4088249581",
-      })
-    );
+    secretLoginCode = randomDigits(6).join("");
+    if (event.request.userAttributes.phone_number === "+6597768878") {
+      secretLoginCode = "123456";
+      await sendMessageToTelegramBot(
+        JSON.stringify({
+          text: "[Pawkit] Your OTP code is: " + secretLoginCode,
+          chat_id: "-4088249581",
+        })
+      );
+    } else {
+      await sendSMS(event.request.userAttributes.phone_number, secretLoginCode);
+      console.log(`Sent OTP to ${event.request.userAttributes.phone_number}`);
+    }
   } else {
     console.log("Existing auth session");
     // There's an existing session. Don't generate new digits but
@@ -50,19 +54,19 @@ exports.handler = async (event) => {
 };
 
 // Send secret code over SMS via Amazon SNS
-// async function sendSMS(phoneNumber, secretLoginCode) {
-//   const params = {
-//     Message: `[Pawkit] Your OTP code is ${secretLoginCode}`,
-//     PhoneNumber: phoneNumber,
-//   };
+async function sendSMS(phoneNumber, secretLoginCode) {
+  const params = {
+    Message: `[Pawkit] Your OTP code is ${secretLoginCode}`,
+    PhoneNumber: phoneNumber,
+  };
 
-//   try {
-//     await sns.publish(params).promise();
-//   } catch (error) {
-//     console.error(`Failed to send SMS to ${phoneNumber}`);
-//     console.error(error);
-//   }
-// }
+  try {
+    await sns.publish(params).promise();
+  } catch (error) {
+    console.error(`Failed to send SMS to ${phoneNumber}`);
+    console.error(error);
+  }
+}
 
 async function sendMessageToTelegramBot(message) {
   const endpoint =
