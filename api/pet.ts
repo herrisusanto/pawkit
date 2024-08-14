@@ -1,4 +1,4 @@
-import { graphqlClient, uploadFile } from "./core";
+import { getFileUrl, graphqlClient, uploadFile } from "./core";
 import {
   getPet,
   getQuestion,
@@ -12,7 +12,12 @@ import {
   ModelIDKeyConditionInput,
   UpdatePetInput,
 } from "./graphql/API";
-import { createPet, updatePet } from "./graphql/mutations";
+import {
+  createPet,
+  createQuestionAnswer,
+  updatePet,
+  updateQuestionAnswer,
+} from "./graphql/mutations";
 import { ConsoleLogger } from "aws-amplify/utils";
 import {
   BadRequestError,
@@ -48,6 +53,68 @@ export const addPet = async (input: CreatePetInput) => {
   } catch (error) {
     logger.error("Error creating pet: ", error);
     throw new InternalServerError("Error creating pet");
+  }
+};
+
+export const addQuestionAnswer = async (
+  petId: string,
+  questionId: string,
+  answer: string
+) => {
+  if (!petId) {
+    logger.error("Pet ID is required");
+    throw new BadRequestError("Pet ID is required");
+  }
+
+  if (!questionId) {
+    logger.error("Question ID is required");
+    throw new BadRequestError("Question ID is required");
+  }
+
+  if (!answer) {
+    logger.error("Answer is required");
+    throw new BadRequestError("Answer is required");
+  }
+
+  try {
+    const questionAnswer = await graphqlClient.graphql({
+      query: getQuestionAnswer,
+      variables: {
+        petId,
+        questionId,
+      },
+    });
+
+    if (questionAnswer.data.getQuestionAnswer) {
+      const result = await graphqlClient.graphql({
+        query: updateQuestionAnswer,
+        variables: {
+          input: {
+            petId,
+            questionId,
+            answer,
+          },
+        },
+      });
+      logger.info("Called createQuestionAnswer mutation");
+      return result.data.updateQuestionAnswer;
+    } else {
+      const result = await graphqlClient.graphql({
+        query: createQuestionAnswer,
+        variables: {
+          input: {
+            petId,
+            questionId,
+            answer,
+          },
+        },
+      });
+      logger.info("Called createQuestionAnswer mutation");
+      return result.data.createQuestionAnswer;
+    }
+  } catch (error) {
+    logger.error("Error saving question answer: ", error);
+    throw new InternalServerError("Error saving question answer");
   }
 };
 
@@ -144,18 +211,10 @@ export const fetchPet = async (id: string) => {
   }
 };
 
-export const fetchPetQuestionAnswersForService = async (
-  serviceId: string,
-  petId: string
-) => {
+export const fetchQuestionsByService = async (serviceId: string) => {
   if (!serviceId) {
     logger.error("Service ID is required");
     throw new BadRequestError("Service ID is required");
-  }
-
-  if (!petId) {
-    logger.error("Pet ID is required");
-    throw new BadRequestError("Pet ID is required");
   }
 
   try {
@@ -173,41 +232,60 @@ export const fetchPetQuestionAnswersForService = async (
       return [];
     }
 
-    const promises = service.requiredQuestionIds.map(async (id) => {
+    const promises = service.requiredQuestionIds.map(async (questionId) => {
       try {
-        const questionAnswer = await graphqlClient.graphql({
-          query: getQuestionAnswer,
-          variables: {
-            id,
-          },
-        });
         const question = await graphqlClient.graphql({
           query: getQuestion,
           variables: {
-            id,
+            id: questionId,
           },
         });
-        return {
-          id,
-          question: question?.data.getQuestion?.questionString,
-          answer: questionAnswer.data.getQuestionAnswer?.answer,
-        };
+        return question?.data.getQuestion;
       } catch (error) {
-        logger.error(
-          `Error fetching answer for question with id=${id}: `,
-          error
-        );
+        logger.error(`Error fetching question with id=${questionId}: `, error);
         return null;
       }
     });
     return await Promise.all(promises);
   } catch (error) {
     logger.error(
-      `Error fetching question answers for pet id=${petId} for service id=${serviceId}: `,
+      `Error fetching questions for service id=${serviceId}: `,
       error
     );
     if (error instanceof CustomError) throw error;
-    throw new InternalServerError("Error fetching question answers");
+    throw new InternalServerError("Error fetching questions");
+  }
+};
+
+export const fetchQuestionAnswer = async (
+  petId: string,
+  questionId: string
+) => {
+  if (!petId) {
+    logger.error("Pet ID is required");
+    throw new BadRequestError("Pet ID is required");
+  }
+
+  if (!questionId) {
+    logger.error("Question ID is required");
+    throw new BadRequestError("Question ID is required");
+  }
+
+  try {
+    const result = await graphqlClient.graphql({
+      query: getQuestionAnswer,
+      variables: {
+        petId,
+        questionId,
+      },
+    });
+    logger.info("Called getQuestionAnswer query");
+    return result.data.getQuestionAnswer;
+  } catch (error) {
+    logger.warn(
+      `Question id=${questionId} for pet id=${petId} has not been answered before: `,
+      error
+    );
   }
 };
 
@@ -267,6 +345,23 @@ export const uploadPetImage = async (
     });
     logger.info(`Uploaded image for pet id=${petId}`);
     return updatedPet;
+  } catch (error) {
+    logger.error("Error uploading image: ", error);
+  }
+};
+
+export const downloadPetImage = async (userId: string, petId: string) => {
+  if (!petId) {
+    logger.error("Pet ID is required");
+    throw new BadRequestError("Pet ID is required");
+  }
+
+  const imageKey = `${userId}/pets/${petId}/profile.jpg`;
+
+  try {
+    // Upload image to s3
+    const url = await getFileUrl(imageKey, "protected");
+    return url;
   } catch (error) {
     logger.error("Error uploading image: ", error);
   }

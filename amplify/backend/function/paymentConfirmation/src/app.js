@@ -25,6 +25,7 @@ See the License for the specific language governing permissions and limitations 
 	API_PAWKIT_GRAPHQLAPIIDOUTPUT
 	API_PAWKIT_GRAPHQLAPIKEYOUTPUT
 	AUTH_PAWKIT_USERPOOLID
+ HITPAY_ENDPOINT
 	ENV
 	REGION
 Amplify Params - DO NOT EDIT */
@@ -54,12 +55,18 @@ const PaymentStatus = {
   EXPIRED: "EXPIRED",
 };
 
+const PaymentMethod = {
+  CARD: "CARD",
+  PAYNOW_ONLINE: "PAYNOW_ONLINE",
+};
+
 const query = /* GraphQL */ `
   mutation UpdatePayment($input: UpdatePaymentInput!) {
     updatePayment(input: $input) {
       paymentRequestId
       status
       paymentId
+      paymentMethod
     }
   }
 `;
@@ -77,19 +84,24 @@ app.use(function (req, res, next) {
 });
 
 // Retrieved configured secrets from SSM
-async function fetchHitPaySalt() {
+async function fetchSecrets() {
   try {
-    const { Parameter } = await ssm
-      .getParameter({
-        Name: process.env["HITPAY_SALT"],
+    const { Parameters } = await ssm
+      .getParameters({
+        Names: ["HITPAY_API_KEY", "HITPAY_SALT"].map(
+          (secretName) => process.env[secretName]
+        ),
         WithDecryption: true,
       })
       .promise();
 
-    console.log("Fetched parameter:", Parameter.Name);
-    return Parameter.Value;
+    console.log(
+      "Fetched parameters:",
+      Parameters.map((param) => param.Name)
+    );
+    return Parameters.map((param) => param.Value);
   } catch (error) {
-    console.error("Error fetching parameter:", error);
+    console.error("Error fetching parameters:", error);
     throw error;
   }
 }
@@ -108,12 +120,14 @@ function generateSignatureArray(secret, vals) {
 }
 
 async function updatePayment(input) {
-  const { payment_request_id, payment_id, status } = input;
+  console.debug("Updating payment with input:", input);
+  const { payment_request_id, payment_id, status, payment_type } = input;
   const variables = {
     input: {
       paymentRequestId: payment_request_id,
       paymentId: payment_id,
       status: PaymentStatus[status.toUpperCase()],
+      paymentMethod: PaymentMethod[payment_type.toUpperCase()],
     },
   };
 
@@ -184,12 +198,39 @@ async function updatePayment(input) {
  ****************************/
 
 app.post("/payment-confirmation/webhook", async (req, res) => {
-  const salt = await fetchHitPaySalt();
+  const [apiKey, salt] = await fetchSecrets();
   console.debug("Request body:", req.body);
   const signed = generateSignatureArray(salt, req.body);
   if (signed === req.body.hmac) {
     console.log("Signature matched");
-    const { statusCode, body } = await updatePayment(req.body);
+    const options = {
+      method: "GET",
+      headers: { "X-BUSINESS-API-KEY": apiKey },
+    };
+
+    // Get payment method from HitPay and enrich the data
+    const paymentRequest = await fetch(
+      `${process.env.HITPAY_ENDPOINT}/${req.body.payment_request_id}`,
+      options
+    )
+      .then((response) => response.json())
+      .then((response) => {
+        console.log("Get Payment Request from HitPay succeeded!");
+        console.log(`response: ${JSON.stringify(response)}`);
+        return response;
+      })
+      .catch((err) => {
+        console.error(
+          "Get Payment Request from HitPay failed with error:",
+          err
+        );
+      });
+
+    const { payment_type } = paymentRequest.payments[0];
+    const { statusCode, body } = await updatePayment({
+      ...req.body,
+      payment_type,
+    });
     console.log(
       `GraphQL API call completed with statusCode=${statusCode} and response=${JSON.stringify(body)}`
     );

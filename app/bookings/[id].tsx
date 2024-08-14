@@ -163,8 +163,13 @@ const BookingDetails = () => {
                     :
                   </Text>
                 </XStack>
-                <Text fontSize="$c1" fontWeight="$4" color="$textSecondary">
-                  {paymentRequest?.paymentMethod}
+                <Text
+                  fontSize="$c1"
+                  fontWeight="$4"
+                  color="$textSecondary"
+                  tt="capitalize"
+                >
+                  {paymentRequest?.paymentMethod?.replaceAll("_", " ")}
                 </Text>
               </XStack>
             </YStack>

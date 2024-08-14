@@ -1,5 +1,5 @@
 import { Pet } from "@/api/graphql/API";
-import { fetchPet } from "@/api/pet";
+import { downloadPetImage, fetchPet } from "@/api/pet";
 import { Button } from "@/components/common/Button/Button";
 import { Header } from "@/components/common/Header/Header";
 import { CameraIcon, DefaultAvatarIcon } from "@/components/common/Icons";
@@ -10,20 +10,25 @@ import { useQuery } from "@tanstack/react-query";
 import { Stack, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import { LogBox } from "react-native";
-import { Avatar, ScrollView, View, styled } from "tamagui";
+import { Avatar, ScrollView, Spinner, View, styled } from "tamagui";
 
 function MyAccount() {
   LogBox.ignoreLogs(["??"]);
   const [isUserCreated] = useState<boolean>(true);
   const { data: user } = useCurrentUser();
   const { id } = useLocalSearchParams();
+
   const { data: pet } = useQuery({
     queryKey: ["pets", user?.userId, id],
     queryFn: () => fetchPet(id as string),
     enabled: !!user && !!id,
   });
 
-  console.log(pet?.s3ImageKey);
+  const { data: petImage, isLoading: isLoadingImage } = useQuery({
+    queryKey: ["pet-image", user?.userId, pet?.id],
+    queryFn: () => downloadPetImage(user?.userId as string, pet?.id as string),
+    enabled: !!user && !!pet,
+  });
 
   return (
     <ScrollView backgroundColor="$bgGrey" flex={1}>
@@ -39,13 +44,24 @@ function MyAccount() {
         {isUserCreated ? (
           <>
             <View position="relative">
-              <Avatar circular size="$8" height={60} width={60}>
-                <Avatar.Image
-                  accessibilityLabel="Cam"
-                  src={pet?.imageUrl ?? petDefaultAvatar(pet?.petType)}
-                />
+              <Avatar
+                circular
+                size="$8"
+                height={60}
+                width={60}
+                backgroundColor="$white"
+              >
+                {isLoadingImage ? (
+                  <Spinner size="small" color="$accent3" />
+                ) : (
+                  <Avatar.Image
+                    accessibilityLabel="Cam"
+                    src={petImage?.href ?? petDefaultAvatar(pet?.petType)}
+                  />
+                )}
                 <Avatar.Fallback backgroundColor="$blue10" />
               </Avatar>
+
               <CameraIconContainer>
                 <CameraIcon strokeColor="#fff" />
               </CameraIconContainer>

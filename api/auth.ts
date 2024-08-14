@@ -10,14 +10,6 @@ import {
   fetchAuthSession,
 } from "aws-amplify/auth";
 import { ConsoleLogger } from "aws-amplify/utils";
-import { graphqlClient } from "./core";
-import {
-  createCustomer,
-  deleteCustomer,
-  updateCustomer,
-} from "./graphql/mutations";
-import { UpdateCustomerInput } from "./graphql/API";
-import { getCustomer } from "./graphql/queries";
 
 const logger = new ConsoleLogger("api/auth.ts");
 
@@ -136,74 +128,3 @@ export async function refreshSession() {
     logger.error(err);
   }
 }
-
-// GraphQL
-export const addCustomer = async (id: string, username: string) => {
-  try {
-    const result = await graphqlClient.graphql({
-      query: createCustomer,
-      variables: {
-        input: {
-          id,
-          username,
-          isDeactivated: false,
-        },
-      },
-    });
-    logger.info("Called createCustomer mutation");
-    return result.data.createCustomer;
-  } catch (error) {
-    logger.error("Error creating customer: ", error);
-    return null;
-  }
-};
-
-export const fetchCustomer = async (id: string) => {
-  try {
-    const result = await graphqlClient.graphql({
-      query: getCustomer,
-      variables: {
-        id,
-      },
-    });
-    logger.info("Called getCustomer query");
-    return result.data.getCustomer;
-  } catch (error) {
-    logger.error(`Error fetching customer with id=${id}: `, error);
-    return null;
-  }
-};
-
-export const modifyCustomer = async (input: UpdateCustomerInput) => {
-  try {
-    const result = await graphqlClient.graphql({
-      query: updateCustomer,
-      variables: {
-        input,
-      },
-    });
-    logger.info("Called updateCustomer mutation");
-    return result.data.updateCustomer;
-  } catch (error) {
-    logger.error("Error updating customer: ", error);
-    return null;
-  }
-};
-
-export const removeCustomer = async (id: string) => {
-  try {
-    const result = await graphqlClient.graphql({
-      query: deleteCustomer,
-      variables: {
-        input: {
-          id,
-        },
-      },
-    });
-    logger.info("Called deleteCustomer mutation");
-    return result.data.deleteCustomer;
-  } catch (error) {
-    logger.error("Error deleting customer: ", error);
-    return null;
-  }
-};

@@ -63,7 +63,7 @@ const AboutPet: React.FC<AboutPetProps> = ({ data }) => {
 
   const invalidateQueries = () => {
     queryClient.invalidateQueries({
-      queryKey: ["pets", user?.userId],
+      queryKey: ["pets", "pet-image", user?.userId, data?.id],
     });
   };
 
@@ -125,7 +125,12 @@ const AboutPet: React.FC<AboutPetProps> = ({ data }) => {
           <Text fontSize="$c1" fontWeight="$4" color="$textSecondary">
             Gender
           </Text>
-          <Text fontSize="$c1" fontWeight="$6" color="$textPrimary">
+          <Text
+            fontSize="$c1"
+            fontWeight="$6"
+            color="$textPrimary"
+            tt="capitalize"
+          >
             {data?.gender}
           </Text>
         </ListItemView>

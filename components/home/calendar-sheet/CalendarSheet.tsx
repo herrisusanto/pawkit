@@ -11,6 +11,7 @@ import { UpcomingBookingItem } from "../upcoming-booking/UpcomingBooking";
 import { useQuery } from "@tanstack/react-query";
 import { Booking } from "@/api/graphql/API";
 import { fetchBookings } from "@/api/service-booking";
+import { useCurrentUser } from "@/hooks";
 
 const { height } = Dimensions.get("window");
 
@@ -23,6 +24,7 @@ export const CalendarSheet: React.FC<CalendarSheetProps> = ({
   open,
   onClose,
 }) => {
+  const { data: user } = useCurrentUser();
   const [disableDrag, setDisableDrag] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Moment>(moment());
   const formattedSelectedDate = useMemo(() => {
@@ -33,10 +35,11 @@ export const CalendarSheet: React.FC<CalendarSheetProps> = ({
     queryFn: () =>
       fetchBookings({
         filter: {
+          customerId: { eq: user?.userId },
           startDateTime: { beginsWith: formattedSelectedDate },
         },
       }),
-    enabled: !!formattedSelectedDate,
+    enabled: !!user && !!formattedSelectedDate,
   });
   const hasBookings = useMemo(() => {
     return (bookings?.length || 0) > 0;

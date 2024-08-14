@@ -1,4 +1,5 @@
 import React from "react";
+import { Platform } from "react-native";
 import { Control, UseControllerProps, useController } from "react-hook-form";
 import {
   styled,
@@ -43,7 +44,7 @@ const StyledInput = styled(TamaguiInput, {
   px: "$0",
   bg: "$colorTransparent",
   bw: "$0",
-  keyboardType: "number-pad",
+  keyboardType: Platform.OS === "ios" ? "decimal-pad" : "number-pad",
 });
 
 export const InputNumber = StyledView.styleable<InputProps>(
@@ -119,7 +120,10 @@ export const InputNumber = StyledView.styleable<InputProps>(
           >
             <StyledInput
               {...field}
-              onChangeText={onChange}
+              onChangeText={(value) => {
+                const formattedValue = value.replace(",", ".");
+                onChange(formattedValue);
+              }}
               aria-label={label}
               placeholder={placeholder}
               color={isReadOnly ? "$natural0" : "$natural3"}

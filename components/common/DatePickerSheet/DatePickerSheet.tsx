@@ -1,5 +1,5 @@
 import moment, { Moment } from "moment";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Sheet, Text, View, XStack, YStack } from "tamagui";
 import { useController } from "react-hook-form";
 import { IconProps } from "@/components/common/Icons";
@@ -8,7 +8,7 @@ import { Button } from "@/components/common/Button/Button";
 import { InputProps } from "@/components/common/Input/Input";
 
 export const DatePickerSheet = View.styleable<
-  InputProps & { disabledDates?: "after" | "before" }
+  InputProps & { disabledDates?: "after" | "before"; defaultDate?: Moment }
 >(
   (
     {
@@ -23,6 +23,7 @@ export const DatePickerSheet = View.styleable<
       errorProps,
       children,
       disabledDates,
+      defaultDate,
       ...props
     },
     ref
@@ -38,6 +39,11 @@ export const DatePickerSheet = View.styleable<
     const [disableDrag, setDisableDrag] = useState(false);
     const [selectedDate, setSelectedDate] = useState<null | Moment>(null);
     const saveButtonDisabled = !selectedDate;
+
+    useEffect(() => {
+      onChange(defaultDate);
+      // eslint-disable-next-line
+    }, [defaultDate]);
 
     const handleOpenChange = (open: boolean) => {
       if (!open) {

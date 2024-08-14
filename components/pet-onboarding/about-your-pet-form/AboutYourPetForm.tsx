@@ -14,11 +14,21 @@ import { TypeTurtleIcon } from "@/components/common/Icons/TypeTurtleIcon";
 import { Input } from "@/components/common/Input/Input";
 import { RadioButton } from "@/components/common/RadioButton/RadioButton";
 import { PetType } from "@/api/graphql/API";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { SubmitHandler, useFormContext } from "react-hook-form";
 import { Dimensions } from "react-native";
 import { YStack, Text, View, XStack, getToken } from "tamagui";
-import * as ImagePicker from "expo-image-picker";
+import { petDefaultAvatar } from "@/components/my-pet/pet-default-avatar/petDefaultAvatar";
+import {
+  useMediaLibraryPermissions,
+  launchImageLibraryAsync,
+  MediaTypeOptions,
+} from "expo-image-picker";
+import { useQuery } from "@tanstack/react-query";
+import { downloadPetImage } from "@/api/pet";
+import { useCurrentUser } from "@/hooks";
+import { useAtom } from "jotai";
+import { petOnboardingAtom } from "@/app/pet-onboarding/state";
 
 const { width } = Dimensions.get("screen");
 
@@ -29,18 +39,36 @@ type AboutYourPetFormProps = {
 export const AboutYourPetForm: React.FC<AboutYourPetFormProps> = ({
   onSubmit,
 }) => {
-  const { control, handleSubmit, formState, setValue, watch } =
+  const { control, handleSubmit, formState, watch, setValue } =
     useFormContext();
   const { isSubmitting, isValid } = formState;
-  const image = watch("image");
+  const { data: user } = useCurrentUser();
+  const [state] = useAtom(petOnboardingAtom);
+  const { petId } = state;
+  const petType = watch("petType");
+
+  const [status, requestPermission] = useMediaLibraryPermissions();
+  const [petImageUrl, setPetImageUrl] = useState<string>();
+
+  const { data: petImage } = useQuery({
+    queryKey: ["pet-image"],
+    queryFn: () => downloadPetImage(user?.userId as string, petId as string),
+    enabled: !!user && !!petId,
+  });
 
   const handleImagePicker = async () => {
-    const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-    });
+    if (status?.granted) {
+      const result = await launchImageLibraryAsync({
+        mediaTypes: MediaTypeOptions.Images,
+        allowsMultipleSelection: false,
+      });
 
-    const firstAsset = result.assets?.[0];
-    setValue("image", firstAsset?.uri);
+      const firstAsset = result.assets?.[0];
+      setValue("image", firstAsset?.uri);
+      setPetImageUrl(firstAsset?.uri);
+    } else {
+      await requestPermission();
+    }
   };
 
   const petTypes: CheckButtonProps[] = [
@@ -84,6 +112,12 @@ export const AboutYourPetForm: React.FC<AboutYourPetFormProps> = ({
     return false;
   };
 
+  useEffect(() => {
+    if (petImage) {
+      setPetImageUrl(petImage.href);
+    }
+  }, [petImage]);
+
   return (
     <>
       <YStack rowGap="$3.5" pb="$5">
@@ -92,7 +126,10 @@ export const AboutYourPetForm: React.FC<AboutYourPetFormProps> = ({
           <Text fontSize={22} fontWeight="$7">
             About Your Pet
           </Text>
-          <AvatarPicker source={image} onPress={handleImagePicker} />
+          <AvatarPicker
+            source={petImageUrl ?? petDefaultAvatar(petType)}
+            onImagePicker={handleImagePicker}
+          />
         </YStack>
         {/** Inputs */}
         <Input

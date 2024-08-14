@@ -1,14 +1,12 @@
-import { Currency, Order, Pet, ServiceCategory } from "@/api/graphql/API";
+import { Currency, Order, Pet, Question } from "@/api/graphql/API";
 import { addOrder, fetchOrder } from "@/api/order";
 import { createPaymentRequest } from "@/api/payment";
 import {
-  fetchPetQuestionAnswersForService,
+  addQuestionAnswer,
   fetchPetsByCustomer,
+  fetchQuestionsByService,
 } from "@/api/pet";
-import { DatePickerSheet } from "@/components/common/DatePickerSheet/DatePickerSheet";
 import { Header } from "@/components/common/Header/Header";
-import { RadioButton } from "@/components/common/RadioButton/RadioButton";
-import { TextArea } from "@/components/common/TextArea/TextArea";
 import {
   PriceDetailsSheet,
   PriceDetailsSheetRef,
@@ -30,13 +28,15 @@ import { FieldValues, SubmitHandler, useFormContext } from "react-hook-form";
 import { Alert, TouchableOpacity } from "react-native";
 import { getToken, ScrollView, Text, View, XStack, YStack } from "tamagui";
 import { serviceBookingAtom } from "@/atoms/service-booking/state.atom";
+import _ from "lodash";
+import { QuestionAnswer } from "@/components/service-booking/question-answer/QuestionAnswer";
 
 export default function RequiredQuestions() {
   const router = useRouter();
   const { serviceName } = useLocalSearchParams();
   const { control, handleSubmit, watch, formState } = useFormContext();
   const { isSubmitting } = formState;
-  const watchVaccinated = watch("vaccinated", "false");
+
   const address = watch("address", "");
   const priceDetailsRef = useRef<PriceDetailsSheetRef>({ estimatedPrice: 0 });
   const { data: user } = useCurrentUser();
@@ -56,6 +56,7 @@ export default function RequiredQuestions() {
     return pets?.find((pet) => pet.id === selectedPetService.petId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedPetService, pets]);
+
   const mutationFetchOrder = useMutation({ mutationFn: fetchOrder });
   const mutationCreateOrder = useMutation({
     mutationFn: ({
@@ -66,21 +67,24 @@ export default function RequiredQuestions() {
       currency: Currency;
     }) => addOrder(customerId, currency),
   });
+
   const mutationCreatePaymentRequest = useMutation({
     mutationFn: createPaymentRequest,
   });
   // eslint-disable-next-line
-  const { data: questions } = useQuery({
-    queryKey: ["essential-questions", user?.userId],
+  const { data: questionsByService, isFetched: questionsFetched } = useQuery({
+    queryKey: [
+      "essential-questions",
+      user?.userId,
+      selectedPetService.serviceId,
+    ],
     queryFn: () =>
-      fetchPetQuestionAnswersForService(
-        selectedPetService.serviceId as string,
-        selectedPet?.id as string
-      ),
+      fetchQuestionsByService(selectedPetService.serviceId as string),
     enabled: !!user && !!selectedPetService,
   });
 
   const submit: SubmitHandler<FieldValues> = async (values) => {
+    const { name } = values;
     try {
       let fetchedOrder: Order;
       if (!orderId) {
@@ -95,13 +99,38 @@ export default function RequiredQuestions() {
       } else {
         fetchedOrder = (await mutationFetchOrder.mutateAsync(orderId)) as Order;
       }
+
+      const questionFields = _.omit(values, [
+        "address",
+        "email",
+        "name",
+        "phone_number",
+      ]);
+
+      const questionAnswerKeys = Object.keys(questionFields).filter(
+        (field) => !field.includes("undefined")
+      );
+
+      // eslint-disable-next-line
+      questionAnswerKeys.map(async (key) => {
+        const petId = key.split("_")[0];
+        const questionId = key.split("_")[1];
+        const answer = questionFields[key];
+        const questionAnswerRequest = await addQuestionAnswer(
+          petId,
+          questionId,
+          answer
+        );
+        return questionAnswerRequest;
+      });
+
       const paymentRequest = await mutationCreatePaymentRequest.mutateAsync({
         customerId: user?.userId as string,
         orderId: fetchedOrder?.id as string,
         input: {
           amount: priceDetailsRef.current.estimatedPrice,
           currency: fetchedOrder?.currency as Currency,
-          name: user?.userId as string,
+          name,
           phone: userAttributes?.phone_number as string,
           purpose: "Service Booking",
           redirectUrl: "https://blank.org",
@@ -148,95 +177,6 @@ export default function RequiredQuestions() {
   );
   const petYearsOld = (petBirthdateInMonths / 12).toFixed();
 
-  const renderVaccinatedQuestion = () => (
-    <YStack rowGap="$1.5">
-      <Text>Has your pet/pets been vaccinated?</Text>
-      <XStack columnGap="$4">
-        <RadioButton
-          flex={1}
-          control={control}
-          name="vaccinated"
-          value="true"
-          jc="center"
-        >
-          Yes
-        </RadioButton>
-        <RadioButton
-          flex={1}
-          control={control}
-          name="vaccinated"
-          value="false"
-          jc="center"
-        >
-          No
-        </RadioButton>
-      </XStack>
-    </YStack>
-  );
-
-  const renderGroomedQuestion = () => (
-    <>
-      <YStack rowGap="$1.5">
-        <Text>Has your pet/pets been professionally groomed?</Text>
-        <XStack columnGap="$4">
-          <RadioButton
-            flex={1}
-            control={control}
-            name="groomed"
-            value="true"
-            jc="center"
-          >
-            Yes
-          </RadioButton>
-          <RadioButton
-            flex={1}
-            control={control}
-            name="groomed"
-            value="false"
-            jc="center"
-          >
-            No
-          </RadioButton>
-        </XStack>
-      </YStack>
-      <YStack rowGap="$1.5">
-        <Text>
-          Does your pet have history of snapping/scratching towards non-family
-          members?
-        </Text>
-        <XStack columnGap="$4">
-          <RadioButton
-            flex={1}
-            control={control}
-            name="snapped"
-            value="true"
-            jc="center"
-          >
-            Yes
-          </RadioButton>
-          <RadioButton
-            flex={1}
-            control={control}
-            name="snapped"
-            value="false"
-            jc="center"
-          >
-            No
-          </RadioButton>
-        </XStack>
-      </YStack>
-    </>
-  );
-  const generateEssentialServiceQuestion = (category?: ServiceCategory) => {
-    switch (category) {
-      case "GROOMING":
-        return renderGroomedQuestion();
-      case "VACCINATION":
-        return renderVaccinatedQuestion();
-      default:
-        return undefined;
-    }
-  };
   return (
     <>
       <Stack.Screen
@@ -324,26 +264,15 @@ export default function RequiredQuestions() {
                     <Text>: {selectedPet?.gender}</Text>
                   </XStack>
                 </YStack>
-                {generateEssentialServiceQuestion(
-                  selectedPetService.service?.serviceCategory
-                )}
-                {/** Another Question */}
-                {watchVaccinated === "true" && (
-                  <DatePickerSheet
-                    control={control}
-                    disabledDates="after"
-                    name="vaccinated_date"
-                    label="If yes, when was the last vaccination?"
-                  />
-                )}
-                {/** Another Question */}
-                <TextArea
-                  textAlignVertical="top"
-                  control={control}
-                  name="description"
-                  label="Does your pet have any existing medical conditions or allergies that we should be aware of? (optional)"
-                  labelProps={{ maxWidth: 327 }}
-                />
+                {questionsFetched &&
+                  questionsByService?.map((question) => (
+                    <QuestionAnswer
+                      key={question?.id}
+                      question={question as Question}
+                      control={control}
+                      name={`${selectedPet?.id}_${question?.id}`}
+                    />
+                  ))}
               </YStack>
             </YStack>
           </YStack>

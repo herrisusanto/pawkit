@@ -14,9 +14,13 @@ import {
 import { CalendarIcon, CloseOutlinedIcon } from "@/components/common/Icons";
 import { Calendar } from "@/components/common/Calendar/Calendar";
 import { Button } from "@/components/common/Button/Button";
-import { Pet, Service, TimeSlot } from "@/api/graphql/API";
+import { Booking, Pet, Service, TimeSlot } from "@/api/graphql/API";
 import { useQuery } from "@tanstack/react-query";
-import { fetchTimeSlots, fetchServices } from "@/api/service-booking";
+import {
+  fetchTimeSlots,
+  fetchServices,
+  fetchBookingsByCustomer,
+} from "@/api/service-booking";
 import {
   useContinueServiceBookingAllowed,
   useCurrentUser,
@@ -40,6 +44,14 @@ export const PetsSchedulesSheet = View.styleable(({ ...props }, ref) => {
   const [selectedPetService, setSelectedPetService] =
     useState<SelectedPetServiceType>(selectedPetsServices[0]);
   const allowed = useContinueServiceBookingAllowed(serviceName as string);
+  const { data: bookingIds } = useQuery({
+    queryKey: ["bookings", user?.userId],
+    queryFn: () => fetchBookingsByCustomer(user?.userId as string),
+    select(data) {
+      return data.map((booking: Booking) => booking.id);
+    },
+    enabled: !!user,
+  });
   const { data: pets } = useQuery({
     queryKey: ["pets", user?.userId],
     queryFn: () => fetchPetsByCustomer(user?.userId as string),
@@ -53,6 +65,14 @@ export const PetsSchedulesSheet = View.styleable(({ ...props }, ref) => {
         startDateTime: { beginsWith: selectedDate },
         filter: { isFull: { eq: false } },
       }),
+    select(data) {
+      return data.filter(
+        (timeSlot) =>
+          !timeSlot.bookingIds?.some((bookingId) =>
+            bookingIds?.includes(bookingId)
+          )
+      );
+    },
     enabled: !!selectedPetService && !!selectedDate,
   });
   const { data: services } = useQuery({
@@ -142,7 +162,19 @@ export const PetsSchedulesSheet = View.styleable(({ ...props }, ref) => {
         >
           {selectedPetsServices?.map((item) => {
             const pet = pets?.find((pet) => pet.id === item.petId);
-            return <PetAvatar key={item.petId} data={pet as Pet} />;
+            return (
+              <TouchableOpacity
+                key={item.petId}
+                onPress={() => {
+                  setSelectedPetService(item);
+                }}
+              >
+                <PetAvatar
+                  data={pet as Pet}
+                  isSelected={item.petId === selectedPetService?.petId}
+                />
+              </TouchableOpacity>
+            );
           })}
         </XStack>
       </ScrollView>
@@ -328,13 +360,6 @@ export const PetsSchedulesSheet = View.styleable(({ ...props }, ref) => {
                 rowGap="$3.5"
                 bg="#fff"
               >
-                <Text fontSize="$b3" fontWeight="$5">
-                  {selectedPetService &&
-                    moment(selectedPetService.date).format("MMMM DD, ") +
-                      moment(selectedPetService.timeSlot?.startDateTime).format(
-                        "hh : mm A"
-                      )}
-                </Text>
                 <Button
                   disabled={!allowed}
                   type="primary"

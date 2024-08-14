@@ -4,15 +4,17 @@ import { Input } from "@/components/common/Input/Input";
 import { InputNumber } from "@/components/common/InputNumber/InputNumber";
 import { icons } from "@/constants";
 import { handleUpdateAttributes } from "@/api/user";
-import { useUserAttributes } from "@/hooks";
+import { useCurrentUser, useUserAttributes } from "@/hooks";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Stack, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import ReactNativeModal from "react-native-modal";
 import { Image, Text, View, XStack, YStack, styled } from "tamagui";
+import { modifyCustomer } from "@/api/customer";
 
 export default function UpdatePersonalData() {
+  const { data: user } = useCurrentUser();
   const [openAlert, setOpenAlert] = useState<boolean>(false);
   const form = useForm({
     mode: "onBlur",
@@ -37,12 +39,13 @@ export default function UpdatePersonalData() {
       queryClient.invalidateQueries({
         queryKey: ["user_attributes"],
       });
+    },
+  });
 
-      setOpenAlert(true);
-
-      setTimeout(() => {
-        router.back();
-      }, 1000);
+  const mutationModifyCustomer = useMutation({
+    mutationFn: modifyCustomer,
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: ["user_profile"] });
     },
   });
 
@@ -61,11 +64,22 @@ export default function UpdatePersonalData() {
   }, [userAttributes]);
 
   const onSubmit: SubmitHandler<any> = async (values) => {
+    const { name, email, phone_number } = values;
     await mutateUpdateUserAttributes.mutateAsync({
-      name: values["name"],
-      email: values["email"],
-      phone_number: "+65" + values["phone_number"],
+      name,
+      email,
+      phone_number: "+65" + phone_number,
     });
+    await mutationModifyCustomer.mutateAsync({
+      id: user?.userId as string,
+      email,
+      phone: phone_number,
+    });
+
+    setOpenAlert(true);
+    setTimeout(() => {
+      router.back();
+    }, 1000);
   };
 
   return (

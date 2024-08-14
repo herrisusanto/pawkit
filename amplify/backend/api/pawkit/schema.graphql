@@ -16,7 +16,7 @@ type Booking
   orderId: ID! @index(name: "byOrder", queryField: "bookingsByOrder")
   order: Order! @belongsTo(fields: ["orderId"])
   customerUsername: String! @primaryKey(sortKeyFields: ["timeSlotId"])
-  owners: [ID!]! # Should contain customerId and serviceProviderName
+  owners: [ID!]! # Should contain customerId and serviceProviderId
   customerId: ID! @index(name: "byCustomer", queryField: "bookingsByCustomer")
   customer: Customer! @belongsTo(fields: ["customerId"])
   serviceName: String!
@@ -308,6 +308,7 @@ type Service
   timeSlotIds: [ID!] # Add-on services will refer to the base service's time slots
   bookingIds: [ID!]
   requiredQuestionIds: [ID!]
+  active: Boolean! @default(value: "true")
 }
 
 type ServiceProvider
@@ -381,11 +382,13 @@ type TimeInterval {
 }
 
 enum BookingStatus {
-  PENDING # The booking is pending Service Provider confirmation.
-  IN_PROGRESS # The booking is in progress.
-  CONFIRMED # Service Provider confirmed the booking.
-  CANCELLED # The booking was cancelled.
-  COMPLETED # The booking was successfully completed.
+  PENDING              # Deprecated; The booking is pending Service Provider confirmation.
+  PENDING_PAYMENT      # The booking is pending payment.
+  PENDING_CONFIRMATION # The booking is pending Service Provider confirmation.
+  IN_PROGRESS          # The booking is in progress.
+  CONFIRMED            # Service Provider confirmed the booking.
+  CANCELLED            # The booking was cancelled.
+  COMPLETED            # The booking was successfully completed.
 }
 
 enum BookingType {

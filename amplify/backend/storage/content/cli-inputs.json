@@ -1,13 +1,13 @@
 {
-  "resourceName": "content",
-  "policyUUID": "0ee77a97",
-  "bucketName": "pawkit-app-content",
-  "storageAccess": "auth",
-  "guestAccess": [],
-  "authAccess": [
-    "CREATE_AND_UPDATE",
-    "READ",
-    "DELETE"
-  ],
-  "triggerFunction": "NONE"
+ "resourceName": "content",
+ "policyUUID": "0ee77a97",
+ "bucketName": "pawkit-app-content",
+ "storageAccess": "auth",
+ "guestAccess": [],
+ "authAccess": [
+  "CREATE_AND_UPDATE",
+  "READ",
+  "DELETE"
+ ],
+ "triggerFunction": "NONE"
 }

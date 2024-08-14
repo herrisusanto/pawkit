@@ -1,7 +1,20 @@
 import { BookingStatus } from "./graphql/API";
 
 const bookingStatusTransitions: Record<BookingStatus, BookingStatus[]> = {
-  [BookingStatus.PENDING]: [BookingStatus.CONFIRMED, BookingStatus.CANCELLED],
+  [BookingStatus.PENDING]: [
+    BookingStatus.CONFIRMED,
+    BookingStatus.CANCELLED,
+    BookingStatus.PENDING_CONFIRMATION,
+    BookingStatus.PENDING_PAYMENT,
+  ], // PENDING is deprecated; use PENDING_PAYMENT or PENDING_CONFIRMATION instead
+  [BookingStatus.PENDING_PAYMENT]: [
+    BookingStatus.PENDING_CONFIRMATION,
+    BookingStatus.CANCELLED,
+  ],
+  [BookingStatus.PENDING_CONFIRMATION]: [
+    BookingStatus.CONFIRMED,
+    BookingStatus.CANCELLED,
+  ],
   [BookingStatus.IN_PROGRESS]: [BookingStatus.COMPLETED],
   [BookingStatus.CONFIRMED]: [
     BookingStatus.IN_PROGRESS,

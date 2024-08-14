@@ -1,22 +1,22 @@
+import { getUrl } from "@aws-amplify/storage";
 import { generateCustomerSpecificShortId, graphqlClient } from "./core";
 import {
   servicesByServiceProvider,
   servicesByCategory,
   servicesByPetType,
   getService,
-  serviceById,
   getQuestion,
   bookingsByOrder,
   bookingsByService,
   bookingsByTimeSlot,
   getTimeSlot,
-  listBookings,
   listPetBookings,
   listTimeSlots,
   timeSlotById,
   petBookingsByPetId,
 } from "./graphql/queries";
 import {
+  Booking,
   BookingStatus,
   BookingType,
   CreateBookingInput,
@@ -30,6 +30,7 @@ import {
   ListTimeSlotsQueryVariables,
   ModelPetBookingsFilterInput,
   PetType,
+  Service,
   ServiceCategory,
   UpdateBookingInput,
   UpdateServiceInput,
@@ -60,7 +61,9 @@ import {
   customBookingById,
   customBookingsByCustomer,
   customGetBooking,
+  customListBookings,
   customListServices,
+  customServiceById,
 } from "./graphql/custom";
 import {
   fetchOrder,
@@ -79,6 +82,7 @@ const generateBookingId = async (customerId: string, timeSlotId: string) => {
 export type AddBookingInput = {
   orderId: string;
   customerId: string;
+  customerUsername: string;
   serviceId: string;
   startDateTime: string;
   address: string;
@@ -193,7 +197,7 @@ export const addBooking = async (input: AddBookingInput) => {
         input: {
           id,
           orderId: input.orderId,
-          customerUsername: input.customerId,
+          customerUsername: input.customerUsername,
           owners: [input.customerId, service.serviceProviderId],
           customerId: input.customerId,
           serviceName: service.name,
@@ -315,14 +319,14 @@ export const addPetBookingRelationship = async (
 // Read
 export const fetchServices = async (variables: ListServicesQueryVariables) => {
   try {
-    const result = await graphqlClient.graphql({
+    const result: any = await graphqlClient.graphql({
       query: customListServices,
       variables,
     });
     logger.info(
       `Called customListServices query with variables: ${JSON.stringify(variables)}`
     );
-    return result.data.listServices.items;
+    return result.data.listServices.items as Service[];
   } catch (error) {
     logger.error("Error fetching services: ", error);
     throw new InternalServerError("Error fetching services");
@@ -435,14 +439,14 @@ export const fetchServiceById = async (id: string) => {
       throw new BadRequestError("Service id is required");
     }
 
-    const result = await graphqlClient.graphql({
-      query: serviceById,
+    const result: any = await graphqlClient.graphql({
+      query: customServiceById,
       variables: {
         id,
       },
     });
     logger.info("Called serviceById query");
-    const serviceItems = result.data.serviceById.items;
+    const serviceItems = result.data.serviceById.items as Service[];
     if (!serviceItems || serviceItems.length === 0) {
       logger.error(`Service with id ${id} not found`);
       throw new NotFoundError("Service not found");
@@ -452,6 +456,37 @@ export const fetchServiceById = async (id: string) => {
     logger.error(`Error fetching service with id ${id}: `, error);
     if (error instanceof CustomError) throw error;
     throw new InternalServerError("Error fetching service");
+  }
+};
+
+export const downloadServiceImage = async (serviceId: string) => {
+  try {
+    const service = await fetchServiceById(serviceId);
+    if (!service) {
+      console.error("Service not found");
+      return;
+    }
+    console.log(JSON.stringify(service));
+
+    if (!service.s3ImageKey) {
+      console.error("Service image URL not found");
+      return;
+    }
+
+    const getUrlResult = await getUrl({
+      key: service.s3ImageKey,
+      // Alternatively, path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg`
+      options: {
+        validateObjectExistence: false, // Check if object exists before creating a URL
+        expiresIn: 20, // validity of the URL, in seconds. defaults to 900 (15 minutes) and maxes at 3600 (1 hour)
+        // useAccelerateEndpoint: true // Whether to use accelerate endpoint
+      },
+    });
+    logger.info("signed URL: ", getUrlResult.url);
+    logger.info("URL expires at: ", getUrlResult.expiresAt);
+    return getUrlResult.url;
+  } catch (error) {
+    logger.error("Error : ", JSON.stringify(error));
   }
 };
 
@@ -611,12 +646,12 @@ export const fetchTimeSlot = async (
 
 export const fetchBookings = async (variables: ListBookingsQueryVariables) => {
   try {
-    const result = await graphqlClient.graphql({
-      query: listBookings,
+    const result: any = await graphqlClient.graphql({
+      query: customListBookings,
       variables,
     });
     logger.info("Called listBookings query");
-    return result.data.listBookings.items;
+    return result.data.listBookings.items as Booking[];
   } catch (error) {
     logger.error("Error fetching all bookings: ", error);
     throw new InternalServerError("Error fetching bookings");
@@ -771,7 +806,7 @@ export const fetchBooking = async (
       throw new BadRequestError("Time slot id is required");
     }
 
-    const result = await graphqlClient.graphql({
+    const result: any = await graphqlClient.graphql({
       query: customGetBooking,
       variables: {
         customerUsername,
@@ -780,7 +815,7 @@ export const fetchBooking = async (
     });
 
     logger.info("Called getBooking query");
-    const booking = result.data.getBooking;
+    const booking = result.data.getBooking as Booking;
     const payments = await fetchPaymentsByOrderId(booking.orderId);
     return { booking, payments };
   } catch (error) {
@@ -1434,7 +1469,7 @@ export const addBookingToTimeSlot = async (
     }
 
     const bookingIds = timeSlot.bookingIds || [];
-    if (!bookingIds?.includes(bookingId)) {
+    if (bookingIds?.includes(bookingId)) {
       logger.warn("Booking id already exists in time slot");
       return timeSlot;
     }

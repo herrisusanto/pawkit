@@ -89,13 +89,16 @@ export default function DetailsYourPet() {
         }
       }
     } catch (error) {
-      console.log("mutationCreatepet", error);
+      console.log("mutationCreatePet", error);
     }
   };
 
-  const invalidateQueries = async () => {
+  const invalidateQueries = () => {
     queryClient.invalidateQueries({
-      queryKey: ["pets", user?.userId],
+      queryKey: ["pets"],
+    });
+    queryClient.invalidateQueries({
+      queryKey: ["pet-image"],
     });
   };
 

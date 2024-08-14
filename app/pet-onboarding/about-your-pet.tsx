@@ -19,8 +19,8 @@ export default function AboutYourPet() {
   const { from } = useLocalSearchParams();
   const [state, setState] = useAtom(petOnboardingAtom);
   const { petId } = state;
-  const fromPetOnboarding = from?.includes("/pet-onboarding");
   const router = useRouter();
+
   const { data: pet } = useQuery({
     queryKey: ["pets", user?.userId, petId],
     queryFn: () => fetchPet(petId as string),
@@ -36,16 +36,6 @@ export default function AboutYourPet() {
       pathname: "/pet-onboarding/details-your-pet",
       params: { from },
     });
-  };
-
-  const handleSaveAndSkip: SubmitHandler<FieldValues> = async (values) => {
-    await saveChanges(values);
-    handleSkip();
-  };
-
-  const handleSkip = () => {
-    setState({ petId: null });
-    router.replace("/home");
   };
 
   const submit: SubmitHandler<FieldValues> = async (values) => {
@@ -79,15 +69,7 @@ export default function AboutYourPet() {
     <ScrollView>
       <View flex={1} alignItems="center" px="$5">
         <YStack rowGap="$3">
-          <StepsIndicator
-            onBack={goBack}
-            currentStep={1}
-            onSkip={
-              fromPetOnboarding && isValid
-                ? form.handleSubmit(handleSaveAndSkip)
-                : handleSkip
-            }
-          />
+          <StepsIndicator onBack={goBack} currentStep={1} />
           <AboutYourPetForm onSubmit={form.handleSubmit(submit)} />
         </YStack>
       </View>

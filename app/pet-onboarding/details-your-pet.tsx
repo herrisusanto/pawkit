@@ -14,13 +14,10 @@ import { CreatePetInput, UpdatePetInput } from "@/api/graphql/API";
 
 export default function DetailsYourPet() {
   const form = useFormContext();
-  const { formState } = form;
-  const { isValid } = formState;
   const { from } = useLocalSearchParams();
   const router = useRouter();
   const [state, setState] = useAtom(petOnboardingAtom);
   const { petId } = state;
-  const fromPetOnboarding = from?.includes("/pet-onboarding");
   const { data: user } = useCurrentUser();
   const queryClient = useQueryClient();
   const { data: pet } = useQuery({
@@ -43,20 +40,13 @@ export default function DetailsYourPet() {
     router.push({ pathname: "/pet-onboarding/pet-behavior", params: { from } });
   };
 
-  const handleSaveAndSkip: SubmitHandler<FieldValues> = async (values) => {
-    isValid && (await saveChanges(values));
-    handleSkip();
-  };
-
-  const handleSkip = () => {
-    setState({ petId: null });
-    router.replace("/home");
-  };
-
   const submit: SubmitHandler<FieldValues> = async (values) => {
+    const formattedWeight = Number(
+      values["weightValue"].replace(",", ".")
+    ).toFixed(2);
     const formattedValues = {
       ...values,
-      weightValue: Number(values["weightValue"]),
+      weightValue: Number(formattedWeight),
     } as CreatePetInput | UpdatePetInput;
     if (values["birthdate"]) {
       formattedValues["birthdate"] = moment(values["birthdate"]).format(
@@ -107,7 +97,10 @@ export default function DetailsYourPet() {
 
   const invalidateQueries = () => {
     queryClient.invalidateQueries({
-      queryKey: ["pets", user?.userId],
+      queryKey: ["pets"],
+    });
+    queryClient.invalidateQueries({
+      queryKey: ["pet-image"],
     });
   };
 
@@ -130,15 +123,7 @@ export default function DetailsYourPet() {
   return (
     <ScrollView>
       <YStack rowGap="$5" flex={1} px="$5">
-        <StepsIndicator
-          onBack={goBack}
-          currentStep={2}
-          onSkip={
-            fromPetOnboarding && isValid
-              ? form.handleSubmit(handleSaveAndSkip)
-              : handleSkip
-          }
-        />
+        <StepsIndicator onBack={goBack} currentStep={2} />
         <DetailYourPetForm onSubmit={submit} />
       </YStack>
     </ScrollView>

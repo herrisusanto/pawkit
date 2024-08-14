@@ -82,6 +82,7 @@ export async function getFileUrl(
     });
     logger.info("signed URL: ", getUrlResult.url);
     logger.info("URL expires at: ", getUrlResult.expiresAt);
+    return getUrlResult.url;
   } catch (error) {
     logger.error("Failed: ", error);
     throw new InternalServerError("Error getting file url");

@@ -18,5 +18,10 @@
     "HITPAY_API_KEY",
     "HITPAY_SALT"
   ],
-  "environmentVariableList": []
+  "environmentVariableList": [
+    {
+      "cloudFormationParameterName": "hitpayEndpoint",
+      "environmentVariableName": "HITPAY_ENDPOINT"
+    }
+  ]
 }

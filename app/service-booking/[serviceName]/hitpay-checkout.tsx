@@ -21,6 +21,7 @@ const HitpayCheckout = () => {
   const webViewRef = useRef<WebView>(null);
   const { watch } = useFormContext();
   const address = watch("address");
+  const name = watch("name");
   const [showCompleted, setShowCompleted] = useState(false);
   const [showError, setShowError] = useState(false);
   const serviceAtom = useServiceBookingAtom(serviceName as string);
@@ -34,6 +35,7 @@ const HitpayCheckout = () => {
     mutationFn: addBooking,
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ["bookings"] });
+      queryClient.invalidateQueries({ queryKey: ["time_slots"] });
     },
   });
 
@@ -64,6 +66,7 @@ const HitpayCheckout = () => {
                 addOns: petService.addons,
                 startDateTime: timeSlot.startDateTime,
                 orderId: orderId as string,
+                customerUsername: name,
                 petIds: [petId],
                 address,
               };

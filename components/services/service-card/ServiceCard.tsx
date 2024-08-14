@@ -1,10 +1,12 @@
-import { Button } from "@/components/common/Button/Button";
-import { CloseOutlinedIcon } from "@/components/common/Icons";
-import { CustomPrice, Service } from "@/api/graphql/API";
 import React, { useState } from "react";
 import { TouchableOpacity } from "react-native";
-import { Image, Sheet, Text, XStack, YStack } from "tamagui";
-import { images } from "@/constants";
+import { Image, Sheet, Spinner, Text, XStack, YStack, View } from "tamagui";
+
+import { CustomPrice, Service } from "@/api/graphql/API";
+import { downloadServiceImage } from "@/api/service-booking";
+import { Button } from "@/components/common/Button/Button";
+import { CloseOutlinedIcon } from "@/components/common/Icons";
+import { useQuery } from "@tanstack/react-query";
 
 type ServiceCardProps = {
   data: Service;
@@ -41,11 +43,20 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
     const maxSizeKey = keys.reverse().find((key) => data[key] != null);
     if (maxSizeKey && data[maxSizeKey]) {
       const maxPrice = data[maxSizeKey] as CustomPrice;
-      return `S$ ${data.basePrice} - S$ ${data.basePrice + maxPrice.amount}`;
+      const priceRange =
+        maxPrice.amount > 0
+          ? `S$ ${data.basePrice} - S$ ${data.basePrice + maxPrice.amount}`
+          : `S$ ${data.basePrice}`;
+      return priceRange;
     } else {
       return `S$ ${data.basePrice}`;
     }
   };
+
+  const { data: image, isLoading } = useQuery({
+    queryKey: ["service-image", data],
+    queryFn: () => downloadServiceImage(data.id),
+  });
 
   return (
     <>
@@ -61,16 +72,23 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
               </Text>
             </TouchableOpacity>
           </YStack>
-          <Image
-            source={{
-              uri: images.serviceDefaultImage,
-              width: 82,
-              height: 82,
-            }}
-            height={82}
-            width={82}
-            borderRadius="$2"
-          />
+          {isLoading ? (
+            <View w={82} h={82} jc="center" ai="center">
+              <Spinner color="$accent3" size="small" />
+            </View>
+          ) : (
+            <Image
+              key={data.id}
+              source={{
+                uri: image?.href,
+                width: 82,
+                height: 82,
+              }}
+              height={82}
+              width={82}
+              borderRadius="$2"
+            />
+          )}
         </XStack>
 
         <XStack gap="$3" jc="space-between" ai="center">

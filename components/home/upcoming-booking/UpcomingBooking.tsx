@@ -6,17 +6,23 @@ import moment from "moment";
 import { petDefaultAvatar } from "@/components/my-pet/pet-default-avatar/petDefaultAvatar";
 import { ListSlider } from "@/components/common/ListSlider/ListSlider";
 import { Link } from "expo-router";
-import { fetchBookingsByCustomer } from "@/api/service-booking";
+import { fetchBookings } from "@/api/service-booking";
 import { useQuery } from "@tanstack/react-query";
 import { useCurrentUser } from "@/hooks";
 import BookingCard from "@/components/bookings/booking-card/BookingCard";
 
 export const UpcomingBooking = () => {
   const { data: user } = useCurrentUser();
-
+  const currentDate = moment().format();
   const { data: bookings } = useQuery({
-    queryKey: ["bookings", user?.userId],
-    queryFn: () => fetchBookingsByCustomer(user?.userId as string),
+    queryKey: ["bookings", currentDate],
+    queryFn: () =>
+      fetchBookings({
+        filter: {
+          customerId: { eq: user?.userId },
+          startDateTime: { ge: currentDate },
+        },
+      }),
     enabled: !!user,
   });
 
@@ -27,7 +33,7 @@ export const UpcomingBooking = () => {
           Upcoming Booking
         </Text>
       </XStack>
-      {bookings?.length > 0 ? (
+      {(bookings?.length || 0) > 0 ? (
         <ListSlider
           items={
             bookings

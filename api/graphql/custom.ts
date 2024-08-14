@@ -291,3 +291,113 @@ export const customBookingsByCustomer = `query CustomBookingsByCustomer(
    }
  }
 }`;
+
+export const customListBookings = /* GraphQL */ `
+  query CustomListBookings(
+    $customerUsername: String
+    $timeSlotId: ModelIDKeyConditionInput
+    $filter: ModelBookingFilterInput
+    $limit: Int
+    $nextToken: String
+    $sortDirection: ModelSortDirection
+  ) {
+    listBookings(
+      customerUsername: $customerUsername
+      timeSlotId: $timeSlotId
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+      sortDirection: $sortDirection
+    ) {
+      items {
+        id
+        orderId
+        customerUsername
+        owners
+        customerId
+        serviceName
+        serviceProviderName
+        serviceCategory
+        petType
+        serviceId
+        startDateTime
+        timeSlotId
+        address
+        petIds
+        addOns
+        bookingType
+        amount
+        currency
+        pets {
+          items {
+            pet {
+              name
+              birthdate
+            }
+          }
+        }
+        status
+        createdAt
+        updatedAt
+        serviceProviderBookingsName
+        timeSlotBookingsServiceId
+        timeSlotBookingsStartDateTime
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const customServiceById = /* GraphQL */ `
+  query CustomServiceById(
+    $id: ID!
+    $sortDirection: ModelSortDirection
+    $filter: ModelServiceFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    serviceById(
+      id: $id
+      sortDirection: $sortDirection
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        id
+        serviceProviderId
+        name
+        serviceProviderName
+        serviceCategory
+        petType
+        defaultDisplay
+        displayPriority
+        s3ImageKey
+        onlinePaymentAccepted
+        currency
+        basePrice
+        baseDuration
+        baseDurationUnit
+        additionalPetPrice
+        shortDescription
+        longDescription
+        serviceBreakdown
+        additionalInfo
+        faq
+        goodToKnow
+        parentServiceIds
+        childServiceIds
+        disclaimerName
+        timeSlotIds
+        bookingIds
+        requiredQuestionIds
+        createdAt
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;

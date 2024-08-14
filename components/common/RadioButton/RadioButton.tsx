@@ -1,5 +1,5 @@
 import { Text, View, ViewProps, getToken, styled } from "tamagui";
-import React, { PropsWithChildren, useMemo } from "react";
+import React, { PropsWithChildren, useEffect, useMemo } from "react";
 import { IconProps } from "../Icons";
 import { Control, useController, UseControllerProps } from "react-hook-form";
 
@@ -8,6 +8,7 @@ interface RadioButtonProps extends PropsWithChildren {
   name: string;
   icon?: React.ReactElement;
   value: string;
+  defaultValue?: string;
   iconProps?: IconProps;
   rules?: UseControllerProps["rules"];
 }
@@ -37,7 +38,17 @@ const StyledView = styled(View, {
 
 export const RadioButton = StyledView.styleable<RadioButtonProps & ViewProps>(
   (
-    { control, icon, value, name, iconProps, children, rules, ...props },
+    {
+      control,
+      icon,
+      value,
+      defaultValue,
+      name,
+      iconProps,
+      children,
+      rules,
+      ...props
+    },
     ref
   ) => {
     const {
@@ -49,6 +60,11 @@ export const RadioButton = StyledView.styleable<RadioButtonProps & ViewProps>(
         (typeof controlledValue === "undefined" && value === "false")
       );
     }, [controlledValue, value]);
+
+    useEffect(() => {
+      onChange(defaultValue);
+      // eslint-disable-next-line
+    }, [defaultValue]);
 
     const toggle = () => {
       onChange && onChange(value);

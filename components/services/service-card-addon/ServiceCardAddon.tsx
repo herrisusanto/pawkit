@@ -27,14 +27,6 @@ const ServiceCardAddon: React.FC<ServiceCardAddonProps> = ({
     setOpen(false);
   };
 
-  const servicePrice = () => {
-    if (data.xxlWeightPrice && data.xxlWeightPrice.amount > 0) {
-      return `S$ ${data.basePrice} - S$ ${data.basePrice + data.xxlWeightPrice.amount}`;
-    } else {
-      return `S$ ${data.basePrice}`;
-    }
-  };
-
   return (
     <>
       <YStack p="$4" gap="$3" bg="$background">
@@ -64,10 +56,7 @@ const ServiceCardAddon: React.FC<ServiceCardAddonProps> = ({
           <YStack flex={1} gap="$4">
             <XStack gap="$2" ai="flex-end">
               <Text fontSize="$c1" fontWeight="$4">
-                + Add Price
-              </Text>
-              <Text fontSize="$c1" fontWeight="$7">
-                {servicePrice()}
+                + Add Service To Cart
               </Text>
             </XStack>
           </YStack>

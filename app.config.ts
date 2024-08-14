@@ -34,7 +34,7 @@ export default (_: ConfigContext): ExpoConfig => ({
   name: appName,
   slug: "pawkit",
   owner: "pawkit_tech", // TODO: If necessary owner should be determined later
-  version: "3.0.2",
+  version: "3.0.4",
   orientation: "portrait",
   icon: "./assets/icon.png",
   userInterfaceStyle: "light",
@@ -60,7 +60,17 @@ export default (_: ConfigContext): ExpoConfig => ({
   web: {
     favicon: "./assets/favicon.png",
   },
-  plugins: ["expo-font", "expo-router"],
+  plugins: [
+    "expo-font",
+    "expo-router",
+    [
+      "expo-image-picker",
+      {
+        photosPermission:
+          "The app accesses your photos to let you share them with your friends.",
+      },
+    ],
+  ],
   extra: {
     storybookEnabled: process.env.STORYBOOK_ENABLED,
     eas: {
