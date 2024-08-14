@@ -256,7 +256,7 @@
         },
         "pawkitCreateAuthChallenge": {
           "deploymentBucketName": "amplify-pawkit-prod-3d6c5-deployment",
-          "s3Key": "amplify-builds/pawkitCreateAuthChallenge-33663034736964556956-build.zip"
+          "s3Key": "amplify-builds/pawkitCreateAuthChallenge-44323942764b63765363-build.zip"
         },
         "pawkitDefineAuthChallenge": {
           "deploymentBucketName": "amplify-pawkit-prod-3d6c5-deployment",
@@ -273,8 +273,9 @@
         },
         "paymentConfirmation": {
           "deploymentBucketName": "amplify-pawkit-prod-3d6c5-deployment",
-          "s3Key": "amplify-builds/paymentConfirmation-5542724b6c33346d6352-build.zip",
-          "secretsPathAmplifyAppId": "dd5j6wo9u36ak"
+          "s3Key": "amplify-builds/paymentConfirmation-4d55746e724e4e48584d-build.zip",
+          "secretsPathAmplifyAppId": "dd5j6wo9u36ak",
+          "hitpayEndpoint": "https://api.hit-pay.com/v1/payment-requests"
         },
         "paymentRequests": {
           "deploymentBucketName": "amplify-pawkit-prod-3d6c5-deployment",
@@ -283,7 +284,11 @@
           "hitpayEndpoint": "https://api.hit-pay.com/v1/payment-requests",
           "webhookUrl": "https://08ce36ua16.execute-api.ap-southeast-1.amazonaws.com/prod/payment-confirmation/webhook"
         },
-        "pawkit": {}
+        "pawkit": {},
+        "bookingExpiryAndTimeSlotUpdater": {
+          "deploymentBucketName": "amplify-pawkit-prod-3d6c5-deployment",
+          "s3Key": "amplify-builds/bookingExpiryAndTimeSlotUpdater-4e63586f573844772f7a-build.zip"
+        }
       },
       "api": {
         "AdminQueries": {},

@@ -457,6 +457,14 @@
         }
       ]
     },
+    "AMPLIFY_function_paymentConfirmation_hitpayEndpoint": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "paymentConfirmation"
+        }
+      ]
+    },
     "AMPLIFY_function_paymentConfirmation_s3Key": {
       "usedBy": [
         {
