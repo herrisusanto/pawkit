@@ -250,7 +250,7 @@ type QuestionAnswer
       { allow: groups, groups:["Admin", "ServicePersonnel"], operations: [read] }
     ]
   ) {
-  petId: ID! @index(name: "byPet", queryField: "answersByPet")
+  petId: ID! @primaryKey(sortKeyFields: ["questionId"]) @index(name: "byPet", queryField: "answersByPet")
   pet: Pet! @hasOne(fields: ["petId"])
   questionId: ID! @index(name: "byQuestion", queryField: "answersByQuestion")
   question: Question! @hasOne(fields: ["questionId"])

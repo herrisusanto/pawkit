@@ -1,516 +1,524 @@
 {
- "api": {
-  "AdminQueries": {
-   "authorizationType": "AMAZON_COGNITO_USER_POOLS",
-   "dependsOn": [
-    {
-     "attributes": [
-      "UserPoolId"
-     ],
-     "category": "auth",
-     "resourceName": "pawkit"
+  "api": {
+    "AdminQueries": {
+      "authorizationType": "AMAZON_COGNITO_USER_POOLS",
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "pawkit"
+        },
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "AdminQueries2bb3090c"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
     },
-    {
-     "attributes": [
-      "Arn",
-      "Name"
-     ],
-     "category": "function",
-     "resourceName": "AdminQueries2bb3090c"
-    }
-   ],
-   "providerPlugin": "awscloudformation",
-   "service": "API Gateway"
-  },
-  "pawkit": {
-   "dependsOn": [
-    {
-     "attributes": [
-      "UserPoolId"
-     ],
-     "category": "auth",
-     "resourceName": "pawkit"
-    }
-   ],
-   "output": {
-    "authConfig": {
-     "additionalAuthenticationProviders": [
-      {
-       "apiKeyConfig": {
-        "apiKeyExpirationDate": "2024-05-26T10:46:07.451Z",
-        "apiKeyExpirationDays": 7,
-        "description": "pawkit-sandbox"
-       },
-       "authenticationType": "API_KEY"
+    "pawkit": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "pawkit"
+        }
+      ],
+      "output": {
+        "authConfig": {
+          "additionalAuthenticationProviders": [
+            {
+              "apiKeyConfig": {
+                "apiKeyExpirationDate": "2024-05-26T10:46:07.451Z",
+                "apiKeyExpirationDays": 7,
+                "description": "pawkit-sandbox"
+              },
+              "authenticationType": "API_KEY"
+            },
+            {
+              "authenticationType": "AWS_IAM"
+            }
+          ],
+          "defaultAuthentication": {
+            "authenticationType": "AMAZON_COGNITO_USER_POOLS",
+            "userPoolConfig": {
+              "userPoolId": "authpawkit"
+            }
+          }
+        }
       },
-      {
-       "authenticationType": "AWS_IAM"
-      }
-     ],
-     "defaultAuthentication": {
-      "authenticationType": "AMAZON_COGNITO_USER_POOLS",
-      "userPoolConfig": {
-       "userPoolId": "authpawkit"
-      }
-     }
+      "providerPlugin": "awscloudformation",
+      "service": "AppSync"
+    },
+    "payments": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "paymentRequests"
+        },
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "pawkit"
+        },
+        {
+          "attributes": [
+            "AdminGroupRole"
+          ],
+          "category": "auth",
+          "resourceName": "userPoolGroups"
+        },
+        {
+          "attributes": [
+            "ServicePersonnelGroupRole"
+          ],
+          "category": "auth",
+          "resourceName": "userPoolGroups"
+        },
+        {
+          "attributes": [
+            "PetOwnersGroupRole"
+          ],
+          "category": "auth",
+          "resourceName": "userPoolGroups"
+        },
+        {
+          "attributes": [
+            "Name",
+            "Arn"
+          ],
+          "category": "function",
+          "resourceName": "paymentConfirmation"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "API Gateway"
     }
-   },
-   "providerPlugin": "awscloudformation",
-   "service": "AppSync"
   },
-  "payments": {
-   "dependsOn": [
-    {
-     "attributes": [
-      "Name",
-      "Arn"
-     ],
-     "category": "function",
-     "resourceName": "paymentRequests"
+  "auth": {
+    "pawkit": {
+      "customAuth": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "pawkitCreateAuthChallenge",
+          "triggerProvider": "Cognito"
+        },
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "pawkitDefineAuthChallenge",
+          "triggerProvider": "Cognito"
+        },
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "pawkitPostConfirmation",
+          "triggerProvider": "Cognito"
+        },
+        {
+          "attributes": [
+            "Arn",
+            "Name"
+          ],
+          "category": "function",
+          "resourceName": "pawkitVerifyAuthChallengeResponse",
+          "triggerProvider": "Cognito"
+        }
+      ],
+      "frontendAuthConfig": {
+        "mfaConfiguration": "ON",
+        "mfaTypes": [
+          "SMS"
+        ],
+        "passwordProtectionSettings": {
+          "passwordPolicyCharacters": [],
+          "passwordPolicyMinLength": 8
+        },
+        "signupAttributes": [],
+        "socialProviders": [],
+        "usernameAttributes": [
+          "PHONE_NUMBER"
+        ],
+        "verificationMechanisms": [
+          "PHONE_NUMBER"
+        ]
+      },
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito"
     },
-    {
-     "attributes": [
-      "UserPoolId"
-     ],
-     "category": "auth",
-     "resourceName": "pawkit"
-    },
-    {
-     "attributes": [
-      "AdminGroupRole"
-     ],
-     "category": "auth",
-     "resourceName": "userPoolGroups"
-    },
-    {
-     "attributes": [
-      "ServicePersonnelGroupRole"
-     ],
-     "category": "auth",
-     "resourceName": "userPoolGroups"
-    },
-    {
-     "attributes": [
-      "PetOwnersGroupRole"
-     ],
-     "category": "auth",
-     "resourceName": "userPoolGroups"
-    },
-    {
-     "attributes": [
-      "Name",
-      "Arn"
-     ],
-     "category": "function",
-     "resourceName": "paymentConfirmation"
+    "userPoolGroups": {
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId",
+            "AppClientIDWeb",
+            "AppClientID",
+            "IdentityPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "pawkit"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Cognito-UserPool-Groups"
     }
-   ],
-   "providerPlugin": "awscloudformation",
-   "service": "API Gateway"
+  },
+  "function": {
+    "AdminQueries2bb3090c": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "pawkit"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "bookingExpiryAndTimeSlotUpdater": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ],
+          "category": "api",
+          "resourceName": "pawkit"
+        },
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "pawkit"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "dataLoader": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ],
+          "category": "api",
+          "resourceName": "pawkit"
+        },
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "pawkit"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "pawkitCreateAuthChallenge": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "pawkitDefineAuthChallenge": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "pawkitPostConfirmation": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ],
+          "category": "api",
+          "resourceName": "pawkit"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "pawkitVerifyAuthChallengeResponse": {
+      "build": true,
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "paymentConfirmation": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "pawkit"
+        },
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ],
+          "category": "api",
+          "resourceName": "pawkit"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    },
+    "paymentRequests": {
+      "build": true,
+      "dependsOn": [
+        {
+          "attributes": [
+            "UserPoolId"
+          ],
+          "category": "auth",
+          "resourceName": "pawkit"
+        },
+        {
+          "attributes": [
+            "GraphQLAPIIdOutput",
+            "GraphQLAPIEndpointOutput",
+            "GraphQLAPIKeyOutput"
+          ],
+          "category": "api",
+          "resourceName": "pawkit"
+        }
+      ],
+      "providerPlugin": "awscloudformation",
+      "service": "Lambda"
+    }
+  },
+  "hosting": {},
+  "parameters": {
+    "AMPLIFY_function_AdminQueries2bb3090c_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "AdminQueries2bb3090c"
+        }
+      ]
+    },
+    "AMPLIFY_function_AdminQueries2bb3090c_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "AdminQueries2bb3090c"
+        }
+      ]
+    },
+    "AMPLIFY_function_bookingExpiryAndTimeSlotUpdater_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "bookingExpiryAndTimeSlotUpdater"
+        }
+      ]
+    },
+    "AMPLIFY_function_bookingExpiryAndTimeSlotUpdater_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "bookingExpiryAndTimeSlotUpdater"
+        }
+      ]
+    },
+    "AMPLIFY_function_dataLoader_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "dataLoader"
+        }
+      ]
+    },
+    "AMPLIFY_function_dataLoader_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "dataLoader"
+        }
+      ]
+    },
+    "AMPLIFY_function_pawkitCreateAuthChallenge_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "pawkitCreateAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_pawkitCreateAuthChallenge_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "pawkitCreateAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_pawkitDefineAuthChallenge_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "pawkitDefineAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_pawkitDefineAuthChallenge_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "pawkitDefineAuthChallenge"
+        }
+      ]
+    },
+    "AMPLIFY_function_pawkitPostConfirmation_GROUP": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "pawkitPostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_pawkitPostConfirmation_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "pawkitPostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_pawkitPostConfirmation_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "pawkitPostConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_pawkitVerifyAuthChallengeResponse_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "pawkitVerifyAuthChallengeResponse"
+        }
+      ]
+    },
+    "AMPLIFY_function_pawkitVerifyAuthChallengeResponse_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "pawkitVerifyAuthChallengeResponse"
+        }
+      ]
+    },
+    "AMPLIFY_function_paymentConfirmation_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "paymentConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_paymentConfirmation_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "paymentConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_paymentConfirmation_secretsPathAmplifyAppId": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "paymentConfirmation"
+        }
+      ]
+    },
+    "AMPLIFY_function_paymentRequests_deploymentBucketName": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "paymentRequests"
+        }
+      ]
+    },
+    "AMPLIFY_function_paymentRequests_hitpayEndpoint": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "paymentRequests"
+        }
+      ]
+    },
+    "AMPLIFY_function_paymentRequests_s3Key": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "paymentRequests"
+        }
+      ]
+    },
+    "AMPLIFY_function_paymentRequests_secretsPathAmplifyAppId": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "paymentRequests"
+        }
+      ]
+    },
+    "AMPLIFY_function_paymentRequests_webhookUrl": {
+      "usedBy": [
+        {
+          "category": "function",
+          "resourceName": "paymentRequests"
+        }
+      ]
+    }
+  },
+  "storage": {
+    "content": {
+      "dependsOn": [],
+      "providerPlugin": "awscloudformation",
+      "service": "S3"
+    }
   }
- },
- "auth": {
-  "pawkit": {
-   "customAuth": true,
-   "dependsOn": [
-    {
-     "attributes": [
-      "Arn",
-      "Name"
-     ],
-     "category": "function",
-     "resourceName": "pawkitCreateAuthChallenge",
-     "triggerProvider": "Cognito"
-    },
-    {
-     "attributes": [
-      "Arn",
-      "Name"
-     ],
-     "category": "function",
-     "resourceName": "pawkitDefineAuthChallenge",
-     "triggerProvider": "Cognito"
-    },
-    {
-     "attributes": [
-      "Arn",
-      "Name"
-     ],
-     "category": "function",
-     "resourceName": "pawkitPostConfirmation",
-     "triggerProvider": "Cognito"
-    },
-    {
-     "attributes": [
-      "Arn",
-      "Name"
-     ],
-     "category": "function",
-     "resourceName": "pawkitVerifyAuthChallengeResponse",
-     "triggerProvider": "Cognito"
-    }
-   ],
-   "frontendAuthConfig": {
-    "mfaConfiguration": "ON",
-    "mfaTypes": [
-     "SMS"
-    ],
-    "passwordProtectionSettings": {
-     "passwordPolicyCharacters": [],
-     "passwordPolicyMinLength": 8
-    },
-    "signupAttributes": [],
-    "socialProviders": [],
-    "usernameAttributes": [
-     "PHONE_NUMBER"
-    ],
-    "verificationMechanisms": [
-     "PHONE_NUMBER"
-    ]
-   },
-   "providerPlugin": "awscloudformation",
-   "service": "Cognito"
-  },
-  "userPoolGroups": {
-   "dependsOn": [
-    {
-     "attributes": [
-      "UserPoolId",
-      "AppClientIDWeb",
-      "AppClientID",
-      "IdentityPoolId"
-     ],
-     "category": "auth",
-     "resourceName": "pawkit"
-    }
-   ],
-   "providerPlugin": "awscloudformation",
-   "service": "Cognito-UserPool-Groups"
-  }
- },
- "function": {
-  "AdminQueries2bb3090c": {
-   "build": true,
-   "dependsOn": [
-    {
-     "attributes": [
-      "UserPoolId"
-     ],
-     "category": "auth",
-     "resourceName": "pawkit"
-    }
-   ],
-   "providerPlugin": "awscloudformation",
-   "service": "Lambda"
-  },
-  "bookingExpiryAndTimeSlotUpdater": {
-   "build": true,
-   "dependsOn": [
-    {
-     "attributes": [
-      "GraphQLAPIIdOutput",
-      "GraphQLAPIEndpointOutput",
-      "GraphQLAPIKeyOutput"
-     ],
-     "category": "api",
-     "resourceName": "pawkit"
-    },
-    {
-     "attributes": [
-      "UserPoolId"
-     ],
-     "category": "auth",
-     "resourceName": "pawkit"
-    }
-   ],
-   "providerPlugin": "awscloudformation",
-   "service": "Lambda"
-  },
-  "dataLoader": {
-   "build": true,
-   "dependsOn": [
-    {
-     "attributes": [
-      "GraphQLAPIIdOutput",
-      "GraphQLAPIEndpointOutput",
-      "GraphQLAPIKeyOutput"
-     ],
-     "category": "api",
-     "resourceName": "pawkit"
-    },
-    {
-     "attributes": [
-      "UserPoolId"
-     ],
-     "category": "auth",
-     "resourceName": "pawkit"
-    }
-   ],
-   "providerPlugin": "awscloudformation",
-   "service": "Lambda"
-  },
-  "pawkitCreateAuthChallenge": {
-   "build": true,
-   "providerPlugin": "awscloudformation",
-   "service": "Lambda"
-  },
-  "pawkitDefineAuthChallenge": {
-   "build": true,
-   "providerPlugin": "awscloudformation",
-   "service": "Lambda"
-  },
-  "pawkitPostConfirmation": {
-   "build": true,
-   "dependsOn": [
-    {
-     "attributes": [
-      "GraphQLAPIIdOutput",
-      "GraphQLAPIEndpointOutput",
-      "GraphQLAPIKeyOutput"
-     ],
-     "category": "api",
-     "resourceName": "pawkit"
-    }
-   ],
-   "providerPlugin": "awscloudformation",
-   "service": "Lambda"
-  },
-  "pawkitVerifyAuthChallengeResponse": {
-   "build": true,
-   "providerPlugin": "awscloudformation",
-   "service": "Lambda"
-  },
-  "paymentConfirmation": {
-   "build": true,
-   "dependsOn": [
-    {
-     "attributes": [
-      "UserPoolId"
-     ],
-     "category": "auth",
-     "resourceName": "pawkit"
-    },
-    {
-     "attributes": [
-      "GraphQLAPIIdOutput",
-      "GraphQLAPIEndpointOutput",
-      "GraphQLAPIKeyOutput"
-     ],
-     "category": "api",
-     "resourceName": "pawkit"
-    }
-   ],
-   "providerPlugin": "awscloudformation",
-   "service": "Lambda"
-  },
-  "paymentRequests": {
-   "build": true,
-   "dependsOn": [
-    {
-     "attributes": [
-      "UserPoolId"
-     ],
-     "category": "auth",
-     "resourceName": "pawkit"
-    },
-    {
-     "attributes": [
-      "GraphQLAPIIdOutput",
-      "GraphQLAPIEndpointOutput",
-      "GraphQLAPIKeyOutput"
-     ],
-     "category": "api",
-     "resourceName": "pawkit"
-    }
-   ],
-   "providerPlugin": "awscloudformation",
-   "service": "Lambda"
-  }
- },
- "hosting": {},
- "parameters": {
-  "AMPLIFY_function_AdminQueries2bb3090c_deploymentBucketName": {
-   "usedBy": [
-    {
-     "category": "function",
-     "resourceName": "AdminQueries2bb3090c"
-    }
-   ]
-  },
-  "AMPLIFY_function_AdminQueries2bb3090c_s3Key": {
-   "usedBy": [
-    {
-     "category": "function",
-     "resourceName": "AdminQueries2bb3090c"
-    }
-   ]
-  },
-  "AMPLIFY_function_dataLoader_deploymentBucketName": {
-   "usedBy": [
-    {
-     "category": "function",
-     "resourceName": "dataLoader"
-    }
-   ]
-  },
-  "AMPLIFY_function_dataLoader_s3Key": {
-   "usedBy": [
-    {
-     "category": "function",
-     "resourceName": "dataLoader"
-    }
-   ]
-  },
-  "AMPLIFY_function_pawkitCreateAuthChallenge_deploymentBucketName": {
-   "usedBy": [
-    {
-     "category": "function",
-     "resourceName": "pawkitCreateAuthChallenge"
-    }
-   ]
-  },
-  "AMPLIFY_function_pawkitCreateAuthChallenge_s3Key": {
-   "usedBy": [
-    {
-     "category": "function",
-     "resourceName": "pawkitCreateAuthChallenge"
-    }
-   ]
-  },
-  "AMPLIFY_function_pawkitDefineAuthChallenge_deploymentBucketName": {
-   "usedBy": [
-    {
-     "category": "function",
-     "resourceName": "pawkitDefineAuthChallenge"
-    }
-   ]
-  },
-  "AMPLIFY_function_pawkitDefineAuthChallenge_s3Key": {
-   "usedBy": [
-    {
-     "category": "function",
-     "resourceName": "pawkitDefineAuthChallenge"
-    }
-   ]
-  },
-  "AMPLIFY_function_pawkitPostConfirmation_GROUP": {
-   "usedBy": [
-    {
-     "category": "function",
-     "resourceName": "pawkitPostConfirmation"
-    }
-   ]
-  },
-  "AMPLIFY_function_pawkitPostConfirmation_deploymentBucketName": {
-   "usedBy": [
-    {
-     "category": "function",
-     "resourceName": "pawkitPostConfirmation"
-    }
-   ]
-  },
-  "AMPLIFY_function_pawkitPostConfirmation_s3Key": {
-   "usedBy": [
-    {
-     "category": "function",
-     "resourceName": "pawkitPostConfirmation"
-    }
-   ]
-  },
-  "AMPLIFY_function_pawkitVerifyAuthChallengeResponse_deploymentBucketName": {
-   "usedBy": [
-    {
-     "category": "function",
-     "resourceName": "pawkitVerifyAuthChallengeResponse"
-    }
-   ]
-  },
-  "AMPLIFY_function_pawkitVerifyAuthChallengeResponse_s3Key": {
-   "usedBy": [
-    {
-     "category": "function",
-     "resourceName": "pawkitVerifyAuthChallengeResponse"
-    }
-   ]
-  },
-  "AMPLIFY_function_paymentConfirmation_deploymentBucketName": {
-   "usedBy": [
-    {
-     "category": "function",
-     "resourceName": "paymentConfirmation"
-    }
-   ]
-  },
-  "AMPLIFY_function_paymentConfirmation_hitpayEndpoint": {
-   "usedBy": [
-    {
-     "category": "function",
-     "resourceName": "paymentConfirmation"
-    }
-   ]
-  },
-  "AMPLIFY_function_paymentConfirmation_s3Key": {
-   "usedBy": [
-    {
-     "category": "function",
-     "resourceName": "paymentConfirmation"
-    }
-   ]
-  },
-  "AMPLIFY_function_paymentConfirmation_secretsPathAmplifyAppId": {
-   "usedBy": [
-    {
-     "category": "function",
-     "resourceName": "paymentConfirmation"
-    }
-   ]
-  },
-  "AMPLIFY_function_paymentRequests_deploymentBucketName": {
-   "usedBy": [
-    {
-     "category": "function",
-     "resourceName": "paymentRequests"
-    }
-   ]
-  },
-  "AMPLIFY_function_paymentRequests_hitpayEndpoint": {
-   "usedBy": [
-    {
-     "category": "function",
-     "resourceName": "paymentRequests"
-    }
-   ]
-  },
-  "AMPLIFY_function_paymentRequests_s3Key": {
-   "usedBy": [
-    {
-     "category": "function",
-     "resourceName": "paymentRequests"
-    }
-   ]
-  },
-  "AMPLIFY_function_paymentRequests_secretsPathAmplifyAppId": {
-   "usedBy": [
-    {
-     "category": "function",
-     "resourceName": "paymentRequests"
-    }
-   ]
-  },
-  "AMPLIFY_function_paymentRequests_webhookUrl": {
-   "usedBy": [
-    {
-     "category": "function",
-     "resourceName": "paymentRequests"
-    }
-   ]
-  }
- },
- "storage": {
-  "content": {
-   "dependsOn": [],
-   "providerPlugin": "awscloudformation",
-   "service": "S3"
-  }
- }
 }
