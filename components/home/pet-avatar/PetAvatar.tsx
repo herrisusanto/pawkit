@@ -1,11 +1,12 @@
+import { Dimensions } from "react-native";
+import { Text, Avatar, YStack } from "tamagui";
+import moment from "moment";
+import { useQuery } from "@tanstack/react-query";
+
 import { Pet } from "@/api/graphql/API";
 import { downloadPetImage } from "@/api/pet";
 import { petDefaultAvatar } from "@/components/my-pet/pet-default-avatar/petDefaultAvatar";
 import { useCurrentUser } from "@/hooks";
-import { useQuery } from "@tanstack/react-query";
-import moment from "moment";
-import { Dimensions } from "react-native";
-import { Text, Avatar, YStack } from "tamagui";
 
 const { width } = Dimensions.get("screen");
 
