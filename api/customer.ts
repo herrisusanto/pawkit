@@ -129,6 +129,9 @@ export const hasCustomerAcceptedServiceDisclaimer = async (
 
 // Update
 export const modifyCustomer = async (input: UpdateCustomerInput) => {
+  if (input.username !== input.id)
+    throw new BadRequestError("Customer username must be the same as user id");
+
   try {
     const result = await graphqlClient.graphql({
       query: updateCustomer,
