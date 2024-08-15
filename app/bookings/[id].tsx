@@ -15,8 +15,9 @@ import moment from "moment";
 import * as Linking from "expo-linking";
 import { Avatar, Text, XStack, YStack, getToken } from "tamagui";
 import { fetchPayment } from "@/api/payment";
-import { Booking } from "@/api/graphql/API";
+import { Booking, Pet } from "@/api/graphql/API";
 import { fetchOrder } from "@/api/order";
+import { downloadPetImage } from "@/api/pet";
 
 const BookingDetails = () => {
   const { data: user } = useCurrentUser();
@@ -26,6 +27,7 @@ const BookingDetails = () => {
     queryFn: () => fetchBookingById(id as string),
     enabled: !!user && !!id,
   });
+
   const { data: order } = useQuery({
     queryKey: ["orders", bookings?.booking.orderId],
     queryFn: () => fetchOrder(bookings?.booking.orderId as string),
@@ -177,28 +179,7 @@ const BookingDetails = () => {
           <XStack columnGap={8} ai="center">
             {bookings?.booking?.pets?.items &&
               bookings?.booking?.pets?.items?.map((pet: any) => (
-                <XStack key={pet?.pet?.name} columnGap={8} ai="center">
-                  <Avatar size={35} circular>
-                    <Avatar.Image
-                      src={
-                        pet?.pet?.imageUrl ||
-                        petDefaultAvatar(pet?.pet?.petType)
-                      }
-                      resizeMode="cover"
-                      bg="$primary"
-                    />
-                  </Avatar>
-                  <YStack>
-                    <Text fontSize="$c1" fontWeight="$5">
-                      {pet?.pet?.name}
-                    </Text>
-                    <Text fontSize="$c2" fontWeight="$4" color="$natural2">
-                      {pet?.pet?.birthdate
-                        ? moment(pet?.pet?.birthdate).fromNow(true)
-                        : null}
-                    </Text>
-                  </YStack>
-                </XStack>
+                <PetCard pet={pet.pet} />
               ))}
           </XStack>
         </YStack>
@@ -220,3 +201,38 @@ const BookingDetails = () => {
 };
 
 export default BookingDetails;
+
+type PetCardProps = {
+  pet: Pet;
+};
+
+const PetCard = XStack.styleable<PetCardProps>(({ pet, ...props }, ref) => {
+  const { data: user } = useCurrentUser();
+  const petId = pet.s3ImageKey?.split("/")[2];
+
+  const { data: petImage } = useQuery({
+    queryKey: ["pet-image", user?.userId, pet?.id],
+    queryFn: () => downloadPetImage(user?.userId as string, petId as string),
+    enabled: !!user && !!pet,
+  });
+
+  return (
+    <XStack key={pet?.name} columnGap={8} ai="center">
+      <Avatar size={35} circular>
+        <Avatar.Image
+          src={petImage?.href ?? petDefaultAvatar(pet?.petType)}
+          resizeMode="cover"
+          bg="$primary"
+        />
+      </Avatar>
+      <YStack>
+        <Text fontSize="$c1" fontWeight="$5">
+          {pet?.name}
+        </Text>
+        <Text fontSize="$c2" fontWeight="$4" color="$natural2">
+          {pet?.birthdate ? moment(pet?.birthdate).fromNow(true) : null}
+        </Text>
+      </YStack>
+    </XStack>
+  );
+});

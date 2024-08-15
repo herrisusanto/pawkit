@@ -1,7 +1,11 @@
-import { Pet } from "@/api/graphql/API";
-import { petDefaultAvatar } from "@/components/my-pet/pet-default-avatar/petDefaultAvatar";
 import { Dimensions } from "react-native";
 import { Text, Avatar, YStack, styled } from "tamagui";
+import { useQuery } from "@tanstack/react-query";
+
+import { Pet } from "@/api/graphql/API";
+import { downloadPetImage } from "@/api/pet";
+import { petDefaultAvatar } from "@/components/my-pet/pet-default-avatar/petDefaultAvatar";
+import { useCurrentUser } from "@/hooks";
 
 const { width } = Dimensions.get("screen");
 
@@ -17,6 +21,13 @@ export const PetAvatar: React.FC<PetAvatarProps> = ({
   size,
 }) => {
   const containerWidth = width - 188;
+  const { data: user } = useCurrentUser();
+
+  const { data: petImage } = useQuery({
+    queryKey: ["pet-image", user?.userId, data?.id],
+    queryFn: () => downloadPetImage(user?.userId as string, data?.id as string),
+    enabled: !!user && !!data,
+  });
 
   return (
     <PetAvatarContainer>
@@ -28,7 +39,7 @@ export const PetAvatar: React.FC<PetAvatarProps> = ({
       >
         <Avatar.Image
           accessibilityLabel="Cam"
-          src={data?.imageUrl || petDefaultAvatar(data?.petType)}
+          src={petImage?.href ?? petDefaultAvatar(data?.petType)}
           resizeMode="cover"
         />
         <Avatar.Fallback backgroundColor="$blue10" />

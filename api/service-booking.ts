@@ -487,6 +487,7 @@ export const downloadServiceImage = async (serviceId: string) => {
     return getUrlResult.url;
   } catch (error) {
     logger.error("Error : ", JSON.stringify(error));
+    throw new InternalServerError("Error download service image");
   }
 };
 
