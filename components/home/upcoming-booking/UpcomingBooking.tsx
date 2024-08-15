@@ -222,9 +222,9 @@ const PetCard = XStack.styleable<PetCardProps>(
     const { data: user } = useCurrentUser();
 
     const { data: petImage } = useQuery({
-      queryKey: ["pet-image", user?.userId, petBooking?.id],
+      queryKey: ["pet-image", user?.userId, petBooking?.petId],
       queryFn: () =>
-        downloadPetImage(user?.userId as string, petBooking?.id as string),
+        downloadPetImage(user?.userId as string, petBooking?.petId as string),
       enabled: !!user && !!petBooking,
     });
 

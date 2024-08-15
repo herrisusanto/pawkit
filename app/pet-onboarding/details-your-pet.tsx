@@ -97,10 +97,10 @@ export default function DetailsYourPet() {
 
   const invalidateQueries = () => {
     queryClient.invalidateQueries({
-      queryKey: ["pets"],
+      queryKey: ["pets", user?.userId, petId],
     });
     queryClient.invalidateQueries({
-      queryKey: ["pet-image"],
+      queryKey: ["pet-image", user?.userId, petId],
     });
   };
 
