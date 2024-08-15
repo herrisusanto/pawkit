@@ -4,17 +4,15 @@ import { Input } from "@/components/common/Input/Input";
 import { InputNumber } from "@/components/common/InputNumber/InputNumber";
 import { icons } from "@/constants";
 import { handleUpdateAttributes } from "@/api/user";
-import { useCurrentUser, useUserAttributes } from "@/hooks";
+import { useUserAttributes } from "@/hooks";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Stack, useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { FormProvider, SubmitHandler, useForm } from "react-hook-form";
 import ReactNativeModal from "react-native-modal";
 import { Image, Text, View, XStack, YStack, styled } from "tamagui";
-import { modifyCustomer } from "@/api/customer";
 
 export default function UpdatePersonalData() {
-  const { data: user } = useCurrentUser();
   const [openAlert, setOpenAlert] = useState<boolean>(false);
   const form = useForm({
     mode: "onBlur",
@@ -42,13 +40,6 @@ export default function UpdatePersonalData() {
     },
   });
 
-  const mutationModifyCustomer = useMutation({
-    mutationFn: modifyCustomer,
-    onSuccess() {
-      queryClient.invalidateQueries({ queryKey: ["user_profile"] });
-    },
-  });
-
   useEffect(() => {
     if (userAttributes) {
       setValue("name", userAttributes?.name ?? "");
@@ -70,11 +61,9 @@ export default function UpdatePersonalData() {
       email,
       phone_number: "+65" + phone_number,
     });
-    await mutationModifyCustomer.mutateAsync({
-      id: user?.userId as string,
-      email,
-      phone: phone_number,
-    });
+    // await mutationModifyCustomer.mutateAsync({
+    //   id: user?.userId as string,
+    // });
 
     setOpenAlert(true);
     setTimeout(() => {
