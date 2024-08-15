@@ -75,7 +75,7 @@ export async function getFileUrl(
       // Alternatively, path: ({identityId}) => `protected/${identityId}/album/2024/1.jpg`
       options: {
         accessLevel,
-        validateObjectExistence: false, // Check if object exists before creating a URL
+        validateObjectExistence: true, // Check if object exists before creating a URL
         expiresIn: 20, // validity of the URL, in seconds. defaults to 900 (15 minutes) and maxes at 3600 (1 hour)
         // useAccelerateEndpoint: true // Whether to use accelerate endpoint
       },
@@ -85,6 +85,6 @@ export async function getFileUrl(
     return getUrlResult.url;
   } catch (error) {
     logger.error("Failed: ", error);
-    throw new InternalServerError("Error getting file url");
+    return null;
   }
 }
