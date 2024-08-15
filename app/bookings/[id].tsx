@@ -178,8 +178,8 @@ const BookingDetails = () => {
           </XStack>
           <XStack columnGap={8} ai="center">
             {bookings?.booking?.pets?.items &&
-              bookings?.booking?.pets?.items?.map((pet: any) => (
-                <PetCard pet={pet.pet} />
+              bookings?.booking?.pets?.items?.map((pet: any, index: number) => (
+                <PetCard key={index} pet={pet.pet} />
               ))}
           </XStack>
         </YStack>

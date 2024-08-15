@@ -76,7 +76,7 @@ const AuthScreen: React.FC<SignInScreenProps> = () => {
         username,
         password: Math.random().toString(36).slice(-8),
         options: {
-          autoSignIn: { authFlowType: "CUSTOM_WITHOUT_SRP" },
+          autoSignIn: true,
           userAttributes: {
             phone_number: username,
           },

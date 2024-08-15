@@ -165,7 +165,7 @@ export const UpcomingBookingItem = YStack.styleable<UpcomingBookingItemProps>(
         {!hidePet && (
           <XStack>
             {Array.from(data?.pets?.items || []).map((petBooking) => (
-              <PetCard petBooking={petBooking} />
+              <PetCard key={petBooking?.id} petBooking={petBooking} />
             ))}
           </XStack>
         )}
