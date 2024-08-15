@@ -33,6 +33,11 @@ const AboutPet: React.FC<AboutPetProps> = ({ data }) => {
 
   const mutationDeletePet = useMutation({
     mutationFn: ({ id }: { id: string }) => removePet(id),
+    onSuccess() {
+      queryClient.invalidateQueries({
+        queryKey: ["pet-image", user?.userId, data?.id],
+      });
+    },
   });
 
   const [openDeletePetModal, setOpenDeletePetModal] = useState<boolean>(false);
@@ -54,17 +59,10 @@ const AboutPet: React.FC<AboutPetProps> = ({ data }) => {
       await mutationDeletePet.mutateAsync({
         id: (data?.id as string) ?? "",
       });
-      invalidateQueries();
       router.canGoBack() && router.back();
     } catch (error) {
       console.log(error);
     }
-  };
-
-  const invalidateQueries = () => {
-    queryClient.invalidateQueries({
-      queryKey: ["pets", "pet-image", user?.userId, data?.id],
-    });
   };
 
   const calculateAge = (birthdate?: string | null) => {

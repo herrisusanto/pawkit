@@ -51,7 +51,7 @@ export const AboutYourPetForm: React.FC<AboutYourPetFormProps> = ({
   const [petImageUrl, setPetImageUrl] = useState<string>();
 
   const { data: petImage } = useQuery({
-    queryKey: ["pet-image"],
+    queryKey: ["pet-image", user?.userId, petId],
     queryFn: () => downloadPetImage(user?.userId as string, petId as string),
     enabled: !!user && !!petId,
   });
