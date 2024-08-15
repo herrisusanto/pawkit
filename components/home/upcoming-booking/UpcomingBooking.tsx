@@ -1,15 +1,16 @@
-import { Booking } from "@/api/graphql/API";
-import { GroomingIcon } from "@/components/common/Icons";
-import { images } from "@/constants";
-import { Avatar, Image, Text, View, XStack, YStack } from "tamagui";
+import { Avatar, Image, Spinner, Text, View, XStack, YStack } from "tamagui";
 import moment from "moment";
+import { useQuery } from "@tanstack/react-query";
+import { Link } from "expo-router";
+
+import { Booking, PetBookings } from "@/api/graphql/API";
+import { downloadPetImage } from "@/api/pet";
+import { downloadServiceImage, fetchBookings } from "@/api/service-booking";
 import { petDefaultAvatar } from "@/components/my-pet/pet-default-avatar/petDefaultAvatar";
 import { ListSlider } from "@/components/common/ListSlider/ListSlider";
-import { Link } from "expo-router";
-import { fetchBookings } from "@/api/service-booking";
-import { useQuery } from "@tanstack/react-query";
-import { useCurrentUser } from "@/hooks";
 import BookingCard from "@/components/bookings/booking-card/BookingCard";
+import { images } from "@/constants";
+import { useCurrentUser } from "@/hooks";
 
 export const UpcomingBooking = () => {
   const { data: user } = useCurrentUser();
@@ -101,6 +102,12 @@ const renderStatus = (status: string = "pending") => {
 
 export const UpcomingBookingItem = YStack.styleable<UpcomingBookingItemProps>(
   ({ data, hidePet, ...props }, ref) => {
+    const { data: image, isLoading } = useQuery({
+      queryKey: ["service-image", data],
+      queryFn: () => downloadServiceImage(data?.serviceId!),
+      enabled: !!data,
+    });
+
     return (
       <YStack
         ref={ref}
@@ -114,9 +121,24 @@ export const UpcomingBookingItem = YStack.styleable<UpcomingBookingItemProps>(
       >
         <XStack px="$3.5" jc="space-between" ai="center">
           <XStack ai="center" columnGap="$1.5">
-            <View width={50} height={50}>
-              <GroomingIcon />
-            </View>
+            {isLoading ? (
+              <View w={50} h={50} jc="center" ai="center">
+                <Spinner color="$accent3" size="small" />
+              </View>
+            ) : (
+              <Image
+                key={data?.serviceId}
+                source={{
+                  uri: image?.href,
+                  width: 50,
+                  height: 50,
+                }}
+                height={50}
+                width={50}
+                borderRadius="$2"
+                mr="$2"
+              />
+            )}
             <YStack rowGap="$2" maxWidth={160}>
               <Text
                 fontSize="$b3"
@@ -142,42 +164,9 @@ export const UpcomingBookingItem = YStack.styleable<UpcomingBookingItemProps>(
         </XStack>
         {!hidePet && (
           <XStack>
-            {Array.from(data?.pets?.items || []).map((petBooking) => {
-              const petBirthdateInMonths = moment().diff(
-                moment(petBooking?.pet.birthdate),
-                "months"
-              );
-              const petYearsOld = (petBirthdateInMonths / 12).toFixed();
-              const petMonthsOld = (petBirthdateInMonths / 12)
-                .toFixed(1)
-                .toString()
-                .split(".")[1]
-                ?.slice(0, 1);
-              return (
-                <XStack key={data?.id} columnGap={8} px="$5" ai="center">
-                  <Avatar size={35} circular>
-                    <Avatar.Image
-                      src={
-                        petBooking?.pet.imageUrl ||
-                        petDefaultAvatar(petBooking?.pet.petType)
-                      }
-                      resizeMode="cover"
-                      bg="$primary"
-                    />
-                  </Avatar>
-                  <YStack>
-                    <Text fontSize="$c1" fontWeight="$5">
-                      {petBooking?.pet.name}
-                    </Text>
-                    <Text fontSize="$c2" fontWeight="$4" color="$natural2">
-                      {petBooking?.pet.birthdate
-                        ? `${petYearsOld}y ${petMonthsOld}m`
-                        : "unknown"}
-                    </Text>
-                  </YStack>
-                </XStack>
-              );
-            })}
+            {Array.from(data?.pets?.items || []).map((petBooking) => (
+              <PetCard petBooking={petBooking} />
+            ))}
           </XStack>
         )}
       </YStack>
@@ -223,3 +212,52 @@ export const NoUpcomingBooking = YStack.styleable(({ ...props }, ref) => {
     </YStack>
   );
 });
+
+type PetCardProps = {
+  petBooking: PetBookings | null;
+};
+
+const PetCard = XStack.styleable<PetCardProps>(
+  ({ petBooking, ...props }, ref) => {
+    const { data: user } = useCurrentUser();
+
+    const { data: petImage } = useQuery({
+      queryKey: ["pet-image", user?.userId, petBooking?.id],
+      queryFn: () =>
+        downloadPetImage(user?.userId as string, petBooking?.id as string),
+      enabled: !!user && !!petBooking,
+    });
+
+    const petBirthdateInMonths = moment().diff(
+      moment(petBooking?.pet.birthdate),
+      "months"
+    );
+    const petYearsOld = (petBirthdateInMonths / 12).toFixed();
+    const petMonthsOld = (petBirthdateInMonths / 12)
+      .toFixed(1)
+      .toString()
+      .split(".")[1]
+      ?.slice(0, 1);
+    return (
+      <XStack key={props?.id} columnGap={8} px="$5" ai="center">
+        <Avatar size={35} circular>
+          <Avatar.Image
+            src={petImage?.href ?? petDefaultAvatar(petBooking?.pet.petType)}
+            resizeMode="cover"
+            bg="$primary"
+          />
+        </Avatar>
+        <YStack>
+          <Text fontSize="$c1" fontWeight="$5">
+            {petBooking?.pet.name}
+          </Text>
+          <Text fontSize="$c2" fontWeight="$4" color="$natural2">
+            {petBooking?.pet.birthdate
+              ? `${petYearsOld}y ${petMonthsOld}m`
+              : "unknown"}
+          </Text>
+        </YStack>
+      </XStack>
+    );
+  }
+);

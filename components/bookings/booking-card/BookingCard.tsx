@@ -1,8 +1,10 @@
-import { Image, Text, View, XStack, YStack } from "tamagui";
-import { images } from "@/constants";
+import { Image, Spinner, Text, View, XStack, YStack } from "tamagui";
 import moment from "moment";
+import { useQuery } from "@tanstack/react-query";
+
 import { Booking } from "@/api/graphql/API";
-import { petDefaultAvatar } from "@/components/my-pet/pet-default-avatar/petDefaultAvatar";
+import { downloadServiceImage } from "@/api/service-booking";
+import { PetCard } from "./PetCard";
 
 type BookingCardProps = {
   data?: Booking;
@@ -38,6 +40,12 @@ const renderStatus = (status: string = "pending") => {
 };
 
 const BookingCard: React.FC<BookingCardProps> = ({ data }) => {
+  const { data: image, isLoading } = useQuery({
+    queryKey: ["service-image", data],
+    queryFn: () => downloadServiceImage(data?.serviceId!),
+    enabled: !!data,
+  });
+
   return (
     <View
       paddingVertical="$2"
@@ -48,16 +56,24 @@ const BookingCard: React.FC<BookingCardProps> = ({ data }) => {
       backgroundColor="$background"
     >
       <XStack jc="space-between" ai="center">
-        <XStack alignItems="center" gap="$1">
-          <Image
-            source={{
-              uri: images.tempServiceImg,
-              width: 50,
-              height: 50,
-            }}
-            height={50}
-            width={50}
-          />
+        <XStack alignItems="center" columnGap="$2">
+          {isLoading ? (
+            <View w={50} h={50} jc="center" ai="center">
+              <Spinner color="$accent3" size="small" />
+            </View>
+          ) : (
+            <Image
+              key={data?.serviceId}
+              source={{
+                uri: image?.href,
+                width: 50,
+                height: 50,
+              }}
+              height={50}
+              width={50}
+              borderRadius="$2"
+            />
+          )}
           <YStack>
             <Text fontSize="$b3" fontWeight="$5">
               {data?.serviceName}
@@ -70,30 +86,15 @@ const BookingCard: React.FC<BookingCardProps> = ({ data }) => {
         </XStack>
         {renderStatus(data?.status)}
       </XStack>
-      <XStack gap="$1" alignItems="center">
-        <View width={50} height={50} ai="center" jc="center">
-          <Image
-            source={{
-              uri:
-                data?.pets?.items[0]?.pet?.imageUrl ||
-                petDefaultAvatar(data?.petType),
-              width: 50,
-              height: 50,
-            }}
-            borderRadius={200}
-            height={35}
-            width={35}
-          />
-        </View>
-        <YStack>
-          <Text fontSize="$b3" fontWeight="$5">
-            {data?.pets?.items[0]?.pet?.name}
-          </Text>
-          <Text fontSize="$c2" fontWeight="$4" color="$textSecondary">
-            {data?.pets?.items[0]?.pet?.birthdate}
-          </Text>
-        </YStack>
-      </XStack>
+      <PetCard
+        pet={{
+          id: data?.petIds[0],
+          petType: data?.petType,
+          name: data?.pets?.items[0]?.pet.name,
+          birthdate: data?.pets?.items[0]?.pet.birthdate,
+          s3ImageKey: data?.pets?.items[0]?.pet.s3ImageKey,
+        }}
+      />
     </View>
   );
 };
