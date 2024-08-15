@@ -466,7 +466,6 @@ export const downloadServiceImage = async (serviceId: string) => {
       console.error("Service not found");
       return;
     }
-    console.log(JSON.stringify(service));
 
     if (!service.s3ImageKey) {
       console.error("Service image URL not found");
