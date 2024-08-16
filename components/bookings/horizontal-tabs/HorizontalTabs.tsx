@@ -1,11 +1,12 @@
 import { useState } from "react";
 import { LogBox } from "react-native";
 import { StackProps, TabLayout, Tabs, Text, YStack } from "tamagui";
-import BookingSection from "../booking-section/BookingSection";
-import { useCurrentUser } from "@/hooks";
 import { useQuery } from "@tanstack/react-query";
+
 import { fetchBookingsByCustomer } from "@/api/service-booking";
 import { Booking, BookingStatus } from "@/api/graphql/API";
+import { useCurrentUser } from "@/hooks";
+import BookingSection from "../booking-section/BookingSection";
 
 const HorizontalTabs = () => {
   const { data: user } = useCurrentUser();
@@ -37,16 +38,6 @@ const HorizontalTabs = () => {
       position="relative"
     >
       <YStack>
-        {activeAt && (
-          <TabsRovingIndicator
-            active
-            width={activeAt.width}
-            height="$0.25"
-            zIndex={90}
-            x={activeAt.x}
-            bottom={0}
-          />
-        )}
         <Tabs.List
           disablePassBorderRadius
           loop={false}
@@ -55,7 +46,18 @@ const HorizontalTabs = () => {
           paddingHorizontal="$4"
           backgroundColor="$background"
           justifyContent="space-between"
+          scrollable
         >
+          {activeAt && (
+            <TabsRovingIndicator
+              active
+              width={activeAt.width}
+              height="$0.25"
+              zIndex={90}
+              x={activeAt.x}
+              bottom={0}
+            />
+          )}
           <Tabs.Tab
             unstyled
             value="tab1"
@@ -128,6 +130,24 @@ const HorizontalTabs = () => {
               Completed
             </Text>
           </Tabs.Tab>
+          <Tabs.Tab
+            value="tab5"
+            unstyled
+            padding="$3"
+            width="auto"
+            onInteraction={(type, layout) => {
+              if (type === "select") {
+                setActiveAt(layout);
+              }
+            }}
+          >
+            <Text
+              fontSize="$c1"
+              color={currentTab === "tab5" ? "$textPrimary" : "$textThirdy"}
+            >
+              Cancelled
+            </Text>
+          </Tabs.Tab>
         </Tabs.List>
       </YStack>
 
@@ -183,6 +203,21 @@ const HorizontalTabs = () => {
                   new Date(b.startDateTime).getTime()
               )
               .filter((item: any) => item.status === BookingStatus.COMPLETED) ??
+            []
+          }
+        />
+      </Tabs.Content>
+
+      <Tabs.Content value="tab5" flex={1} overflow="hidden">
+        <BookingSection
+          bookingData={
+            bookings
+              ?.sort(
+                (a: Booking, b: Booking) =>
+                  new Date(a.startDateTime).getTime() -
+                  new Date(b.startDateTime).getTime()
+              )
+              .filter((item: any) => item.status === BookingStatus.CANCELLED) ??
             []
           }
         />
