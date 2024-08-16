@@ -103,7 +103,7 @@ const renderStatus = (status: string = "pending") => {
 export const UpcomingBookingItem = YStack.styleable<UpcomingBookingItemProps>(
   ({ data, hidePet, ...props }, ref) => {
     const { data: image, isLoading } = useQuery({
-      queryKey: ["service-image", data],
+      queryKey: ["service-image", data?.serviceId],
       queryFn: () => downloadServiceImage(data?.serviceId!),
       enabled: !!data,
     });
