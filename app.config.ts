@@ -34,7 +34,7 @@ export default (_: ConfigContext): ExpoConfig => ({
   name: appName,
   slug: "pawkit",
   owner: "pawkit_tech", // TODO: If necessary owner should be determined later
-  version: "3.0.4",
+  version: "3.0.6",
   orientation: "portrait",
   icon: "./assets/icon.png",
   userInterfaceStyle: "light",
