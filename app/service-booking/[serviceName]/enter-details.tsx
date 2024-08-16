@@ -1,10 +1,9 @@
-import { modifyCustomer } from "@/api/customer";
 import { Header } from "@/components/common/Header/Header";
 import { PriceDetailsSheet } from "@/components/price-details-sheet/PriceDetailsSheet";
 import { OrderDetails } from "@/components/service-booking/order-details/OrderDetails";
 import { OwnerDetails } from "@/components/service-booking/owner-details/OwnerDetails";
 import { StepsIndicator } from "@/components/service-booking/steps-indicator/StepsIndicator";
-import { useContinueServiceBookingAllowed, useCurrentUser } from "@/hooks";
+import { useContinueServiceBookingAllowed } from "@/hooks";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { updateUserAttributes } from "aws-amplify/auth";
 import { router, Stack, useLocalSearchParams } from "expo-router";
@@ -13,7 +12,6 @@ import { ScrollView, YStack, getToken } from "tamagui";
 
 export default function () {
   const form = useFormContext();
-  const { data: user } = useCurrentUser();
   const { serviceName } = useLocalSearchParams();
   const allowed = useContinueServiceBookingAllowed(serviceName as string);
   const queryClient = useQueryClient();
@@ -21,12 +19,6 @@ export default function () {
     mutationFn: updateUserAttributes,
     onSuccess() {
       queryClient.invalidateQueries({ queryKey: ["user_attributes"] });
-    },
-  });
-  const mutationModifyCustomer = useMutation({
-    mutationFn: modifyCustomer,
-    onSuccess() {
-      queryClient.invalidateQueries({ queryKey: ["user_profile"] });
     },
   });
 
@@ -45,12 +37,6 @@ export default function () {
             address,
             phone_number,
           },
-        });
-        await mutationModifyCustomer.mutateAsync({
-          id: user?.userId as string,
-          email,
-          address: { streetName: address, postalCode: String(0) },
-          phone: phone_number,
         });
         router.push(`/service-booking/${serviceName}/required-questions`);
       }

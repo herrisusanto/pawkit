@@ -2,7 +2,7 @@ import { Pet } from "@/api/graphql/API";
 import { downloadPetImage, fetchPet } from "@/api/pet";
 import { Button } from "@/components/common/Button/Button";
 import { Header } from "@/components/common/Header/Header";
-import { CameraIcon, DefaultAvatarIcon } from "@/components/common/Icons";
+import { DefaultAvatarIcon } from "@/components/common/Icons";
 import AboutPet from "@/components/my-pet/about-pet/AboutPet";
 import { petDefaultAvatar } from "@/components/my-pet/pet-default-avatar/petDefaultAvatar";
 import { useCurrentUser } from "@/hooks";
@@ -61,10 +61,6 @@ function MyAccount() {
                 )}
                 <Avatar.Fallback backgroundColor="$blue10" />
               </Avatar>
-
-              <CameraIconContainer>
-                <CameraIcon strokeColor="#fff" />
-              </CameraIconContainer>
             </View>
           </>
         ) : (
@@ -92,18 +88,6 @@ const ProfileContainer = styled(View, {
   paddingHorizontal: "$4",
   alignItems: "center",
   justifyContent: "center",
-});
-
-const CameraIconContainer = styled(View, {
-  width: 28,
-  height: 28,
-  backgroundColor: "$primary",
-  borderRadius: 100,
-  justifyContent: "center",
-  alignItems: "center",
-  position: "absolute",
-  bottom: 0,
-  right: 0,
 });
 
 export default MyAccount;

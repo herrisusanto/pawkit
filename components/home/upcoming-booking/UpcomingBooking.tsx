@@ -103,7 +103,7 @@ const renderStatus = (status: string = "pending") => {
 export const UpcomingBookingItem = YStack.styleable<UpcomingBookingItemProps>(
   ({ data, hidePet, ...props }, ref) => {
     const { data: image, isLoading } = useQuery({
-      queryKey: ["service-image", data],
+      queryKey: ["service-image", data?.serviceId],
       queryFn: () => downloadServiceImage(data?.serviceId!),
       enabled: !!data,
     });
@@ -222,9 +222,9 @@ const PetCard = XStack.styleable<PetCardProps>(
     const { data: user } = useCurrentUser();
 
     const { data: petImage } = useQuery({
-      queryKey: ["pet-image", user?.userId, petBooking?.id],
+      queryKey: ["pet-image", user?.userId, petBooking?.petId],
       queryFn: () =>
-        downloadPetImage(user?.userId as string, petBooking?.id as string),
+        downloadPetImage(user?.userId as string, petBooking?.petId as string),
       enabled: !!user && !!petBooking,
     });
 
