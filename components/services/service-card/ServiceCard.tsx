@@ -54,7 +54,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   };
 
   const { data: image, isLoading } = useQuery({
-    queryKey: ["service-image", data],
+    queryKey: ["service-image", data.id],
     queryFn: () => downloadServiceImage(data.id),
   });
 

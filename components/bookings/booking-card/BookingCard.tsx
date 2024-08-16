@@ -41,7 +41,7 @@ const renderStatus = (status: string = "pending") => {
 
 const BookingCard: React.FC<BookingCardProps> = ({ data }) => {
   const { data: image, isLoading } = useQuery({
-    queryKey: ["service-image", data],
+    queryKey: ["service-image", data?.serviceId],
     queryFn: () => downloadServiceImage(data?.serviceId!),
     enabled: !!data,
   });
