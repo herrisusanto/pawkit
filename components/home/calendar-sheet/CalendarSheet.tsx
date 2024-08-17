@@ -114,6 +114,7 @@ export const CalendarSheet: React.FC<CalendarSheetProps> = ({
                 }
                 highlightToday
                 onDropdownOpenChange={setDisableDrag}
+                maxDate={moment().add(1, "years")}
               />
             </View>
             <YStack px="$5" rowGap="$4">

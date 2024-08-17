@@ -24,7 +24,7 @@ export const DropdownMenu = StyledYStack.styleable<DropdownMenuProps>(
       <AnimatePresence>
         <Modal transparent animationType="fade" visible={open}>
           <View h="$full" w="$full" onPress={onClose}>
-            <StyledYStack ref={ref} maxHeight={250} {...props}>
+            <StyledYStack ref={ref} maxHeight={350} {...props}>
               <FlatList
                 data={items}
                 renderItem={({ item, index: i }) => {

@@ -90,16 +90,4 @@ const ProfileContainer = styled(View, {
   justifyContent: "center",
 });
 
-const CameraIconContainer = styled(View, {
-  width: 28,
-  height: 28,
-  backgroundColor: "$primary",
-  borderRadius: 100,
-  justifyContent: "center",
-  alignItems: "center",
-  position: "absolute",
-  bottom: 0,
-  right: 0,
-});
-
 export default MyAccount;
