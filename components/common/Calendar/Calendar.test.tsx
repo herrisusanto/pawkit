@@ -27,7 +27,7 @@ describe("Calendar", () => {
   });
 
   it("Should render correct date on the header", async () => {
-    expect(await screen.findByText(mockDate.format("MMM,"))).toBeOnTheScreen();
+    expect(await screen.findByText(mockDate.format("MMMM,"))).toBeOnTheScreen();
   });
 
   it("Should be able to go to previous/next month", async () => {
@@ -36,14 +36,14 @@ describe("Calendar", () => {
 
     fireEvent.press(previousMonth);
     expect(
-      await screen.findByText(moment(mockDate).subtract(1, "M").format("MMM,"))
+      await screen.findByText(moment(mockDate).subtract(1, "M").format("MMMM,"))
     ).toBeOnTheScreen();
 
     fireEvent.press(nextMonth);
     fireEvent.press(nextMonth);
 
     expect(
-      await screen.findByText(moment(mockDate).add(1, "M").format("MMM,"))
+      await screen.findByText(moment(mockDate).add(1, "M").format("MMMM,"))
     ).toBeOnTheScreen();
   });
 
