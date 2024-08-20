@@ -19,16 +19,10 @@ import { Dropdown } from "../Dropdown/Dropdown";
 const SCREEN_WIDTH = Dimensions.get("screen").width;
 
 const weekDays = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
-const years = moment("2080-01-01").diff("1979-01-01", "year");
+
 const monthsAsOptions = Array.apply(0, Array(12)).map((_, i) => {
   const formattedMonth = moment().month(i).format("MMM");
   return { label: formattedMonth, value: String(i) };
-});
-const yearsAsOptions = Array.from({ length: years }).map((_, i) => {
-  const formattedYear = moment("1979-01-01")
-    .add(i + 1, "year")
-    .format("YYYY");
-  return { label: formattedYear, value: formattedYear };
 });
 
 export type CalendarProps = {
@@ -40,6 +34,8 @@ export type CalendarProps = {
   markedDates?: { [key: string]: { count?: number } };
   headerContainerProps?: XStackProps;
   highlightToday?: boolean;
+  minDate?: Moment;
+  maxDate?: Moment;
 };
 
 const StyledView = styled(TamaguiView, {
@@ -58,6 +54,8 @@ export const Calendar = StyledView.styleable<CalendarProps>(
       markedDates,
       highlightToday,
       px,
+      maxDate = "2080-01-01",
+      minDate = "1979-01-01",
       ...props
     },
     ref
@@ -120,6 +118,17 @@ export const Calendar = StyledView.styleable<CalendarProps>(
 
     const totalRows = Math.ceil((prefixDays + numberOfDays + suffixDays) / 7);
 
+    const years = moment(maxDate).diff(minDate, "year");
+
+    const yearsAsOptions = Array.from({ length: years })
+      .map((_, i) => {
+        const formattedYear = moment(minDate)
+          .add(i + 1, "year")
+          .format("YYYY");
+        return { label: formattedYear, value: formattedYear };
+      })
+      .reverse();
+
     return (
       <StyledView ref={ref} {...props}>
         <YStack rowGap="$3.5">
@@ -130,7 +139,7 @@ export const Calendar = StyledView.styleable<CalendarProps>(
             zi={10000}
             {...headerContainerProps}
           >
-            <XStack columnGap="$2">
+            <XStack columnGap="$2.5">
               <Dropdown
                 items={monthsAsOptions}
                 onChange={(value) => handleMonthChange(value)}

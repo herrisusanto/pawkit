@@ -264,6 +264,7 @@ export const PetsSchedulesSheet = View.styleable(({ ...props }, ref) => {
                         date.isBefore(moment().subtract(1, "day"))
                       }
                       highlightToday
+                      maxDate={moment().add(1, "years")}
                     />
                   </View>
                 </YStack>

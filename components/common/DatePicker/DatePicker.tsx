@@ -99,10 +99,11 @@ export const DatePicker = View.styleable<DatePickerProps>(
           contentProps={{ px: 12 }}
         >
           <Calendar
-            headerContainerProps={{ px: "$5" }}
+            headerContainerProps={{ px: "$2" }}
             px={36}
             onChange={handleChange}
             disabledDates={disabledDates}
+            maxDate={moment()}
           />
         </Modal>
       </>
