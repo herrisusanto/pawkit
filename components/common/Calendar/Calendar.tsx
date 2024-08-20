@@ -21,7 +21,7 @@ const SCREEN_WIDTH = Dimensions.get("screen").width;
 const weekDays = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"];
 
 const monthsAsOptions = Array.apply(0, Array(12)).map((_, i) => {
-  const formattedMonth = moment().month(i).format("MMM");
+  const formattedMonth = moment().month(i).format("MMMM");
   return { label: formattedMonth, value: String(i) };
 });
 
@@ -143,17 +143,17 @@ export const Calendar = StyledView.styleable<CalendarProps>(
               <Dropdown
                 items={monthsAsOptions}
                 onChange={(value) => handleMonthChange(value)}
-                menuProps={{ minWidth: "$5" }}
+                menuProps={{ minWidth: "$10" }}
                 onOpenChange={onDropdownOpenChange}
               >
                 <Text fontSize="$b3" fontWeight="$5">
-                  {visibleMonth.format("MMM,")}
+                  {visibleMonth.format("MMMM,")}
                 </Text>
               </Dropdown>
               <Dropdown
                 items={yearsAsOptions}
                 onChange={(value) => handleYearChange(value)}
-                menuProps={{ minWidth: "$5" }}
+                menuProps={{ minWidth: "$6" }}
                 onOpenChange={onDropdownOpenChange}
               >
                 <Text fontSize="$b3" fontWeight="$5">

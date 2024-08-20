@@ -24,7 +24,7 @@ export const DropdownMenu = StyledYStack.styleable<DropdownMenuProps>(
       <AnimatePresence>
         <Modal transparent animationType="fade" visible={open}>
           <View h="$full" w="$full" onPress={onClose}>
-            <StyledYStack ref={ref} maxHeight={350} {...props}>
+            <StyledYStack ref={ref} maxHeight={250} {...props}>
               <FlatList
                 data={items}
                 renderItem={({ item, index: i }) => {
@@ -39,7 +39,7 @@ export const DropdownMenu = StyledYStack.styleable<DropdownMenuProps>(
                         onSelect && onSelect(item.value as string);
                       }}
                     >
-                      <Text fontSize="$c2" fontWeight="$5">
+                      <Text fontSize="$c1" fontWeight="$5">
                         {item.label}
                       </Text>
                     </View>
