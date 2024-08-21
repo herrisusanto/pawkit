@@ -87,8 +87,8 @@ const GroomingScreen = () => {
     },
     enabled: !!selectedPet,
   });
-  const services: Service[] = servicesData;
-  const addons: Service[] = addonsData;
+  const services: Service[] | undefined = servicesData;
+  const addons: Service[] | undefined = addonsData;
   const selectedService = useMemo(() => {
     const selectedPetService = selectedPetsService.find(
       (petService) => petService.petId === selectedPetId

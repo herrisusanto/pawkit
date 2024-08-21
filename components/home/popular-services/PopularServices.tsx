@@ -39,7 +39,7 @@ const serviceList = [
       <NursingIcon strokeColor={strokeColor} fillColor={fillColor} />
     ),
     routePath: "/services/nursing",
-    available: false,
+    available: true,
   },
   {
     id: 4,
@@ -48,7 +48,7 @@ const serviceList = [
       <VetConsultIcon strokeColor={strokeColor} fillColor={fillColor} />
     ),
     routePath: "/services/vet-consult",
-    available: false,
+    available: true,
   },
   {
     id: 5,
@@ -57,7 +57,7 @@ const serviceList = [
       <WellnessIcon strokeColor={strokeColor} fillColor={fillColor} />
     ),
     routePath: "/services/wellness",
-    available: false,
+    available: true,
   },
   {
     id: 6,
@@ -66,7 +66,7 @@ const serviceList = [
       <MedicalSittingIcon strokeColor={strokeColor} fillColor={fillColor} />
     ),
     routePath: "/services/medical-sitting",
-    available: false,
+    available: true,
   },
   {
     id: 7,
@@ -75,7 +75,7 @@ const serviceList = [
       <HospiceCareIcon strokeColor={strokeColor} fillColor={fillColor} />
     ),
     routePath: "/services/hospice-care",
-    available: false,
+    available: true,
   },
 ];
 
