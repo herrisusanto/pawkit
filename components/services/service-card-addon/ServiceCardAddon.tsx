@@ -46,12 +46,7 @@ const ServiceCardAddon: React.FC<ServiceCardAddonProps> = ({
               <XStack columnGap="$1">
                 <Text fontSize="$c2">Estimated duration:</Text>
                 <Text fontSize="$c2" fontWeight="$6">
-                  {moment
-                    .duration(
-                      data?.baseDuration,
-                      data?.baseDurationUnit.toLowerCase() as moment.DurationInputArg2
-                    )
-                    .humanize()}
+                  {`${data?.baseDuration} ${data?.baseDurationUnit.toLowerCase()}`}
                 </Text>
               </XStack>
             </YStack>
@@ -116,12 +111,7 @@ const ServiceCardAddon: React.FC<ServiceCardAddonProps> = ({
                   <XStack columnGap="$1">
                     <Text fontSize="$c2">Estimated duration:</Text>
                     <Text fontSize="$c2" fontWeight="$6">
-                      {moment
-                        .duration(
-                          data?.baseDuration,
-                          data?.baseDurationUnit.toLowerCase() as moment.DurationInputArg2
-                        )
-                        .humanize()}
+                      {`${data?.baseDuration} ${data?.baseDurationUnit.toLowerCase()}`}
                     </Text>
                   </XStack>
                 </YStack>
