@@ -78,7 +78,7 @@ function Profile() {
   };
 
   const handleContactUs = async () => {
-    const phoneNumber = "+6588540207";
+    const phoneNumber = "6588540207";
     const textContent = `Hello Pawkit! I would like to ask about`;
     const url = `whatsapp://send?phone=${phoneNumber}&text=${textContent}`;
     try {
