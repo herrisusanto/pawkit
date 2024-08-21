@@ -85,12 +85,12 @@ export const AboutYourPetForm: React.FC<AboutYourPetFormProps> = ({
     {
       petIcon: (strokeColor) => <TypeRabbitIcon strokeColor={strokeColor} />,
       value: PetType.RABBIT,
-      available: false,
+      available: true,
     },
     {
       petIcon: (strokeColor) => <TypeGuineaPigIcon strokeColor={strokeColor} />,
       value: PetType.GUINEA_PIG,
-      available: false,
+      available: true,
     },
     {
       petIcon: (strokeColor) => <TypeBirdIcon strokeColor={strokeColor} />,
@@ -194,7 +194,7 @@ export const AboutYourPetForm: React.FC<AboutYourPetFormProps> = ({
           multiple={false}
           control={control}
           name="petType"
-          items={petTypes.slice(0, 2)}
+          items={petTypes}
           rules={{ required: "Pet type is required" }}
           renderItem={({ value, onChange, checked, petIcon, available }) => {
             const itemWidth = width - 48;
