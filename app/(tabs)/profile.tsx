@@ -1,3 +1,4 @@
+import * as Linking from "expo-linking";
 import { Button } from "@/components/common/Button/Button";
 import {
   DefaultAvatarIcon,
@@ -6,6 +7,7 @@ import {
   AboutUsIcon,
   TermsAndConditionsIcon,
   TrashIcon,
+  ContactUsIcon,
 } from "@/components/common/Icons";
 import { ArrowRightIcon } from "@/components/common/Icons/ArrowRightIcon";
 import { images } from "@/constants";
@@ -74,6 +76,23 @@ function Profile() {
       handleDeleteAccount();
     }
   };
+
+  const handleContactUs = async () => {
+    const phoneNumber = "6588540207";
+    const textContent = `Hello Pawkit! I would like to ask about`;
+    const url = `whatsapp://send?phone=${phoneNumber}&text=${textContent}`;
+    try {
+      const canOpen = await Linking.canOpenURL(url);
+      if (canOpen) {
+        Linking.openURL(url);
+      } else {
+        throw new Error("Cannot open URL");
+      }
+    } catch {
+      Linking.openURL(`https://wa.me/${phoneNumber}?text=${textContent}`);
+    }
+  };
+
   const profileList = [
     {
       link: "/my-pet",
@@ -175,6 +194,16 @@ function Profile() {
             <Separator />
           </View>
         ))}
+        <ListItemView onPress={() => handleContactUs()}>
+          <XStack gap="$3" alignItems="center">
+            <ContactUsIcon strokeColor={getToken("$primary")} />
+            <Text fontSize="$b3" fontWeight="$5">
+              Contact Us
+            </Text>
+          </XStack>
+          <ArrowRightIcon strokeColor={getToken("$textPrimary")} />
+        </ListItemView>
+        <Separator />
         <AlertDialog.Trigger asChild>
           <ListItemView onPress={() => setAlertType("logout")}>
             <XStack gap="$3" alignItems="center">
