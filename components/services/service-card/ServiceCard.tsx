@@ -7,6 +7,7 @@ import { downloadServiceImage } from "@/api/service-booking";
 import { Button } from "@/components/common/Button/Button";
 import { CloseOutlinedIcon } from "@/components/common/Icons";
 import { useQuery } from "@tanstack/react-query";
+import moment from "moment";
 
 type ServiceCardProps = {
   data: Service;
@@ -63,9 +64,22 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
       <YStack p="$4" gap="$2" bg="$background">
         <XStack flex={1} gap="$4">
           <YStack gap="$2" flex={1}>
-            <Text fontSize="$b3" fontWeight="$7">
-              {data?.name}
-            </Text>
+            <YStack gap="$1">
+              <Text fontSize="$b3" fontWeight="$7">
+                {data?.name}
+              </Text>
+              <XStack columnGap="$1">
+                <Text fontSize="$c2">Estimated duration:</Text>
+                <Text fontSize="$c2" fontWeight="$6">
+                  {moment
+                    .duration(
+                      data?.baseDuration,
+                      data?.baseDurationUnit.toLowerCase() as moment.DurationInputArg2
+                    )
+                    .humanize()}
+                </Text>
+              </XStack>
+            </YStack>
             <TouchableOpacity onPress={handleOpen}>
               <Text lineHeight={16.8} fontSize="$c2" fontWeight="$4">
                 {data?.shortDescription} <Text color="$primary">show more</Text>
@@ -133,9 +147,22 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
                 </TouchableOpacity>
               </XStack>
               <YStack pt="$2" pb="$6" rowGap="$3.5">
-                <Text fontSize="$c1" fontWeight="$7">
-                  {data.name}
-                </Text>
+                <YStack gap="$1">
+                  <Text fontSize="$c1" fontWeight="$7">
+                    {data?.name}
+                  </Text>
+                  <XStack columnGap="$1">
+                    <Text fontSize="$c2">Estimated duration:</Text>
+                    <Text fontSize="$c2" fontWeight="$6">
+                      {moment
+                        .duration(
+                          data?.baseDuration,
+                          data?.baseDurationUnit.toLowerCase() as moment.DurationInputArg2
+                        )
+                        .humanize()}
+                    </Text>
+                  </XStack>
+                </YStack>
                 <Text whiteSpace="pre-wrap" lineHeight={16.8}>
                   {data?.longDescription}
                 </Text>

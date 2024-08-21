@@ -5,6 +5,9 @@ import { Check } from "@tamagui/lucide-icons";
 import React, { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { Image, Sheet, Text, XStack, YStack } from "tamagui";
+import moment from "moment";
+import { useQuery } from "@tanstack/react-query";
+import { downloadServiceImage } from "@/api/service-booking";
 
 type ServiceCardAddonProps = {
   data: Service;
@@ -18,6 +21,10 @@ const ServiceCardAddon: React.FC<ServiceCardAddonProps> = ({
   onCheckedChange,
 }) => {
   const [open, setOpen] = useState(false);
+  const { data: image } = useQuery({
+    queryKey: ["service-image", data.id],
+    queryFn: () => downloadServiceImage(data.id),
+  });
 
   const handleOpen = () => {
     setOpen(true);
@@ -32,9 +39,22 @@ const ServiceCardAddon: React.FC<ServiceCardAddonProps> = ({
       <YStack p="$4" gap="$3" bg="$background">
         <XStack>
           <YStack gap="$2" flex={1}>
-            <Text fontSize="$c1" fontWeight="$7">
-              {data.name}
-            </Text>
+            <YStack gap="$1">
+              <Text fontSize="$c1" fontWeight="$7">
+                {data?.name}
+              </Text>
+              <XStack columnGap="$1">
+                <Text fontSize="$c2">Estimated duration:</Text>
+                <Text fontSize="$c2" fontWeight="$6">
+                  {moment
+                    .duration(
+                      data?.baseDuration,
+                      data?.baseDurationUnit.toLowerCase() as moment.DurationInputArg2
+                    )
+                    .humanize()}
+                </Text>
+              </XStack>
+            </YStack>
             <TouchableOpacity onPress={handleOpen}>
               <Text lineHeight={16.8} fontSize="$c2" fontWeight="$4">
                 {data.shortDescription} <Text color="$primary">show more</Text>
@@ -43,7 +63,7 @@ const ServiceCardAddon: React.FC<ServiceCardAddonProps> = ({
           </YStack>
           <Image
             source={{
-              uri: data.imageUrl as string,
+              uri: image?.href,
               width: 62,
               height: 54,
             }}
@@ -89,9 +109,22 @@ const ServiceCardAddon: React.FC<ServiceCardAddonProps> = ({
                 </TouchableOpacity>
               </XStack>
               <YStack pt="$2" pb="$6" rowGap="$3.5">
-                <Text fontSize="$c1" fontWeight="$7">
-                  {data.name}
-                </Text>
+                <YStack gap="$1">
+                  <Text fontSize="$c1" fontWeight="$7">
+                    {data?.name}
+                  </Text>
+                  <XStack columnGap="$1">
+                    <Text fontSize="$c2">Estimated duration:</Text>
+                    <Text fontSize="$c2" fontWeight="$6">
+                      {moment
+                        .duration(
+                          data?.baseDuration,
+                          data?.baseDurationUnit.toLowerCase() as moment.DurationInputArg2
+                        )
+                        .humanize()}
+                    </Text>
+                  </XStack>
+                </YStack>
                 <Text whiteSpace="pre-wrap">{data?.longDescription}</Text>
               </YStack>
             </YStack>
