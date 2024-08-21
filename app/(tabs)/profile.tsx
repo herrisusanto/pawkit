@@ -113,9 +113,7 @@ function Profile() {
                   <Avatar circular size="$5" height={60} width={60}>
                     <Avatar.Image
                       accessibilityLabel="Cam"
-                      src={
-                        userAttributes?.picture ?? images.defaultAvatarCircle
-                      }
+                      src={userAttributes?.picture ?? images.defaultProfile}
                     />
                     <Avatar.Fallback backgroundColor="$blue10" />
                   </Avatar>

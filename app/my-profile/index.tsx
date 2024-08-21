@@ -80,7 +80,7 @@ function MyProfileDetail() {
               <Avatar circular size="$8" height={60} width={60}>
                 <Avatar.Image
                   accessibilityLabel="Cam"
-                  src={userAttributes?.picture ?? images.defaultAvatar}
+                  src={userAttributes?.picture ?? images.defaultProfile}
                 />
                 <Avatar.Fallback backgroundColor="$blue10" />
               </Avatar>
@@ -94,7 +94,7 @@ function MyProfileDetail() {
             <Avatar circular size="$8" height={60} width={60} mb="$3">
               <Avatar.Image
                 accessibilityLabel="Cam"
-                src={images.defaultAvatarCircle}
+                src={images.defaultProfile}
               />
             </Avatar>
             <Button type="secondary" height={36} width={221}>
