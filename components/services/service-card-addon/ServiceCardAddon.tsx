@@ -5,7 +5,6 @@ import { Check } from "@tamagui/lucide-icons";
 import React, { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { Image, Sheet, Text, XStack, YStack } from "tamagui";
-import moment from "moment";
 import { useQuery } from "@tanstack/react-query";
 import { downloadServiceImage } from "@/api/service-booking";
 

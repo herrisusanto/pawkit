@@ -7,7 +7,6 @@ import { downloadServiceImage } from "@/api/service-booking";
 import { Button } from "@/components/common/Button/Button";
 import { CloseOutlinedIcon } from "@/components/common/Icons";
 import { useQuery } from "@tanstack/react-query";
-import moment from "moment";
 
 type ServiceCardProps = {
   data: Service;

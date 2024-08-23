@@ -183,7 +183,7 @@
         },
         "pawkitCreateAuthChallenge": {
           "deploymentBucketName": "amplify-pawkit-qa-1531c-deployment",
-          "s3Key": "amplify-builds/pawkitCreateAuthChallenge-33663034736964556956-build.zip"
+          "s3Key": "amplify-builds/pawkitCreateAuthChallenge-44323942764b63765363-build.zip"
         },
         "pawkitDefineAuthChallenge": {
           "deploymentBucketName": "amplify-pawkit-qa-1531c-deployment",
@@ -201,7 +201,8 @@
         "paymentConfirmation": {
           "deploymentBucketName": "amplify-pawkit-qa-1531c-deployment",
           "s3Key": "amplify-builds/paymentConfirmation-4d55746e724e4e48584d-build.zip",
-          "secretsPathAmplifyAppId": "dd5j6wo9u36ak"
+          "secretsPathAmplifyAppId": "dd5j6wo9u36ak",
+          "hitpayEndpoint": "https://api.sandbox.hit-pay.com/v1/payment-requests"
         },
         "paymentRequests": {
           "deploymentBucketName": "amplify-pawkit-qa-1531c-deployment",

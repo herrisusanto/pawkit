@@ -501,7 +501,6 @@ export const onCreateDisclaimer = /* GraphQL */ `subscription OnCreateDisclaimer
       timeSlotIds
       bookingIds
       requiredQuestionIds
-      active
       createdAt
       updatedAt
       __typename
@@ -572,7 +571,6 @@ export const onUpdateDisclaimer = /* GraphQL */ `subscription OnUpdateDisclaimer
       timeSlotIds
       bookingIds
       requiredQuestionIds
-      active
       createdAt
       updatedAt
       __typename
@@ -643,7 +641,6 @@ export const onDeleteDisclaimer = /* GraphQL */ `subscription OnDeleteDisclaimer
       timeSlotIds
       bookingIds
       requiredQuestionIds
-      active
       createdAt
       updatedAt
       __typename
@@ -1565,7 +1562,6 @@ export const onCreateService = /* GraphQL */ `subscription OnCreateService(
     timeSlotIds
     bookingIds
     requiredQuestionIds
-    active
     createdAt
     updatedAt
     __typename
@@ -1698,7 +1694,6 @@ export const onUpdateService = /* GraphQL */ `subscription OnUpdateService(
     timeSlotIds
     bookingIds
     requiredQuestionIds
-    active
     createdAt
     updatedAt
     __typename
@@ -1831,7 +1826,6 @@ export const onDeleteService = /* GraphQL */ `subscription OnDeleteService(
     timeSlotIds
     bookingIds
     requiredQuestionIds
-    active
     createdAt
     updatedAt
     __typename

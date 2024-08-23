@@ -308,7 +308,6 @@ type Service
   timeSlotIds: [ID!] # Add-on services will refer to the base service's time slots
   bookingIds: [ID!]
   requiredQuestionIds: [ID!]
-  active: Boolean! @default(value: "true")
 }
 
 type ServiceProvider
