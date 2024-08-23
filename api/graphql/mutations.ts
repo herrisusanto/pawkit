@@ -520,7 +520,6 @@ export const createDisclaimer = /* GraphQL */ `mutation CreateDisclaimer(
       timeSlotIds
       bookingIds
       requiredQuestionIds
-      active
       createdAt
       updatedAt
       __typename
@@ -592,7 +591,6 @@ export const updateDisclaimer = /* GraphQL */ `mutation UpdateDisclaimer(
       timeSlotIds
       bookingIds
       requiredQuestionIds
-      active
       createdAt
       updatedAt
       __typename
@@ -664,7 +662,6 @@ export const deleteDisclaimer = /* GraphQL */ `mutation DeleteDisclaimer(
       timeSlotIds
       bookingIds
       requiredQuestionIds
-      active
       createdAt
       updatedAt
       __typename
@@ -1595,7 +1592,6 @@ export const createService = /* GraphQL */ `mutation CreateService(
     timeSlotIds
     bookingIds
     requiredQuestionIds
-    active
     createdAt
     updatedAt
     __typename
@@ -1728,7 +1724,6 @@ export const updateService = /* GraphQL */ `mutation UpdateService(
     timeSlotIds
     bookingIds
     requiredQuestionIds
-    active
     createdAt
     updatedAt
     __typename
@@ -1861,7 +1856,6 @@ export const deleteService = /* GraphQL */ `mutation DeleteService(
     timeSlotIds
     bookingIds
     requiredQuestionIds
-    active
     createdAt
     updatedAt
     __typename
