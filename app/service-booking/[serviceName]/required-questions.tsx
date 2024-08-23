@@ -25,11 +25,12 @@ import { useAtom, useAtomValue } from "jotai";
 import moment from "moment";
 import { useMemo, useState, useRef } from "react";
 import { FieldValues, SubmitHandler, useFormContext } from "react-hook-form";
-import { Alert, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 import { getToken, ScrollView, Text, View, XStack, YStack } from "tamagui";
 import { serviceBookingAtom } from "@/atoms/service-booking/state.atom";
 import _ from "lodash";
 import { QuestionAnswer } from "@/components/service-booking/question-answer/QuestionAnswer";
+import PopupController from "@/components/common/GlobalPopupError/PopUpController";
 
 export default function RequiredQuestions() {
   const router = useRouter();
@@ -139,9 +140,9 @@ export default function RequiredQuestions() {
       router.push(
         `/service-booking/${serviceName}/hitpay-checkout?amount=${paymentRequest.payment?.amount}&url=${paymentRequest.url}`
       );
+      // eslint-disable-next-line
     } catch (error) {
-      Alert.alert("Couldn't continue the booking");
-      console.log(error);
+      PopupController.showGlobalPopup();
     }
   };
 

@@ -33,6 +33,7 @@ import { useCurrentUser, useUserAttributes } from "@/hooks";
 import { Phone } from "@tamagui/lucide-icons";
 import { disableUser } from "@/api/admin";
 import { useMutation } from "@tanstack/react-query";
+import PopupController from "@/components/common/GlobalPopupError/PopUpController";
 
 function Profile() {
   LogBox.ignoreLogs(["??"]);
@@ -55,8 +56,9 @@ function Profile() {
       await signOut();
       setAuthState({ step: "SIGN_IN" });
       router.replace("/auth");
+      // eslint-disable-next-line
     } catch (error) {
-      console.log(error);
+      PopupController.showGlobalPopup();
     }
   };
 
@@ -64,8 +66,9 @@ function Profile() {
     try {
       await mutationDisableUser.mutateAsync(user?.username!);
       handleSignOut();
+      // eslint-disable-next-line
     } catch (error) {
-      console.log(error);
+      PopupController.showGlobalPopup();
     }
   };
 

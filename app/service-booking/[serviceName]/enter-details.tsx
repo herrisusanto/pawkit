@@ -1,3 +1,4 @@
+import PopupController from "@/components/common/GlobalPopupError/PopUpController";
 import { Header } from "@/components/common/Header/Header";
 import { PriceDetailsSheet } from "@/components/price-details-sheet/PriceDetailsSheet";
 import { OrderDetails } from "@/components/service-booking/order-details/OrderDetails";
@@ -40,8 +41,9 @@ export default function () {
         });
         router.push(`/service-booking/${serviceName}/required-questions`);
       }
+      // eslint-disable-next-line
     } catch (error) {
-      console.log(error);
+      PopupController.showGlobalPopup();
     }
   };
 

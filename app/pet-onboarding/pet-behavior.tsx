@@ -24,6 +24,7 @@ import {
   Button as ButtonTamagui,
 } from "tamagui";
 import { petOnboardingAtom } from "./state";
+import PopupController from "@/components/common/GlobalPopupError/PopUpController";
 
 export default function DetailsYourPet() {
   const form = useFormContext();
@@ -88,8 +89,9 @@ export default function DetailsYourPet() {
           router.navigate("/home");
         }
       }
+      // eslint-disable-next-line
     } catch (error) {
-      console.log("mutationCreatePet", error);
+      PopupController.showGlobalPopup();
     }
   };
 
