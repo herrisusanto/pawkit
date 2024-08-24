@@ -145,8 +145,6 @@ type Order
   customer: Customer! @belongsTo(fields: ["customerId"])
   currency: Currency! @default(value: "SGD")
   totalAmount: Float! @default(value: "0")
-  pendingRefundAmount: Float @default(value: "0")
-  refundedAmount: Float @default(value: "0")
   bookingIds: [ID!]
   bookings: [Booking!] @hasMany(indexName: "byOrder", fields: ["id"])
   paymentRequestId: ID
