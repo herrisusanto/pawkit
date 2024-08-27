@@ -20,8 +20,6 @@ export const createBooking = /* GraphQL */ `mutation CreateBooking(
       customerId
       currency
       totalAmount
-      pendingRefundAmount
-      refundedAmount
       bookingIds
       paymentRequestId
       status
@@ -112,8 +110,6 @@ export const updateBooking = /* GraphQL */ `mutation UpdateBooking(
       customerId
       currency
       totalAmount
-      pendingRefundAmount
-      refundedAmount
       bookingIds
       paymentRequestId
       status
@@ -204,8 +200,6 @@ export const deleteBooking = /* GraphQL */ `mutation DeleteBooking(
       customerId
       currency
       totalAmount
-      pendingRefundAmount
-      refundedAmount
       bookingIds
       paymentRequestId
       status
@@ -830,8 +824,6 @@ export const createOrder = /* GraphQL */ `mutation CreateOrder(
     }
     currency
     totalAmount
-    pendingRefundAmount
-    refundedAmount
     bookingIds
     bookings {
       nextToken
@@ -866,8 +858,6 @@ export const updateOrder = /* GraphQL */ `mutation UpdateOrder(
     }
     currency
     totalAmount
-    pendingRefundAmount
-    refundedAmount
     bookingIds
     bookings {
       nextToken
@@ -902,8 +892,6 @@ export const deleteOrder = /* GraphQL */ `mutation DeleteOrder(
     }
     currency
     totalAmount
-    pendingRefundAmount
-    refundedAmount
     bookingIds
     bookings {
       nextToken
@@ -932,8 +920,6 @@ export const createPayment = /* GraphQL */ `mutation CreatePayment(
       customerId
       currency
       totalAmount
-      pendingRefundAmount
-      refundedAmount
       bookingIds
       paymentRequestId
       status
@@ -994,8 +980,6 @@ export const updatePayment = /* GraphQL */ `mutation UpdatePayment(
       customerId
       currency
       totalAmount
-      pendingRefundAmount
-      refundedAmount
       bookingIds
       paymentRequestId
       status
@@ -1056,8 +1040,6 @@ export const deletePayment = /* GraphQL */ `mutation DeletePayment(
       customerId
       currency
       totalAmount
-      pendingRefundAmount
-      refundedAmount
       bookingIds
       paymentRequestId
       status

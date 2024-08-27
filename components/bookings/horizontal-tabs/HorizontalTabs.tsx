@@ -180,16 +180,19 @@ const HorizontalTabs = () => {
 
       <Tabs.Content value="tab3" flex={1} overflow="hidden">
         <BookingSection
-          bookingData={
-            bookings
-              ?.sort(
-                (a: Booking, b: Booking) =>
-                  new Date(a.startDateTime).getTime() -
-                  new Date(b.startDateTime).getTime()
-              )
-              .filter((item: any) => item.status === BookingStatus.PENDING) ??
-            []
-          }
+          bookingData={bookings
+            ?.filter((item: any) =>
+              [
+                BookingStatus.PENDING,
+                BookingStatus.PENDING_PAYMENT,
+                BookingStatus.PENDING_CONFIRMATION,
+              ].includes(item.status)
+            )
+            .sort(
+              (a: Booking, b: Booking) =>
+                new Date(a.startDateTime).getTime() -
+                new Date(b.startDateTime).getTime()
+            )}
         />
       </Tabs.Content>
 

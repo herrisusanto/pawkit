@@ -181,6 +181,28 @@ async function listUsers(Limit, PaginationToken) {
   }
 }
 
+// Search users by name or phone number
+async function searchUsers(attributeName, attributeValue) {
+  const params = {
+    UserPoolId: userPoolId,
+    Filter: `${attributeName} = "${attributeValue}"`,
+  };
+
+  console.log(
+    `Attempting to search users by ${attributeName}: ${attributeValue}`
+  );
+
+  try {
+    const result = await cognitoIdentityProviderClient.send(
+      new ListUsersCommand(params)
+    );
+    return result;
+  } catch (err) {
+    console.log(err);
+    throw err;
+  }
+}
+
 async function listGroups(Limit, PaginationToken) {
   const params = {
     UserPoolId: userPoolId,

@@ -17,8 +17,6 @@ export const getBooking = /* GraphQL */ `query GetBooking($customerUsername: Str
       customerId
       currency
       totalAmount
-      pendingRefundAmount
-      refundedAmount
       bookingIds
       paymentRequestId
       status
@@ -873,8 +871,6 @@ export const getOrder = /* GraphQL */ `query GetOrder($id: ID!) {
     }
     currency
     totalAmount
-    pendingRefundAmount
-    refundedAmount
     bookingIds
     bookings {
       nextToken
@@ -907,8 +903,6 @@ export const listOrders = /* GraphQL */ `query ListOrders(
       customerId
       currency
       totalAmount
-      pendingRefundAmount
-      refundedAmount
       bookingIds
       paymentRequestId
       status
@@ -943,8 +937,6 @@ export const ordersByCustomer = /* GraphQL */ `query OrdersByCustomer(
       customerId
       currency
       totalAmount
-      pendingRefundAmount
-      refundedAmount
       bookingIds
       paymentRequestId
       status
@@ -969,8 +961,6 @@ export const getPayment = /* GraphQL */ `query GetPayment($paymentRequestId: ID!
       customerId
       currency
       totalAmount
-      pendingRefundAmount
-      refundedAmount
       bookingIds
       paymentRequestId
       status
