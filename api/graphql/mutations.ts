@@ -518,6 +518,8 @@ export const createDisclaimer = /* GraphQL */ `mutation CreateDisclaimer(
       updatedAt
       __typename
     }
+    header
+    subheader
     text
     s3Link
     supersededBy {
@@ -526,6 +528,8 @@ export const createDisclaimer = /* GraphQL */ `mutation CreateDisclaimer(
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -589,6 +593,8 @@ export const updateDisclaimer = /* GraphQL */ `mutation UpdateDisclaimer(
       updatedAt
       __typename
     }
+    header
+    subheader
     text
     s3Link
     supersededBy {
@@ -597,6 +603,8 @@ export const updateDisclaimer = /* GraphQL */ `mutation UpdateDisclaimer(
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -660,6 +668,8 @@ export const deleteDisclaimer = /* GraphQL */ `mutation DeleteDisclaimer(
       updatedAt
       __typename
     }
+    header
+    subheader
     text
     s3Link
     supersededBy {
@@ -668,6 +678,8 @@ export const deleteDisclaimer = /* GraphQL */ `mutation DeleteDisclaimer(
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -712,6 +724,8 @@ export const createDisclaimerAcceptance = /* GraphQL */ `mutation CreateDisclaim
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -751,6 +765,8 @@ export const updateDisclaimerAcceptance = /* GraphQL */ `mutation UpdateDisclaim
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -790,6 +806,8 @@ export const deleteDisclaimerAcceptance = /* GraphQL */ `mutation DeleteDisclaim
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -1564,6 +1582,8 @@ export const createService = /* GraphQL */ `mutation CreateService(
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -1696,6 +1716,8 @@ export const updateService = /* GraphQL */ `mutation UpdateService(
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -1828,6 +1850,8 @@ export const deleteService = /* GraphQL */ `mutation DeleteService(
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate

@@ -666,6 +666,8 @@ export const getDisclaimer = /* GraphQL */ `query GetDisclaimer($name: String!) 
       updatedAt
       __typename
     }
+    header
+    subheader
     text
     s3Link
     supersededBy {
@@ -674,6 +676,8 @@ export const getDisclaimer = /* GraphQL */ `query GetDisclaimer($name: String!) 
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -715,6 +719,8 @@ export const listDisclaimers = /* GraphQL */ `query ListDisclaimers(
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -750,6 +756,8 @@ export const getDisclaimerAcceptance = /* GraphQL */ `query GetDisclaimerAccepta
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -1829,6 +1837,8 @@ export const getService = /* GraphQL */ `query GetService(
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate

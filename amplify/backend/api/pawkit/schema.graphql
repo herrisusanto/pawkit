@@ -102,6 +102,8 @@ type Disclaimer
         "petType"
       ]
     )
+  header: String
+  subheader: String
   text: String
   s3Link: AWSURL
   supersededBy: Disclaimer @hasOne(fields: ["name"])
