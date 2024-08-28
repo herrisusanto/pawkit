@@ -66,7 +66,7 @@ const serviceList = [
       <MedicalSittingIcon strokeColor={strokeColor} fillColor={fillColor} />
     ),
     routePath: "/services/medical-sitting",
-    available: false,
+    available: true,
   },
   {
     id: 7,
@@ -86,54 +86,58 @@ export const PopularServices = () => {
         Popular Services
       </Text>
       <XStack fw="wrap" columnGap="$2" rowGap="$6">
-        {serviceList.slice(0, 2).map((item) => {
-          const itemWidth = width - 69;
-          return (
-            <TouchableOpacity
-              key={item.id}
-              onPress={() => router.push(item.routePath)}
-              disabled={!item.available}
-            >
-              <YStack w={itemWidth / 4} rowGap="$1.5" ai="center" mt="$2">
-                {!item.available && (
-                  <View
-                    pos="absolute"
-                    bg="$red9"
-                    py="$1.5"
-                    px="$2"
-                    br="$5"
-                    zIndex={99}
-                    top={-5}
-                    transform={[{ translateY: -12 }]}
-                  >
-                    <Text fontSize="$c3" color="$gray1">
-                      Coming Soon
-                    </Text>
-                  </View>
-                )}
-
-                <View w={60} h={60}>
-                  {item.serviceIcon(
-                    item.available ? undefined : getToken("$natural0", "color"),
-                    item.available ? undefined : getToken("$bgGrey", "color")
+        {serviceList
+          .filter((service) => service.available)
+          .map((item) => {
+            const itemWidth = width - 69;
+            return (
+              <TouchableOpacity
+                key={item.id}
+                onPress={() => router.push(item.routePath)}
+                disabled={!item.available}
+              >
+                <YStack w={itemWidth / 4} rowGap="$1.5" ai="center" mt="$2">
+                  {!item.available && (
+                    <View
+                      pos="absolute"
+                      bg="$red9"
+                      py="$1.5"
+                      px="$2"
+                      br="$5"
+                      zIndex={99}
+                      top={-5}
+                      transform={[{ translateY: -12 }]}
+                    >
+                      <Text fontSize="$c3" color="$gray1">
+                        Coming Soon
+                      </Text>
+                    </View>
                   )}
-                </View>
-                <Text
-                  fontSize="$c1"
-                  fontWeight="$5"
-                  maxWidth={75}
-                  wordWrap="break-word"
-                  textAlign="center"
-                  adjustsFontSizeToFit
-                  numberOfLines={2}
-                  color={item.available ? "$natural3" : "$natural0"}
-                >
-                  {item.name}
-                </Text>
-              </YStack>
-            </TouchableOpacity>
-          );
-        })}
+
+                  <View w={60} h={60}>
+                    {item.serviceIcon(
+                      item.available
+                        ? undefined
+                        : getToken("$natural0", "color"),
+                      item.available ? undefined : getToken("$bgGrey", "color")
+                    )}
+                  </View>
+                  <Text
+                    fontSize="$c1"
+                    fontWeight="$5"
+                    maxWidth={75}
+                    wordWrap="break-word"
+                    textAlign="center"
+                    adjustsFontSizeToFit
+                    numberOfLines={2}
+                    color={item.available ? "$natural3" : "$natural0"}
+                  >
+                    {item.name}
+                  </Text>
+                </YStack>
+              </TouchableOpacity>
+            );
+          })}
       </XStack>
     </YStack>
   );
