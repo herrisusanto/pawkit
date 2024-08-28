@@ -1,4 +1,12 @@
-import { Currency, Order, Pet, Question } from "@/api/graphql/API";
+import {
+  BookingType,
+  Currency,
+  Order,
+  Pet,
+  Question,
+  Service,
+  TimeSlot,
+} from "@/api/graphql/API";
 import { addOrder, fetchOrder } from "@/api/order";
 import { createPaymentRequest } from "@/api/payment";
 import {
@@ -19,9 +27,9 @@ import {
   useUserAttributes,
 } from "@/hooks";
 import { SelectedPetServiceType } from "@/types/services/selected-pet-service.type";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { Stack, useLocalSearchParams, useRouter } from "expo-router";
-import { useAtom, useAtomValue } from "jotai";
+import { useAtom } from "jotai";
 import moment from "moment";
 import { useMemo, useState, useRef } from "react";
 import { FieldValues, SubmitHandler, useFormContext } from "react-hook-form";
@@ -31,23 +39,30 @@ import { serviceBookingAtom } from "@/atoms/service-booking/state.atom";
 import _ from "lodash";
 import { QuestionAnswer } from "@/components/service-booking/question-answer/QuestionAnswer";
 import PopupController from "@/components/common/GlobalPopupError/PopUpController";
+import { addBooking, AddBookingInput } from "@/api/service-booking";
+import { BookingConfirmedSheet } from "@/components/services/booking-confirmed-sheet";
+
+const ONLINE_PAYMENT_SERVICES = ["vaccination", "grooming"];
 
 export default function RequiredQuestions() {
   const router = useRouter();
   const { serviceName } = useLocalSearchParams();
   const { control, handleSubmit, watch, formState } = useFormContext();
   const { isSubmitting } = formState;
-
+  const name = watch("name");
   const address = watch("address", "");
   const priceDetailsRef = useRef<PriceDetailsSheetRef>({ estimatedPrice: 0 });
   const { data: user } = useCurrentUser();
+  const [bookingConfirmedOpen, setBookingConfirmedOpen] =
+    useState<boolean>(false);
   const userAttributes = useUserAttributes();
   const serviceAtom = useServiceBookingAtom(serviceName as string);
-  const selectedPetsServices = useAtomValue(serviceAtom);
+  const [selectedPetsServices, setSelectedPetsServices] = useAtom(serviceAtom);
   const [serviceBookingState, setServiceBooking] = useAtom(serviceBookingAtom);
   const { orderId } = serviceBookingState;
   const [selectedPetService, setSelectedPetService] =
     useState<SelectedPetServiceType>(selectedPetsServices[0]);
+  const queryClient = useQueryClient();
   const { data: pets } = useQuery({
     queryKey: ["pets", user?.userId],
     queryFn: () => fetchPetsByCustomer(user?.userId as string),
@@ -72,7 +87,13 @@ export default function RequiredQuestions() {
   const mutationCreatePaymentRequest = useMutation({
     mutationFn: createPaymentRequest,
   });
-  // eslint-disable-next-line
+  const mutationAddBooking = useMutation({
+    mutationFn: addBooking,
+    onSuccess() {
+      queryClient.invalidateQueries({ queryKey: ["bookings"] });
+      queryClient.invalidateQueries({ queryKey: ["time_slots"] });
+    },
+  });
   const { data: questionsByService, isFetched: questionsFetched } = useQuery({
     queryKey: [
       "essential-questions",
@@ -85,7 +106,6 @@ export default function RequiredQuestions() {
   });
 
   const submit: SubmitHandler<FieldValues> = async (values) => {
-    const { name } = values;
     try {
       let fetchedOrder: Order;
       if (!orderId) {
@@ -125,25 +145,71 @@ export default function RequiredQuestions() {
         return questionAnswerRequest;
       });
 
-      const paymentRequest = await mutationCreatePaymentRequest.mutateAsync({
-        customerId: user?.userId as string,
-        orderId: fetchedOrder?.id as string,
-        input: {
-          amount: priceDetailsRef.current.estimatedPrice,
-          currency: fetchedOrder?.currency as Currency,
-          name,
-          phone: userAttributes?.phone_number as string,
-          purpose: "Service Booking",
-          redirectUrl: "https://blank.org",
-        },
-      });
-      router.push(
-        `/service-booking/${serviceName}/hitpay-checkout?amount=${paymentRequest.payment?.amount}&url=${paymentRequest.url}`
-      );
+      if (ONLINE_PAYMENT_SERVICES.includes(serviceName as string)) {
+        await handleCreatePayment({ order: fetchedOrder });
+      } else {
+        await handleCreateBooking({ order: fetchedOrder });
+      }
       // eslint-disable-next-line
     } catch (error) {
       PopupController.showGlobalPopup();
     }
+  };
+
+  const handleCreatePayment = async ({ order }: { order?: Order }) => {
+    const paymentRequest = await mutationCreatePaymentRequest.mutateAsync({
+      customerId: user?.userId as string,
+      orderId: order?.id as string,
+      input: {
+        amount: priceDetailsRef.current.estimatedPrice,
+        currency: order?.currency as Currency,
+        name,
+        phone: userAttributes?.phone_number as string,
+        purpose: "Service Booking",
+        redirectUrl: "https://blank.org",
+      },
+    });
+    router.push(
+      `/service-booking/${serviceName}/hitpay-checkout?amount=${paymentRequest.payment?.amount}&url=${paymentRequest.url}`
+    );
+  };
+
+  const handleCreateBooking = async ({ order }: { order?: Order }) => {
+    try {
+      for (const petService of selectedPetsServices) {
+        const service = petService.service as Service;
+        const petId = petService?.petId as string;
+        const timeSlot = petService?.timeSlot as TimeSlot;
+        const input: AddBookingInput = {
+          currency: service.currency,
+          amount: priceDetailsRef.current.estimatedPrice,
+          bookingType: BookingType.PAID,
+          customerId: user?.userId as string,
+          serviceId: service.id,
+          addOns: petService.addons,
+          startDateTime: timeSlot.startDateTime,
+          orderId: order?.id as string,
+          customerUsername: name,
+          petIds: [petId],
+          address,
+        };
+        await mutationAddBooking.mutateAsync(input);
+        await queryClient.invalidateQueries({
+          queryKey: ["bookings", user?.userId],
+        });
+        setBookingConfirmedOpen(true);
+        setSelectedPetsServices([]);
+        setServiceBooking({});
+      }
+    } catch (error) {
+      console.log(error);
+      PopupController.showGlobalPopup();
+    }
+  };
+
+  const handleBookingConfirmedClose = () => {
+    setBookingConfirmedOpen(false);
+    router.replace("/home");
   };
 
   const renderSelectedPets = () => (
@@ -279,10 +345,15 @@ export default function RequiredQuestions() {
           </YStack>
         </YStack>
       </ScrollView>
+      <BookingConfirmedSheet
+        open={bookingConfirmedOpen}
+        onClose={handleBookingConfirmedClose}
+      />
       <PriceDetailsSheet
         ref={priceDetailsRef}
         serviceName={serviceName as string}
         loading={isSubmitting}
+        okText="Confirm"
         onOk={handleSubmit(submit)}
       />
     </>
