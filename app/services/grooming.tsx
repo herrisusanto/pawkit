@@ -25,6 +25,7 @@ import { useAtom } from "jotai";
 import { selectedGroomingServicesAtom } from "@/atoms/services/selected-grooming-services.atom";
 import { SelectedPetServiceType } from "@/types/services/selected-pet-service.type";
 import { PriceDetailsSheet } from "@/components/price-details-sheet/PriceDetailsSheet";
+import { DisclaimerByServiceIdSheet } from "@/components/disclaimer/DisclaimerByServiceSheet";
 
 const GroomingScreen = () => {
   const pathname = usePathname();
@@ -87,8 +88,12 @@ const GroomingScreen = () => {
     },
     enabled: !!selectedPet,
   });
-  const services: Service[] = servicesData;
-  const addons: Service[] = addonsData;
+  const services: Service[] | undefined = servicesData;
+  console.log(
+    "🚀 ~ GroomingScreen ~ services:",
+    JSON.stringify(services, null, 2)
+  );
+  const addons: Service[] | undefined = addonsData;
   const selectedService = useMemo(() => {
     const selectedPetService = selectedPetsService.find(
       (petService) => petService.petId === selectedPetId
@@ -211,6 +216,16 @@ const GroomingScreen = () => {
     }
   }, [pets]);
 
+  // if (selectedPetsService.length > 0) {
+  //   const lastSelectedPetService = services?.filter(
+  //     (service) => service.id === selectedPetsService[0].serviceId
+  //   );
+  //   console.log(
+  //     "🚀 ~ GroomingScreen ~ lastSelectedPetService:",
+  //     JSON.stringify(lastSelectedPetService, null, 2)
+  //   );
+  // }
+
   return (
     <View flex={1}>
       <SelectedPetWrapper>
@@ -276,6 +291,15 @@ const GroomingScreen = () => {
         onOk={handleOk}
         disabled={selectedPetsService.length === 0}
       />
+
+      {selectedPetsService.length > 0 && (
+        <DisclaimerByServiceIdSheet
+          serviceId={
+            selectedPetsService[selectedPetsService.length - 1]
+              .serviceId as string
+          }
+        />
+      )}
     </View>
   );
 };

@@ -68,6 +68,15 @@ export const customListServices = `query CustomListServices(
       parentServiceIds
       childServiceIds
       disclaimerName
+      disclaimer {
+        name
+        serviceName
+        serviceProviderName
+        serviceCategory
+        petType 
+        text
+        s3Link 
+      }
       timeSlotIds
       bookingIds
       requiredQuestionIds
@@ -389,6 +398,15 @@ export const customServiceById = /* GraphQL */ `
         parentServiceIds
         childServiceIds
         disclaimerName
+        disclaimer {
+          name
+          serviceName
+          serviceProviderName
+          serviceCategory
+          petType 
+          text
+          s3Link 
+        }
         timeSlotIds
         bookingIds
         requiredQuestionIds
