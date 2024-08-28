@@ -124,9 +124,7 @@ export const addBookingToOrder = async (
 
 export const updateBookingCancellationInOrder = async (
   orderId: string,
-  bookingId: string,
-  amount: number,
-  toRefund: boolean
+  bookingId: string
 ) => {
   try {
     if (!orderId) {
@@ -158,9 +156,7 @@ export const updateBookingCancellationInOrder = async (
       variables: {
         input: {
           id: orderId,
-          totalAmount: order.totalAmount - (toRefund ? amount : 0),
-          pendingRefundAmount:
-            (order.pendingRefundAmount || 0) + (toRefund ? amount : 0),
+          bookingIds: bookingIds.filter((id) => id !== bookingId),
         },
       },
     });
@@ -177,53 +173,6 @@ export const updateBookingCancellationInOrder = async (
     throw new InternalServerError(
       "Error updating order with booking cancellation"
     );
-  }
-};
-
-export const updateOrderRefund = async (
-  orderId: string,
-  refundAmount: number
-) => {
-  try {
-    if (!orderId) {
-      logger.error("Order id is required");
-      throw new BadRequestError("Order id is required");
-    }
-
-    if (refundAmount <= 0) {
-      logger.error("Refund amount must be greater than 0");
-      throw new BadRequestError("Refund amount must be greater than 0");
-    }
-
-    const order = await fetchOrder(orderId);
-    if (!order) {
-      logger.error(`Order with id=${orderId} not found`);
-      throw new NotFoundError("Order not found");
-    }
-
-    if (refundAmount > order.totalAmount) {
-      logger.error("Refund amount must be less than or equal to total amount");
-      throw new BadRequestError(
-        "Refund amount must be less than or equal to total amount"
-      );
-    }
-
-    const result = await graphqlClient.graphql({
-      query: updateOrder,
-      variables: {
-        input: {
-          id: orderId,
-          pendingRefundAmount: (order.pendingRefundAmount || 0) - refundAmount,
-          refundedAmount: (order.refundedAmount || 0) + refundAmount,
-        },
-      },
-    });
-    logger.info("Called updateOrder mutation to update refund amount");
-    return result.data.updateOrder;
-  } catch (error) {
-    logger.error(`Error updating order refund to ${refundAmount}: `, error);
-    if (error instanceof CustomError) throw error;
-    throw new InternalServerError("Error updating order refund");
   }
 };
 

@@ -175,7 +175,7 @@
       "function": {
         "AdminQueries2bb3090c": {
           "deploymentBucketName": "amplify-pawkit-qa-1531c-deployment",
-          "s3Key": "amplify-builds/AdminQueries2bb3090c-5778524b497a61373446-build.zip"
+          "s3Key": "amplify-builds/AdminQueries2bb3090c-58624f37354e62644758-build.zip"
         },
         "dataLoader": {
           "deploymentBucketName": "amplify-pawkit-qa-1531c-deployment",
@@ -183,7 +183,7 @@
         },
         "pawkitCreateAuthChallenge": {
           "deploymentBucketName": "amplify-pawkit-qa-1531c-deployment",
-          "s3Key": "amplify-builds/pawkitCreateAuthChallenge-44323942764b63765363-build.zip"
+          "s3Key": "amplify-builds/pawkitCreateAuthChallenge-34326e6f565178634230-build.zip"
         },
         "pawkitDefineAuthChallenge": {
           "deploymentBucketName": "amplify-pawkit-qa-1531c-deployment",

@@ -11,6 +11,7 @@ import { addPet, fetchPet, modifyPet, uploadPetImage } from "@/api/pet";
 import { useEffect } from "react";
 import moment from "moment";
 import { CreatePetInput, UpdatePetInput } from "@/api/graphql/API";
+import PopupController from "@/components/common/GlobalPopupError/PopUpController";
 
 export default function DetailsYourPet() {
   const form = useFormContext();
@@ -89,9 +90,9 @@ export default function DetailsYourPet() {
 
       setState({ petId: pet?.id });
       invalidateQueries();
+      // eslint-disable-next-line
     } catch (error) {
-      console.log(error);
-      console.log("mutationCreatePet", JSON.stringify(error));
+      PopupController.showGlobalPopup();
     }
   };
 

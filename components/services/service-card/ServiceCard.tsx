@@ -13,6 +13,7 @@ type ServiceCardProps = {
   isSelected?: boolean;
   onSelected: () => void;
   removeSelected: () => void;
+  hidePricing?: boolean;
 };
 
 const ServiceCard: React.FC<ServiceCardProps> = ({
@@ -20,6 +21,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   isSelected,
   onSelected,
   removeSelected,
+  hidePricing,
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -100,14 +102,16 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
         </XStack>
 
         <XStack gap="$3" jc="space-between" ai="center">
-          <XStack gap="$2" ai="flex-end">
-            <Text fontSize="$c1" fontWeight="$4">
-              Start from
-            </Text>
-            <Text fontSize="$b3" fontWeight="$7">
-              {servicePrice()}
-            </Text>
-          </XStack>
+          {!hidePricing && (
+            <XStack gap="$2" ai="flex-end">
+              <Text fontSize="$c1" fontWeight="$4">
+                Start from
+              </Text>
+              <Text fontSize="$b3" fontWeight="$7">
+                {servicePrice()}
+              </Text>
+            </XStack>
+          )}
           {isSelected ? (
             <Button type="secondaryError" onPress={() => removeSelected()}>
               Remove

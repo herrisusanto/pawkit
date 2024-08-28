@@ -1,4 +1,5 @@
 import { selectedGroomingServicesAtom } from "@/atoms/services/selected-grooming-services.atom";
+import { selectedSittingServicesAtom } from "@/atoms/services/selected-sitting-services.atom";
 import { selectedVaccinationServicesAtom } from "@/atoms/services/selected-vaccination-services.atom";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { fetchUserAttributes, getCurrentUser } from "aws-amplify/auth";
@@ -34,6 +35,8 @@ export const useServiceBookingAtom = (serviceName: string) => {
         return selectedVaccinationServicesAtom;
       case "grooming":
         return selectedGroomingServicesAtom;
+      case "medical-sitting":
+        return selectedSittingServicesAtom;
       default:
         return selectedVaccinationServicesAtom;
     }

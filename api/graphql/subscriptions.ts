@@ -17,8 +17,6 @@ export const onCreateBooking = /* GraphQL */ `subscription OnCreateBooking($filt
       customerId
       currency
       totalAmount
-      pendingRefundAmount
-      refundedAmount
       bookingIds
       paymentRequestId
       status
@@ -106,8 +104,6 @@ export const onUpdateBooking = /* GraphQL */ `subscription OnUpdateBooking($filt
       customerId
       currency
       totalAmount
-      pendingRefundAmount
-      refundedAmount
       bookingIds
       paymentRequestId
       status
@@ -195,8 +191,6 @@ export const onDeleteBooking = /* GraphQL */ `subscription OnDeleteBooking($filt
       customerId
       currency
       totalAmount
-      pendingRefundAmount
-      refundedAmount
       bookingIds
       paymentRequestId
       status
@@ -809,8 +803,6 @@ export const onCreateOrder = /* GraphQL */ `subscription OnCreateOrder(
     }
     currency
     totalAmount
-    pendingRefundAmount
-    refundedAmount
     bookingIds
     bookings {
       nextToken
@@ -845,8 +837,6 @@ export const onUpdateOrder = /* GraphQL */ `subscription OnUpdateOrder(
     }
     currency
     totalAmount
-    pendingRefundAmount
-    refundedAmount
     bookingIds
     bookings {
       nextToken
@@ -881,8 +871,6 @@ export const onDeleteOrder = /* GraphQL */ `subscription OnDeleteOrder(
     }
     currency
     totalAmount
-    pendingRefundAmount
-    refundedAmount
     bookingIds
     bookings {
       nextToken
@@ -911,8 +899,6 @@ export const onCreatePayment = /* GraphQL */ `subscription OnCreatePayment(
       customerId
       currency
       totalAmount
-      pendingRefundAmount
-      refundedAmount
       bookingIds
       paymentRequestId
       status
@@ -973,8 +959,6 @@ export const onUpdatePayment = /* GraphQL */ `subscription OnUpdatePayment(
       customerId
       currency
       totalAmount
-      pendingRefundAmount
-      refundedAmount
       bookingIds
       paymentRequestId
       status
@@ -1035,8 +1019,6 @@ export const onDeletePayment = /* GraphQL */ `subscription OnDeletePayment(
       customerId
       currency
       totalAmount
-      pendingRefundAmount
-      refundedAmount
       bookingIds
       paymentRequestId
       status

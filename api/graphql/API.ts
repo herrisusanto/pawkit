@@ -329,8 +329,6 @@ export type Order = {
   customer: Customer,
   currency: Currency,
   totalAmount: number,
-  pendingRefundAmount?: number | null,
-  refundedAmount?: number | null,
   bookingIds?: Array< string > | null,
   bookings?: ModelBookingConnection | null,
   paymentRequestId?: string | null,
@@ -629,29 +627,9 @@ export type ModelBookingStatusInput = {
   ne?: BookingStatus | null,
 };
 
-export type CreateBookingInput = {
-  id?: string | null,
-  orderId: string,
+export type DeleteBookingInput = {
   customerUsername: string,
-  owners: Array< string >,
-  customerId: string,
-  serviceName: string,
-  serviceProviderName: string,
-  serviceCategory: ServiceCategory,
-  petType: PetType,
-  serviceId: string,
-  startDateTime: string,
   timeSlotId: string,
-  address: string,
-  petIds: Array< string >,
-  addOns?: Array< string > | null,
-  bookingType: BookingType,
-  amount: number,
-  currency: Currency,
-  status: BookingStatus,
-  serviceProviderBookingsName?: string | null,
-  timeSlotBookingsServiceId?: string | null,
-  timeSlotBookingsStartDateTime?: string | null,
 };
 
 export type ModelBookingConditionInput = {
@@ -681,6 +659,81 @@ export type ModelBookingConditionInput = {
   timeSlotBookingsStartDateTime?: ModelStringInput | null,
 };
 
+export type ModelQuestionAnswerFilterInput = {
+  petId?: ModelIDInput | null,
+  questionId?: ModelIDInput | null,
+  answer?: ModelStringInput | null,
+  id?: ModelIDInput | null,
+  createdAt?: ModelStringInput | null,
+  updatedAt?: ModelStringInput | null,
+  and?: Array< ModelQuestionAnswerFilterInput | null > | null,
+  or?: Array< ModelQuestionAnswerFilterInput | null > | null,
+  not?: ModelQuestionAnswerFilterInput | null,
+  customerId?: ModelStringInput | null,
+};
+
+export type ModelQuestionAnswerConnection = {
+  __typename: "ModelQuestionAnswerConnection",
+  items:  Array<QuestionAnswer | null >,
+  nextToken?: string | null,
+};
+
+export type QuestionAnswer = {
+  __typename: "QuestionAnswer",
+  petId: string,
+  pet: Pet,
+  questionId: string,
+  question: Question,
+  answer: string,
+  createdAt: string,
+  updatedAt: string,
+  customerId?: string | null,
+};
+
+export type Question = {
+  __typename: "Question",
+  id: string,
+  serviceCategory: ServiceCategory,
+  questionString: string,
+  questionType: QuestionType,
+  followUpQuestionIds?: Array< string > | null,
+  isRequired: boolean,
+  createdAt: string,
+  updatedAt: string,
+};
+
+export enum QuestionType {
+  TEXT = "TEXT",
+  YES_NO = "YES_NO",
+  DATE = "DATE",
+}
+
+
+export type CreateBookingInput = {
+  id?: string | null,
+  orderId: string,
+  customerUsername: string,
+  owners: Array< string >,
+  customerId: string,
+  serviceName: string,
+  serviceProviderName: string,
+  serviceCategory: ServiceCategory,
+  petType: PetType,
+  serviceId: string,
+  startDateTime: string,
+  timeSlotId: string,
+  address: string,
+  petIds: Array< string >,
+  addOns?: Array< string > | null,
+  bookingType: BookingType,
+  amount: number,
+  currency: Currency,
+  status: BookingStatus,
+  serviceProviderBookingsName?: string | null,
+  timeSlotBookingsServiceId?: string | null,
+  timeSlotBookingsStartDateTime?: string | null,
+};
+
 export type UpdateBookingInput = {
   id?: string | null,
   orderId?: string | null,
@@ -704,11 +757,6 @@ export type UpdateBookingInput = {
   serviceProviderBookingsName?: string | null,
   timeSlotBookingsServiceId?: string | null,
   timeSlotBookingsStartDateTime?: string | null,
-};
-
-export type DeleteBookingInput = {
-  customerUsername: string,
-  timeSlotId: string,
 };
 
 export type CreateBreedInput = {
@@ -887,8 +935,6 @@ export type CreateOrderInput = {
   customerId: string,
   currency: Currency,
   totalAmount: number,
-  pendingRefundAmount?: number | null,
-  refundedAmount?: number | null,
   bookingIds?: Array< string > | null,
   paymentRequestId?: string | null,
   status: OrderStatus,
@@ -898,8 +944,6 @@ export type ModelOrderConditionInput = {
   customerId?: ModelIDInput | null,
   currency?: ModelCurrencyInput | null,
   totalAmount?: ModelFloatInput | null,
-  pendingRefundAmount?: ModelFloatInput | null,
-  refundedAmount?: ModelFloatInput | null,
   bookingIds?: ModelIDInput | null,
   paymentRequestId?: ModelIDInput | null,
   status?: ModelOrderStatusInput | null,
@@ -920,8 +964,6 @@ export type UpdateOrderInput = {
   customerId?: string | null,
   currency?: Currency | null,
   totalAmount?: number | null,
-  pendingRefundAmount?: number | null,
-  refundedAmount?: number | null,
   bookingIds?: Array< string > | null,
   paymentRequestId?: string | null,
   status?: OrderStatus | null,
@@ -1136,13 +1178,6 @@ export type CreateQuestionInput = {
   isRequired: boolean,
 };
 
-export enum QuestionType {
-  TEXT = "TEXT",
-  YES_NO = "YES_NO",
-  DATE = "DATE",
-}
-
-
 export type ModelQuestionConditionInput = {
   serviceCategory?: ModelServiceCategoryInput | null,
   questionString?: ModelStringInput | null,
@@ -1159,18 +1194,6 @@ export type ModelQuestionConditionInput = {
 export type ModelQuestionTypeInput = {
   eq?: QuestionType | null,
   ne?: QuestionType | null,
-};
-
-export type Question = {
-  __typename: "Question",
-  id: string,
-  serviceCategory: ServiceCategory,
-  questionString: string,
-  questionType: QuestionType,
-  followUpQuestionIds?: Array< string > | null,
-  isRequired: boolean,
-  createdAt: string,
-  updatedAt: string,
 };
 
 export type UpdateQuestionInput = {
@@ -1200,18 +1223,6 @@ export type ModelQuestionAnswerConditionInput = {
   createdAt?: ModelStringInput | null,
   updatedAt?: ModelStringInput | null,
   customerId?: ModelStringInput | null,
-};
-
-export type QuestionAnswer = {
-  __typename: "QuestionAnswer",
-  petId: string,
-  pet: Pet,
-  questionId: string,
-  question: Question,
-  answer: string,
-  createdAt: string,
-  updatedAt: string,
-  customerId?: string | null,
 };
 
 export type UpdateQuestionAnswerInput = {
@@ -1553,8 +1564,6 @@ export type ModelOrderFilterInput = {
   customerId?: ModelIDInput | null,
   currency?: ModelCurrencyInput | null,
   totalAmount?: ModelFloatInput | null,
-  pendingRefundAmount?: ModelFloatInput | null,
-  refundedAmount?: ModelFloatInput | null,
   bookingIds?: ModelIDInput | null,
   paymentRequestId?: ModelIDInput | null,
   status?: ModelOrderStatusInput | null,
@@ -1644,25 +1653,6 @@ export type ModelQuestionFilterInput = {
 export type ModelQuestionConnection = {
   __typename: "ModelQuestionConnection",
   items:  Array<Question | null >,
-  nextToken?: string | null,
-};
-
-export type ModelQuestionAnswerFilterInput = {
-  petId?: ModelIDInput | null,
-  questionId?: ModelIDInput | null,
-  answer?: ModelStringInput | null,
-  id?: ModelIDInput | null,
-  createdAt?: ModelStringInput | null,
-  updatedAt?: ModelStringInput | null,
-  and?: Array< ModelQuestionAnswerFilterInput | null > | null,
-  or?: Array< ModelQuestionAnswerFilterInput | null > | null,
-  not?: ModelQuestionAnswerFilterInput | null,
-  customerId?: ModelStringInput | null,
-};
-
-export type ModelQuestionAnswerConnection = {
-  __typename: "ModelQuestionAnswerConnection",
-  items:  Array<QuestionAnswer | null >,
   nextToken?: string | null,
 };
 
@@ -1878,8 +1868,6 @@ export type ModelSubscriptionOrderFilterInput = {
   id?: ModelSubscriptionIDInput | null,
   currency?: ModelSubscriptionStringInput | null,
   totalAmount?: ModelSubscriptionFloatInput | null,
-  pendingRefundAmount?: ModelSubscriptionFloatInput | null,
-  refundedAmount?: ModelSubscriptionFloatInput | null,
   bookingIds?: ModelSubscriptionIDInput | null,
   paymentRequestId?: ModelSubscriptionIDInput | null,
   status?: ModelSubscriptionStringInput | null,
@@ -2232,8 +2220,6 @@ export type CustomGetBookingQuery = {
       customerId: string,
       currency: Currency,
       totalAmount: number,
-      pendingRefundAmount?: number | null,
-      refundedAmount?: number | null,
       bookingIds?: Array< string > | null,
       paymentRequestId?: string | null,
       status: OrderStatus,
@@ -2419,6 +2405,122 @@ export type CustomListBookingsQuery = {
   } | null,
 };
 
+export type CustomDeleteBookingMutationVariables = {
+  input: DeleteBookingInput,
+  condition?: ModelBookingConditionInput | null,
+};
+
+export type CustomDeleteBookingMutation = {
+  deleteBooking?:  {
+    __typename: "Booking",
+    id: string,
+    orderId: string,
+    order:  {
+      __typename: "Order",
+      id: string,
+      customerId: string,
+      currency: Currency,
+      totalAmount: number,
+      bookingIds?: Array< string > | null,
+      paymentRequestId?: string | null,
+      status: OrderStatus,
+      createdAt: string,
+      updatedAt: string,
+    },
+    customerUsername: string,
+    owners: Array< string >,
+    customerId: string,
+    customer:  {
+      __typename: "Customer",
+      id: string,
+      username: string,
+      isDeactivated: boolean,
+      createdAt: string,
+      updatedAt: string,
+    },
+    serviceName: string,
+    serviceProviderName: string,
+    serviceProvider:  {
+      __typename: "ServiceProvider",
+      id: string,
+      name: string,
+      displayName?: string | null,
+      description?: string | null,
+      website?: string | null,
+      email?: string | null,
+      phone?: string | null,
+      isHeadquarters: boolean,
+      createdAt: string,
+      updatedAt: string,
+      serviceProviderHeadquartersName?: string | null,
+    },
+    serviceCategory: ServiceCategory,
+    petType: PetType,
+    serviceId: string,
+    startDateTime: string,
+    timeSlot:  {
+      __typename: "TimeSlot",
+      id: string,
+      serviceId: string,
+      startDateTime: string,
+      endDateTime?: string | null,
+      capacity: number,
+      bookingCount: number,
+      isFull: boolean,
+      bookingIds?: Array< string > | null,
+      createdAt: string,
+      updatedAt: string,
+      serviceProviderId?: string | null,
+    },
+    timeSlotId: string,
+    address: string,
+    petIds: Array< string >,
+    pets?:  {
+      __typename: "ModelPetBookingsConnection",
+      nextToken?: string | null,
+    } | null,
+    addOns?: Array< string > | null,
+    bookingType: BookingType,
+    amount: number,
+    currency: Currency,
+    status: BookingStatus,
+    createdAt: string,
+    updatedAt: string,
+    serviceProviderBookingsName?: string | null,
+    timeSlotBookingsServiceId?: string | null,
+    timeSlotBookingsStartDateTime?: string | null,
+  } | null,
+};
+
+export type CustomListQuestionAnswersQueryVariables = {
+  petId?: string | null,
+  questionId?: ModelIDKeyConditionInput | null,
+  filter?: ModelQuestionAnswerFilterInput | null,
+  limit?: number | null,
+  nextToken?: string | null,
+  sortDirection?: ModelSortDirection | null,
+};
+
+export type CustomListQuestionAnswersQuery = {
+  listQuestionAnswers?:  {
+    __typename: "ModelQuestionAnswerConnection",
+    items:  Array< {
+      __typename: "QuestionAnswer",
+      petId: string,
+      questionId: string,
+      question:  {
+        __typename: "Question",
+        questionString: string,
+      },
+      answer: string,
+      createdAt: string,
+      updatedAt: string,
+      customerId?: string | null,
+    } | null >,
+    nextToken?: string | null,
+  } | null,
+};
+
 export type CustomServiceByIdQueryVariables = {
   id: string,
   sortDirection?: ModelSortDirection | null,
@@ -2482,8 +2584,6 @@ export type CreateBookingMutation = {
       customerId: string,
       currency: Currency,
       totalAmount: number,
-      pendingRefundAmount?: number | null,
-      refundedAmount?: number | null,
       bookingIds?: Array< string > | null,
       paymentRequestId?: string | null,
       status: OrderStatus,
@@ -2573,8 +2673,6 @@ export type UpdateBookingMutation = {
       customerId: string,
       currency: Currency,
       totalAmount: number,
-      pendingRefundAmount?: number | null,
-      refundedAmount?: number | null,
       bookingIds?: Array< string > | null,
       paymentRequestId?: string | null,
       status: OrderStatus,
@@ -2664,8 +2762,6 @@ export type DeleteBookingMutation = {
       customerId: string,
       currency: Currency,
       totalAmount: number,
-      pendingRefundAmount?: number | null,
-      refundedAmount?: number | null,
       bookingIds?: Array< string > | null,
       paymentRequestId?: string | null,
       status: OrderStatus,
@@ -3276,8 +3372,6 @@ export type CreateOrderMutation = {
     },
     currency: Currency,
     totalAmount: number,
-    pendingRefundAmount?: number | null,
-    refundedAmount?: number | null,
     bookingIds?: Array< string > | null,
     bookings?:  {
       __typename: "ModelBookingConnection",
@@ -3311,8 +3405,6 @@ export type UpdateOrderMutation = {
     },
     currency: Currency,
     totalAmount: number,
-    pendingRefundAmount?: number | null,
-    refundedAmount?: number | null,
     bookingIds?: Array< string > | null,
     bookings?:  {
       __typename: "ModelBookingConnection",
@@ -3346,8 +3438,6 @@ export type DeleteOrderMutation = {
     },
     currency: Currency,
     totalAmount: number,
-    pendingRefundAmount?: number | null,
-    refundedAmount?: number | null,
     bookingIds?: Array< string > | null,
     bookings?:  {
       __typename: "ModelBookingConnection",
@@ -3376,8 +3466,6 @@ export type CreatePaymentMutation = {
       customerId: string,
       currency: Currency,
       totalAmount: number,
-      pendingRefundAmount?: number | null,
-      refundedAmount?: number | null,
       bookingIds?: Array< string > | null,
       paymentRequestId?: string | null,
       status: OrderStatus,
@@ -3437,8 +3525,6 @@ export type UpdatePaymentMutation = {
       customerId: string,
       currency: Currency,
       totalAmount: number,
-      pendingRefundAmount?: number | null,
-      refundedAmount?: number | null,
       bookingIds?: Array< string > | null,
       paymentRequestId?: string | null,
       status: OrderStatus,
@@ -3498,8 +3584,6 @@ export type DeletePaymentMutation = {
       customerId: string,
       currency: Currency,
       totalAmount: number,
-      pendingRefundAmount?: number | null,
-      refundedAmount?: number | null,
       bookingIds?: Array< string > | null,
       paymentRequestId?: string | null,
       status: OrderStatus,
@@ -4774,8 +4858,6 @@ export type GetBookingQuery = {
       customerId: string,
       currency: Currency,
       totalAmount: number,
-      pendingRefundAmount?: number | null,
-      refundedAmount?: number | null,
       bookingIds?: Array< string > | null,
       paymentRequestId?: string | null,
       status: OrderStatus,
@@ -5531,8 +5613,6 @@ export type GetOrderQuery = {
     },
     currency: Currency,
     totalAmount: number,
-    pendingRefundAmount?: number | null,
-    refundedAmount?: number | null,
     bookingIds?: Array< string > | null,
     bookings?:  {
       __typename: "ModelBookingConnection",
@@ -5562,8 +5642,6 @@ export type ListOrdersQuery = {
       customerId: string,
       currency: Currency,
       totalAmount: number,
-      pendingRefundAmount?: number | null,
-      refundedAmount?: number | null,
       bookingIds?: Array< string > | null,
       paymentRequestId?: string | null,
       status: OrderStatus,
@@ -5591,8 +5669,6 @@ export type OrdersByCustomerQuery = {
       customerId: string,
       currency: Currency,
       totalAmount: number,
-      pendingRefundAmount?: number | null,
-      refundedAmount?: number | null,
       bookingIds?: Array< string > | null,
       paymentRequestId?: string | null,
       status: OrderStatus,
@@ -5618,8 +5694,6 @@ export type GetPaymentQuery = {
       customerId: string,
       currency: Currency,
       totalAmount: number,
-      pendingRefundAmount?: number | null,
-      refundedAmount?: number | null,
       bookingIds?: Array< string > | null,
       paymentRequestId?: string | null,
       status: OrderStatus,
@@ -7234,8 +7308,6 @@ export type OnCreateBookingSubscription = {
       customerId: string,
       currency: Currency,
       totalAmount: number,
-      pendingRefundAmount?: number | null,
-      refundedAmount?: number | null,
       bookingIds?: Array< string > | null,
       paymentRequestId?: string | null,
       status: OrderStatus,
@@ -7324,8 +7396,6 @@ export type OnUpdateBookingSubscription = {
       customerId: string,
       currency: Currency,
       totalAmount: number,
-      pendingRefundAmount?: number | null,
-      refundedAmount?: number | null,
       bookingIds?: Array< string > | null,
       paymentRequestId?: string | null,
       status: OrderStatus,
@@ -7414,8 +7484,6 @@ export type OnDeleteBookingSubscription = {
       customerId: string,
       currency: Currency,
       totalAmount: number,
-      pendingRefundAmount?: number | null,
-      refundedAmount?: number | null,
       bookingIds?: Array< string > | null,
       paymentRequestId?: string | null,
       status: OrderStatus,
@@ -8020,8 +8088,6 @@ export type OnCreateOrderSubscription = {
     },
     currency: Currency,
     totalAmount: number,
-    pendingRefundAmount?: number | null,
-    refundedAmount?: number | null,
     bookingIds?: Array< string > | null,
     bookings?:  {
       __typename: "ModelBookingConnection",
@@ -8055,8 +8121,6 @@ export type OnUpdateOrderSubscription = {
     },
     currency: Currency,
     totalAmount: number,
-    pendingRefundAmount?: number | null,
-    refundedAmount?: number | null,
     bookingIds?: Array< string > | null,
     bookings?:  {
       __typename: "ModelBookingConnection",
@@ -8090,8 +8154,6 @@ export type OnDeleteOrderSubscription = {
     },
     currency: Currency,
     totalAmount: number,
-    pendingRefundAmount?: number | null,
-    refundedAmount?: number | null,
     bookingIds?: Array< string > | null,
     bookings?:  {
       __typename: "ModelBookingConnection",
@@ -8120,8 +8182,6 @@ export type OnCreatePaymentSubscription = {
       customerId: string,
       currency: Currency,
       totalAmount: number,
-      pendingRefundAmount?: number | null,
-      refundedAmount?: number | null,
       bookingIds?: Array< string > | null,
       paymentRequestId?: string | null,
       status: OrderStatus,
@@ -8181,8 +8241,6 @@ export type OnUpdatePaymentSubscription = {
       customerId: string,
       currency: Currency,
       totalAmount: number,
-      pendingRefundAmount?: number | null,
-      refundedAmount?: number | null,
       bookingIds?: Array< string > | null,
       paymentRequestId?: string | null,
       status: OrderStatus,
@@ -8242,8 +8300,6 @@ export type OnDeletePaymentSubscription = {
       customerId: string,
       currency: Currency,
       totalAmount: number,
-      pendingRefundAmount?: number | null,
-      refundedAmount?: number | null,
       bookingIds?: Array< string > | null,
       paymentRequestId?: string | null,
       status: OrderStatus,
