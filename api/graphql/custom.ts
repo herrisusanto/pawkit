@@ -516,6 +516,8 @@ export const customServiceById = /* GraphQL */ `
           serviceProviderName
           serviceCategory
           petType 
+          header
+          subheader
           text
           s3Link 
         }

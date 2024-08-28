@@ -3,9 +3,8 @@ import { CloseOutlinedIcon } from "@/components/common/Icons";
 import { useCurrentUser } from "@/hooks";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import React, { useState, FC, useEffect } from "react";
-import { TouchableOpacity } from "react-native";
+import { ImageSourcePropType, TouchableOpacity } from "react-native";
 import { Sheet, Text, View, XStack, YStack, Image } from "tamagui";
-import { images } from "@/constants";
 import {
   addDisclaimerAcceptance,
   hasCustomerAcceptedServiceDisclaimer,
@@ -90,9 +89,9 @@ export const DisclaimerByServiceIdSheet: FC<DisclaimerSheetProps> = ({
               </TouchableOpacity>
             </XStack>
             <YStack rowGap="$2">
-              <XStack ai="center" jc="center">
+              <XStack ai="center" jc="center" p="$3">
                 <Image
-                  source={service?.disclaimer?.s3Link ?? images.dogIllustration}
+                  source={service?.disclaimer?.s3Link as ImageSourcePropType}
                   width={96}
                   height={96}
                 />
@@ -100,7 +99,7 @@ export const DisclaimerByServiceIdSheet: FC<DisclaimerSheetProps> = ({
               <Text fontSize="$c1" fontWeight="$7">
                 {service?.disclaimer?.header}
               </Text>
-              <Text fontSize="$c2" fontWeight="$4">
+              <Text fontSize="$c2" fontWeight="$7">
                 {service?.disclaimer?.subheader}
               </Text>
               <Text fontSize="$c2" fontWeight="$4">
