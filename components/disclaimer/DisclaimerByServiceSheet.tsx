@@ -11,6 +11,7 @@ import {
   hasCustomerAcceptedServiceDisclaimer,
 } from "@/api/customer";
 import { fetchServiceById } from "@/api/service-booking";
+import PopupController from "../common/GlobalPopupError/PopUpController";
 
 type DisclaimerSheetProps = {
   serviceId: string;
@@ -38,19 +39,20 @@ export const DisclaimerByServiceIdSheet: FC<DisclaimerSheetProps> = ({
     enabled: !!user?.userId && !!service?.disclaimerName,
   });
 
-  const mutationAddDisclaimerAcceptance = useMutation({
+  const { mutateAsync: addDisclaimer, isPending } = useMutation({
     mutationFn: addDisclaimerAcceptance,
   });
 
   const handleIUnderstandButton = async () => {
     try {
-      await mutationAddDisclaimerAcceptance.mutateAsync({
+      await addDisclaimer({
         customerId: user?.userId as string,
         disclaimerName: service?.disclaimerName as string,
       });
       setOpen(false);
     } catch (error) {
-      console.log(error);
+      console.log(JSON.stringify(error, null, 2));
+      PopupController.showGlobalPopup();
     }
   };
 
@@ -78,12 +80,9 @@ export const DisclaimerByServiceIdSheet: FC<DisclaimerSheetProps> = ({
           <YStack px="$5">
             <XStack py="$5" jc="space-between">
               <XStack ai="center" columnGap="$3.5">
-                {/* <Text fontSize="$b2" fontWeight="$6">
-                  Disclaimer for{" "} */}
                 <Text fontSize="$b2" fontWeight="$6" textTransform="capitalize">
                   {service?.disclaimerName}
                 </Text>
-                {/* </Text> */}
               </XStack>
 
               <TouchableOpacity onPress={handleClose}>
@@ -92,14 +91,18 @@ export const DisclaimerByServiceIdSheet: FC<DisclaimerSheetProps> = ({
             </XStack>
             <YStack rowGap="$2">
               <XStack ai="center" jc="center">
-                <Image source={images.dogIllustration} width={96} height={96} />
+                <Image
+                  source={service?.disclaimer?.s3Link ?? images.dogIllustration}
+                  width={96}
+                  height={96}
+                />
               </XStack>
-              {/* <Text fontSize="$c1" fontWeight="$7">
-                {disclaimer.header}
+              <Text fontSize="$c1" fontWeight="$7">
+                {service?.disclaimer?.header}
               </Text>
               <Text fontSize="$c2" fontWeight="$4">
-              {disclaimer.subHeader}
-              </Text> */}
+                {service?.disclaimer?.subheader}
+              </Text>
               <Text fontSize="$c2" fontWeight="$4">
                 {service?.disclaimer?.text}
               </Text>
@@ -108,7 +111,8 @@ export const DisclaimerByServiceIdSheet: FC<DisclaimerSheetProps> = ({
               <Button
                 h="$4"
                 type="primary"
-                disabled={false}
+                disabled={isPending}
+                loading={isPending}
                 onPress={handleIUnderstandButton}
               >
                 I Understand

@@ -89,10 +89,6 @@ const GroomingScreen = () => {
     enabled: !!selectedPet,
   });
   const services: Service[] | undefined = servicesData;
-  console.log(
-    "🚀 ~ GroomingScreen ~ services:",
-    JSON.stringify(services, null, 2)
-  );
   const addons: Service[] | undefined = addonsData;
   const selectedService = useMemo(() => {
     const selectedPetService = selectedPetsService.find(
@@ -215,16 +211,6 @@ const GroomingScreen = () => {
       setSelectedPetId(pets[0].id);
     }
   }, [pets]);
-
-  // if (selectedPetsService.length > 0) {
-  //   const lastSelectedPetService = services?.filter(
-  //     (service) => service.id === selectedPetsService[0].serviceId
-  //   );
-  //   console.log(
-  //     "🚀 ~ GroomingScreen ~ lastSelectedPetService:",
-  //     JSON.stringify(lastSelectedPetService, null, 2)
-  //   );
-  // }
 
   return (
     <View flex={1}>

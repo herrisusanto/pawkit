@@ -499,6 +499,8 @@ export const onCreateDisclaimer = /* GraphQL */ `subscription OnCreateDisclaimer
       updatedAt
       __typename
     }
+    header
+    subheader
     text
     s3Link
     supersededBy {
@@ -507,6 +509,8 @@ export const onCreateDisclaimer = /* GraphQL */ `subscription OnCreateDisclaimer
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -569,6 +573,8 @@ export const onUpdateDisclaimer = /* GraphQL */ `subscription OnUpdateDisclaimer
       updatedAt
       __typename
     }
+    header
+    subheader
     text
     s3Link
     supersededBy {
@@ -577,6 +583,8 @@ export const onUpdateDisclaimer = /* GraphQL */ `subscription OnUpdateDisclaimer
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -639,6 +647,8 @@ export const onDeleteDisclaimer = /* GraphQL */ `subscription OnDeleteDisclaimer
       updatedAt
       __typename
     }
+    header
+    subheader
     text
     s3Link
     supersededBy {
@@ -647,6 +657,8 @@ export const onDeleteDisclaimer = /* GraphQL */ `subscription OnDeleteDisclaimer
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -691,6 +703,8 @@ export const onCreateDisclaimerAcceptance = /* GraphQL */ `subscription OnCreate
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -730,6 +744,8 @@ export const onUpdateDisclaimerAcceptance = /* GraphQL */ `subscription OnUpdate
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -769,6 +785,8 @@ export const onDeleteDisclaimerAcceptance = /* GraphQL */ `subscription OnDelete
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -1534,6 +1552,8 @@ export const onCreateService = /* GraphQL */ `subscription OnCreateService(
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -1666,6 +1686,8 @@ export const onUpdateService = /* GraphQL */ `subscription OnUpdateService(
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -1798,6 +1820,8 @@ export const onDeleteService = /* GraphQL */ `subscription OnDeleteService(
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
