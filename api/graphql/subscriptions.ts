@@ -17,8 +17,6 @@ export const onCreateBooking = /* GraphQL */ `subscription OnCreateBooking($filt
       customerId
       currency
       totalAmount
-      pendingRefundAmount
-      refundedAmount
       bookingIds
       paymentRequestId
       status
@@ -106,8 +104,6 @@ export const onUpdateBooking = /* GraphQL */ `subscription OnUpdateBooking($filt
       customerId
       currency
       totalAmount
-      pendingRefundAmount
-      refundedAmount
       bookingIds
       paymentRequestId
       status
@@ -195,8 +191,6 @@ export const onDeleteBooking = /* GraphQL */ `subscription OnDeleteBooking($filt
       customerId
       currency
       totalAmount
-      pendingRefundAmount
-      refundedAmount
       bookingIds
       paymentRequestId
       status
@@ -501,11 +495,12 @@ export const onCreateDisclaimer = /* GraphQL */ `subscription OnCreateDisclaimer
       timeSlotIds
       bookingIds
       requiredQuestionIds
-      active
       createdAt
       updatedAt
       __typename
     }
+    header
+    subheader
     text
     s3Link
     supersededBy {
@@ -514,6 +509,8 @@ export const onCreateDisclaimer = /* GraphQL */ `subscription OnCreateDisclaimer
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -572,11 +569,12 @@ export const onUpdateDisclaimer = /* GraphQL */ `subscription OnUpdateDisclaimer
       timeSlotIds
       bookingIds
       requiredQuestionIds
-      active
       createdAt
       updatedAt
       __typename
     }
+    header
+    subheader
     text
     s3Link
     supersededBy {
@@ -585,6 +583,8 @@ export const onUpdateDisclaimer = /* GraphQL */ `subscription OnUpdateDisclaimer
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -643,11 +643,12 @@ export const onDeleteDisclaimer = /* GraphQL */ `subscription OnDeleteDisclaimer
       timeSlotIds
       bookingIds
       requiredQuestionIds
-      active
       createdAt
       updatedAt
       __typename
     }
+    header
+    subheader
     text
     s3Link
     supersededBy {
@@ -656,6 +657,8 @@ export const onDeleteDisclaimer = /* GraphQL */ `subscription OnDeleteDisclaimer
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -700,6 +703,8 @@ export const onCreateDisclaimerAcceptance = /* GraphQL */ `subscription OnCreate
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -739,6 +744,8 @@ export const onUpdateDisclaimerAcceptance = /* GraphQL */ `subscription OnUpdate
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -778,6 +785,8 @@ export const onDeleteDisclaimerAcceptance = /* GraphQL */ `subscription OnDelete
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -812,8 +821,6 @@ export const onCreateOrder = /* GraphQL */ `subscription OnCreateOrder(
     }
     currency
     totalAmount
-    pendingRefundAmount
-    refundedAmount
     bookingIds
     bookings {
       nextToken
@@ -848,8 +855,6 @@ export const onUpdateOrder = /* GraphQL */ `subscription OnUpdateOrder(
     }
     currency
     totalAmount
-    pendingRefundAmount
-    refundedAmount
     bookingIds
     bookings {
       nextToken
@@ -884,8 +889,6 @@ export const onDeleteOrder = /* GraphQL */ `subscription OnDeleteOrder(
     }
     currency
     totalAmount
-    pendingRefundAmount
-    refundedAmount
     bookingIds
     bookings {
       nextToken
@@ -914,8 +917,6 @@ export const onCreatePayment = /* GraphQL */ `subscription OnCreatePayment(
       customerId
       currency
       totalAmount
-      pendingRefundAmount
-      refundedAmount
       bookingIds
       paymentRequestId
       status
@@ -976,8 +977,6 @@ export const onUpdatePayment = /* GraphQL */ `subscription OnUpdatePayment(
       customerId
       currency
       totalAmount
-      pendingRefundAmount
-      refundedAmount
       bookingIds
       paymentRequestId
       status
@@ -1038,8 +1037,6 @@ export const onDeletePayment = /* GraphQL */ `subscription OnDeletePayment(
       customerId
       currency
       totalAmount
-      pendingRefundAmount
-      refundedAmount
       bookingIds
       paymentRequestId
       status
@@ -1555,6 +1552,8 @@ export const onCreateService = /* GraphQL */ `subscription OnCreateService(
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -1565,7 +1564,6 @@ export const onCreateService = /* GraphQL */ `subscription OnCreateService(
     timeSlotIds
     bookingIds
     requiredQuestionIds
-    active
     createdAt
     updatedAt
     __typename
@@ -1688,6 +1686,8 @@ export const onUpdateService = /* GraphQL */ `subscription OnUpdateService(
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -1698,7 +1698,6 @@ export const onUpdateService = /* GraphQL */ `subscription OnUpdateService(
     timeSlotIds
     bookingIds
     requiredQuestionIds
-    active
     createdAt
     updatedAt
     __typename
@@ -1821,6 +1820,8 @@ export const onDeleteService = /* GraphQL */ `subscription OnDeleteService(
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -1831,7 +1832,6 @@ export const onDeleteService = /* GraphQL */ `subscription OnDeleteService(
     timeSlotIds
     bookingIds
     requiredQuestionIds
-    active
     createdAt
     updatedAt
     __typename

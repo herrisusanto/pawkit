@@ -1,3 +1,4 @@
+import * as Linking from "expo-linking";
 import { Button } from "@/components/common/Button/Button";
 import {
   DefaultAvatarIcon,
@@ -6,6 +7,7 @@ import {
   AboutUsIcon,
   TermsAndConditionsIcon,
   TrashIcon,
+  ContactUsIcon,
 } from "@/components/common/Icons";
 import { ArrowRightIcon } from "@/components/common/Icons/ArrowRightIcon";
 import { images } from "@/constants";
@@ -31,6 +33,7 @@ import { useCurrentUser, useUserAttributes } from "@/hooks";
 import { Phone } from "@tamagui/lucide-icons";
 import { disableUser } from "@/api/admin";
 import { useMutation } from "@tanstack/react-query";
+import PopupController from "@/components/common/GlobalPopupError/PopUpController";
 
 function Profile() {
   LogBox.ignoreLogs(["??"]);
@@ -53,8 +56,9 @@ function Profile() {
       await signOut();
       setAuthState({ step: "SIGN_IN" });
       router.replace("/auth");
+      // eslint-disable-next-line
     } catch (error) {
-      console.log(error);
+      PopupController.showGlobalPopup();
     }
   };
 
@@ -62,8 +66,9 @@ function Profile() {
     try {
       await mutationDisableUser.mutateAsync(user?.username!);
       handleSignOut();
+      // eslint-disable-next-line
     } catch (error) {
-      console.log(error);
+      PopupController.showGlobalPopup();
     }
   };
 
@@ -74,6 +79,23 @@ function Profile() {
       handleDeleteAccount();
     }
   };
+
+  const handleContactUs = async () => {
+    const phoneNumber = "6588540207";
+    const textContent = `Hello Pawkit! I would like to ask about`;
+    const url = `whatsapp://send?phone=${phoneNumber}&text=${textContent}`;
+    try {
+      const canOpen = await Linking.canOpenURL(url);
+      if (canOpen) {
+        Linking.openURL(url);
+      } else {
+        throw new Error("Cannot open URL");
+      }
+    } catch {
+      Linking.openURL(`https://wa.me/${phoneNumber}?text=${textContent}`);
+    }
+  };
+
   const profileList = [
     {
       link: "/my-pet",
@@ -113,9 +135,7 @@ function Profile() {
                   <Avatar circular size="$5" height={60} width={60}>
                     <Avatar.Image
                       accessibilityLabel="Cam"
-                      src={
-                        userAttributes?.picture ?? images.defaultAvatarCircle
-                      }
+                      src={userAttributes?.picture ?? images.defaultProfile}
                     />
                     <Avatar.Fallback backgroundColor="$blue10" />
                   </Avatar>
@@ -175,6 +195,16 @@ function Profile() {
             <Separator />
           </View>
         ))}
+        <ListItemView onPress={() => handleContactUs()}>
+          <XStack gap="$3" alignItems="center">
+            <ContactUsIcon strokeColor={getToken("$primary")} />
+            <Text fontSize="$b3" fontWeight="$5">
+              Contact Us
+            </Text>
+          </XStack>
+          <ArrowRightIcon strokeColor={getToken("$textPrimary")} />
+        </ListItemView>
+        <Separator />
         <AlertDialog.Trigger asChild>
           <ListItemView onPress={() => setAlertType("logout")}>
             <XStack gap="$3" alignItems="center">

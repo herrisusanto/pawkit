@@ -8,20 +8,26 @@ const bookingStatusTransitions: Record<BookingStatus, BookingStatus[]> = {
     BookingStatus.PENDING_PAYMENT,
   ], // PENDING is deprecated; use PENDING_PAYMENT or PENDING_CONFIRMATION instead
   [BookingStatus.PENDING_PAYMENT]: [
+    BookingStatus.PENDING_PAYMENT,
     BookingStatus.PENDING_CONFIRMATION,
     BookingStatus.CANCELLED,
   ],
   [BookingStatus.PENDING_CONFIRMATION]: [
+    BookingStatus.PENDING_CONFIRMATION,
     BookingStatus.CONFIRMED,
     BookingStatus.CANCELLED,
   ],
-  [BookingStatus.IN_PROGRESS]: [BookingStatus.COMPLETED],
+  [BookingStatus.IN_PROGRESS]: [
+    BookingStatus.IN_PROGRESS,
+    BookingStatus.COMPLETED,
+  ],
   [BookingStatus.CONFIRMED]: [
+    BookingStatus.CONFIRMED,
     BookingStatus.IN_PROGRESS,
     BookingStatus.CANCELLED,
   ],
-  [BookingStatus.COMPLETED]: [],
-  [BookingStatus.CANCELLED]: [],
+  [BookingStatus.COMPLETED]: [BookingStatus.COMPLETED],
+  [BookingStatus.CANCELLED]: [BookingStatus.CANCELLED],
 };
 
 export function isValidBookingStatusTransition(

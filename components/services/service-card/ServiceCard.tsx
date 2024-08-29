@@ -13,6 +13,7 @@ type ServiceCardProps = {
   isSelected?: boolean;
   onSelected: () => void;
   removeSelected: () => void;
+  hidePricing?: boolean;
 };
 
 const ServiceCard: React.FC<ServiceCardProps> = ({
@@ -20,6 +21,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
   isSelected,
   onSelected,
   removeSelected,
+  hidePricing,
 }) => {
   const [open, setOpen] = useState(false);
 
@@ -63,9 +65,17 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
       <YStack p="$4" gap="$2" bg="$background">
         <XStack flex={1} gap="$4">
           <YStack gap="$2" flex={1}>
-            <Text fontSize="$b3" fontWeight="$7">
-              {data?.name}
-            </Text>
+            <YStack gap="$1">
+              <Text fontSize="$b3" fontWeight="$7">
+                {data?.name}
+              </Text>
+              <XStack columnGap="$1">
+                <Text fontSize="$c2">Estimated duration:</Text>
+                <Text fontSize="$c2" fontWeight="$6">
+                  {`${data?.baseDuration} ${data?.baseDurationUnit.toLowerCase()}`}
+                </Text>
+              </XStack>
+            </YStack>
             <TouchableOpacity onPress={handleOpen}>
               <Text lineHeight={16.8} fontSize="$c2" fontWeight="$4">
                 {data?.shortDescription} <Text color="$primary">show more</Text>
@@ -92,14 +102,16 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
         </XStack>
 
         <XStack gap="$3" jc="space-between" ai="center">
-          <XStack gap="$2" ai="flex-end">
-            <Text fontSize="$c1" fontWeight="$4">
-              Start from
-            </Text>
-            <Text fontSize="$b3" fontWeight="$7">
-              {servicePrice()}
-            </Text>
-          </XStack>
+          {!hidePricing && (
+            <XStack gap="$2" ai="flex-end">
+              <Text fontSize="$c1" fontWeight="$4">
+                Start from
+              </Text>
+              <Text fontSize="$b3" fontWeight="$7">
+                {servicePrice()}
+              </Text>
+            </XStack>
+          )}
           {isSelected ? (
             <Button type="secondaryError" onPress={() => removeSelected()}>
               Remove
@@ -133,9 +145,17 @@ const ServiceCard: React.FC<ServiceCardProps> = ({
                 </TouchableOpacity>
               </XStack>
               <YStack pt="$2" pb="$6" rowGap="$3.5">
-                <Text fontSize="$c1" fontWeight="$7">
-                  {data.name}
-                </Text>
+                <YStack gap="$1">
+                  <Text fontSize="$c1" fontWeight="$7">
+                    {data?.name}
+                  </Text>
+                  <XStack columnGap="$1">
+                    <Text fontSize="$c2">Estimated duration:</Text>
+                    <Text fontSize="$c2" fontWeight="$6">
+                      {`${data?.baseDuration} ${data?.baseDurationUnit.toLowerCase()}`}
+                    </Text>
+                  </XStack>
+                </YStack>
                 <Text whiteSpace="pre-wrap" lineHeight={16.8}>
                   {data?.longDescription}
                 </Text>

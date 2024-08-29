@@ -20,8 +20,6 @@ export const createBooking = /* GraphQL */ `mutation CreateBooking(
       customerId
       currency
       totalAmount
-      pendingRefundAmount
-      refundedAmount
       bookingIds
       paymentRequestId
       status
@@ -112,8 +110,6 @@ export const updateBooking = /* GraphQL */ `mutation UpdateBooking(
       customerId
       currency
       totalAmount
-      pendingRefundAmount
-      refundedAmount
       bookingIds
       paymentRequestId
       status
@@ -204,8 +200,6 @@ export const deleteBooking = /* GraphQL */ `mutation DeleteBooking(
       customerId
       currency
       totalAmount
-      pendingRefundAmount
-      refundedAmount
       bookingIds
       paymentRequestId
       status
@@ -520,11 +514,12 @@ export const createDisclaimer = /* GraphQL */ `mutation CreateDisclaimer(
       timeSlotIds
       bookingIds
       requiredQuestionIds
-      active
       createdAt
       updatedAt
       __typename
     }
+    header
+    subheader
     text
     s3Link
     supersededBy {
@@ -533,6 +528,8 @@ export const createDisclaimer = /* GraphQL */ `mutation CreateDisclaimer(
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -592,11 +589,12 @@ export const updateDisclaimer = /* GraphQL */ `mutation UpdateDisclaimer(
       timeSlotIds
       bookingIds
       requiredQuestionIds
-      active
       createdAt
       updatedAt
       __typename
     }
+    header
+    subheader
     text
     s3Link
     supersededBy {
@@ -605,6 +603,8 @@ export const updateDisclaimer = /* GraphQL */ `mutation UpdateDisclaimer(
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -664,11 +664,12 @@ export const deleteDisclaimer = /* GraphQL */ `mutation DeleteDisclaimer(
       timeSlotIds
       bookingIds
       requiredQuestionIds
-      active
       createdAt
       updatedAt
       __typename
     }
+    header
+    subheader
     text
     s3Link
     supersededBy {
@@ -677,6 +678,8 @@ export const deleteDisclaimer = /* GraphQL */ `mutation DeleteDisclaimer(
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -721,6 +724,8 @@ export const createDisclaimerAcceptance = /* GraphQL */ `mutation CreateDisclaim
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -760,6 +765,8 @@ export const updateDisclaimerAcceptance = /* GraphQL */ `mutation UpdateDisclaim
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -799,6 +806,8 @@ export const deleteDisclaimerAcceptance = /* GraphQL */ `mutation DeleteDisclaim
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -833,8 +842,6 @@ export const createOrder = /* GraphQL */ `mutation CreateOrder(
     }
     currency
     totalAmount
-    pendingRefundAmount
-    refundedAmount
     bookingIds
     bookings {
       nextToken
@@ -869,8 +876,6 @@ export const updateOrder = /* GraphQL */ `mutation UpdateOrder(
     }
     currency
     totalAmount
-    pendingRefundAmount
-    refundedAmount
     bookingIds
     bookings {
       nextToken
@@ -905,8 +910,6 @@ export const deleteOrder = /* GraphQL */ `mutation DeleteOrder(
     }
     currency
     totalAmount
-    pendingRefundAmount
-    refundedAmount
     bookingIds
     bookings {
       nextToken
@@ -935,8 +938,6 @@ export const createPayment = /* GraphQL */ `mutation CreatePayment(
       customerId
       currency
       totalAmount
-      pendingRefundAmount
-      refundedAmount
       bookingIds
       paymentRequestId
       status
@@ -997,8 +998,6 @@ export const updatePayment = /* GraphQL */ `mutation UpdatePayment(
       customerId
       currency
       totalAmount
-      pendingRefundAmount
-      refundedAmount
       bookingIds
       paymentRequestId
       status
@@ -1059,8 +1058,6 @@ export const deletePayment = /* GraphQL */ `mutation DeletePayment(
       customerId
       currency
       totalAmount
-      pendingRefundAmount
-      refundedAmount
       bookingIds
       paymentRequestId
       status
@@ -1585,6 +1582,8 @@ export const createService = /* GraphQL */ `mutation CreateService(
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -1595,7 +1594,6 @@ export const createService = /* GraphQL */ `mutation CreateService(
     timeSlotIds
     bookingIds
     requiredQuestionIds
-    active
     createdAt
     updatedAt
     __typename
@@ -1718,6 +1716,8 @@ export const updateService = /* GraphQL */ `mutation UpdateService(
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -1728,7 +1728,6 @@ export const updateService = /* GraphQL */ `mutation UpdateService(
     timeSlotIds
     bookingIds
     requiredQuestionIds
-    active
     createdAt
     updatedAt
     __typename
@@ -1851,6 +1850,8 @@ export const deleteService = /* GraphQL */ `mutation DeleteService(
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -1861,7 +1862,6 @@ export const deleteService = /* GraphQL */ `mutation DeleteService(
     timeSlotIds
     bookingIds
     requiredQuestionIds
-    active
     createdAt
     updatedAt
     __typename

@@ -186,6 +186,26 @@ app.get("/listUsers", async (req, res, next) => {
   }
 });
 
+// Search for a user by name: GET /searchUsers?attributeName=name&attributeValue=John
+// Search for a user by phone number: GET /searchUsers?attributeName=phone_number&attributeValue=+1234567890
+app.get("/searchUsers", async (req, res, next) => {
+  if (!req.query.attributeName || !req.query.attributeValue) {
+    const err = new Error("attributeName and attributeValue are required");
+    err.statusCode = 400;
+    return next(err);
+  }
+
+  try {
+    const response = await searchUsers(
+      req.query.attributeName,
+      req.query.attributeValue
+    );
+    res.status(200).json(response);
+  } catch (err) {
+    next(err);
+  }
+});
+
 app.get("/listGroups", async (req, res, next) => {
   try {
     const limit = req.query.limit ? parseInt(req.query.limit) : 25;

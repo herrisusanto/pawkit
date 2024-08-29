@@ -17,8 +17,6 @@ export const getBooking = /* GraphQL */ `query GetBooking($customerUsername: Str
       customerId
       currency
       totalAmount
-      pendingRefundAmount
-      refundedAmount
       bookingIds
       paymentRequestId
       status
@@ -664,11 +662,12 @@ export const getDisclaimer = /* GraphQL */ `query GetDisclaimer($name: String!) 
       timeSlotIds
       bookingIds
       requiredQuestionIds
-      active
       createdAt
       updatedAt
       __typename
     }
+    header
+    subheader
     text
     s3Link
     supersededBy {
@@ -677,6 +676,8 @@ export const getDisclaimer = /* GraphQL */ `query GetDisclaimer($name: String!) 
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -718,6 +719,8 @@ export const listDisclaimers = /* GraphQL */ `query ListDisclaimers(
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -753,6 +756,8 @@ export const getDisclaimerAcceptance = /* GraphQL */ `query GetDisclaimerAccepta
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -874,8 +879,6 @@ export const getOrder = /* GraphQL */ `query GetOrder($id: ID!) {
     }
     currency
     totalAmount
-    pendingRefundAmount
-    refundedAmount
     bookingIds
     bookings {
       nextToken
@@ -908,8 +911,6 @@ export const listOrders = /* GraphQL */ `query ListOrders(
       customerId
       currency
       totalAmount
-      pendingRefundAmount
-      refundedAmount
       bookingIds
       paymentRequestId
       status
@@ -944,8 +945,6 @@ export const ordersByCustomer = /* GraphQL */ `query OrdersByCustomer(
       customerId
       currency
       totalAmount
-      pendingRefundAmount
-      refundedAmount
       bookingIds
       paymentRequestId
       status
@@ -970,8 +969,6 @@ export const getPayment = /* GraphQL */ `query GetPayment($paymentRequestId: ID!
       customerId
       currency
       totalAmount
-      pendingRefundAmount
-      refundedAmount
       bookingIds
       paymentRequestId
       status
@@ -1840,6 +1837,8 @@ export const getService = /* GraphQL */ `query GetService(
       serviceProviderName
       serviceCategory
       petType
+      header
+      subheader
       text
       s3Link
       supersessionDate
@@ -1850,7 +1849,6 @@ export const getService = /* GraphQL */ `query GetService(
     timeSlotIds
     bookingIds
     requiredQuestionIds
-    active
     createdAt
     updatedAt
     __typename
@@ -1904,7 +1902,6 @@ export const listServices = /* GraphQL */ `query ListServices(
       timeSlotIds
       bookingIds
       requiredQuestionIds
-      active
       createdAt
       updatedAt
       __typename
@@ -1959,7 +1956,6 @@ export const serviceById = /* GraphQL */ `query ServiceById(
       timeSlotIds
       bookingIds
       requiredQuestionIds
-      active
       createdAt
       updatedAt
       __typename
@@ -2014,7 +2010,6 @@ export const servicesByServiceProvider = /* GraphQL */ `query ServicesByServiceP
       timeSlotIds
       bookingIds
       requiredQuestionIds
-      active
       createdAt
       updatedAt
       __typename
@@ -2069,7 +2064,6 @@ export const servicesByCategory = /* GraphQL */ `query ServicesByCategory(
       timeSlotIds
       bookingIds
       requiredQuestionIds
-      active
       createdAt
       updatedAt
       __typename
@@ -2124,7 +2118,6 @@ export const servicesByPetType = /* GraphQL */ `query ServicesByPetType(
       timeSlotIds
       bookingIds
       requiredQuestionIds
-      active
       createdAt
       updatedAt
       __typename
@@ -2179,7 +2172,6 @@ export const servicesByPrice = /* GraphQL */ `query ServicesByPrice(
       timeSlotIds
       bookingIds
       requiredQuestionIds
-      active
       createdAt
       updatedAt
       __typename
@@ -2234,7 +2226,6 @@ export const servicesByDuration = /* GraphQL */ `query ServicesByDuration(
       timeSlotIds
       bookingIds
       requiredQuestionIds
-      active
       createdAt
       updatedAt
       __typename

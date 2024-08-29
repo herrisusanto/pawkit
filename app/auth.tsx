@@ -19,6 +19,7 @@ import { Redirect } from "expo-router";
 import { useMutation } from "@tanstack/react-query";
 import { useCurrentUser } from "@/hooks";
 import FullScreenLoadingState from "@/components/common/FullScreenLoadingState/FullScreenLoadingState";
+import PopupController from "@/components/common/GlobalPopupError/PopUpController";
 
 type SignInScreenProps = {
   onSubmit: (username: string) => void;
@@ -84,8 +85,9 @@ const AuthScreen: React.FC<SignInScreenProps> = () => {
       });
       const signUpStep = result.nextStep.signUpStep;
       setAuthState({ step: signUpStep });
+      // eslint-disable-next-line
     } catch (error) {
-      console.log(JSON.stringify(error));
+      PopupController.showGlobalPopup();
     }
   };
 

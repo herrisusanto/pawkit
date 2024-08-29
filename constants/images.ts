@@ -29,6 +29,8 @@ const defaultAvatarCircle = require("../assets/images/default-avatar-circle.png"
 const failed = require("../assets/images/failed.png");
 const serviceDefaultImage = require("../assets/images/service-default-image.png");
 const noBooking = require("../assets/images/no-booking.png");
+const defaultProfile = require("../assets/images/default-profile.png");
+const bookingConfirmed = require("../assets/images/booking-confirmed.png");
 
 export default {
   petLogin,
@@ -62,4 +64,6 @@ export default {
   failed,
   serviceDefaultImage,
   noBooking,
+  defaultProfile,
+  bookingConfirmed,
 };

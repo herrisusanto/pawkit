@@ -10,6 +10,7 @@ import { petOnboardingAtom } from "./state";
 import { useEffect } from "react";
 import { PetType } from "@/api/graphql/API";
 import { useCurrentUser } from "@/hooks";
+import PopupController from "@/components/common/GlobalPopupError/PopUpController";
 
 export default function AboutYourPet() {
   const form = useFormContext();
@@ -50,8 +51,9 @@ export default function AboutYourPet() {
         petId: petId ?? null,
         petType: PetType[values["petType"] as keyof typeof PetType],
       });
+      // eslint-disable-next-line
     } catch (error) {
-      console.log("mutationCreatepet", error);
+      PopupController.showGlobalPopup();
     }
   };
 

@@ -12,6 +12,7 @@ import { Button } from "@/components/common/Button/Button";
 import Countdown from "@/components/common/Countdown/Countdown";
 import { TouchableOpacity } from "react-native";
 import { ResendSignUpCodeOutput, SignInOutput } from "aws-amplify/auth";
+import PopupController from "@/components/common/GlobalPopupError/PopUpController";
 
 type AuthConfirmationScreenProps = {
   onSubmit: SubmitHandler<FieldValues>;
@@ -36,8 +37,9 @@ const AuthConfirmationScreen: FC<AuthConfirmationScreenProps> = ({
         setTimeout(false);
         setTimer(60 * 2);
       }
+      // eslint-disable-next-line
     } catch (error) {
-      console.log(error);
+      PopupController.showGlobalPopup();
     }
   };
 

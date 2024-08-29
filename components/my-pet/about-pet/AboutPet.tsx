@@ -20,6 +20,7 @@ import { removePet } from "@/api/pet";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Pet } from "@/api/graphql/API";
 import moment from "moment";
+import PopupController from "@/components/common/GlobalPopupError/PopUpController";
 
 type AboutPetProps = {
   data?: Pet;
@@ -60,8 +61,9 @@ const AboutPet: React.FC<AboutPetProps> = ({ data }) => {
         id: (data?.id as string) ?? "",
       });
       router.canGoBack() && router.back();
+      // eslint-disable-next-line
     } catch (error) {
-      console.log(error);
+      PopupController.showGlobalPopup();
     }
   };
 
