@@ -106,7 +106,7 @@ const serviceList = [
       <MedicalSittingIcon strokeColor={strokeColor} fillColor={fillColor} />
     ),
     routePath: "/services/medical-sitting",
-    available: true,
+    available: false,
   },
   {
     id: 11,
@@ -115,7 +115,7 @@ const serviceList = [
       <HospiceCareIcon strokeColor={strokeColor} fillColor={fillColor} />
     ),
     routePath: "/services/hospice-care",
-    available: true,
+    available: false,
   },
 ];
 

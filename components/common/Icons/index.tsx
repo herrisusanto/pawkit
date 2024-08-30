@@ -40,6 +40,8 @@ import { PetTransportIcon } from "./PetTransportIcon";
 import { PetSittingIcon } from "./PetSittingIcon";
 import { MicrochippingIcon } from "./MicrochippingIcon";
 import { DogWalkingIcon } from "./DogWalkingIcon";
+import { TypeHamsterIcon } from "./TypeHamsterIcon";
+import { TypeGuineaPigIcon } from "./TypeGuineaPigIcon";
 
 export {
   MaleIcon,
@@ -84,6 +86,8 @@ export {
   PetSittingIcon,
   MicrochippingIcon,
   DogWalkingIcon,
+  TypeHamsterIcon,
+  TypeGuineaPigIcon,
 };
 
 export type IconProps = {

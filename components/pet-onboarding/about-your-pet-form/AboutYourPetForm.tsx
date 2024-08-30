@@ -4,11 +4,14 @@ import {
   CheckButtonGroup,
   CheckButtonProps,
 } from "@/components/common/CheckButtonGroup/CheckButtonGroup";
-import { MaleIcon, FemaleIcon } from "@/components/common/Icons";
-import { TypeBirdIcon } from "@/components/common/Icons/TypeBirdIcon";
+import {
+  MaleIcon,
+  FemaleIcon,
+  TypeGuineaPigIcon,
+} from "@/components/common/Icons";
 import { TypeCatIcon } from "@/components/common/Icons/TypeCatIcon";
 import { TypeDogIcon } from "@/components/common/Icons/TypeDogIcon";
-import { TypeGuineaPigIcon } from "@/components/common/Icons/TypeGuineaPigIcon";
+import { TypeHamsterIcon } from "@/components/common/Icons/TypeHamsterIcon";
 import { TypeRabbitIcon } from "@/components/common/Icons/TypeRabbitIcon";
 import { TypeTurtleIcon } from "@/components/common/Icons/TypeTurtleIcon";
 import { Input } from "@/components/common/Input/Input";
@@ -93,8 +96,8 @@ export const AboutYourPetForm: React.FC<AboutYourPetFormProps> = ({
       available: true,
     },
     {
-      petIcon: (strokeColor) => <TypeBirdIcon strokeColor={strokeColor} />,
-      value: PetType.BIRD,
+      petIcon: (strokeColor) => <TypeHamsterIcon strokeColor={strokeColor} />,
+      value: PetType.HAMSTER,
       available: false,
     },
     {
@@ -117,6 +120,21 @@ export const AboutYourPetForm: React.FC<AboutYourPetFormProps> = ({
       setPetImageUrl(petImage.href);
     }
   }, [petImage]);
+
+  const formatData = (data: CheckButtonProps[], numColumns: number) => {
+    const numberOfFullRows = Math.floor(data.length / numColumns);
+
+    let numberOfElementsLastRow = data.length - numberOfFullRows * numColumns;
+    while (
+      numberOfElementsLastRow !== numColumns &&
+      numberOfElementsLastRow !== 0
+    ) {
+      data.push({ value: `blank-${numberOfElementsLastRow}` });
+      numberOfElementsLastRow++;
+    }
+
+    return data;
+  };
 
   return (
     <>
@@ -194,11 +212,21 @@ export const AboutYourPetForm: React.FC<AboutYourPetFormProps> = ({
           multiple={false}
           control={control}
           name="petType"
-          items={petTypes}
+          items={formatData(petTypes, 3)}
           rules={{ required: "Pet type is required" }}
           renderItem={({ value, onChange, checked, petIcon, available }) => {
             const itemWidth = width - 48;
             const size = itemWidth / 3;
+            if (value.includes("blank")) {
+              return (
+                <View
+                  w={size - 13}
+                  h={size - 13}
+                  bg="transparent"
+                  flexGrow={1}
+                />
+              );
+            }
             return (
               <View
                 key={value}
