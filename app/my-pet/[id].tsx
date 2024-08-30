@@ -1,5 +1,6 @@
 import { Pet } from "@/api/graphql/API";
 import { downloadPetImage, fetchPet } from "@/api/pet";
+import { Avatar } from "@/components/common/Avatar";
 import { Button } from "@/components/common/Button/Button";
 import { Header } from "@/components/common/Header/Header";
 import { DefaultAvatarIcon } from "@/components/common/Icons";
@@ -10,7 +11,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Stack, useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import { LogBox } from "react-native";
-import { Avatar, ScrollView, Spinner, View, styled } from "tamagui";
+import { ScrollView, View, styled } from "tamagui";
 
 function MyAccount() {
   LogBox.ignoreLogs(["??"]);
@@ -46,21 +47,12 @@ function MyAccount() {
             <View position="relative">
               <Avatar
                 circular
+                src={petImage?.href}
+                loading={isLoadingImage}
+                accessibilityLabel={pet?.name}
+                defaultSource={petDefaultAvatar(pet?.petType)}
                 size="$8"
-                height={60}
-                width={60}
-                backgroundColor="$white"
-              >
-                {isLoadingImage ? (
-                  <Spinner size="small" color="$accent3" />
-                ) : (
-                  <Avatar.Image
-                    accessibilityLabel="Cam"
-                    src={petImage?.href ?? petDefaultAvatar(pet?.petType)}
-                  />
-                )}
-                <Avatar.Fallback backgroundColor="$blue10" />
-              </Avatar>
+              />
             </View>
           </>
         ) : (

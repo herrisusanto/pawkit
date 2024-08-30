@@ -1,5 +1,5 @@
 import React, { FC } from "react";
-import { Avatar, styled, View, XStack, YStack, Text, getToken } from "tamagui";
+import { styled, View, XStack, YStack, Text, getToken } from "tamagui";
 import { router } from "expo-router";
 import { useQuery } from "@tanstack/react-query";
 
@@ -8,6 +8,7 @@ import { ArrowRightIcon } from "../../common/Icons/ArrowRightIcon";
 import { Pet } from "@/api/graphql/API";
 import { useCurrentUser } from "@/hooks";
 import { downloadPetImage } from "@/api/pet";
+import { Avatar } from "@/components/common/Avatar";
 
 type PetListViewProps = {
   pet?: Pet;
@@ -15,7 +16,7 @@ type PetListViewProps = {
 
 const PetListView: FC<PetListViewProps> = ({ pet }) => {
   const { data: user } = useCurrentUser();
-  const { data: petImage } = useQuery({
+  const { data: petImage, isFetching: petImageLoading } = useQuery({
     queryKey: ["pet-image", user?.userId, pet?.id],
     queryFn: () => downloadPetImage(user?.userId as string, pet?.id as string),
     enabled: !!user && !!pet,
@@ -27,14 +28,14 @@ const PetListView: FC<PetListViewProps> = ({ pet }) => {
       m="$2"
     >
       <XStack gap="$3" alignItems="center">
-        <Avatar circular size="$4">
-          <Avatar.Image
-            accessibilityLabel="Cam"
-            src={petImage?.href ?? petDefaultAvatar(pet?.petType)}
-          />
-          <Avatar.Fallback backgroundColor="$blue10" />
-        </Avatar>
-
+        <Avatar
+          circular
+          size="$4"
+          loading={petImageLoading}
+          accessibilityLabel={pet?.name}
+          src={petImage?.href}
+          defaultSource={petDefaultAvatar(pet?.petType)}
+        />
         <YStack>
           <Text fontSize="$b3" fontWeight="$5">
             {pet?.name}
