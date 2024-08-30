@@ -36,6 +36,10 @@ import { CircleDotIcon } from "./CircleDotIcon";
 import { DashedDividerIcon } from "./DashedDividerIcon";
 import { AboutUsIcon } from "./AboutUsIcon";
 import { TermsAndConditionsIcon } from "./TermsAndConditionsIcon";
+import { PetTransportIcon } from "./PetTransportIcon";
+import { PetSittingIcon } from "./PetSittingIcon";
+import { MicrochippingIcon } from "./MicrochippingIcon";
+import { DogWalkingIcon } from "./DogWalkingIcon";
 
 export {
   MaleIcon,
@@ -76,6 +80,10 @@ export {
   DashedDividerIcon,
   AboutUsIcon,
   TermsAndConditionsIcon,
+  PetTransportIcon,
+  PetSittingIcon,
+  MicrochippingIcon,
+  DogWalkingIcon,
 };
 
 export type IconProps = {

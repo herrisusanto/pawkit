@@ -22,15 +22,15 @@ import { fetchPetsByCustomer } from "@/api/pet";
 import { fetchServices } from "@/api/service-booking";
 import { Pet, Service, ServiceCategory } from "@/api/graphql/API";
 import { useAtom } from "jotai";
-import { selectedMedicalSittingServicesAtom } from "@/atoms/services/selected-medical-sitting-services.atom";
+import { selectedPetTransportServicesAtom } from "@/atoms/services/selected-pet-transport-services.atom";
 import { SelectedPetServiceType } from "@/types/services/selected-pet-service.type";
 import { PriceDetailsSheet } from "@/components/price-details-sheet/PriceDetailsSheet";
 
-const MedicalSittingScreen = () => {
+const PetTransportScreen = () => {
   const pathname = usePathname();
   const [selectedPetId, setSelectedPetId] = useState<string>();
   const [selectedPetsService, setSelectedPetsService] = useAtom(
-    selectedMedicalSittingServicesAtom
+    selectedPetTransportServicesAtom
   );
   const { data: user } = useCurrentUser();
   const { data: pets } = useQuery({
@@ -242,7 +242,7 @@ const MedicalSittingScreen = () => {
           <Stack.Screen
             options={{
               header() {
-                return <Header title="Select Medical Sitting" />;
+                return <Header title="Select Pet Transport" />;
               },
             }}
           />
@@ -272,7 +272,7 @@ const MedicalSittingScreen = () => {
         </YStack>
       </ScrollView>
       <PriceDetailsSheet
-        serviceName="Medical Sitting"
+        serviceName="Pet Transport"
         onOk={handleOk}
         disabled={selectedPetsService.length === 0}
       />
@@ -286,4 +286,4 @@ const SelectedPetWrapper = styled(View, {
   gap: "$3",
 });
 
-export default MedicalSittingScreen;
+export default PetTransportScreen;

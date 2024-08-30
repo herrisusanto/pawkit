@@ -1,5 +1,5 @@
 import { selectedGroomingServicesAtom } from "@/atoms/services/selected-grooming-services.atom";
-import { selectedSittingServicesAtom } from "@/atoms/services/selected-sitting-services.atom";
+import { selectedSittingServicesAtom } from "@/atoms/services/selected-pet-sitting-services.atom";
 import { selectedVaccinationServicesAtom } from "@/atoms/services/selected-vaccination-services.atom";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { fetchUserAttributes, getCurrentUser } from "aws-amplify/auth";

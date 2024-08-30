@@ -22,15 +22,15 @@ import { fetchPetsByCustomer } from "@/api/pet";
 import { fetchServices } from "@/api/service-booking";
 import { Pet, Service, ServiceCategory } from "@/api/graphql/API";
 import { useAtom } from "jotai";
-import { selectedMedicalSittingServicesAtom } from "@/atoms/services/selected-medical-sitting-services.atom";
+import { selectedPetSittingServicesAtom } from "@/atoms/services/selected-pet-sitting-services.atom";
 import { SelectedPetServiceType } from "@/types/services/selected-pet-service.type";
 import { PriceDetailsSheet } from "@/components/price-details-sheet/PriceDetailsSheet";
 
-const MedicalSittingScreen = () => {
+const PetSittingScreen = () => {
   const pathname = usePathname();
   const [selectedPetId, setSelectedPetId] = useState<string>();
   const [selectedPetsService, setSelectedPetsService] = useAtom(
-    selectedMedicalSittingServicesAtom
+    selectedPetSittingServicesAtom
   );
   const { data: user } = useCurrentUser();
   const { data: pets } = useQuery({
@@ -45,13 +45,13 @@ const MedicalSittingScreen = () => {
     queryKey: [
       "services",
       user?.userId,
-      ServiceCategory.MEDICAL_SITTING,
+      ServiceCategory.GROOMING,
       selectedPet?.petType,
     ],
     queryFn: () =>
       fetchServices({
         filter: {
-          serviceCategory: { eq: ServiceCategory.MEDICAL_SITTING },
+          serviceCategory: { eq: ServiceCategory.GROOMING },
           petType: { eq: selectedPet?.petType },
           defaultDisplay: { eq: true },
         },
@@ -68,13 +68,13 @@ const MedicalSittingScreen = () => {
     queryKey: [
       "addons",
       user?.userId,
-      ServiceCategory.MEDICAL_SITTING,
+      ServiceCategory.GROOMING,
       selectedPet?.petType,
     ],
     queryFn: () =>
       fetchServices({
         filter: {
-          serviceCategory: { eq: ServiceCategory.MEDICAL_SITTING },
+          serviceCategory: { eq: ServiceCategory.GROOMING },
           petType: { eq: selectedPet?.petType },
           parentServiceIds: { attributeExists: true },
         },
@@ -87,8 +87,8 @@ const MedicalSittingScreen = () => {
     },
     enabled: !!selectedPet,
   });
-  const services = servicesData as Service[];
-  const addons = addonsData as Service[];
+  const services: Service[] | undefined = servicesData;
+  const addons: Service[] | undefined = addonsData;
   const selectedService = useMemo(() => {
     const selectedPetService = selectedPetsService.find(
       (petService) => petService.petId === selectedPetId
@@ -202,7 +202,7 @@ const MedicalSittingScreen = () => {
   };
 
   const handleOk = () => {
-    router.push("/service-booking/medical-sitting/enter-details");
+    router.push("/service-booking/vet-consult/enter-details");
   };
 
   useEffect(() => {
@@ -242,7 +242,7 @@ const MedicalSittingScreen = () => {
           <Stack.Screen
             options={{
               header() {
-                return <Header title="Select Medical Sitting" />;
+                return <Header title="Select Pet Sitting" />;
               },
             }}
           />
@@ -272,13 +272,14 @@ const MedicalSittingScreen = () => {
         </YStack>
       </ScrollView>
       <PriceDetailsSheet
-        serviceName="Medical Sitting"
+        serviceName="Pet Sitting"
         onOk={handleOk}
         disabled={selectedPetsService.length === 0}
       />
     </View>
   );
 };
+
 const SelectedPetWrapper = styled(View, {
   px: "$4",
   py: "$3",
@@ -286,4 +287,4 @@ const SelectedPetWrapper = styled(View, {
   gap: "$3",
 });
 
-export default MedicalSittingScreen;
+export default PetSittingScreen;
