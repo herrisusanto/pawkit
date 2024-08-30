@@ -25,6 +25,7 @@ import { useAtom } from "jotai";
 import { selectedGroomingServicesAtom } from "@/atoms/services/selected-grooming-services.atom";
 import { SelectedPetServiceType } from "@/types/services/selected-pet-service.type";
 import { PriceDetailsSheet } from "@/components/price-details-sheet/PriceDetailsSheet";
+import { DisclaimerByServiceIdSheet } from "@/components/disclaimer/DisclaimerByServiceSheet";
 
 const GroomingScreen = () => {
   const pathname = usePathname();
@@ -87,8 +88,8 @@ const GroomingScreen = () => {
     },
     enabled: !!selectedPet,
   });
-  const services: Service[] = servicesData;
-  const addons: Service[] = addonsData;
+  const services: Service[] | undefined = servicesData;
+  const addons: Service[] | undefined = addonsData;
   const selectedService = useMemo(() => {
     const selectedPetService = selectedPetsService.find(
       (petService) => petService.petId === selectedPetId
@@ -276,6 +277,15 @@ const GroomingScreen = () => {
         onOk={handleOk}
         disabled={selectedPetsService.length === 0}
       />
+
+      {selectedPetsService.length > 0 && (
+        <DisclaimerByServiceIdSheet
+          serviceId={
+            selectedPetsService[selectedPetsService.length - 1]
+              .serviceId as string
+          }
+        />
+      )}
     </View>
   );
 };

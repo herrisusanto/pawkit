@@ -16,7 +16,13 @@ export const AvatarPicker = StyledView.styleable<AvatarPickerProps>(
   ({ avatarProps, source, onImagePicker, ...props }, ref) => {
     return (
       <StyledView ref={ref} {...props} onPress={onImagePicker}>
-        <Avatar circular size={100} src={source} {...avatarProps} />
+        <Avatar
+          circular
+          size={100}
+          src={source}
+          accessibilityLabel="Avatar"
+          {...avatarProps}
+        />
         <View
           position="absolute"
           bottom={0}
