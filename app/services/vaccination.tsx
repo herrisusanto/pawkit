@@ -25,6 +25,7 @@ import { useAtom } from "jotai";
 import { selectedVaccinationServicesAtom } from "@/atoms/services/selected-vaccination-services.atom";
 import { SelectedPetServiceType } from "@/types/services/selected-pet-service.type";
 import { PriceDetailsSheet } from "@/components/price-details-sheet/PriceDetailsSheet";
+import { DisclaimerByServiceIdSheet } from "@/components/disclaimer/DisclaimerByServiceSheet";
 
 const VaccinationScreen = () => {
   const pathname = usePathname();
@@ -270,6 +271,14 @@ const VaccinationScreen = () => {
         onOk={handleOk}
         disabled={selectedPetsService.length === 0}
       />
+      {selectedPetsService.length > 0 && (
+        <DisclaimerByServiceIdSheet
+          serviceId={
+            selectedPetsService[selectedPetsService.length - 1]
+              .serviceId as string
+          }
+        />
+      )}
     </View>
   );
 };

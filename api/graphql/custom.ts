@@ -510,6 +510,17 @@ export const customServiceById = /* GraphQL */ `
         parentServiceIds
         childServiceIds
         disclaimerName
+        disclaimer {
+          name
+          serviceName
+          serviceProviderName
+          serviceCategory
+          petType 
+          header
+          subheader
+          text
+          s3Link 
+        }
         timeSlotIds
         bookingIds
         requiredQuestionIds

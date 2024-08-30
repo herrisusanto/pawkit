@@ -25,6 +25,7 @@ import { useAtom } from "jotai";
 import { selectedMedicalSittingServicesAtom } from "@/atoms/services/selected-medical-sitting-services.atom";
 import { SelectedPetServiceType } from "@/types/services/selected-pet-service.type";
 import { PriceDetailsSheet } from "@/components/price-details-sheet/PriceDetailsSheet";
+import { DisclaimerByServiceIdSheet } from "@/components/disclaimer/DisclaimerByServiceSheet";
 
 const MedicalSittingScreen = () => {
   const pathname = usePathname();
@@ -276,6 +277,14 @@ const MedicalSittingScreen = () => {
         onOk={handleOk}
         disabled={selectedPetsService.length === 0}
       />
+      {selectedPetsService.length > 0 && (
+        <DisclaimerByServiceIdSheet
+          serviceId={
+            selectedPetsService[selectedPetsService.length - 1]
+              .serviceId as string
+          }
+        />
+      )}
     </View>
   );
 };

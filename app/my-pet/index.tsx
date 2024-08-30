@@ -26,7 +26,7 @@ function MyPet() {
       paddingHorizontal="$4"
     >
       <ScrollView showsVerticalScrollIndicator={false}>
-        {pets?.map((item) => <PetListView pet={item as Pet} />)}
+        {pets?.map((item) => <PetListView key={item.id} pet={item as Pet} />)}
       </ScrollView>
       <Link href="/pet-onboarding/about-your-pet" asChild>
         <Button type="primary" marginBottom={50}>
