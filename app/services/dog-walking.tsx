@@ -45,13 +45,13 @@ const DogWalkingScreen = () => {
     queryKey: [
       "services",
       user?.userId,
-      ServiceCategory.MEDICAL_SITTING,
+      ServiceCategory.DOG_WALKING,
       selectedPet?.petType,
     ],
     queryFn: () =>
       fetchServices({
         filter: {
-          serviceCategory: { eq: ServiceCategory.MEDICAL_SITTING },
+          serviceCategory: { eq: ServiceCategory.DOG_WALKING },
           petType: { eq: selectedPet?.petType },
           defaultDisplay: { eq: true },
         },
@@ -68,13 +68,13 @@ const DogWalkingScreen = () => {
     queryKey: [
       "addons",
       user?.userId,
-      ServiceCategory.MEDICAL_SITTING,
+      ServiceCategory.DOG_WALKING,
       selectedPet?.petType,
     ],
     queryFn: () =>
       fetchServices({
         filter: {
-          serviceCategory: { eq: ServiceCategory.MEDICAL_SITTING },
+          serviceCategory: { eq: ServiceCategory.DOG_WALKING },
           petType: { eq: selectedPet?.petType },
           parentServiceIds: { attributeExists: true },
         },

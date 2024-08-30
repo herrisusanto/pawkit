@@ -45,13 +45,13 @@ const WellnessScreen = () => {
     queryKey: [
       "services",
       user?.userId,
-      ServiceCategory.GROOMING,
+      ServiceCategory.WELLNESS,
       selectedPet?.petType,
     ],
     queryFn: () =>
       fetchServices({
         filter: {
-          serviceCategory: { eq: ServiceCategory.GROOMING },
+          serviceCategory: { eq: ServiceCategory.WELLNESS },
           petType: { eq: selectedPet?.petType },
           defaultDisplay: { eq: true },
         },
@@ -68,13 +68,13 @@ const WellnessScreen = () => {
     queryKey: [
       "addons",
       user?.userId,
-      ServiceCategory.GROOMING,
+      ServiceCategory.WELLNESS,
       selectedPet?.petType,
     ],
     queryFn: () =>
       fetchServices({
         filter: {
-          serviceCategory: { eq: ServiceCategory.GROOMING },
+          serviceCategory: { eq: ServiceCategory.WELLNESS },
           petType: { eq: selectedPet?.petType },
           parentServiceIds: { attributeExists: true },
         },

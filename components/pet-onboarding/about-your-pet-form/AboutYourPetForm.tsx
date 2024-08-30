@@ -217,7 +217,7 @@ export const AboutYourPetForm: React.FC<AboutYourPetFormProps> = ({
           renderItem={({ value, onChange, checked, petIcon, available }) => {
             const itemWidth = width - 48;
             const size = itemWidth / 3;
-            if (value.includes("blank")) {
+            if (value && value.includes("blank")) {
               return (
                 <View
                   w={size - 13}

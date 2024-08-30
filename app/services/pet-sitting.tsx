@@ -25,6 +25,7 @@ import { useAtom } from "jotai";
 import { selectedPetSittingServicesAtom } from "@/atoms/services/selected-pet-sitting-services.atom";
 import { SelectedPetServiceType } from "@/types/services/selected-pet-service.type";
 import { PriceDetailsSheet } from "@/components/price-details-sheet/PriceDetailsSheet";
+import { DisclaimerByServiceIdSheet } from "@/components/disclaimer/DisclaimerByServiceSheet";
 
 const PetSittingScreen = () => {
   const pathname = usePathname();
@@ -45,13 +46,13 @@ const PetSittingScreen = () => {
     queryKey: [
       "services",
       user?.userId,
-      ServiceCategory.GROOMING,
+      ServiceCategory.PET_SITTING,
       selectedPet?.petType,
     ],
     queryFn: () =>
       fetchServices({
         filter: {
-          serviceCategory: { eq: ServiceCategory.GROOMING },
+          serviceCategory: { eq: ServiceCategory.PET_SITTING },
           petType: { eq: selectedPet?.petType },
           defaultDisplay: { eq: true },
         },
@@ -68,13 +69,13 @@ const PetSittingScreen = () => {
     queryKey: [
       "addons",
       user?.userId,
-      ServiceCategory.GROOMING,
+      ServiceCategory.PET_SITTING,
       selectedPet?.petType,
     ],
     queryFn: () =>
       fetchServices({
         filter: {
-          serviceCategory: { eq: ServiceCategory.GROOMING },
+          serviceCategory: { eq: ServiceCategory.PET_SITTING },
           petType: { eq: selectedPet?.petType },
           parentServiceIds: { attributeExists: true },
         },
@@ -87,8 +88,8 @@ const PetSittingScreen = () => {
     },
     enabled: !!selectedPet,
   });
-  const services: Service[] | undefined = servicesData;
-  const addons: Service[] | undefined = addonsData;
+  const services = servicesData as Service[];
+  const addons = addonsData as Service[];
   const selectedService = useMemo(() => {
     const selectedPetService = selectedPetsService.find(
       (petService) => petService.petId === selectedPetId
@@ -202,7 +203,7 @@ const PetSittingScreen = () => {
   };
 
   const handleOk = () => {
-    router.push("/service-booking/vet-consult/enter-details");
+    router.push("/service-booking/pet-sitting/enter-details");
   };
 
   useEffect(() => {
@@ -272,10 +273,18 @@ const PetSittingScreen = () => {
         </YStack>
       </ScrollView>
       <PriceDetailsSheet
-        serviceName="Pet Sitting"
+        serviceName="pet-sitting"
         onOk={handleOk}
         disabled={selectedPetsService.length === 0}
       />
+      {selectedPetsService.length > 0 && (
+        <DisclaimerByServiceIdSheet
+          serviceId={
+            selectedPetsService[selectedPetsService.length - 1]
+              .serviceId as string
+          }
+        />
+      )}
     </View>
   );
 };

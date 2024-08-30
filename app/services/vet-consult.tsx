@@ -45,13 +45,13 @@ const VetConsultScreen = () => {
     queryKey: [
       "services",
       user?.userId,
-      ServiceCategory.GROOMING,
+      ServiceCategory.VET_CONSULT,
       selectedPet?.petType,
     ],
     queryFn: () =>
       fetchServices({
         filter: {
-          serviceCategory: { eq: ServiceCategory.GROOMING },
+          serviceCategory: { eq: ServiceCategory.VET_CONSULT },
           petType: { eq: selectedPet?.petType },
           defaultDisplay: { eq: true },
         },
@@ -74,7 +74,7 @@ const VetConsultScreen = () => {
     queryFn: () =>
       fetchServices({
         filter: {
-          serviceCategory: { eq: ServiceCategory.GROOMING },
+          serviceCategory: { eq: ServiceCategory.VET_CONSULT },
           petType: { eq: selectedPet?.petType },
           parentServiceIds: { attributeExists: true },
         },

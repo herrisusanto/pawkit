@@ -45,13 +45,13 @@ const MicrochippingScreen = () => {
     queryKey: [
       "services",
       user?.userId,
-      ServiceCategory.MEDICAL_SITTING,
+      ServiceCategory.MICROCHIPPING,
       selectedPet?.petType,
     ],
     queryFn: () =>
       fetchServices({
         filter: {
-          serviceCategory: { eq: ServiceCategory.MEDICAL_SITTING },
+          serviceCategory: { eq: ServiceCategory.MICROCHIPPING },
           petType: { eq: selectedPet?.petType },
           defaultDisplay: { eq: true },
         },
@@ -68,13 +68,13 @@ const MicrochippingScreen = () => {
     queryKey: [
       "addons",
       user?.userId,
-      ServiceCategory.MEDICAL_SITTING,
+      ServiceCategory.MICROCHIPPING,
       selectedPet?.petType,
     ],
     queryFn: () =>
       fetchServices({
         filter: {
-          serviceCategory: { eq: ServiceCategory.MEDICAL_SITTING },
+          serviceCategory: { eq: ServiceCategory.MICROCHIPPING },
           petType: { eq: selectedPet?.petType },
           parentServiceIds: { attributeExists: true },
         },
