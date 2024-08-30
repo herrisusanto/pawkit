@@ -462,7 +462,12 @@ enum QuestionType {
 enum ServiceCategory {
   VACCINATION
   GROOMING
-  MEDICAL_SITTING
+  NURSING
+  VET_CONSULT
+  WELLNESS
+  PET_SITTING
+  TRANSPORT
+  MICROCHIPPING
 }
 
 enum TimeUnit {
