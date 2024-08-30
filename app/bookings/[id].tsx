@@ -13,11 +13,12 @@ import { useQuery } from "@tanstack/react-query";
 import { useLocalSearchParams } from "expo-router";
 import moment from "moment";
 import * as Linking from "expo-linking";
-import { Avatar, Text, XStack, YStack, getToken } from "tamagui";
+import { Text, XStack, YStack, getToken } from "tamagui";
 import { fetchPayment } from "@/api/payment";
 import { Booking, Pet } from "@/api/graphql/API";
 import { fetchOrder } from "@/api/order";
 import { downloadPetImage } from "@/api/pet";
+import { Avatar } from "@/components/common/Avatar";
 
 const BookingDetails = () => {
   const { data: user } = useCurrentUser();
@@ -210,7 +211,7 @@ const PetCard = XStack.styleable<PetCardProps>(({ pet, ...props }, ref) => {
   const { data: user } = useCurrentUser();
   const petId = pet.s3ImageKey?.split("/")[2];
 
-  const { data: petImage } = useQuery({
+  const { data: petImage, isFetching: petImageLoading } = useQuery({
     queryKey: ["pet-image", user?.userId, pet?.id],
     queryFn: () => downloadPetImage(user?.userId as string, petId as string),
     enabled: !!user && !!pet,
@@ -218,13 +219,13 @@ const PetCard = XStack.styleable<PetCardProps>(({ pet, ...props }, ref) => {
 
   return (
     <XStack key={pet?.name} columnGap={8} ai="center">
-      <Avatar size={35} circular>
-        <Avatar.Image
-          src={petImage?.href ?? petDefaultAvatar(pet?.petType)}
-          resizeMode="cover"
-          bg="$primary"
-        />
-      </Avatar>
+      <Avatar
+        size={35}
+        circular
+        src={petImage?.href}
+        defaultSource={petDefaultAvatar(pet?.petType)}
+        loading={petImageLoading}
+      />
       <YStack>
         <Text fontSize="$c1" fontWeight="$5">
           {pet?.name}

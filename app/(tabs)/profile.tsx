@@ -16,7 +16,6 @@ import React, { useState } from "react";
 import { LogBox } from "react-native";
 import {
   AlertDialog,
-  Avatar,
   Image,
   Separator,
   Text,
@@ -34,6 +33,7 @@ import { Phone } from "@tamagui/lucide-icons";
 import { disableUser } from "@/api/admin";
 import { useMutation } from "@tanstack/react-query";
 import PopupController from "@/components/common/GlobalPopupError/PopUpController";
+import { Avatar } from "@/components/common/Avatar";
 
 function Profile() {
   LogBox.ignoreLogs(["??"]);
@@ -132,13 +132,15 @@ function Profile() {
             {isUserCreated ? (
               <>
                 <XStack width="100%" gap="$3">
-                  <Avatar circular size="$5" height={60} width={60}>
-                    <Avatar.Image
-                      accessibilityLabel="Cam"
-                      src={userAttributes?.picture ?? images.defaultProfile}
-                    />
-                    <Avatar.Fallback backgroundColor="$blue10" />
-                  </Avatar>
+                  <Avatar
+                    circular
+                    size="$5"
+                    height={60}
+                    width={60}
+                    accessibilityLabel={userAttributes?.name}
+                    src={userAttributes?.picture}
+                    defaultSource={images.defaultProfile}
+                  />
                   <YStack gap="$2">
                     <Text fontWeight="$7">{userAttributes?.name}</Text>
                     <XStack columnGap="$2" alignItems="center">

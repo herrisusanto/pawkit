@@ -1,4 +1,4 @@
-import { Avatar, Image, Spinner, Text, View, XStack, YStack } from "tamagui";
+import { Image, Spinner, Text, View, XStack, YStack } from "tamagui";
 import moment from "moment";
 import { useQuery } from "@tanstack/react-query";
 import { Link } from "expo-router";
@@ -11,6 +11,7 @@ import { ListSlider } from "@/components/common/ListSlider/ListSlider";
 import BookingCard from "@/components/bookings/booking-card/BookingCard";
 import { images } from "@/constants";
 import { useCurrentUser } from "@/hooks";
+import { Avatar } from "@/components/common/Avatar";
 
 export const UpcomingBooking = () => {
   const { data: user } = useCurrentUser();
@@ -221,7 +222,7 @@ const PetCard = XStack.styleable<PetCardProps>(
   ({ petBooking, ...props }, ref) => {
     const { data: user } = useCurrentUser();
 
-    const { data: petImage } = useQuery({
+    const { data: petImage, isFetching: petImageLoading } = useQuery({
       queryKey: ["pet-image", user?.userId, petBooking?.petId],
       queryFn: () =>
         downloadPetImage(user?.userId as string, petBooking?.petId as string),
@@ -240,13 +241,15 @@ const PetCard = XStack.styleable<PetCardProps>(
       ?.slice(0, 1);
     return (
       <XStack key={props?.id} columnGap={8} px="$5" ai="center">
-        <Avatar size={35} circular>
-          <Avatar.Image
-            src={petImage?.href ?? petDefaultAvatar(petBooking?.pet.petType)}
-            resizeMode="cover"
-            bg="$primary"
-          />
-        </Avatar>
+        <Avatar
+          circular
+          src={petImage?.href}
+          borderColor="$primary"
+          loading={petImageLoading}
+          size={35}
+          accessibilityLabel={petBooking?.pet?.name}
+          defaultSource={petDefaultAvatar(petBooking?.pet?.petType)}
+        />
         <YStack>
           <Text fontSize="$c1" fontWeight="$5">
             {petBooking?.pet.name}

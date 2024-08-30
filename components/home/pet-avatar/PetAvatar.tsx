@@ -1,5 +1,5 @@
 import { Dimensions } from "react-native";
-import { Text, Avatar, YStack } from "tamagui";
+import { Text, YStack } from "tamagui";
 import moment from "moment";
 import { useQuery } from "@tanstack/react-query";
 
@@ -7,6 +7,7 @@ import { Pet } from "@/api/graphql/API";
 import { downloadPetImage } from "@/api/pet";
 import { petDefaultAvatar } from "@/components/my-pet/pet-default-avatar/petDefaultAvatar";
 import { useCurrentUser } from "@/hooks";
+import { Avatar } from "@/components/common/Avatar";
 
 const { width } = Dimensions.get("screen");
 
@@ -26,7 +27,7 @@ export const PetAvatar = YStack.styleable<{ data: Pet }>(
       .split(".")[1]
       ?.slice(0, 1);
 
-    const { data: petImage } = useQuery({
+    const { data: petImage, isFetching: isImageLoading } = useQuery({
       queryKey: ["pet-image", user?.userId, data?.id],
       queryFn: () =>
         downloadPetImage(user?.userId as string, data?.id as string),
@@ -42,14 +43,14 @@ export const PetAvatar = YStack.styleable<{ data: Pet }>(
         rowGap="$2"
         {...props}
       >
-        <Avatar circular size={containerWidth / 4}>
-          <Avatar.Image
-            accessibilityLabel="Cam"
-            src={petImage?.href ?? petDefaultAvatar(data?.petType)}
-            resizeMode="cover"
-          />
-          <Avatar.Fallback backgroundColor="$blue10" />
-        </Avatar>
+        <Avatar
+          circular
+          src={petImage?.href}
+          loading={isImageLoading}
+          accessibilityLabel={data?.name}
+          defaultSource={petDefaultAvatar(data?.petType)}
+          size={containerWidth / 4}
+        />
         <YStack>
           <Text
             fontSize="$c1"

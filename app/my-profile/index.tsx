@@ -1,3 +1,4 @@
+import { Avatar } from "@/components/common/Avatar";
 import { Button } from "@/components/common/Button/Button";
 import { CameraIcon } from "@/components/common/Icons";
 import { images } from "@/constants";
@@ -5,7 +6,7 @@ import { useUserAttributes } from "@/hooks";
 import { useRouter } from "expo-router";
 import React, { useEffect, useState } from "react";
 import { LogBox, TouchableOpacity } from "react-native";
-import { Avatar, Separator, Text, View, XStack, YStack, styled } from "tamagui";
+import { Separator, Text, View, XStack, YStack, styled } from "tamagui";
 
 function MyProfileDetail() {
   LogBox.ignoreLogs(["??"]);
@@ -77,13 +78,15 @@ function MyProfileDetail() {
         {isUserCreated ? (
           <>
             <View position="relative">
-              <Avatar circular size="$8" height={60} width={60}>
-                <Avatar.Image
-                  accessibilityLabel="Cam"
-                  src={userAttributes?.picture ?? images.defaultProfile}
-                />
-                <Avatar.Fallback backgroundColor="$blue10" />
-              </Avatar>
+              <Avatar
+                circular
+                size="$8"
+                height={60}
+                width={60}
+                accessibilityLabel={userAttributes?.name}
+                src={userAttributes?.picture}
+                defaultSource={images.defaultProfile}
+              />
               <CameraIconContainer>
                 <CameraIcon strokeColor="#fff" />
               </CameraIconContainer>
@@ -91,12 +94,7 @@ function MyProfileDetail() {
           </>
         ) : (
           <>
-            <Avatar circular size="$8" height={60} width={60} mb="$3">
-              <Avatar.Image
-                accessibilityLabel="Cam"
-                src={images.defaultProfile}
-              />
-            </Avatar>
+            <Avatar circular size="$8" height={60} width={60} mb="$3" />
             <Button type="secondary" height={36} width={221}>
               Create My Profile
             </Button>
