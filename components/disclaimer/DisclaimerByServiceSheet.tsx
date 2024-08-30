@@ -1,7 +1,7 @@
 import { Button } from "@/components/common/Button/Button";
 import { CloseOutlinedIcon } from "@/components/common/Icons";
 import { useCurrentUser } from "@/hooks";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import React, { useState, FC, useEffect } from "react";
 import { ImageSourcePropType, TouchableOpacity } from "react-native";
 import { Sheet, Text, View, XStack, YStack, Image } from "tamagui";
@@ -21,7 +21,7 @@ export const DisclaimerByServiceIdSheet: FC<DisclaimerSheetProps> = ({
 }) => {
   const { data: user } = useCurrentUser();
   const [open, setOpen] = useState(false);
-
+  const queryClient = useQueryClient();
   const { data: service } = useQuery({
     queryKey: ["service", serviceId],
     queryFn: () => fetchServiceById(serviceId),
@@ -40,6 +40,15 @@ export const DisclaimerByServiceIdSheet: FC<DisclaimerSheetProps> = ({
 
   const { mutateAsync: addDisclaimer, isPending } = useMutation({
     mutationFn: addDisclaimerAcceptance,
+    onSuccess() {
+      queryClient.invalidateQueries({
+        queryKey: [
+          "disclaimerAcceptance",
+          user?.userId,
+          service?.disclaimerName,
+        ],
+      });
+    },
   });
 
   const handleIUnderstandButton = async () => {
