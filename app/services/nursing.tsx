@@ -25,6 +25,7 @@ import { useAtom } from "jotai";
 import { selectedNursingServicesAtom } from "@/atoms/services/selected-nursing-services.atom";
 import { SelectedPetServiceType } from "@/types/services/selected-pet-service.type";
 import { PriceDetailsSheet } from "@/components/price-details-sheet/PriceDetailsSheet";
+import { DisclaimerByServiceIdSheet } from "@/components/disclaimer/DisclaimerByServiceSheet";
 
 const NursingScreen = () => {
   const pathname = usePathname();
@@ -45,13 +46,13 @@ const NursingScreen = () => {
     queryKey: [
       "services",
       user?.userId,
-      ServiceCategory.GROOMING,
+      ServiceCategory.NURSING,
       selectedPet?.petType,
     ],
     queryFn: () =>
       fetchServices({
         filter: {
-          serviceCategory: { eq: ServiceCategory.GROOMING },
+          serviceCategory: { eq: ServiceCategory.NURSING },
           petType: { eq: selectedPet?.petType },
           defaultDisplay: { eq: true },
         },
@@ -68,13 +69,13 @@ const NursingScreen = () => {
     queryKey: [
       "addons",
       user?.userId,
-      ServiceCategory.GROOMING,
+      ServiceCategory.NURSING,
       selectedPet?.petType,
     ],
     queryFn: () =>
       fetchServices({
         filter: {
-          serviceCategory: { eq: ServiceCategory.GROOMING },
+          serviceCategory: { eq: ServiceCategory.NURSING },
           petType: { eq: selectedPet?.petType },
           parentServiceIds: { attributeExists: true },
         },
@@ -87,8 +88,8 @@ const NursingScreen = () => {
     },
     enabled: !!selectedPet,
   });
-  const services: Service[] | undefined = servicesData;
-  const addons: Service[] | undefined = addonsData;
+  const services = servicesData as Service[];
+  const addons = addonsData as Service[];
   const selectedService = useMemo(() => {
     const selectedPetService = selectedPetsService.find(
       (petService) => petService.petId === selectedPetId
@@ -276,6 +277,14 @@ const NursingScreen = () => {
         onOk={handleOk}
         disabled={selectedPetsService.length === 0}
       />
+      {selectedPetsService.length > 0 && (
+        <DisclaimerByServiceIdSheet
+          serviceId={
+            selectedPetsService[selectedPetsService.length - 1]
+              .serviceId as string
+          }
+        />
+      )}
     </View>
   );
 };

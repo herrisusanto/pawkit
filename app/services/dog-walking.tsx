@@ -25,6 +25,7 @@ import { useAtom } from "jotai";
 import { selectedDogWalkingServicesAtom } from "@/atoms/services/selected-dog-walking-services.atom";
 import { SelectedPetServiceType } from "@/types/services/selected-pet-service.type";
 import { PriceDetailsSheet } from "@/components/price-details-sheet/PriceDetailsSheet";
+import { DisclaimerByServiceIdSheet } from "@/components/disclaimer/DisclaimerByServiceSheet";
 
 const DogWalkingScreen = () => {
   const pathname = usePathname();
@@ -202,7 +203,7 @@ const DogWalkingScreen = () => {
   };
 
   const handleOk = () => {
-    router.push("/service-booking/medical-sitting/enter-details");
+    router.push("/service-booking/dog-walking/enter-details");
   };
 
   useEffect(() => {
@@ -272,13 +273,22 @@ const DogWalkingScreen = () => {
         </YStack>
       </ScrollView>
       <PriceDetailsSheet
-        serviceName="Dog Walking"
+        serviceName="dog-walking"
         onOk={handleOk}
         disabled={selectedPetsService.length === 0}
       />
+      {selectedPetsService.length > 0 && (
+        <DisclaimerByServiceIdSheet
+          serviceId={
+            selectedPetsService[selectedPetsService.length - 1]
+              .serviceId as string
+          }
+        />
+      )}
     </View>
   );
 };
+
 const SelectedPetWrapper = styled(View, {
   px: "$4",
   py: "$3",

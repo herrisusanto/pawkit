@@ -25,8 +25,9 @@ import { useAtom } from "jotai";
 import { selectedPetTransportServicesAtom } from "@/atoms/services/selected-pet-transport-services.atom";
 import { SelectedPetServiceType } from "@/types/services/selected-pet-service.type";
 import { PriceDetailsSheet } from "@/components/price-details-sheet/PriceDetailsSheet";
+import { DisclaimerByServiceIdSheet } from "@/components/disclaimer/DisclaimerByServiceSheet";
 
-const PetTransportScreen = () => {
+const TransportScreen = () => {
   const pathname = usePathname();
   const [selectedPetId, setSelectedPetId] = useState<string>();
   const [selectedPetsService, setSelectedPetsService] = useAtom(
@@ -202,7 +203,7 @@ const PetTransportScreen = () => {
   };
 
   const handleOk = () => {
-    router.push("/service-booking/medical-sitting/enter-details");
+    router.push("/service-booking/pet-transport/enter-details");
   };
 
   useEffect(() => {
@@ -272,13 +273,22 @@ const PetTransportScreen = () => {
         </YStack>
       </ScrollView>
       <PriceDetailsSheet
-        serviceName="Pet Transport"
+        serviceName="transport"
         onOk={handleOk}
         disabled={selectedPetsService.length === 0}
       />
+      {selectedPetsService.length > 0 && (
+        <DisclaimerByServiceIdSheet
+          serviceId={
+            selectedPetsService[selectedPetsService.length - 1]
+              .serviceId as string
+          }
+        />
+      )}
     </View>
   );
 };
+
 const SelectedPetWrapper = styled(View, {
   px: "$4",
   py: "$3",
@@ -286,4 +296,4 @@ const SelectedPetWrapper = styled(View, {
   gap: "$3",
 });
 
-export default PetTransportScreen;
+export default TransportScreen;

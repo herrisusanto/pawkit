@@ -25,6 +25,7 @@ import { useAtom } from "jotai";
 import { selectedMicrochippingServicesAtom } from "@/atoms/services/selected-microchipping-services.atom";
 import { SelectedPetServiceType } from "@/types/services/selected-pet-service.type";
 import { PriceDetailsSheet } from "@/components/price-details-sheet/PriceDetailsSheet";
+import { DisclaimerByServiceIdSheet } from "@/components/disclaimer/DisclaimerByServiceSheet";
 
 const MicrochippingScreen = () => {
   const pathname = usePathname();
@@ -202,7 +203,7 @@ const MicrochippingScreen = () => {
   };
 
   const handleOk = () => {
-    router.push("/service-booking/medical-sitting/enter-details");
+    router.push("/service-booking/microchipping/enter-details");
   };
 
   useEffect(() => {
@@ -276,9 +277,18 @@ const MicrochippingScreen = () => {
         onOk={handleOk}
         disabled={selectedPetsService.length === 0}
       />
+      {selectedPetsService.length > 0 && (
+        <DisclaimerByServiceIdSheet
+          serviceId={
+            selectedPetsService[selectedPetsService.length - 1]
+              .serviceId as string
+          }
+        />
+      )}
     </View>
   );
 };
+
 const SelectedPetWrapper = styled(View, {
   px: "$4",
   py: "$3",

@@ -25,6 +25,7 @@ import { useAtom } from "jotai";
 import { selectedVetConsultServicesAtom } from "@/atoms/services/selected-vet-consult-services.atom";
 import { SelectedPetServiceType } from "@/types/services/selected-pet-service.type";
 import { PriceDetailsSheet } from "@/components/price-details-sheet/PriceDetailsSheet";
+import { DisclaimerByServiceIdSheet } from "@/components/disclaimer/DisclaimerByServiceSheet";
 
 const VetConsultScreen = () => {
   const pathname = usePathname();
@@ -68,7 +69,7 @@ const VetConsultScreen = () => {
     queryKey: [
       "addons",
       user?.userId,
-      ServiceCategory.GROOMING,
+      ServiceCategory.VET_CONSULT,
       selectedPet?.petType,
     ],
     queryFn: () =>
@@ -87,8 +88,8 @@ const VetConsultScreen = () => {
     },
     enabled: !!selectedPet,
   });
-  const services: Service[] | undefined = servicesData;
-  const addons: Service[] | undefined = addonsData;
+  const services = servicesData as Service[];
+  const addons = addonsData as Service[];
   const selectedService = useMemo(() => {
     const selectedPetService = selectedPetsService.find(
       (petService) => petService.petId === selectedPetId
@@ -272,10 +273,18 @@ const VetConsultScreen = () => {
         </YStack>
       </ScrollView>
       <PriceDetailsSheet
-        serviceName="Vet Consult"
+        serviceName="vet-consult"
         onOk={handleOk}
         disabled={selectedPetsService.length === 0}
       />
+      {selectedPetsService.length > 0 && (
+        <DisclaimerByServiceIdSheet
+          serviceId={
+            selectedPetsService[selectedPetsService.length - 1]
+              .serviceId as string
+          }
+        />
+      )}
     </View>
   );
 };

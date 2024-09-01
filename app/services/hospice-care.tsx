@@ -25,6 +25,7 @@ import { useAtom } from "jotai";
 import { selectedHospiceCareServicesAtom } from "@/atoms/services/selected-hospice-care-services.atom";
 import { SelectedPetServiceType } from "@/types/services/selected-pet-service.type";
 import { PriceDetailsSheet } from "@/components/price-details-sheet/PriceDetailsSheet";
+import { DisclaimerByServiceIdSheet } from "@/components/disclaimer/DisclaimerByServiceSheet";
 
 const HospiceCareScreen = () => {
   const pathname = usePathname();
@@ -45,13 +46,13 @@ const HospiceCareScreen = () => {
     queryKey: [
       "services",
       user?.userId,
-      ServiceCategory.GROOMING,
+      ServiceCategory.HOSPICE_CARE,
       selectedPet?.petType,
     ],
     queryFn: () =>
       fetchServices({
         filter: {
-          serviceCategory: { eq: ServiceCategory.GROOMING },
+          serviceCategory: { eq: ServiceCategory.HOSPICE_CARE },
           petType: { eq: selectedPet?.petType },
           defaultDisplay: { eq: true },
         },
@@ -68,13 +69,13 @@ const HospiceCareScreen = () => {
     queryKey: [
       "addons",
       user?.userId,
-      ServiceCategory.GROOMING,
+      ServiceCategory.HOSPICE_CARE,
       selectedPet?.petType,
     ],
     queryFn: () =>
       fetchServices({
         filter: {
-          serviceCategory: { eq: ServiceCategory.GROOMING },
+          serviceCategory: { eq: ServiceCategory.HOSPICE_CARE },
           petType: { eq: selectedPet?.petType },
           parentServiceIds: { attributeExists: true },
         },
@@ -87,8 +88,8 @@ const HospiceCareScreen = () => {
     },
     enabled: !!selectedPet,
   });
-  const services: Service[] | undefined = servicesData;
-  const addons: Service[] | undefined = addonsData;
+  const services = servicesData as Service[];
+  const addons = addonsData as Service[];
   const selectedService = useMemo(() => {
     const selectedPetService = selectedPetsService.find(
       (petService) => petService.petId === selectedPetId
@@ -272,10 +273,18 @@ const HospiceCareScreen = () => {
         </YStack>
       </ScrollView>
       <PriceDetailsSheet
-        serviceName="Hospice Care"
+        serviceName="hospice-care"
         onOk={handleOk}
         disabled={selectedPetsService.length === 0}
       />
+      {selectedPetsService.length > 0 && (
+        <DisclaimerByServiceIdSheet
+          serviceId={
+            selectedPetsService[selectedPetsService.length - 1]
+              .serviceId as string
+          }
+        />
+      )}
     </View>
   );
 };
