@@ -249,7 +249,7 @@
       "function": {
         "AdminQueries2bb3090c": {
           "deploymentBucketName": "amplify-pawkit-prod-3d6c5-deployment",
-          "s3Key": "amplify-builds/AdminQueries2bb3090c-58624f37354e62644758-build.zip"
+          "s3Key": "amplify-builds/AdminQueries2bb3090c-6a586175502b66674574-build.zip"
         },
         "dataLoader": {
           "deploymentBucketName": "amplify-pawkit-prod-3d6c5-deployment",

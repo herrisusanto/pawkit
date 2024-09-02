@@ -513,7 +513,7 @@ export const customServiceById = /* GraphQL */ `
 `;
 
 export const customUpdateBooking = `
-  mutation UpdateBooking(
+  mutation CustomUpdateBooking(
     $input: UpdateBookingInput!
     $condition: ModelBookingConditionInput
   ) {
