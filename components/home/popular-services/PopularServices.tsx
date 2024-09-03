@@ -106,7 +106,7 @@ const serviceList = [
       <MedicalSittingIcon strokeColor={strokeColor} fillColor={fillColor} />
     ),
     routePath: "/services/medical-sitting",
-    available: false,
+    available: true,
   },
   {
     id: 11,

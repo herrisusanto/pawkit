@@ -46,13 +46,13 @@ const MedicalSittingScreen = () => {
     queryKey: [
       "services",
       user?.userId,
-      ServiceCategory.MEDICAL_SITTING,
+      ServiceCategory.PET_SITTING,
       selectedPet?.petType,
     ],
     queryFn: () =>
       fetchServices({
         filter: {
-          serviceCategory: { eq: ServiceCategory.MEDICAL_SITTING },
+          serviceCategory: { eq: ServiceCategory.PET_SITTING },
           petType: { eq: selectedPet?.petType },
           defaultDisplay: { eq: true },
         },
@@ -69,13 +69,13 @@ const MedicalSittingScreen = () => {
     queryKey: [
       "addons",
       user?.userId,
-      ServiceCategory.MEDICAL_SITTING,
+      ServiceCategory.PET_SITTING,
       selectedPet?.petType,
     ],
     queryFn: () =>
       fetchServices({
         filter: {
-          serviceCategory: { eq: ServiceCategory.MEDICAL_SITTING },
+          serviceCategory: { eq: ServiceCategory.PET_SITTING },
           petType: { eq: selectedPet?.petType },
           parentServiceIds: { attributeExists: true },
         },
@@ -273,7 +273,7 @@ const MedicalSittingScreen = () => {
         </YStack>
       </ScrollView>
       <PriceDetailsSheet
-        serviceName="Medical Sitting"
+        serviceName="medical-sitting"
         onOk={handleOk}
         disabled={selectedPetsService.length === 0}
       />
@@ -288,6 +288,7 @@ const MedicalSittingScreen = () => {
     </View>
   );
 };
+
 const SelectedPetWrapper = styled(View, {
   px: "$4",
   py: "$3",

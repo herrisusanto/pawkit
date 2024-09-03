@@ -130,20 +130,6 @@ export const customGetBooking = `query CustomGetBooking(
    petType
    serviceId
    startDateTime
-   timeSlot {
-     id
-     serviceId
-     startDateTime
-     endDateTime
-     capacity
-     bookingCount
-     isFull
-     bookingIds
-     createdAt
-     updatedAt
-     serviceProviderId
-     __typename
-   }
    timeSlotId
    petIds
    pets {
@@ -329,8 +315,11 @@ export const customListBookings = /* GraphQL */ `
         pets {
           items {
             pet {
+              id
               name
               birthdate
+              breedName
+              weightValue
             }
           }
         }
@@ -529,6 +518,81 @@ export const customServiceById = /* GraphQL */ `
         __typename
       }
       nextToken
+      __typename
+    }
+  }
+`;
+
+export const customUpdateBooking = `
+  mutation CustomUpdateBooking(
+    $input: UpdateBookingInput!
+    $condition: ModelBookingConditionInput
+  ) {
+    updateBooking(input: $input, condition: $condition) {
+      id
+      orderId
+      order {
+        id
+        customerId
+        currency
+        totalAmount
+        bookingIds
+        paymentRequestId
+        status
+        createdAt
+        updatedAt
+        __typename
+      }
+      customerUsername
+      owners
+      customerId
+      customer {
+        id
+        username
+        isDeactivated
+        s3ImageKey
+        createdAt
+        updatedAt
+        __typename
+      }
+      serviceName
+      serviceProviderName
+      serviceProvider {
+        id
+        name
+        displayName
+        description
+        s3ImageKey
+        website
+        email
+        phone
+        isHeadquarters
+        createdAt
+        updatedAt
+        serviceProviderHeadquartersName
+        __typename
+      }
+      serviceCategory
+      petType
+      serviceId
+      startDateTime
+      timeSlotId
+      address
+      petIds
+      pets {
+        nextToken
+        __typename
+      }
+      addOns
+      bookingType
+      amount
+      currency
+      status
+      createdAt
+      updatedAt
+      serviceProviderBookingsName
+      timeSlotBookingsServiceId
+      timeSlotBookingsStartDateTime
       __typename
     }
   }
