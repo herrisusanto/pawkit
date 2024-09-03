@@ -27,6 +27,7 @@ export enum ServiceCategory {
   PET_SITTING = "PET_SITTING",
   TRANSPORT = "TRANSPORT",
   MICROCHIPPING = "MICROCHIPPING",
+  DOG_WALKING = "DOG_WALKING",
 }
 
 
@@ -2564,6 +2565,18 @@ export type CustomServiceByIdQuery = {
       parentServiceIds?: Array< string > | null,
       childServiceIds?: Array< string > | null,
       disclaimerName?: string | null,
+      disclaimer?:  {
+        __typename: "Disclaimer",
+        name: string,
+        serviceName?: string | null,
+        serviceProviderName?: string | null,
+        serviceCategory?: ServiceCategory | null,
+        petType?: PetType | null,
+        header?: string | null,
+        subheader?: string | null,
+        text?: string | null,
+        s3Link?: string | null,
+      } | null,
       timeSlotIds?: Array< string > | null,
       bookingIds?: Array< string > | null,
       requiredQuestionIds?: Array< string > | null,
