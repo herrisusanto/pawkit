@@ -28,14 +28,14 @@ import {
   DisclaimerByServiceIdSheet,
   DisclaimerHandleRef,
 } from "@/components/disclaimer/DisclaimerByServiceSheet";
-import { selectedNursingServicesAtom } from "@/atoms/services/selected-nursing-services.atom";
+import { selectedPetTransportServicesAtom } from "@/atoms/services/selected-pet-transport-services.atom";
 
-const NursingScreen = () => {
+const PetTransportScreen = () => {
   const disclaimerRef = useRef<DisclaimerHandleRef>(null);
   const pathname = usePathname();
   const [selectedPetId, setSelectedPetId] = useState<string>();
   const [selectedPetsService, setSelectedPetsService] = useAtom(
-    selectedNursingServicesAtom
+    selectedPetTransportServicesAtom
   );
   const { data: user } = useCurrentUser();
   const { data: pets } = useQuery({
@@ -50,13 +50,13 @@ const NursingScreen = () => {
     queryKey: [
       "services",
       user?.userId,
-      ServiceCategory.NURSING,
+      ServiceCategory.TRANSPORT,
       selectedPet?.petType,
     ],
     queryFn: () =>
       fetchServices({
         filter: {
-          serviceCategory: { eq: ServiceCategory.NURSING },
+          serviceCategory: { eq: ServiceCategory.TRANSPORT },
           petType: { eq: selectedPet?.petType },
           defaultDisplay: { eq: true },
         },
@@ -73,13 +73,13 @@ const NursingScreen = () => {
     queryKey: [
       "addons",
       user?.userId,
-      ServiceCategory.NURSING,
+      ServiceCategory.TRANSPORT,
       selectedPet?.petType,
     ],
     queryFn: () =>
       fetchServices({
         filter: {
-          serviceCategory: { eq: ServiceCategory.NURSING },
+          serviceCategory: { eq: ServiceCategory.TRANSPORT },
           petType: { eq: selectedPet?.petType },
           parentServiceIds: { attributeExists: true },
         },
@@ -209,7 +209,7 @@ const NursingScreen = () => {
   };
 
   const handleOk = () => {
-    router.push("/service-booking/nursing/enter-details");
+    router.push("/service-booking/pet-transport/enter-details");
   };
 
   useEffect(() => {
@@ -249,7 +249,7 @@ const NursingScreen = () => {
           <Stack.Screen
             options={{
               header() {
-                return <Header title="Select Nursing" />;
+                return <Header title="Select Pet Transport" />;
               },
             }}
           />
@@ -279,7 +279,7 @@ const NursingScreen = () => {
         </YStack>
       </ScrollView>
       <PriceDetailsSheet
-        serviceName="nursing"
+        serviceName="pet-transport"
         onOk={handleOk}
         disabled={selectedPetsService.length === 0}
       />
@@ -295,4 +295,4 @@ const SelectedPetWrapper = styled(View, {
   gap: "$3",
 });
 
-export default NursingScreen;
+export default PetTransportScreen;

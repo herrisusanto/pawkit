@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Link, router, Stack, usePathname } from "expo-router";
 import { Header } from "@/components/common/Header/Header";
 import {
@@ -25,9 +25,13 @@ import { useAtom } from "jotai";
 import { selectedVaccinationServicesAtom } from "@/atoms/services/selected-vaccination-services.atom";
 import { SelectedPetServiceType } from "@/types/services/selected-pet-service.type";
 import { PriceDetailsSheet } from "@/components/price-details-sheet/PriceDetailsSheet";
-import { DisclaimerByServiceIdSheet } from "@/components/disclaimer/DisclaimerByServiceSheet";
+import {
+  DisclaimerByServiceIdSheet,
+  DisclaimerHandleRef,
+} from "@/components/disclaimer/DisclaimerByServiceSheet";
 
 const VaccinationScreen = () => {
+  const disclaimerRef = useRef<DisclaimerHandleRef>(null);
   const pathname = usePathname();
   const [selectedPetId, setSelectedPetId] = useState<string>();
   const [selectedPetsService, setSelectedPetsService] = useAtom(
@@ -164,12 +168,14 @@ const VaccinationScreen = () => {
       }) as SelectedPetServiceType[];
 
     setSelectedPetsService((prev) => [...prev, ...newMapping]);
+    disclaimerRef.current?.selectServiceId(serviceId);
   };
 
   const handleRemoveService = (petId: string, serviceId: string) => {
     setSelectedPetsService((prev) =>
       prev.filter((service) => service.petId !== petId)
     );
+    disclaimerRef.current?.removeServiceId();
   };
 
   const handleAddonChange = (checked: boolean, addonId: string) => {
@@ -271,14 +277,7 @@ const VaccinationScreen = () => {
         onOk={handleOk}
         disabled={selectedPetsService.length === 0}
       />
-      {selectedPetsService.length > 0 && (
-        <DisclaimerByServiceIdSheet
-          serviceId={
-            selectedPetsService[selectedPetsService.length - 1]
-              .serviceId as string
-          }
-        />
-      )}
+      <DisclaimerByServiceIdSheet ref={disclaimerRef} />
     </View>
   );
 };

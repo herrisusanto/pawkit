@@ -36,6 +36,12 @@ import { CircleDotIcon } from "./CircleDotIcon";
 import { DashedDividerIcon } from "./DashedDividerIcon";
 import { AboutUsIcon } from "./AboutUsIcon";
 import { TermsAndConditionsIcon } from "./TermsAndConditionsIcon";
+import { PetTransportIcon } from "./PetTransportIcon";
+import { PetSittingIcon } from "./PetSittingIcon";
+import { MicrochippingIcon } from "./MicrochippingIcon";
+import { DogWalkingIcon } from "./DogWalkingIcon";
+import { TypeHamsterIcon } from "./TypeHamsterIcon";
+import { TypeGuineaPigIcon } from "./TypeGuineaPigIcon";
 
 export {
   MaleIcon,
@@ -76,6 +82,12 @@ export {
   DashedDividerIcon,
   AboutUsIcon,
   TermsAndConditionsIcon,
+  PetTransportIcon,
+  PetSittingIcon,
+  MicrochippingIcon,
+  DogWalkingIcon,
+  TypeHamsterIcon,
+  TypeGuineaPigIcon,
 };
 
 export type IconProps = {

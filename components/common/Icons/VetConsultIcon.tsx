@@ -3,8 +3,8 @@ import Svg, { ClipPath, Defs, G, Path } from "react-native-svg";
 import { IconProps } from ".";
 
 export const VetConsultIcon: React.FC<IconProps> = ({
-  strokeColor = "#91782E",
-  fillColor = "#FDEFE3",
+  strokeColor = "#208F01",
+  fillColor = "#E5FFE5",
 }) => {
   return (
     <Svg width="100%" height="100%" viewBox="0 0 80 81" fill="none">
