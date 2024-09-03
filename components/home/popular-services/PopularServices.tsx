@@ -6,6 +6,10 @@ import {
   VaccinationIcon,
   VetConsultIcon,
   WellnessIcon,
+  PetTransportIcon,
+  PetSittingIcon,
+  MicrochippingIcon,
+  DogWalkingIcon,
 } from "@/components/common/Icons";
 import { router } from "expo-router";
 import { Dimensions, TouchableOpacity } from "react-native";
@@ -43,12 +47,12 @@ const serviceList = [
   },
   {
     id: 4,
-    name: "Vet Consult",
+    name: "Vet\nConsult",
     serviceIcon: (strokeColor: string, fillColor: string) => (
       <VetConsultIcon strokeColor={strokeColor} fillColor={fillColor} />
     ),
     routePath: "/services/vet-consult",
-    available: false,
+    available: true,
   },
   {
     id: 5,
@@ -57,10 +61,46 @@ const serviceList = [
       <WellnessIcon strokeColor={strokeColor} fillColor={fillColor} />
     ),
     routePath: "/services/wellness",
-    available: false,
+    available: true,
   },
   {
     id: 6,
+    name: "Dog Walking",
+    serviceIcon: (strokeColor: string, fillColor: string) => (
+      <DogWalkingIcon strokeColor={strokeColor} fillColor={fillColor} />
+    ),
+    routePath: "/services/dog-walking",
+    available: true,
+  },
+  {
+    id: 7,
+    name: "Pet\nSitting",
+    serviceIcon: (strokeColor: string, fillColor: string) => (
+      <PetSittingIcon strokeColor={strokeColor} fillColor={fillColor} />
+    ),
+    routePath: "/services/pet-sitting",
+    available: true,
+  },
+  {
+    id: 8,
+    name: "Pet Transport",
+    serviceIcon: (strokeColor: string, fillColor: string) => (
+      <PetTransportIcon strokeColor={strokeColor} fillColor={fillColor} />
+    ),
+    routePath: "/services/pet-transport",
+    available: true,
+  },
+  {
+    id: 9,
+    name: "Microchipping",
+    serviceIcon: (strokeColor: string, fillColor: string) => (
+      <MicrochippingIcon strokeColor={strokeColor} fillColor={fillColor} />
+    ),
+    routePath: "/services/microchipping",
+    available: true,
+  },
+  {
+    id: 10,
     name: "Medical Sitting",
     serviceIcon: (strokeColor: string, fillColor: string) => (
       <MedicalSittingIcon strokeColor={strokeColor} fillColor={fillColor} />
@@ -69,7 +109,7 @@ const serviceList = [
     available: true,
   },
   {
-    id: 7,
+    id: 11,
     name: "Hospice Care",
     serviceIcon: (strokeColor: string, fillColor: string) => (
       <HospiceCareIcon strokeColor={strokeColor} fillColor={fillColor} />

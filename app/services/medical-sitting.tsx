@@ -22,7 +22,7 @@ import { fetchPetsByCustomer } from "@/api/pet";
 import { fetchServices } from "@/api/service-booking";
 import { Pet, Service, ServiceCategory } from "@/api/graphql/API";
 import { useAtom } from "jotai";
-import { selectedSittingServicesAtom } from "@/atoms/services/selected-sitting-services.atom";
+import { selectedMedicalSittingServicesAtom } from "@/atoms/services/selected-medical-sitting-services.atom";
 import { SelectedPetServiceType } from "@/types/services/selected-pet-service.type";
 import { PriceDetailsSheet } from "@/components/price-details-sheet/PriceDetailsSheet";
 import {
@@ -30,12 +30,13 @@ import {
   DisclaimerHandleRef,
 } from "@/components/disclaimer/DisclaimerByServiceSheet";
 
-const GroomingScreen = () => {
+const MedicalSittingScreen = () => {
   const disclaimerRef = useRef<DisclaimerHandleRef>(null);
+
   const pathname = usePathname();
   const [selectedPetId, setSelectedPetId] = useState<string>();
   const [selectedPetsService, setSelectedPetsService] = useAtom(
-    selectedSittingServicesAtom
+    selectedMedicalSittingServicesAtom
   );
   const { data: user } = useCurrentUser();
   const { data: pets } = useQuery({
@@ -295,4 +296,4 @@ const SelectedPetWrapper = styled(View, {
   gap: "$3",
 });
 
-export default GroomingScreen;
+export default MedicalSittingScreen;

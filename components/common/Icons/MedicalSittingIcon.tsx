@@ -3,8 +3,8 @@ import Svg, { Path } from "react-native-svg";
 import { IconProps } from ".";
 
 export const MedicalSittingIcon: React.FC<IconProps> = ({
-  strokeColor = "#4A8B00",
-  fillColor = "#E5FFE5",
+  strokeColor = "#907A36",
+  fillColor = "#FDEFE3",
 }) => {
   return (
     <Svg width="100%" height="100%" viewBox="0 0 80 81" fill="none">

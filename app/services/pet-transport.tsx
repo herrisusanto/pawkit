@@ -22,16 +22,16 @@ import { fetchPetsByCustomer } from "@/api/pet";
 import { fetchServices } from "@/api/service-booking";
 import { Pet, Service, ServiceCategory } from "@/api/graphql/API";
 import { useAtom } from "jotai";
-import { selectedWellnessServicesAtom } from "@/atoms/services/selected-wellness-services.atom";
+import { selectedPetTransportServicesAtom } from "@/atoms/services/selected-pet-transport-services.atom";
 import { SelectedPetServiceType } from "@/types/services/selected-pet-service.type";
 import { PriceDetailsSheet } from "@/components/price-details-sheet/PriceDetailsSheet";
 import { DisclaimerByServiceIdSheet } from "@/components/disclaimer/DisclaimerByServiceSheet";
 
-const WellnessScreen = () => {
+const TransportScreen = () => {
   const pathname = usePathname();
   const [selectedPetId, setSelectedPetId] = useState<string>();
   const [selectedPetsService, setSelectedPetsService] = useAtom(
-    selectedWellnessServicesAtom
+    selectedPetTransportServicesAtom
   );
   const { data: user } = useCurrentUser();
   const { data: pets } = useQuery({
@@ -46,13 +46,13 @@ const WellnessScreen = () => {
     queryKey: [
       "services",
       user?.userId,
-      ServiceCategory.WELLNESS,
+      ServiceCategory.TRANSPORT,
       selectedPet?.petType,
     ],
     queryFn: () =>
       fetchServices({
         filter: {
-          serviceCategory: { eq: ServiceCategory.WELLNESS },
+          serviceCategory: { eq: ServiceCategory.TRANSPORT },
           petType: { eq: selectedPet?.petType },
           defaultDisplay: { eq: true },
         },
@@ -69,13 +69,13 @@ const WellnessScreen = () => {
     queryKey: [
       "addons",
       user?.userId,
-      ServiceCategory.WELLNESS,
+      ServiceCategory.TRANSPORT,
       selectedPet?.petType,
     ],
     queryFn: () =>
       fetchServices({
         filter: {
-          serviceCategory: { eq: ServiceCategory.WELLNESS },
+          serviceCategory: { eq: ServiceCategory.TRANSPORT },
           petType: { eq: selectedPet?.petType },
           parentServiceIds: { attributeExists: true },
         },
@@ -203,7 +203,7 @@ const WellnessScreen = () => {
   };
 
   const handleOk = () => {
-    router.push("/service-booking/wellness/enter-details");
+    router.push("/service-booking/pet-transport/enter-details");
   };
 
   useEffect(() => {
@@ -243,7 +243,7 @@ const WellnessScreen = () => {
           <Stack.Screen
             options={{
               header() {
-                return <Header title="Select Wellness" />;
+                return <Header title="Select Pet Transport" />;
               },
             }}
           />
@@ -273,7 +273,7 @@ const WellnessScreen = () => {
         </YStack>
       </ScrollView>
       <PriceDetailsSheet
-        serviceName="wellness"
+        serviceName="transport"
         onOk={handleOk}
         disabled={selectedPetsService.length === 0}
       />
@@ -296,4 +296,4 @@ const SelectedPetWrapper = styled(View, {
   gap: "$3",
 });
 
-export default WellnessScreen;
+export default TransportScreen;
