@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Link, router, Stack, usePathname } from "expo-router";
 import { Header } from "@/components/common/Header/Header";
 import {
@@ -25,8 +25,13 @@ import { useAtom } from "jotai";
 import { selectedGroomingServicesAtom } from "@/atoms/services/selected-grooming-services.atom";
 import { SelectedPetServiceType } from "@/types/services/selected-pet-service.type";
 import { PriceDetailsSheet } from "@/components/price-details-sheet/PriceDetailsSheet";
+import {
+  DisclaimerByServiceIdSheet,
+  DisclaimerHandleRef,
+} from "@/components/disclaimer/DisclaimerByServiceSheet";
 
 const GroomingScreen = () => {
+  const disclaimerRef = useRef<DisclaimerHandleRef>(null);
   const pathname = usePathname();
   const [selectedPetId, setSelectedPetId] = useState<string>();
   const [selectedPetsService, setSelectedPetsService] = useAtom(
@@ -87,8 +92,8 @@ const GroomingScreen = () => {
     },
     enabled: !!selectedPet,
   });
-  const services: Service[] = servicesData;
-  const addons: Service[] = addonsData;
+  const services: Service[] | undefined = servicesData;
+  const addons: Service[] | undefined = addonsData;
   const selectedService = useMemo(() => {
     const selectedPetService = selectedPetsService.find(
       (petService) => petService.petId === selectedPetId
@@ -169,12 +174,14 @@ const GroomingScreen = () => {
       }) as SelectedPetServiceType[];
 
     setSelectedPetsService((prev) => [...prev, ...newMapping]);
+    disclaimerRef.current?.selectServiceId(serviceId);
   };
 
   const handleRemoveService = (petId: string, serviceId: string) => {
     setSelectedPetsService((prev) =>
       prev.filter((service) => service.petId !== petId)
     );
+    disclaimerRef.current?.removeServiceId();
   };
 
   const handleAddonChange = (checked: boolean, addonId: string) => {
@@ -276,6 +283,7 @@ const GroomingScreen = () => {
         onOk={handleOk}
         disabled={selectedPetsService.length === 0}
       />
+      <DisclaimerByServiceIdSheet ref={disclaimerRef} />
     </View>
   );
 };
