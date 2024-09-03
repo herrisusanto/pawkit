@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Link, router, Stack, usePathname } from "expo-router";
 import { Header } from "@/components/common/Header/Header";
 import {
@@ -22,12 +22,16 @@ import { fetchPetsByCustomer } from "@/api/pet";
 import { fetchServices } from "@/api/service-booking";
 import { Pet, Service, ServiceCategory } from "@/api/graphql/API";
 import { useAtom } from "jotai";
-import { selectedPetTransportServicesAtom } from "@/atoms/services/selected-pet-transport-services.atom";
 import { SelectedPetServiceType } from "@/types/services/selected-pet-service.type";
 import { PriceDetailsSheet } from "@/components/price-details-sheet/PriceDetailsSheet";
-import { DisclaimerByServiceIdSheet } from "@/components/disclaimer/DisclaimerByServiceSheet";
+import {
+  DisclaimerByServiceIdSheet,
+  DisclaimerHandleRef,
+} from "@/components/disclaimer/DisclaimerByServiceSheet";
+import { selectedPetTransportServicesAtom } from "@/atoms/services/selected-pet-transport-services.atom";
 
-const TransportScreen = () => {
+const PetTransportScreen = () => {
+  const disclaimerRef = useRef<DisclaimerHandleRef>(null);
   const pathname = usePathname();
   const [selectedPetId, setSelectedPetId] = useState<string>();
   const [selectedPetsService, setSelectedPetsService] = useAtom(
@@ -88,8 +92,8 @@ const TransportScreen = () => {
     },
     enabled: !!selectedPet,
   });
-  const services = servicesData as Service[];
-  const addons = addonsData as Service[];
+  const services: Service[] | undefined = servicesData;
+  const addons: Service[] | undefined = addonsData;
   const selectedService = useMemo(() => {
     const selectedPetService = selectedPetsService.find(
       (petService) => petService.petId === selectedPetId
@@ -170,12 +174,14 @@ const TransportScreen = () => {
       }) as SelectedPetServiceType[];
 
     setSelectedPetsService((prev) => [...prev, ...newMapping]);
+    disclaimerRef.current?.selectServiceId(serviceId);
   };
 
   const handleRemoveService = (petId: string, serviceId: string) => {
     setSelectedPetsService((prev) =>
       prev.filter((service) => service.petId !== petId)
     );
+    disclaimerRef.current?.removeServiceId();
   };
 
   const handleAddonChange = (checked: boolean, addonId: string) => {
@@ -273,18 +279,11 @@ const TransportScreen = () => {
         </YStack>
       </ScrollView>
       <PriceDetailsSheet
-        serviceName="transport"
+        serviceName="pet-transport"
         onOk={handleOk}
         disabled={selectedPetsService.length === 0}
       />
-      {selectedPetsService.length > 0 && (
-        <DisclaimerByServiceIdSheet
-          serviceId={
-            selectedPetsService[selectedPetsService.length - 1]
-              .serviceId as string
-          }
-        />
-      )}
+      <DisclaimerByServiceIdSheet ref={disclaimerRef} />
     </View>
   );
 };
@@ -296,4 +295,4 @@ const SelectedPetWrapper = styled(View, {
   gap: "$3",
 });
 
-export default TransportScreen;
+export default PetTransportScreen;
