@@ -26,6 +26,7 @@ const {
   listGroups,
   listGroupsForUser,
   listUsersInGroup,
+  searchUsers,
   signUserOut,
 } = require("./cognitoActions");
 

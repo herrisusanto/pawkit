@@ -316,5 +316,6 @@ module.exports = {
   listGroups,
   listGroupsForUser,
   listUsersInGroup,
+  searchUsers,
   signUserOut,
 };

@@ -50,13 +50,13 @@ const GroomingScreen = () => {
     queryKey: [
       "services",
       user?.userId,
-      ServiceCategory.MEDICAL_SITTING,
+      ServiceCategory.PET_SITTING,
       selectedPet?.petType,
     ],
     queryFn: () =>
       fetchServices({
         filter: {
-          serviceCategory: { eq: ServiceCategory.MEDICAL_SITTING },
+          serviceCategory: { eq: ServiceCategory.PET_SITTING },
           petType: { eq: selectedPet?.petType },
           defaultDisplay: { eq: true },
         },
@@ -73,13 +73,13 @@ const GroomingScreen = () => {
     queryKey: [
       "addons",
       user?.userId,
-      ServiceCategory.MEDICAL_SITTING,
+      ServiceCategory.PET_SITTING,
       selectedPet?.petType,
     ],
     queryFn: () =>
       fetchServices({
         filter: {
-          serviceCategory: { eq: ServiceCategory.MEDICAL_SITTING },
+          serviceCategory: { eq: ServiceCategory.PET_SITTING },
           petType: { eq: selectedPet?.petType },
           parentServiceIds: { attributeExists: true },
         },
