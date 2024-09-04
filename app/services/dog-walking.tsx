@@ -50,13 +50,13 @@ const DogWalkingScreen = () => {
     queryKey: [
       "services",
       user?.userId,
-      ServiceCategory.GROOMING,
+      ServiceCategory.DOG_WALKING,
       selectedPet?.petType,
     ],
     queryFn: () =>
       fetchServices({
         filter: {
-          serviceCategory: { eq: ServiceCategory.GROOMING },
+          serviceCategory: { eq: ServiceCategory.DOG_WALKING },
           petType: { eq: selectedPet?.petType },
           defaultDisplay: { eq: true },
         },
@@ -73,13 +73,13 @@ const DogWalkingScreen = () => {
     queryKey: [
       "addons",
       user?.userId,
-      ServiceCategory.GROOMING,
+      ServiceCategory.DOG_WALKING,
       selectedPet?.petType,
     ],
     queryFn: () =>
       fetchServices({
         filter: {
-          serviceCategory: { eq: ServiceCategory.GROOMING },
+          serviceCategory: { eq: ServiceCategory.DOG_WALKING },
           petType: { eq: selectedPet?.petType },
           parentServiceIds: { attributeExists: true },
         },
