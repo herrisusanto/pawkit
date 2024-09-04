@@ -70,7 +70,7 @@ const serviceList = [
       <DogWalkingIcon strokeColor={strokeColor} fillColor={fillColor} />
     ),
     routePath: "/services/dog-walking",
-    available: false,
+    available: true,
   },
   {
     id: 7,
