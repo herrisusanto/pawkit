@@ -68,7 +68,7 @@ export const getUser = async (username: string) => {
 };
 
 export const searchUsersByName = async (name: string) => {
-  const path = `/searchUsers?attributeName=name&attributeValue=${name}`;
+  const path = `/searchUsers?attributeName=name&attributeValue=${encodeURIComponent(name)}`;
   const options = {
     headers: {
       "Content-Type": "application/json",
@@ -80,7 +80,7 @@ export const searchUsersByName = async (name: string) => {
 };
 
 export const searchUsersByPhoneNumber = async (phone: string) => {
-  const path = `/searchUsers?attributeName=phone_number&attributeValue=${phone}`;
+  const path = `/searchUsers?attributeName=phone_number&attributeValue=${encodeURIComponent(phone)}`;
   const options = {
     headers: {
       "Content-Type": "application/json",
