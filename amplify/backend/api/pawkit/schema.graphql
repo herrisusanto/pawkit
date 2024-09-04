@@ -468,6 +468,7 @@ enum ServiceCategory {
   PET_SITTING
   TRANSPORT
   MICROCHIPPING
+  DOG_WALKING
 }
 
 enum TimeUnit {
