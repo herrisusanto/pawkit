@@ -216,10 +216,7 @@ export const addBooking = async (input: AddBookingInput) => {
           bookingType: input.bookingType,
           amount: input.amount,
           currency: input.currency,
-          status:
-            input.bookingType === BookingType.FREE_TRIAL
-              ? BookingStatus.PENDING_CONFIRMATION
-              : BookingStatus.PENDING_PAYMENT,
+          status: BookingStatus.PENDING_CONFIRMATION,
         } as CreateBookingInput,
       },
     });
