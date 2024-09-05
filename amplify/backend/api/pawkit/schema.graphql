@@ -469,6 +469,7 @@ enum ServiceCategory {
   TRANSPORT
   MICROCHIPPING
   DOG_WALKING
+  HOSPICE_CARE
 }
 
 enum TimeUnit {
