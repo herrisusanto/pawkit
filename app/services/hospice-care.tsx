@@ -50,13 +50,13 @@ const HospiceCareScreen = () => {
     queryKey: [
       "services",
       user?.userId,
-      ServiceCategory.GROOMING,
+      ServiceCategory.HOSPICE_CARE,
       selectedPet?.petType,
     ],
     queryFn: () =>
       fetchServices({
         filter: {
-          serviceCategory: { eq: ServiceCategory.GROOMING },
+          serviceCategory: { eq: ServiceCategory.HOSPICE_CARE },
           petType: { eq: selectedPet?.petType },
           defaultDisplay: { eq: true },
         },
@@ -73,13 +73,13 @@ const HospiceCareScreen = () => {
     queryKey: [
       "addons",
       user?.userId,
-      ServiceCategory.GROOMING,
+      ServiceCategory.HOSPICE_CARE,
       selectedPet?.petType,
     ],
     queryFn: () =>
       fetchServices({
         filter: {
-          serviceCategory: { eq: ServiceCategory.GROOMING },
+          serviceCategory: { eq: ServiceCategory.HOSPICE_CARE },
           petType: { eq: selectedPet?.petType },
           parentServiceIds: { attributeExists: true },
         },
