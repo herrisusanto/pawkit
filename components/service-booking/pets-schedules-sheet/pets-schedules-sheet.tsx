@@ -290,7 +290,9 @@ export const PetsSchedulesSheet = View.styleable(({ ...props }, ref) => {
                     px="$5"
                   >
                     {timeSlots
-                      .filter((time) => time.startDateTime > moment().format())
+                      .filter((time) =>
+                        moment(time.startDateTime).isSameOrAfter(moment())
+                      )
                       .map((timeSlot, i) => {
                         const itemWidth = width * 0.5;
                         const calculatedWidth =
@@ -303,6 +305,12 @@ export const PetsSchedulesSheet = View.styleable(({ ...props }, ref) => {
                           (petService) =>
                             petService.timeSlot?.id === timeSlot.id
                         );
+                        const now = moment();
+                        const formattedTimeSlot = moment(
+                          timeSlot.startDateTime
+                        );
+                        const duration = formattedTimeSlot.diff(now, "hours");
+                        const isDisabled = duration < 48;
                         return (
                           <View
                             key={timeSlot.id}
@@ -314,14 +322,18 @@ export const PetsSchedulesSheet = View.styleable(({ ...props }, ref) => {
                                 ? "$primary"
                                 : alreadySelected
                                   ? "$red"
-                                  : "$natural2"
+                                  : isDisabled
+                                    ? "$colorTransparent"
+                                    : "$natural2"
                             }
                             bg={
                               isSelected
                                 ? "$thirdy"
                                 : alreadySelected
                                   ? "$error"
-                                  : "$colorTransparent"
+                                  : isDisabled
+                                    ? "$natural0"
+                                    : "$colorTransparent"
                             }
                             bw="$0.5"
                             br="$2"
@@ -329,6 +341,7 @@ export const PetsSchedulesSheet = View.styleable(({ ...props }, ref) => {
                               (!alreadySelected || isSelected) &&
                               handleSelectTimeSlot(timeSlot)
                             }
+                            disabled={isDisabled}
                           >
                             <Text
                               adjustsFontSizeToFit
