@@ -34,6 +34,7 @@ const bookingConfirmed = require("../assets/images/booking-confirmed.png");
 const rabbitDefaultAvatar = require("../assets/images/rabbit-default-avatar.png");
 const hamsterDefaultAvatar = require("../assets/images/hamster-default-avatar.png");
 const guineaPigDefaultAvatar = require("../assets/images/guinea-pig-default-avatar.png");
+const aboutUsTc = require("../assets/images/about-us-tc.png");
 
 export default {
   petLogin,
@@ -72,4 +73,5 @@ export default {
   rabbitDefaultAvatar,
   hamsterDefaultAvatar,
   guineaPigDefaultAvatar,
+  aboutUsTc,
 };
