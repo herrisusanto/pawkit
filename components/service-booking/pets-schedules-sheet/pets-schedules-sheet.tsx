@@ -290,7 +290,9 @@ export const PetsSchedulesSheet = View.styleable(({ ...props }, ref) => {
                     px="$5"
                   >
                     {timeSlots
-                      .filter((time) => time.startDateTime > moment().format())
+                      .filter((time) =>
+                        moment(time.startDateTime).isSameOrAfter(moment())
+                      )
                       .map((timeSlot, i) => {
                         const itemWidth = width * 0.5;
                         const calculatedWidth =
