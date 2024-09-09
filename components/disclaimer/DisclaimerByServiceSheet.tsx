@@ -27,6 +27,7 @@ export const DisclaimerByServiceIdSheet = forwardRef<DisclaimerHandleRef>(
     const { data: user } = useCurrentUser();
     const [open, setOpen] = useState(false);
     const [serviceId, setServiceId] = useState<string | undefined>();
+    const [hasScrolledToBottom, setHasScrolledToBottom] = useState(false);
 
     const queryClient = useQueryClient();
     const { data: service } = useQuery({
@@ -102,7 +103,11 @@ export const DisclaimerByServiceIdSheet = forwardRef<DisclaimerHandleRef>(
       >
         <Sheet.Overlay />
         <Sheet.Frame>
-          <Sheet.ScrollView>
+          <Sheet.ScrollView
+            onMomentumScrollEnd={({ nativeEvent }) => {
+              setHasScrolledToBottom(true);
+            }}
+          >
             <YStack px="$5">
               <XStack py="$5" jc="space-between">
                 <XStack ai="center" columnGap="$3.5">
@@ -141,7 +146,7 @@ export const DisclaimerByServiceIdSheet = forwardRef<DisclaimerHandleRef>(
                 <Button
                   h="$4"
                   type="primary"
-                  disabled={isPending}
+                  disabled={isPending || !hasScrolledToBottom}
                   loading={isPending}
                   onPress={handleIUnderstandButton}
                 >
