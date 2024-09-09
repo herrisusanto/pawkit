@@ -35,6 +35,9 @@ const rabbitDefaultAvatar = require("../assets/images/rabbit-default-avatar.png"
 const hamsterDefaultAvatar = require("../assets/images/hamster-default-avatar.png");
 const guineaPigDefaultAvatar = require("../assets/images/guinea-pig-default-avatar.png");
 const aboutUsTc = require("../assets/images/about-us-tc.png");
+const birdDefaultAvatar = require("../assets/images/bird-default-avatar.png");
+const reptileDefaultAvatar = require("../assets/images/reptile-default-avatar.png");
+const tortoiseDefaultAvatar = require("../assets/images/tortoise-default-avatar.png");
 
 export default {
   petLogin,
@@ -74,4 +77,7 @@ export default {
   hamsterDefaultAvatar,
   guineaPigDefaultAvatar,
   aboutUsTc,
+  birdDefaultAvatar,
+  reptileDefaultAvatar,
+  tortoiseDefaultAvatar,
 };
