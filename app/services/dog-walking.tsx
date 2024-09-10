@@ -20,7 +20,7 @@ import { useQuery } from "@tanstack/react-query";
 import { useCurrentUser } from "@/hooks";
 import { fetchPetsByCustomer } from "@/api/pet";
 import { fetchServices } from "@/api/service-booking";
-import { Pet, Service, ServiceCategory } from "@/api/graphql/API";
+import { Pet, PetType, Service, ServiceCategory } from "@/api/graphql/API";
 import { useAtom } from "jotai";
 import { SelectedPetServiceType } from "@/types/services/selected-pet-service.type";
 import { PriceDetailsSheet } from "@/components/price-details-sheet/PriceDetailsSheet";
@@ -39,8 +39,11 @@ const DogWalkingScreen = () => {
   );
   const { data: user } = useCurrentUser();
   const { data: pets } = useQuery({
-    queryKey: ["pets", user?.userId],
-    queryFn: () => fetchPetsByCustomer(user?.userId as string),
+    queryKey: ["pets", user?.userId, PetType.DOG],
+    queryFn: () =>
+      fetchPetsByCustomer(user?.userId as string, {
+        petType: { eq: PetType.DOG },
+      }),
     enabled: !!user,
   });
   const selectedPet = useMemo(() => {
