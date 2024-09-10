@@ -9,9 +9,9 @@ export const petDefaultAvatar = (petType?: PetType) => {
       return images.dogDefaultAvatar;
     case "RABBIT":
       return images.rabbitDefaultAvatar;
-    case "HAMSTER":
-      return images.hamsterDefaultAvatar;
     case "GUINEA_PIG":
+      return images.guineaPigDefaultAvatar;
+    case "BIRD":
       return images.guineaPigDefaultAvatar;
     default:
       return images.dogDefaultAvatar;
