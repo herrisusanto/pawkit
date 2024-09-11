@@ -10,6 +10,7 @@ import {
   BookingStatus,
   CreatePetInput,
   ModelIDKeyConditionInput,
+  PetsByCustomerQueryVariables,
   UpdatePetInput,
 } from "./graphql/API";
 import {
@@ -119,7 +120,10 @@ export const addQuestionAnswer = async (
 };
 
 // Read
-export const fetchPetsByCustomer = async (customerId: string) => {
+export const fetchPetsByCustomer = async (
+  customerId: string,
+  filter?: PetsByCustomerQueryVariables["filter"]
+) => {
   try {
     if (!customerId) {
       logger.error("Customer id is required");
@@ -132,6 +136,7 @@ export const fetchPetsByCustomer = async (customerId: string) => {
         customerId,
         filter: {
           isDeleted: { eq: false },
+          ...filter,
         },
       },
     });

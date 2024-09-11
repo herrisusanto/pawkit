@@ -1,18 +1,13 @@
 import FontLoader from "@/components/common/FontLoader/FontLoader";
 import tamaguiConfig from "@/tamagui.config";
 import { TamaguiProvider } from "@tamagui/core";
-import {
-  QueryCache,
-  QueryClient,
-  QueryClientProvider,
-} from "@tanstack/react-query";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { PortalProvider } from "tamagui";
 import * as Updates from "expo-updates";
 import ForceUpdateModal from "@/components/common/ForceUpdateModal/ForceUpdateModal";
 import moment from "moment-timezone";
-import PopupController from "@/components/common/GlobalPopupError/PopUpController";
 import GlobalPopupError from "@/components/common/GlobalPopupError/GlobalPopupError";
 
 moment.tz.setDefault("Asia/Singapore");
@@ -43,11 +38,6 @@ function RootLayoutNav() {
         new QueryClient({
           // data will be considered stale after 5 min
           defaultOptions: { queries: { staleTime: 1000 * 60 * 5 } },
-          queryCache: new QueryCache({
-            onError: (_, query) => {
-              PopupController.showGlobalPopup(query.queryKey);
-            },
-          }),
         })
       }
     >
