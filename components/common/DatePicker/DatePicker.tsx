@@ -104,6 +104,9 @@ export const DatePicker = View.styleable<DatePickerProps>(
             onChange={handleChange}
             disabledDates={disabledDates}
             maxDate={moment()}
+            minDate={moment().subtract(12, "years")}
+            withTitle
+            onCloseCalendar={closeCalendarModal}
           />
         </Modal>
       </>

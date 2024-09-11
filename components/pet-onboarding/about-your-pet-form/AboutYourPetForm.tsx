@@ -11,7 +11,6 @@ import {
 } from "@/components/common/Icons";
 import { TypeCatIcon } from "@/components/common/Icons/TypeCatIcon";
 import { TypeDogIcon } from "@/components/common/Icons/TypeDogIcon";
-import { TypeHamsterIcon } from "@/components/common/Icons/TypeHamsterIcon";
 import { TypeRabbitIcon } from "@/components/common/Icons/TypeRabbitIcon";
 import { TypeTurtleIcon } from "@/components/common/Icons/TypeTurtleIcon";
 import { Input } from "@/components/common/Input/Input";
@@ -95,11 +94,11 @@ export const AboutYourPetForm: React.FC<AboutYourPetFormProps> = ({
       value: PetType.GUINEA_PIG,
       available: true,
     },
-    {
-      petIcon: (strokeColor) => <TypeHamsterIcon strokeColor={strokeColor} />,
-      value: PetType.HAMSTER,
-      available: false,
-    },
+    // {
+    //   petIcon: (strokeColor) => <TypeHamsterIcon strokeColor={strokeColor} />,
+    //   value: PetType.HAMSTER,
+    //   available: false,
+    // },
     {
       petIcon: (strokeColor) => <TypeTurtleIcon strokeColor={strokeColor} />,
       children: <TypeTurtleIcon />,
