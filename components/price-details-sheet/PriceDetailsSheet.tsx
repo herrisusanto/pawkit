@@ -146,6 +146,11 @@ export const PriceDetailsSheet = forwardRef<
     };
   });
 
+  const formattedServiceName = serviceName
+    .split("-")
+    .map((word) => word[0].toUpperCase() + word.substring(1).toLowerCase())
+    .join(" ");
+
   return (
     <>
       <View
@@ -235,11 +240,7 @@ export const PriceDetailsSheet = forwardRef<
                   )}
                 </XStack>
                 <Text fontSize="$c1" fontWeight="$7">
-                  Selected{" "}
-                  {serviceName.replace(
-                    serviceName[0],
-                    serviceName[0].toUpperCase()
-                  )}
+                  Selected {formattedServiceName}
                 </Text>
                 <SelectedServicesQuantity
                   selectedServices={selectedPetsServices}
