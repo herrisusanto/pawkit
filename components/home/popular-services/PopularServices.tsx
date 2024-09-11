@@ -20,16 +20,7 @@ const { width } = Dimensions.get("screen");
 const serviceList = [
   {
     id: 1,
-    name: "Pet Vaccination",
-    serviceIcon: (strokeColor: string, fillColor: string) => (
-      <VaccinationIcon strokeColor={strokeColor} fillColor={fillColor} />
-    ),
-    routePath: "/services/vaccination",
-    available: true,
-  },
-  {
-    id: 2,
-    name: "Pet Grooming",
+    name: "Grooming",
     serviceIcon: (strokeColor: string, fillColor: string) => (
       <GroomingIcon strokeColor={strokeColor} fillColor={fillColor} />
     ),
@@ -37,22 +28,31 @@ const serviceList = [
     available: true,
   },
   {
+    id: 2,
+    name: "Vaccination",
+    serviceIcon: (strokeColor: string, fillColor: string) => (
+      <VaccinationIcon strokeColor={strokeColor} fillColor={fillColor} />
+    ),
+    routePath: "/services/vaccination",
+    available: true,
+  },
+  {
     id: 3,
+    name: "Pet\nSitting",
+    serviceIcon: (strokeColor: string, fillColor: string) => (
+      <PetSittingIcon strokeColor={strokeColor} fillColor={fillColor} />
+    ),
+    routePath: "/services/pet-sitting",
+    available: true,
+  },
+  {
+    id: 4,
     name: "Nursing",
     serviceIcon: (strokeColor: string, fillColor: string) => (
       <NursingIcon strokeColor={strokeColor} fillColor={fillColor} />
     ),
     routePath: "/services/nursing",
-    available: true,
-  },
-  {
-    id: 4,
-    name: "Vet\nConsult",
-    serviceIcon: (strokeColor: string, fillColor: string) => (
-      <VetConsultIcon strokeColor={strokeColor} fillColor={fillColor} />
-    ),
-    routePath: "/services/vet-consult",
-    available: true,
+    available: false,
   },
   {
     id: 5,
@@ -61,7 +61,7 @@ const serviceList = [
       <WellnessIcon strokeColor={strokeColor} fillColor={fillColor} />
     ),
     routePath: "/services/wellness",
-    available: true,
+    available: false,
   },
   {
     id: 6,
@@ -72,14 +72,15 @@ const serviceList = [
     routePath: "/services/dog-walking",
     available: true,
   },
+
   {
     id: 7,
-    name: "Pet\nSitting",
+    name: "Vet\nConsult",
     serviceIcon: (strokeColor: string, fillColor: string) => (
-      <PetSittingIcon strokeColor={strokeColor} fillColor={fillColor} />
+      <VetConsultIcon strokeColor={strokeColor} fillColor={fillColor} />
     ),
-    routePath: "/services/pet-sitting",
-    available: false,
+    routePath: "/services/vet-consult",
+    available: true,
   },
   {
     id: 8,
@@ -97,7 +98,7 @@ const serviceList = [
       <MicrochippingIcon strokeColor={strokeColor} fillColor={fillColor} />
     ),
     routePath: "/services/microchipping",
-    available: false,
+    available: true,
   },
   {
     id: 10,
@@ -106,7 +107,7 @@ const serviceList = [
       <MedicalSittingIcon strokeColor={strokeColor} fillColor={fillColor} />
     ),
     routePath: "/services/medical-sitting",
-    available: true,
+    available: false,
   },
   {
     id: 11,
@@ -115,7 +116,7 @@ const serviceList = [
       <HospiceCareIcon strokeColor={strokeColor} fillColor={fillColor} />
     ),
     routePath: "/services/hospice-care",
-    available: true,
+    available: false,
   },
 ];
 
