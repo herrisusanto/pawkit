@@ -17,6 +17,10 @@ const logger = new ConsoleLogger("api/breed.ts");
 // Create
 export const addBreed = async (input: CreateBreedInput) => {
   try {
+    if (!input.name || !input.petType) {
+      logger.error("Name and petType are required");
+      throw new BadRequestError("Name and petType are required");
+    }
     const result = await graphqlClient.graphql({
       query: createBreed,
       variables: {
@@ -94,6 +98,10 @@ export const modifyBreed = async (
   condition: ModelBreedConditionInput
 ) => {
   try {
+    if (!input.name) {
+      logger.error("Name is required");
+      throw new BadRequestError("Name is required");
+    }
     const result = await graphqlClient.graphql({
       query: updateBreed,
       variables: {
@@ -115,6 +123,10 @@ export const removeBreed = async (
   condition: ModelBreedConditionInput
 ) => {
   try {
+    if (!input.name) {
+      logger.error("Name is required");
+      throw new BadRequestError("Name is required");
+    }
     const result = await graphqlClient.graphql({
       query: deleteBreed,
       variables: {

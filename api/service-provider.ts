@@ -23,6 +23,10 @@ const logger = new ConsoleLogger("api/service-provider.ts");
 // Create
 export const addServiceProvider = async (input: CreateServiceProviderInput) => {
   try {
+    if (!input.name) {
+      logger.error("Service provider name is required");
+      throw new BadRequestError("Service provider name is required");
+    }
     const result = await graphqlClient.graphql({
       query: createServiceProvider,
       variables: {
@@ -81,6 +85,10 @@ export const modifyServiceProvider = async (
   input: UpdateServiceProviderInput
 ) => {
   try {
+    if (!input.name) {
+      logger.error("Service provider name is required");
+      throw new BadRequestError("Service provider name is required");
+    }
     const result = await graphqlClient.graphql({
       query: updateServiceProvider,
       variables: {
@@ -100,6 +108,11 @@ export const removeServiceProvider = async (
   input: DeleteServiceProviderInput
 ) => {
   try {
+    if (!input.name) {
+      logger.error("Service provider name is required");
+      throw new BadRequestError("Service provider name is required");
+    }
+
     const services = await fetchServicesByServiceProvider(input.name);
     services?.forEach((service: any) => {
       removeService(

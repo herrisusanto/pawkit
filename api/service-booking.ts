@@ -99,6 +99,10 @@ export type AddBookingInput = {
 // Create
 export const addService = async (input: CreateServiceInput) => {
   try {
+    if (!input.serviceProviderId) {
+      logger.error("Service provider id is required");
+      throw new BadRequestError("Service provider id is required");
+    }
     const result = await graphqlClient.graphql({
       query: createService,
       variables: {
@@ -115,6 +119,10 @@ export const addService = async (input: CreateServiceInput) => {
 
 export const addQuestion = async (input: CreateQuestionInput) => {
   try {
+    if (!input.questionString) {
+      logger.error("Question string is required");
+      throw new BadRequestError("Question string is required");
+    }
     const result = await graphqlClient.graphql({
       query: createQuestion,
       variables: {
@@ -131,6 +139,10 @@ export const addQuestion = async (input: CreateQuestionInput) => {
 
 export const addTimeSlot = async (input: CreateTimeSlotInput) => {
   try {
+    if (!input.serviceId) {
+      logger.error("Service id is required");
+      throw new BadRequestError("Service id is required");
+    }
     const service = await fetchServiceById(input.serviceId);
     if (!service) {
       logger.error("Service not found");
@@ -168,6 +180,14 @@ export const addTimeSlot = async (input: CreateTimeSlotInput) => {
 // Check that disclaimer was accepted before creating booking
 export const addBooking = async (input: AddBookingInput) => {
   try {
+    if (!input.orderId) {
+      logger.error("Order id is required");
+      throw new BadRequestError("Order id is required");
+    }
+    if (!input.serviceId) {
+      logger.error("Service id is required");
+      throw new BadRequestError("Service id is required");
+    }
     const order = await fetchOrder(input.orderId);
     if (!order) {
       logger.error(`Order with id=${input.orderId} not found`);
@@ -464,6 +484,10 @@ export const fetchServiceById = async (id: string) => {
 
 export const downloadServiceImage = async (serviceId: string) => {
   try {
+    if (!serviceId) {
+      logger.error("Service id is required");
+      throw new BadRequestError("Service id is required");
+    }
     const service = await fetchServiceById(serviceId);
     if (!service) {
       console.error("Service not found");

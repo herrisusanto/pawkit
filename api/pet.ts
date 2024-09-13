@@ -38,6 +38,16 @@ const logger = new ConsoleLogger("api/pets.ts");
 // Create
 export const addPet = async (input: CreatePetInput) => {
   try {
+    if (!input.customerId) {
+      logger.error("Customer id is required");
+      throw new BadRequestError("Customer id is required");
+    }
+
+    if (!input.name) {
+      logger.error("Pet name is required");
+      throw new BadRequestError("Pet name is required");
+    }
+
     const petTypeString = input.petType.toString();
     input["breedName"] =
       input.breedName === ""
@@ -190,6 +200,11 @@ export const fetchPetsByBooking = async (
 
 export const fetchPet = async (id: string) => {
   try {
+    if (!id) {
+      logger.error("Pet id is required");
+      throw new BadRequestError("Pet id is required");
+    }
+
     const result = await graphqlClient.graphql({
       query: getPet,
       variables: {
@@ -297,6 +312,10 @@ export const fetchQuestionAnswer = async (
 // Update
 export const modifyPet = async (input: UpdatePetInput) => {
   try {
+    if (!input.id) {
+      logger.error("Pet id is required");
+      throw new BadRequestError("Pet id is required");
+    }
     const pet = await fetchPet(input.id);
     if (!pet) {
       logger.error(`Pet id=${input.id} not found`);
@@ -375,6 +394,10 @@ export const downloadPetImage = async (userId: string, petId: string) => {
 // SOFT Delete
 export const removePet = async (id: string) => {
   try {
+    if (!id) {
+      logger.error("Pet id is required");
+      throw new BadRequestError("Pet id is required");
+    }
     const petBookings = await fetchBookingsByPet(id);
     if (petBookings.length > 0) {
       petBookings.map(async (petBooking) => {
