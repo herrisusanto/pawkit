@@ -94,11 +94,6 @@ export const AboutYourPetForm: React.FC<AboutYourPetFormProps> = ({
       value: PetType.GUINEA_PIG,
       available: true,
     },
-    // {
-    //   petIcon: (strokeColor) => <TypeHamsterIcon strokeColor={strokeColor} />,
-    //   value: PetType.HAMSTER,
-    //   available: false,
-    // },
     {
       petIcon: (strokeColor) => <TypeTurtleIcon strokeColor={strokeColor} />,
       children: <TypeTurtleIcon />,
