@@ -74,9 +74,9 @@ describe("Calendar", () => {
     fireEvent.press(year);
 
     fireEvent.press(
-      (await screen.findByText("2080")).parent as ReactTestInstance
+      (await screen.findByText("2024")).parent as ReactTestInstance
     );
 
-    expect(await screen.findByText("2080")).toBeOnTheScreen();
+    expect(await screen.findByText("2024")).toBeOnTheScreen();
   });
 });
