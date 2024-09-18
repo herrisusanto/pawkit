@@ -8,7 +8,11 @@ import React, {
   useImperativeHandle,
   forwardRef,
 } from "react";
-import { ImageSourcePropType, TouchableOpacity } from "react-native";
+import {
+  ImageSourcePropType,
+  NativeScrollEvent,
+  TouchableOpacity,
+} from "react-native";
 import { Sheet, Text, View, XStack, YStack, Image } from "tamagui";
 import {
   addDisclaimerAcceptance,
@@ -16,6 +20,8 @@ import {
 } from "@/api/customer";
 import { fetchServiceById } from "@/api/service-booking";
 import PopupController from "../common/GlobalPopupError/PopUpController";
+import { Checkbox } from "../common/Checkbox/Checkbox";
+import { Check } from "@tamagui/lucide-icons";
 
 export type DisclaimerHandleRef = {
   selectServiceId: (serviceId: string) => void;
@@ -27,6 +33,8 @@ export const DisclaimerByServiceIdSheet = forwardRef<DisclaimerHandleRef>(
     const { data: user } = useCurrentUser();
     const [open, setOpen] = useState(false);
     const [serviceId, setServiceId] = useState<string | undefined>();
+    const [hasScrolledToBottom, setHasScrolledToBottom] = useState(false);
+    const [isChecked, setIsChecked] = useState(false);
 
     const queryClient = useQueryClient();
     const { data: service } = useQuery({
@@ -92,6 +100,24 @@ export const DisclaimerByServiceIdSheet = forwardRef<DisclaimerHandleRef>(
       };
     });
 
+    const isCloseToBottom = ({
+      layoutMeasurement,
+      contentOffset,
+      contentSize,
+    }: NativeScrollEvent) => {
+      const paddingToBottom = 20;
+      return (
+        layoutMeasurement.height + contentOffset.y >=
+        contentSize.height - paddingToBottom
+      );
+    };
+
+    const onCheckedChange = () => {
+      setIsChecked(!isChecked);
+    };
+
+    const enableButton = isChecked && hasScrolledToBottom;
+
     return (
       <Sheet
         open={open}
@@ -102,7 +128,14 @@ export const DisclaimerByServiceIdSheet = forwardRef<DisclaimerHandleRef>(
       >
         <Sheet.Overlay />
         <Sheet.Frame>
-          <Sheet.ScrollView>
+          <Sheet.ScrollView
+            onScroll={({ nativeEvent }) => {
+              if (isCloseToBottom(nativeEvent)) {
+                setHasScrolledToBottom(true);
+              }
+            }}
+            scrollEventThrottle={400}
+          >
             <YStack px="$5">
               <XStack py="$5" jc="space-between">
                 <XStack ai="center" columnGap="$3.5">
@@ -120,13 +153,17 @@ export const DisclaimerByServiceIdSheet = forwardRef<DisclaimerHandleRef>(
                 </TouchableOpacity>
               </XStack>
               <YStack rowGap="$2">
-                <XStack ai="center" jc="center" p="$3">
-                  <Image
-                    source={service?.disclaimer?.s3Link as ImageSourcePropType}
-                    width={96}
-                    height={96}
-                  />
-                </XStack>
+                {service?.disclaimer?.s3Link && (
+                  <XStack ai="center" jc="center" p="$3">
+                    <Image
+                      source={
+                        service?.disclaimer?.s3Link as ImageSourcePropType
+                      }
+                      width={96}
+                      height={96}
+                    />
+                  </XStack>
+                )}
                 <Text fontSize="$c1" fontWeight="$7">
                   {service?.disclaimer?.header}
                 </Text>
@@ -137,19 +174,33 @@ export const DisclaimerByServiceIdSheet = forwardRef<DisclaimerHandleRef>(
                   {service?.disclaimer?.text}
                 </Text>
               </YStack>
-              <View py="$6">
-                <Button
-                  h="$4"
-                  type="primary"
-                  disabled={isPending}
-                  loading={isPending}
-                  onPress={handleIUnderstandButton}
-                >
-                  I Understand
-                </Button>
-              </View>
+              <XStack columnGap="$2" ai="center" my="$3">
+                <Checkbox checked={isChecked} onCheckedChange={onCheckedChange}>
+                  <Checkbox.Indicator bg="$primary" br="$3">
+                    <Check color="#fff" />
+                  </Checkbox.Indicator>
+                </Checkbox>
+                <YStack flex={1} gap="$4">
+                  <XStack gap="$2" ai="flex-end">
+                    <Text fontSize="$c2" fontWeight="$4">
+                      I understand and will not want to be shown this again
+                    </Text>
+                  </XStack>
+                </YStack>
+              </XStack>
             </YStack>
           </Sheet.ScrollView>
+          <View p="$4" jc="flex-end">
+            <Button
+              h="$4"
+              type="primary"
+              disabled={isPending || !enableButton}
+              loading={isPending}
+              onPress={handleIUnderstandButton}
+            >
+              I Understand
+            </Button>
+          </View>
         </Sheet.Frame>
       </Sheet>
     );
