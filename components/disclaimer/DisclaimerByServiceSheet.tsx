@@ -153,13 +153,17 @@ export const DisclaimerByServiceIdSheet = forwardRef<DisclaimerHandleRef>(
                 </TouchableOpacity>
               </XStack>
               <YStack rowGap="$2">
-                <XStack ai="center" jc="center" p="$3">
-                  <Image
-                    source={service?.disclaimer?.s3Link as ImageSourcePropType}
-                    width={96}
-                    height={96}
-                  />
-                </XStack>
+                {service?.disclaimer?.s3Link && (
+                  <XStack ai="center" jc="center" p="$3">
+                    <Image
+                      source={
+                        service?.disclaimer?.s3Link as ImageSourcePropType
+                      }
+                      width={96}
+                      height={96}
+                    />
+                  </XStack>
+                )}
                 <Text fontSize="$c1" fontWeight="$7">
                   {service?.disclaimer?.header}
                 </Text>
