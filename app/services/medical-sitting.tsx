@@ -284,7 +284,12 @@ const MedicalSittingScreen = () => {
         onOk={handleOk}
         disabled={selectedPetsService.length === 0}
       />
-      <DisclaimerByServiceIdSheet ref={disclaimerRef} />
+      <DisclaimerByServiceIdSheet
+        ref={disclaimerRef}
+        onClose={(serviceId) =>
+          handleRemoveService(selectedPetId as string, serviceId)
+        }
+      />
     </View>
   );
 };
