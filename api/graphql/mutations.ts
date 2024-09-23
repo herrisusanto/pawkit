@@ -361,6 +361,10 @@ export const createCustomer = /* GraphQL */ `mutation CreateCustomer(
       nextToken
       __typename
     }
+    deviceTokens {
+      nextToken
+      __typename
+    }
     pets {
       nextToken
       __typename
@@ -403,6 +407,10 @@ export const updateCustomer = /* GraphQL */ `mutation UpdateCustomer(
       __typename
     }
     acceptedDisclaimers {
+      nextToken
+      __typename
+    }
+    deviceTokens {
       nextToken
       __typename
     }
@@ -451,6 +459,10 @@ export const deleteCustomer = /* GraphQL */ `mutation DeleteCustomer(
       nextToken
       __typename
     }
+    deviceTokens {
+      nextToken
+      __typename
+    }
     pets {
       nextToken
       __typename
@@ -475,6 +487,87 @@ export const deleteCustomer = /* GraphQL */ `mutation DeleteCustomer(
 ` as GeneratedMutation<
   APITypes.DeleteCustomerMutationVariables,
   APITypes.DeleteCustomerMutation
+>;
+export const createDeviceToken = /* GraphQL */ `mutation CreateDeviceToken(
+  $input: CreateDeviceTokenInput!
+  $condition: ModelDeviceTokenConditionInput
+) {
+  createDeviceToken(input: $input, condition: $condition) {
+    id
+    customerId
+    customer {
+      id
+      username
+      isDeactivated
+      s3ImageKey
+      createdAt
+      updatedAt
+      __typename
+    }
+    token
+    deviceType
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.CreateDeviceTokenMutationVariables,
+  APITypes.CreateDeviceTokenMutation
+>;
+export const updateDeviceToken = /* GraphQL */ `mutation UpdateDeviceToken(
+  $input: UpdateDeviceTokenInput!
+  $condition: ModelDeviceTokenConditionInput
+) {
+  updateDeviceToken(input: $input, condition: $condition) {
+    id
+    customerId
+    customer {
+      id
+      username
+      isDeactivated
+      s3ImageKey
+      createdAt
+      updatedAt
+      __typename
+    }
+    token
+    deviceType
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.UpdateDeviceTokenMutationVariables,
+  APITypes.UpdateDeviceTokenMutation
+>;
+export const deleteDeviceToken = /* GraphQL */ `mutation DeleteDeviceToken(
+  $input: DeleteDeviceTokenInput!
+  $condition: ModelDeviceTokenConditionInput
+) {
+  deleteDeviceToken(input: $input, condition: $condition) {
+    id
+    customerId
+    customer {
+      id
+      username
+      isDeactivated
+      s3ImageKey
+      createdAt
+      updatedAt
+      __typename
+    }
+    token
+    deviceType
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedMutation<
+  APITypes.DeleteDeviceTokenMutationVariables,
+  APITypes.DeleteDeviceTokenMutation
 >;
 export const createDisclaimer = /* GraphQL */ `mutation CreateDisclaimer(
   $input: CreateDisclaimerInput!
@@ -510,6 +603,7 @@ export const createDisclaimer = /* GraphQL */ `mutation CreateDisclaimer(
       goodToKnow
       parentServiceIds
       childServiceIds
+      childServiceGroup
       disclaimerName
       timeSlotIds
       bookingIds
@@ -585,6 +679,7 @@ export const updateDisclaimer = /* GraphQL */ `mutation UpdateDisclaimer(
       goodToKnow
       parentServiceIds
       childServiceIds
+      childServiceGroup
       disclaimerName
       timeSlotIds
       bookingIds
@@ -660,6 +755,7 @@ export const deleteDisclaimer = /* GraphQL */ `mutation DeleteDisclaimer(
       goodToKnow
       parentServiceIds
       childServiceIds
+      childServiceGroup
       disclaimerName
       timeSlotIds
       bookingIds
@@ -701,7 +797,8 @@ export const deleteDisclaimer = /* GraphQL */ `mutation DeleteDisclaimer(
   APITypes.DeleteDisclaimerMutationVariables,
   APITypes.DeleteDisclaimerMutation
 >;
-export const createDisclaimerAcceptance = /* GraphQL */ `mutation CreateDisclaimerAcceptance(
+export const createDisclaimerAcceptance =
+  /* GraphQL */ `mutation CreateDisclaimerAcceptance(
   $input: CreateDisclaimerAcceptanceInput!
   $condition: ModelDisclaimerAcceptanceConditionInput
 ) {
@@ -739,10 +836,11 @@ export const createDisclaimerAcceptance = /* GraphQL */ `mutation CreateDisclaim
   }
 }
 ` as GeneratedMutation<
-  APITypes.CreateDisclaimerAcceptanceMutationVariables,
-  APITypes.CreateDisclaimerAcceptanceMutation
->;
-export const updateDisclaimerAcceptance = /* GraphQL */ `mutation UpdateDisclaimerAcceptance(
+    APITypes.CreateDisclaimerAcceptanceMutationVariables,
+    APITypes.CreateDisclaimerAcceptanceMutation
+  >;
+export const updateDisclaimerAcceptance =
+  /* GraphQL */ `mutation UpdateDisclaimerAcceptance(
   $input: UpdateDisclaimerAcceptanceInput!
   $condition: ModelDisclaimerAcceptanceConditionInput
 ) {
@@ -780,10 +878,11 @@ export const updateDisclaimerAcceptance = /* GraphQL */ `mutation UpdateDisclaim
   }
 }
 ` as GeneratedMutation<
-  APITypes.UpdateDisclaimerAcceptanceMutationVariables,
-  APITypes.UpdateDisclaimerAcceptanceMutation
->;
-export const deleteDisclaimerAcceptance = /* GraphQL */ `mutation DeleteDisclaimerAcceptance(
+    APITypes.UpdateDisclaimerAcceptanceMutationVariables,
+    APITypes.UpdateDisclaimerAcceptanceMutation
+  >;
+export const deleteDisclaimerAcceptance =
+  /* GraphQL */ `mutation DeleteDisclaimerAcceptance(
   $input: DeleteDisclaimerAcceptanceInput!
   $condition: ModelDisclaimerAcceptanceConditionInput
 ) {
@@ -821,9 +920,9 @@ export const deleteDisclaimerAcceptance = /* GraphQL */ `mutation DeleteDisclaim
   }
 }
 ` as GeneratedMutation<
-  APITypes.DeleteDisclaimerAcceptanceMutationVariables,
-  APITypes.DeleteDisclaimerAcceptanceMutation
->;
+    APITypes.DeleteDisclaimerAcceptanceMutationVariables,
+    APITypes.DeleteDisclaimerAcceptanceMutation
+  >;
 export const createOrder = /* GraphQL */ `mutation CreateOrder(
   $input: CreateOrderInput!
   $condition: ModelOrderConditionInput
@@ -1307,7 +1406,8 @@ export const deleteQuestion = /* GraphQL */ `mutation DeleteQuestion(
   APITypes.DeleteQuestionMutationVariables,
   APITypes.DeleteQuestionMutation
 >;
-export const createQuestionAnswer = /* GraphQL */ `mutation CreateQuestionAnswer(
+export const createQuestionAnswer =
+  /* GraphQL */ `mutation CreateQuestionAnswer(
   $input: CreateQuestionAnswerInput!
   $condition: ModelQuestionAnswerConditionInput
 ) {
@@ -1358,10 +1458,11 @@ export const createQuestionAnswer = /* GraphQL */ `mutation CreateQuestionAnswer
   }
 }
 ` as GeneratedMutation<
-  APITypes.CreateQuestionAnswerMutationVariables,
-  APITypes.CreateQuestionAnswerMutation
->;
-export const updateQuestionAnswer = /* GraphQL */ `mutation UpdateQuestionAnswer(
+    APITypes.CreateQuestionAnswerMutationVariables,
+    APITypes.CreateQuestionAnswerMutation
+  >;
+export const updateQuestionAnswer =
+  /* GraphQL */ `mutation UpdateQuestionAnswer(
   $input: UpdateQuestionAnswerInput!
   $condition: ModelQuestionAnswerConditionInput
 ) {
@@ -1412,10 +1513,11 @@ export const updateQuestionAnswer = /* GraphQL */ `mutation UpdateQuestionAnswer
   }
 }
 ` as GeneratedMutation<
-  APITypes.UpdateQuestionAnswerMutationVariables,
-  APITypes.UpdateQuestionAnswerMutation
->;
-export const deleteQuestionAnswer = /* GraphQL */ `mutation DeleteQuestionAnswer(
+    APITypes.UpdateQuestionAnswerMutationVariables,
+    APITypes.UpdateQuestionAnswerMutation
+  >;
+export const deleteQuestionAnswer =
+  /* GraphQL */ `mutation DeleteQuestionAnswer(
   $input: DeleteQuestionAnswerInput!
   $condition: ModelQuestionAnswerConditionInput
 ) {
@@ -1466,9 +1568,9 @@ export const deleteQuestionAnswer = /* GraphQL */ `mutation DeleteQuestionAnswer
   }
 }
 ` as GeneratedMutation<
-  APITypes.DeleteQuestionAnswerMutationVariables,
-  APITypes.DeleteQuestionAnswerMutation
->;
+    APITypes.DeleteQuestionAnswerMutationVariables,
+    APITypes.DeleteQuestionAnswerMutation
+  >;
 export const createService = /* GraphQL */ `mutation CreateService(
   $input: CreateServiceInput!
   $condition: ModelServiceConditionInput
@@ -1575,6 +1677,7 @@ export const createService = /* GraphQL */ `mutation CreateService(
     goodToKnow
     parentServiceIds
     childServiceIds
+    childServiceGroup
     disclaimerName
     disclaimer {
       name
@@ -1709,6 +1812,7 @@ export const updateService = /* GraphQL */ `mutation UpdateService(
     goodToKnow
     parentServiceIds
     childServiceIds
+    childServiceGroup
     disclaimerName
     disclaimer {
       name
@@ -1843,6 +1947,7 @@ export const deleteService = /* GraphQL */ `mutation DeleteService(
     goodToKnow
     parentServiceIds
     childServiceIds
+    childServiceGroup
     disclaimerName
     disclaimer {
       name
@@ -1871,7 +1976,8 @@ export const deleteService = /* GraphQL */ `mutation DeleteService(
   APITypes.DeleteServiceMutationVariables,
   APITypes.DeleteServiceMutation
 >;
-export const createServiceProvider = /* GraphQL */ `mutation CreateServiceProvider(
+export const createServiceProvider =
+  /* GraphQL */ `mutation CreateServiceProvider(
   $input: CreateServiceProviderInput!
   $condition: ModelServiceProviderConditionInput
 ) {
@@ -1928,10 +2034,11 @@ export const createServiceProvider = /* GraphQL */ `mutation CreateServiceProvid
   }
 }
 ` as GeneratedMutation<
-  APITypes.CreateServiceProviderMutationVariables,
-  APITypes.CreateServiceProviderMutation
->;
-export const updateServiceProvider = /* GraphQL */ `mutation UpdateServiceProvider(
+    APITypes.CreateServiceProviderMutationVariables,
+    APITypes.CreateServiceProviderMutation
+  >;
+export const updateServiceProvider =
+  /* GraphQL */ `mutation UpdateServiceProvider(
   $input: UpdateServiceProviderInput!
   $condition: ModelServiceProviderConditionInput
 ) {
@@ -1988,10 +2095,11 @@ export const updateServiceProvider = /* GraphQL */ `mutation UpdateServiceProvid
   }
 }
 ` as GeneratedMutation<
-  APITypes.UpdateServiceProviderMutationVariables,
-  APITypes.UpdateServiceProviderMutation
->;
-export const deleteServiceProvider = /* GraphQL */ `mutation DeleteServiceProvider(
+    APITypes.UpdateServiceProviderMutationVariables,
+    APITypes.UpdateServiceProviderMutation
+  >;
+export const deleteServiceProvider =
+  /* GraphQL */ `mutation DeleteServiceProvider(
   $input: DeleteServiceProviderInput!
   $condition: ModelServiceProviderConditionInput
 ) {
@@ -2048,9 +2156,9 @@ export const deleteServiceProvider = /* GraphQL */ `mutation DeleteServiceProvid
   }
 }
 ` as GeneratedMutation<
-  APITypes.DeleteServiceProviderMutationVariables,
-  APITypes.DeleteServiceProviderMutation
->;
+    APITypes.DeleteServiceProviderMutationVariables,
+    APITypes.DeleteServiceProviderMutation
+  >;
 export const createTimeSlot = /* GraphQL */ `mutation CreateTimeSlot(
   $input: CreateTimeSlotInput!
   $condition: ModelTimeSlotConditionInput

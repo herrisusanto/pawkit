@@ -73,10 +73,29 @@ type Customer
   address: Address
   acceptedDisclaimers: [DisclaimerAcceptance!]
     @hasMany(indexName: "byCustomer", fields: ["id"])
+  deviceTokens: [DeviceToken!]
+    @hasMany(indexName: "byCustomer", fields: ["id"])
   pets: [Pet!] @hasMany(indexName: "byCustomer", fields: ["id"])
   bookings: [Booking!] @hasMany(indexName: "byCustomer", fields: ["id"])
   orders: [Order!] @hasMany(indexName: "byCustomer", fields: ["id"])
   payments: [Payment!] @hasMany(indexName: "byCustomer", fields: ["id"])
+}
+
+type DeviceToken
+  @model
+  @auth(
+    rules: [
+      { allow: owner, ownerField: "customerId", operations: [create, read] }
+      { allow: groups, groups: ["ServicePersonnel"], operations: [read] }
+      { allow: groups, groups: ["Admin"] }
+    ]
+  ) {
+   id: ID! @primaryKey
+   customerId: ID! @index(name: "byCustomer", queryField: "deviceTokenByCustomer")
+   customer: Customer! @belongsTo(fields: ["customerId"])
+   token: String!
+   deviceType: String!
+   createdAt: AWSDateTime!
 }
 
 type Disclaimer
@@ -303,11 +322,13 @@ type Service
   goodToKnow: String
   parentServiceIds: [ID!]
   childServiceIds: [ID!]
+  childServiceGroup: ChildServiceGroup
   disclaimerName: String
   disclaimer: Disclaimer @hasOne(fields: ["disclaimerName"])
   timeSlotIds: [ID!] # Add-on services will refer to the base service's time slots
   bookingIds: [ID!]
   requiredQuestionIds: [ID!]
+  
 }
 
 type ServiceProvider
@@ -484,4 +505,8 @@ enum TimeUnit {
 enum WeightUnit {
   KG
   G
+}
+
+enum ChildServiceGroup {
+  HAIRCUT
 }
