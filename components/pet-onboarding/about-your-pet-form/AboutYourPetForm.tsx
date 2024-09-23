@@ -8,6 +8,7 @@ import {
   MaleIcon,
   FemaleIcon,
   TypeGuineaPigIcon,
+  TypeHamsterIcon,
 } from "@/components/common/Icons";
 import { TypeCatIcon } from "@/components/common/Icons/TypeCatIcon";
 import { TypeDogIcon } from "@/components/common/Icons/TypeDogIcon";
@@ -87,6 +88,11 @@ export const AboutYourPetForm: React.FC<AboutYourPetFormProps> = ({
     {
       petIcon: (strokeColor) => <TypeRabbitIcon strokeColor={strokeColor} />,
       value: PetType.RABBIT,
+      available: true,
+    },
+    {
+      petIcon: (strokeColor) => <TypeHamsterIcon strokeColor={strokeColor} />,
+      value: PetType.HAMSTER,
       available: true,
     },
     {
