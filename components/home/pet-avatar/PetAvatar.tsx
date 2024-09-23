@@ -1,6 +1,5 @@
 import { Dimensions } from "react-native";
 import { Text, YStack } from "tamagui";
-import moment from "moment";
 import { useQuery } from "@tanstack/react-query";
 
 import { Pet } from "@/api/graphql/API";
@@ -8,6 +7,7 @@ import { downloadPetImage } from "@/api/pet";
 import { petDefaultAvatar } from "@/components/my-pet/pet-default-avatar/petDefaultAvatar";
 import { useCurrentUser } from "@/hooks";
 import { Avatar } from "@/components/common/Avatar";
+import { calculateAge } from "@/components/my-pet/about-pet/utils";
 
 const { width } = Dimensions.get("screen");
 
@@ -15,17 +15,6 @@ export const PetAvatar = YStack.styleable<{ data: Pet }>(
   ({ data, ...props }, ref) => {
     const { data: user } = useCurrentUser();
     const containerWidth = width - 188;
-
-    const petBirthdateInMonths = moment().diff(
-      moment(data.birthdate),
-      "months"
-    );
-    const petYearsOld = (petBirthdateInMonths / 12).toFixed();
-    const petMonthsOld = (petBirthdateInMonths / 12)
-      .toFixed(1)
-      .toString()
-      .split(".")[1]
-      ?.slice(0, 1);
 
     const { data: petImage, isFetching: isImageLoading } = useQuery({
       queryKey: ["pet-image", user?.userId, data?.id],
@@ -67,7 +56,7 @@ export const PetAvatar = YStack.styleable<{ data: Pet }>(
             textAlign="center"
             color="$natural1"
           >
-            {data.birthdate ? `${petYearsOld}y ${petMonthsOld}m` : "unknown"}
+            {data.birthdate ? calculateAge(data.birthdate, true) : "unknown"}
           </Text>
         </YStack>
       </YStack>
