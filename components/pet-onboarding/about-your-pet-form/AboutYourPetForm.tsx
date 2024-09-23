@@ -27,8 +27,8 @@ import {
   launchImageLibraryAsync,
   MediaTypeOptions,
 } from "expo-image-picker";
-import { useQuery } from "@tanstack/react-query";
-import { downloadPetImage } from "@/api/pet";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { downloadPetImage, uploadPetImage } from "@/api/pet";
 import { useCurrentUser } from "@/hooks";
 import { useAtom } from "jotai";
 import { petOnboardingAtom } from "@/app/pet-onboarding/state";
@@ -42,7 +42,8 @@ type AboutYourPetFormProps = {
 export const AboutYourPetForm: React.FC<AboutYourPetFormProps> = ({
   onSubmit,
 }) => {
-  const { control, handleSubmit, formState, watch, setValue } =
+  const queryClient = useQueryClient();
+  const { control, handleSubmit, formState, watch, getValues } =
     useFormContext();
   const { isSubmitting, isValid } = formState;
   const { data: user } = useCurrentUser();
@@ -59,6 +60,23 @@ export const AboutYourPetForm: React.FC<AboutYourPetFormProps> = ({
     enabled: !!user && !!petId,
   });
 
+  const { mutateAsync: handleUploadPetImage, isPending } = useMutation({
+    mutationFn: ({
+      userId,
+      petId,
+      file,
+    }: {
+      userId: string;
+      petId: string;
+      file: File;
+    }) => uploadPetImage(userId, petId, file),
+    onSuccess() {
+      queryClient.invalidateQueries({
+        queryKey: ["pet-image", user?.userId, petId],
+      });
+    },
+  });
+
   const handleImagePicker = async () => {
     if (status?.granted) {
       const result = await launchImageLibraryAsync({
@@ -67,8 +85,19 @@ export const AboutYourPetForm: React.FC<AboutYourPetFormProps> = ({
       });
 
       const firstAsset = result.assets?.[0];
-      setValue("image", firstAsset?.uri);
       setPetImageUrl(firstAsset?.uri);
+      const image = firstAsset?.uri;
+      if (image && String(image).startsWith("file:///")) {
+        const petName = getValues("name");
+        const imageFile = await fetch(image);
+        const blob = await imageFile.blob();
+        const file = new File([blob], petName);
+        await handleUploadPetImage({
+          userId: user?.userId as string,
+          petId: petId!,
+          file,
+        });
+      }
     } else {
       await requestPermission();
     }
@@ -147,6 +176,7 @@ export const AboutYourPetForm: React.FC<AboutYourPetFormProps> = ({
           <AvatarPicker
             source={petImageUrl ?? petDefaultAvatar(petType)}
             onImagePicker={handleImagePicker}
+            isLoading={isPending}
           />
         </YStack>
         {/** Inputs */}

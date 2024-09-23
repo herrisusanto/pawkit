@@ -7,7 +7,7 @@ import { useAtom } from "jotai";
 import { FieldValues, SubmitHandler, useFormContext } from "react-hook-form";
 import { ScrollView, YStack } from "tamagui";
 import { petOnboardingAtom } from "./state";
-import { addPet, fetchPet, modifyPet, uploadPetImage } from "@/api/pet";
+import { addPet, fetchPet, modifyPet } from "@/api/pet";
 import { useEffect } from "react";
 import moment from "moment";
 import { CreatePetInput, UpdatePetInput } from "@/api/graphql/API";
@@ -58,10 +58,7 @@ export default function DetailsYourPet() {
     nextStep();
   };
 
-  const saveChanges: SubmitHandler<FieldValues> = async ({
-    image,
-    ...values
-  }) => {
+  const saveChanges: SubmitHandler<FieldValues> = async ({ ...values }) => {
     try {
       let pet;
       if (petId) {
@@ -81,13 +78,6 @@ export default function DetailsYourPet() {
         });
       }
 
-      if (String(image).startsWith("file:///")) {
-        const imageFile = await fetch(image);
-        const blob = await imageFile.blob();
-        const file = new File([blob], pet.name);
-        await uploadPetImage(user?.userId as string, pet.id, file);
-      }
-
       setState({ petId: pet?.id });
       invalidateQueries();
       // eslint-disable-next-line
@@ -99,9 +89,6 @@ export default function DetailsYourPet() {
   const invalidateQueries = () => {
     queryClient.invalidateQueries({
       queryKey: ["pets", user?.userId, petId],
-    });
-    queryClient.invalidateQueries({
-      queryKey: ["pet-image", user?.userId, petId],
     });
   };
 
