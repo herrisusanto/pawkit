@@ -8,7 +8,8 @@ type GeneratedSubscription<InputType, OutputType> = string & {
   __generatedSubscriptionOutput: OutputType;
 };
 
-export const onCreateBooking = /* GraphQL */ `subscription OnCreateBooking($filter: ModelSubscriptionBookingFilterInput) {
+export const onCreateBooking =
+  /* GraphQL */ `subscription OnCreateBooking($filter: ModelSubscriptionBookingFilterInput) {
   onCreateBooking(filter: $filter) {
     id
     orderId
@@ -92,10 +93,11 @@ export const onCreateBooking = /* GraphQL */ `subscription OnCreateBooking($filt
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnCreateBookingSubscriptionVariables,
-  APITypes.OnCreateBookingSubscription
->;
-export const onUpdateBooking = /* GraphQL */ `subscription OnUpdateBooking($filter: ModelSubscriptionBookingFilterInput) {
+    APITypes.OnCreateBookingSubscriptionVariables,
+    APITypes.OnCreateBookingSubscription
+  >;
+export const onUpdateBooking =
+  /* GraphQL */ `subscription OnUpdateBooking($filter: ModelSubscriptionBookingFilterInput) {
   onUpdateBooking(filter: $filter) {
     id
     orderId
@@ -179,10 +181,11 @@ export const onUpdateBooking = /* GraphQL */ `subscription OnUpdateBooking($filt
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnUpdateBookingSubscriptionVariables,
-  APITypes.OnUpdateBookingSubscription
->;
-export const onDeleteBooking = /* GraphQL */ `subscription OnDeleteBooking($filter: ModelSubscriptionBookingFilterInput) {
+    APITypes.OnUpdateBookingSubscriptionVariables,
+    APITypes.OnUpdateBookingSubscription
+  >;
+export const onDeleteBooking =
+  /* GraphQL */ `subscription OnDeleteBooking($filter: ModelSubscriptionBookingFilterInput) {
   onDeleteBooking(filter: $filter) {
     id
     orderId
@@ -266,10 +269,11 @@ export const onDeleteBooking = /* GraphQL */ `subscription OnDeleteBooking($filt
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnDeleteBookingSubscriptionVariables,
-  APITypes.OnDeleteBookingSubscription
->;
-export const onCreateBreed = /* GraphQL */ `subscription OnCreateBreed($filter: ModelSubscriptionBreedFilterInput) {
+    APITypes.OnDeleteBookingSubscriptionVariables,
+    APITypes.OnDeleteBookingSubscription
+  >;
+export const onCreateBreed =
+  /* GraphQL */ `subscription OnCreateBreed($filter: ModelSubscriptionBreedFilterInput) {
   onCreateBreed(filter: $filter) {
     name
     petType
@@ -284,10 +288,11 @@ export const onCreateBreed = /* GraphQL */ `subscription OnCreateBreed($filter: 
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnCreateBreedSubscriptionVariables,
-  APITypes.OnCreateBreedSubscription
->;
-export const onUpdateBreed = /* GraphQL */ `subscription OnUpdateBreed($filter: ModelSubscriptionBreedFilterInput) {
+    APITypes.OnCreateBreedSubscriptionVariables,
+    APITypes.OnCreateBreedSubscription
+  >;
+export const onUpdateBreed =
+  /* GraphQL */ `subscription OnUpdateBreed($filter: ModelSubscriptionBreedFilterInput) {
   onUpdateBreed(filter: $filter) {
     name
     petType
@@ -302,10 +307,11 @@ export const onUpdateBreed = /* GraphQL */ `subscription OnUpdateBreed($filter: 
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnUpdateBreedSubscriptionVariables,
-  APITypes.OnUpdateBreedSubscription
->;
-export const onDeleteBreed = /* GraphQL */ `subscription OnDeleteBreed($filter: ModelSubscriptionBreedFilterInput) {
+    APITypes.OnUpdateBreedSubscriptionVariables,
+    APITypes.OnUpdateBreedSubscription
+  >;
+export const onDeleteBreed =
+  /* GraphQL */ `subscription OnDeleteBreed($filter: ModelSubscriptionBreedFilterInput) {
   onDeleteBreed(filter: $filter) {
     name
     petType
@@ -320,9 +326,9 @@ export const onDeleteBreed = /* GraphQL */ `subscription OnDeleteBreed($filter: 
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnDeleteBreedSubscriptionVariables,
-  APITypes.OnDeleteBreedSubscription
->;
+    APITypes.OnDeleteBreedSubscriptionVariables,
+    APITypes.OnDeleteBreedSubscription
+  >;
 export const onCreateCustomer = /* GraphQL */ `subscription OnCreateCustomer(
   $filter: ModelSubscriptionCustomerFilterInput
   $username: String
@@ -340,6 +346,10 @@ export const onCreateCustomer = /* GraphQL */ `subscription OnCreateCustomer(
       __typename
     }
     acceptedDisclaimers {
+      nextToken
+      __typename
+    }
+    deviceTokens {
       nextToken
       __typename
     }
@@ -388,6 +398,10 @@ export const onUpdateCustomer = /* GraphQL */ `subscription OnUpdateCustomer(
       nextToken
       __typename
     }
+    deviceTokens {
+      nextToken
+      __typename
+    }
     pets {
       nextToken
       __typename
@@ -433,6 +447,10 @@ export const onDeleteCustomer = /* GraphQL */ `subscription OnDeleteCustomer(
       nextToken
       __typename
     }
+    deviceTokens {
+      nextToken
+      __typename
+    }
     pets {
       nextToken
       __typename
@@ -458,7 +476,92 @@ export const onDeleteCustomer = /* GraphQL */ `subscription OnDeleteCustomer(
   APITypes.OnDeleteCustomerSubscriptionVariables,
   APITypes.OnDeleteCustomerSubscription
 >;
-export const onCreateDisclaimer = /* GraphQL */ `subscription OnCreateDisclaimer(
+export const onCreateDeviceToken =
+  /* GraphQL */ `subscription OnCreateDeviceToken(
+  $filter: ModelSubscriptionDeviceTokenFilterInput
+  $customerId: String
+) {
+  onCreateDeviceToken(filter: $filter, customerId: $customerId) {
+    id
+    customerId
+    customer {
+      id
+      username
+      isDeactivated
+      s3ImageKey
+      createdAt
+      updatedAt
+      __typename
+    }
+    token
+    deviceType
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+    APITypes.OnCreateDeviceTokenSubscriptionVariables,
+    APITypes.OnCreateDeviceTokenSubscription
+  >;
+export const onUpdateDeviceToken =
+  /* GraphQL */ `subscription OnUpdateDeviceToken(
+  $filter: ModelSubscriptionDeviceTokenFilterInput
+  $customerId: String
+) {
+  onUpdateDeviceToken(filter: $filter, customerId: $customerId) {
+    id
+    customerId
+    customer {
+      id
+      username
+      isDeactivated
+      s3ImageKey
+      createdAt
+      updatedAt
+      __typename
+    }
+    token
+    deviceType
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+    APITypes.OnUpdateDeviceTokenSubscriptionVariables,
+    APITypes.OnUpdateDeviceTokenSubscription
+  >;
+export const onDeleteDeviceToken =
+  /* GraphQL */ `subscription OnDeleteDeviceToken(
+  $filter: ModelSubscriptionDeviceTokenFilterInput
+  $customerId: String
+) {
+  onDeleteDeviceToken(filter: $filter, customerId: $customerId) {
+    id
+    customerId
+    customer {
+      id
+      username
+      isDeactivated
+      s3ImageKey
+      createdAt
+      updatedAt
+      __typename
+    }
+    token
+    deviceType
+    createdAt
+    updatedAt
+    __typename
+  }
+}
+` as GeneratedSubscription<
+    APITypes.OnDeleteDeviceTokenSubscriptionVariables,
+    APITypes.OnDeleteDeviceTokenSubscription
+  >;
+export const onCreateDisclaimer =
+  /* GraphQL */ `subscription OnCreateDisclaimer(
   $filter: ModelSubscriptionDisclaimerFilterInput
 ) {
   onCreateDisclaimer(filter: $filter) {
@@ -491,6 +594,7 @@ export const onCreateDisclaimer = /* GraphQL */ `subscription OnCreateDisclaimer
       goodToKnow
       parentServiceIds
       childServiceIds
+      childServiceGroup
       disclaimerName
       timeSlotIds
       bookingIds
@@ -529,10 +633,11 @@ export const onCreateDisclaimer = /* GraphQL */ `subscription OnCreateDisclaimer
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnCreateDisclaimerSubscriptionVariables,
-  APITypes.OnCreateDisclaimerSubscription
->;
-export const onUpdateDisclaimer = /* GraphQL */ `subscription OnUpdateDisclaimer(
+    APITypes.OnCreateDisclaimerSubscriptionVariables,
+    APITypes.OnCreateDisclaimerSubscription
+  >;
+export const onUpdateDisclaimer =
+  /* GraphQL */ `subscription OnUpdateDisclaimer(
   $filter: ModelSubscriptionDisclaimerFilterInput
 ) {
   onUpdateDisclaimer(filter: $filter) {
@@ -565,6 +670,7 @@ export const onUpdateDisclaimer = /* GraphQL */ `subscription OnUpdateDisclaimer
       goodToKnow
       parentServiceIds
       childServiceIds
+      childServiceGroup
       disclaimerName
       timeSlotIds
       bookingIds
@@ -603,10 +709,11 @@ export const onUpdateDisclaimer = /* GraphQL */ `subscription OnUpdateDisclaimer
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnUpdateDisclaimerSubscriptionVariables,
-  APITypes.OnUpdateDisclaimerSubscription
->;
-export const onDeleteDisclaimer = /* GraphQL */ `subscription OnDeleteDisclaimer(
+    APITypes.OnUpdateDisclaimerSubscriptionVariables,
+    APITypes.OnUpdateDisclaimerSubscription
+  >;
+export const onDeleteDisclaimer =
+  /* GraphQL */ `subscription OnDeleteDisclaimer(
   $filter: ModelSubscriptionDisclaimerFilterInput
 ) {
   onDeleteDisclaimer(filter: $filter) {
@@ -639,6 +746,7 @@ export const onDeleteDisclaimer = /* GraphQL */ `subscription OnDeleteDisclaimer
       goodToKnow
       parentServiceIds
       childServiceIds
+      childServiceGroup
       disclaimerName
       timeSlotIds
       bookingIds
@@ -677,10 +785,11 @@ export const onDeleteDisclaimer = /* GraphQL */ `subscription OnDeleteDisclaimer
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnDeleteDisclaimerSubscriptionVariables,
-  APITypes.OnDeleteDisclaimerSubscription
->;
-export const onCreateDisclaimerAcceptance = /* GraphQL */ `subscription OnCreateDisclaimerAcceptance(
+    APITypes.OnDeleteDisclaimerSubscriptionVariables,
+    APITypes.OnDeleteDisclaimerSubscription
+  >;
+export const onCreateDisclaimerAcceptance =
+  /* GraphQL */ `subscription OnCreateDisclaimerAcceptance(
   $filter: ModelSubscriptionDisclaimerAcceptanceFilterInput
   $customerId: String
 ) {
@@ -718,10 +827,11 @@ export const onCreateDisclaimerAcceptance = /* GraphQL */ `subscription OnCreate
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnCreateDisclaimerAcceptanceSubscriptionVariables,
-  APITypes.OnCreateDisclaimerAcceptanceSubscription
->;
-export const onUpdateDisclaimerAcceptance = /* GraphQL */ `subscription OnUpdateDisclaimerAcceptance(
+    APITypes.OnCreateDisclaimerAcceptanceSubscriptionVariables,
+    APITypes.OnCreateDisclaimerAcceptanceSubscription
+  >;
+export const onUpdateDisclaimerAcceptance =
+  /* GraphQL */ `subscription OnUpdateDisclaimerAcceptance(
   $filter: ModelSubscriptionDisclaimerAcceptanceFilterInput
   $customerId: String
 ) {
@@ -759,10 +869,11 @@ export const onUpdateDisclaimerAcceptance = /* GraphQL */ `subscription OnUpdate
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnUpdateDisclaimerAcceptanceSubscriptionVariables,
-  APITypes.OnUpdateDisclaimerAcceptanceSubscription
->;
-export const onDeleteDisclaimerAcceptance = /* GraphQL */ `subscription OnDeleteDisclaimerAcceptance(
+    APITypes.OnUpdateDisclaimerAcceptanceSubscriptionVariables,
+    APITypes.OnUpdateDisclaimerAcceptanceSubscription
+  >;
+export const onDeleteDisclaimerAcceptance =
+  /* GraphQL */ `subscription OnDeleteDisclaimerAcceptance(
   $filter: ModelSubscriptionDisclaimerAcceptanceFilterInput
   $customerId: String
 ) {
@@ -800,9 +911,9 @@ export const onDeleteDisclaimerAcceptance = /* GraphQL */ `subscription OnDelete
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnDeleteDisclaimerAcceptanceSubscriptionVariables,
-  APITypes.OnDeleteDisclaimerAcceptanceSubscription
->;
+    APITypes.OnDeleteDisclaimerAcceptanceSubscriptionVariables,
+    APITypes.OnDeleteDisclaimerAcceptanceSubscription
+  >;
 export const onCreateOrder = /* GraphQL */ `subscription OnCreateOrder(
   $filter: ModelSubscriptionOrderFilterInput
   $customerId: String
@@ -1226,7 +1337,8 @@ export const onDeletePet = /* GraphQL */ `subscription OnDeletePet(
   APITypes.OnDeletePetSubscriptionVariables,
   APITypes.OnDeletePetSubscription
 >;
-export const onCreateQuestion = /* GraphQL */ `subscription OnCreateQuestion($filter: ModelSubscriptionQuestionFilterInput) {
+export const onCreateQuestion =
+  /* GraphQL */ `subscription OnCreateQuestion($filter: ModelSubscriptionQuestionFilterInput) {
   onCreateQuestion(filter: $filter) {
     id
     serviceCategory
@@ -1240,10 +1352,11 @@ export const onCreateQuestion = /* GraphQL */ `subscription OnCreateQuestion($fi
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnCreateQuestionSubscriptionVariables,
-  APITypes.OnCreateQuestionSubscription
->;
-export const onUpdateQuestion = /* GraphQL */ `subscription OnUpdateQuestion($filter: ModelSubscriptionQuestionFilterInput) {
+    APITypes.OnCreateQuestionSubscriptionVariables,
+    APITypes.OnCreateQuestionSubscription
+  >;
+export const onUpdateQuestion =
+  /* GraphQL */ `subscription OnUpdateQuestion($filter: ModelSubscriptionQuestionFilterInput) {
   onUpdateQuestion(filter: $filter) {
     id
     serviceCategory
@@ -1257,10 +1370,11 @@ export const onUpdateQuestion = /* GraphQL */ `subscription OnUpdateQuestion($fi
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnUpdateQuestionSubscriptionVariables,
-  APITypes.OnUpdateQuestionSubscription
->;
-export const onDeleteQuestion = /* GraphQL */ `subscription OnDeleteQuestion($filter: ModelSubscriptionQuestionFilterInput) {
+    APITypes.OnUpdateQuestionSubscriptionVariables,
+    APITypes.OnUpdateQuestionSubscription
+  >;
+export const onDeleteQuestion =
+  /* GraphQL */ `subscription OnDeleteQuestion($filter: ModelSubscriptionQuestionFilterInput) {
   onDeleteQuestion(filter: $filter) {
     id
     serviceCategory
@@ -1274,10 +1388,11 @@ export const onDeleteQuestion = /* GraphQL */ `subscription OnDeleteQuestion($fi
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnDeleteQuestionSubscriptionVariables,
-  APITypes.OnDeleteQuestionSubscription
->;
-export const onCreateQuestionAnswer = /* GraphQL */ `subscription OnCreateQuestionAnswer(
+    APITypes.OnDeleteQuestionSubscriptionVariables,
+    APITypes.OnDeleteQuestionSubscription
+  >;
+export const onCreateQuestionAnswer =
+  /* GraphQL */ `subscription OnCreateQuestionAnswer(
   $filter: ModelSubscriptionQuestionAnswerFilterInput
   $customerId: String
 ) {
@@ -1328,10 +1443,11 @@ export const onCreateQuestionAnswer = /* GraphQL */ `subscription OnCreateQuesti
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnCreateQuestionAnswerSubscriptionVariables,
-  APITypes.OnCreateQuestionAnswerSubscription
->;
-export const onUpdateQuestionAnswer = /* GraphQL */ `subscription OnUpdateQuestionAnswer(
+    APITypes.OnCreateQuestionAnswerSubscriptionVariables,
+    APITypes.OnCreateQuestionAnswerSubscription
+  >;
+export const onUpdateQuestionAnswer =
+  /* GraphQL */ `subscription OnUpdateQuestionAnswer(
   $filter: ModelSubscriptionQuestionAnswerFilterInput
   $customerId: String
 ) {
@@ -1382,10 +1498,11 @@ export const onUpdateQuestionAnswer = /* GraphQL */ `subscription OnUpdateQuesti
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnUpdateQuestionAnswerSubscriptionVariables,
-  APITypes.OnUpdateQuestionAnswerSubscription
->;
-export const onDeleteQuestionAnswer = /* GraphQL */ `subscription OnDeleteQuestionAnswer(
+    APITypes.OnUpdateQuestionAnswerSubscriptionVariables,
+    APITypes.OnUpdateQuestionAnswerSubscription
+  >;
+export const onDeleteQuestionAnswer =
+  /* GraphQL */ `subscription OnDeleteQuestionAnswer(
   $filter: ModelSubscriptionQuestionAnswerFilterInput
   $customerId: String
 ) {
@@ -1436,9 +1553,9 @@ export const onDeleteQuestionAnswer = /* GraphQL */ `subscription OnDeleteQuesti
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnDeleteQuestionAnswerSubscriptionVariables,
-  APITypes.OnDeleteQuestionAnswerSubscription
->;
+    APITypes.OnDeleteQuestionAnswerSubscriptionVariables,
+    APITypes.OnDeleteQuestionAnswerSubscription
+  >;
 export const onCreateService = /* GraphQL */ `subscription OnCreateService(
   $filter: ModelSubscriptionServiceFilterInput
   $serviceProviderId: String
@@ -1545,6 +1662,7 @@ export const onCreateService = /* GraphQL */ `subscription OnCreateService(
     goodToKnow
     parentServiceIds
     childServiceIds
+    childServiceGroup
     disclaimerName
     disclaimer {
       name
@@ -1679,6 +1797,7 @@ export const onUpdateService = /* GraphQL */ `subscription OnUpdateService(
     goodToKnow
     parentServiceIds
     childServiceIds
+    childServiceGroup
     disclaimerName
     disclaimer {
       name
@@ -1813,6 +1932,7 @@ export const onDeleteService = /* GraphQL */ `subscription OnDeleteService(
     goodToKnow
     parentServiceIds
     childServiceIds
+    childServiceGroup
     disclaimerName
     disclaimer {
       name
@@ -1841,7 +1961,8 @@ export const onDeleteService = /* GraphQL */ `subscription OnDeleteService(
   APITypes.OnDeleteServiceSubscriptionVariables,
   APITypes.OnDeleteServiceSubscription
 >;
-export const onCreateServiceProvider = /* GraphQL */ `subscription OnCreateServiceProvider(
+export const onCreateServiceProvider =
+  /* GraphQL */ `subscription OnCreateServiceProvider(
   $filter: ModelSubscriptionServiceProviderFilterInput
   $id: String
 ) {
@@ -1898,10 +2019,11 @@ export const onCreateServiceProvider = /* GraphQL */ `subscription OnCreateServi
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnCreateServiceProviderSubscriptionVariables,
-  APITypes.OnCreateServiceProviderSubscription
->;
-export const onUpdateServiceProvider = /* GraphQL */ `subscription OnUpdateServiceProvider(
+    APITypes.OnCreateServiceProviderSubscriptionVariables,
+    APITypes.OnCreateServiceProviderSubscription
+  >;
+export const onUpdateServiceProvider =
+  /* GraphQL */ `subscription OnUpdateServiceProvider(
   $filter: ModelSubscriptionServiceProviderFilterInput
   $id: String
 ) {
@@ -1958,10 +2080,11 @@ export const onUpdateServiceProvider = /* GraphQL */ `subscription OnUpdateServi
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnUpdateServiceProviderSubscriptionVariables,
-  APITypes.OnUpdateServiceProviderSubscription
->;
-export const onDeleteServiceProvider = /* GraphQL */ `subscription OnDeleteServiceProvider(
+    APITypes.OnUpdateServiceProviderSubscriptionVariables,
+    APITypes.OnUpdateServiceProviderSubscription
+  >;
+export const onDeleteServiceProvider =
+  /* GraphQL */ `subscription OnDeleteServiceProvider(
   $filter: ModelSubscriptionServiceProviderFilterInput
   $id: String
 ) {
@@ -2018,9 +2141,9 @@ export const onDeleteServiceProvider = /* GraphQL */ `subscription OnDeleteServi
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnDeleteServiceProviderSubscriptionVariables,
-  APITypes.OnDeleteServiceProviderSubscription
->;
+    APITypes.OnDeleteServiceProviderSubscriptionVariables,
+    APITypes.OnDeleteServiceProviderSubscription
+  >;
 export const onCreateTimeSlot = /* GraphQL */ `subscription OnCreateTimeSlot(
   $filter: ModelSubscriptionTimeSlotFilterInput
   $serviceProviderId: String
@@ -2102,7 +2225,8 @@ export const onDeleteTimeSlot = /* GraphQL */ `subscription OnDeleteTimeSlot(
   APITypes.OnDeleteTimeSlotSubscriptionVariables,
   APITypes.OnDeleteTimeSlotSubscription
 >;
-export const onCreatePetBookings = /* GraphQL */ `subscription OnCreatePetBookings(
+export const onCreatePetBookings =
+  /* GraphQL */ `subscription OnCreatePetBookings(
   $filter: ModelSubscriptionPetBookingsFilterInput
   $owners: String
   $customerId: String
@@ -2176,10 +2300,11 @@ export const onCreatePetBookings = /* GraphQL */ `subscription OnCreatePetBookin
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnCreatePetBookingsSubscriptionVariables,
-  APITypes.OnCreatePetBookingsSubscription
->;
-export const onUpdatePetBookings = /* GraphQL */ `subscription OnUpdatePetBookings(
+    APITypes.OnCreatePetBookingsSubscriptionVariables,
+    APITypes.OnCreatePetBookingsSubscription
+  >;
+export const onUpdatePetBookings =
+  /* GraphQL */ `subscription OnUpdatePetBookings(
   $filter: ModelSubscriptionPetBookingsFilterInput
   $owners: String
   $customerId: String
@@ -2253,10 +2378,11 @@ export const onUpdatePetBookings = /* GraphQL */ `subscription OnUpdatePetBookin
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnUpdatePetBookingsSubscriptionVariables,
-  APITypes.OnUpdatePetBookingsSubscription
->;
-export const onDeletePetBookings = /* GraphQL */ `subscription OnDeletePetBookings(
+    APITypes.OnUpdatePetBookingsSubscriptionVariables,
+    APITypes.OnUpdatePetBookingsSubscription
+  >;
+export const onDeletePetBookings =
+  /* GraphQL */ `subscription OnDeletePetBookings(
   $filter: ModelSubscriptionPetBookingsFilterInput
   $owners: String
   $customerId: String
@@ -2330,6 +2456,6 @@ export const onDeletePetBookings = /* GraphQL */ `subscription OnDeletePetBookin
   }
 }
 ` as GeneratedSubscription<
-  APITypes.OnDeletePetBookingsSubscriptionVariables,
-  APITypes.OnDeletePetBookingsSubscription
->;
+    APITypes.OnDeletePetBookingsSubscriptionVariables,
+    APITypes.OnDeletePetBookingsSubscription
+  >;
