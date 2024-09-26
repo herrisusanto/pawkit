@@ -23,6 +23,10 @@ const logger = new ConsoleLogger("api/customer.ts");
 // Create
 export const addCustomer = async (input: CreateCustomerInput) => {
   try {
+    if (!input.username) {
+      logger.error("Username is required");
+      throw new BadRequestError("Username is required");
+    }
     const result = await graphqlClient.graphql({
       query: createCustomer,
       variables: { input },
@@ -39,6 +43,10 @@ export const addDisclaimerAcceptance = async (
   input: CreateDisclaimerAcceptanceInput
 ) => {
   try {
+    if (!input.customerId || !input.disclaimerName) {
+      logger.error("Customer ID and disclaimer name are required");
+      throw new BadRequestError("Customer ID and disclaimer name are required");
+    }
     const result = await graphqlClient.graphql({
       query: createDisclaimerAcceptance,
       variables: { input },
@@ -129,6 +137,10 @@ export const hasCustomerAcceptedServiceDisclaimer = async (
 
 // Update
 export const modifyCustomer = async (input: UpdateCustomerInput) => {
+  if (!input.id) {
+    logger.error("ID is required");
+    throw new BadRequestError("ID is required");
+  }
   if (input.username !== input.id)
     throw new BadRequestError("Customer username must be the same as user id");
 

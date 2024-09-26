@@ -219,6 +219,14 @@ export const getPaymentStatus = async (paymentRequestId: string) => {
 // Create
 export const addPayment = async (input: CreatePaymentInput) => {
   try {
+    if (!input.orderId || !input.paymentRequestId || !input.customerId) {
+      logger.error(
+        "Order id, payment request id, and customer id are required"
+      );
+      throw new BadRequestError(
+        "Order id, payment request id, and customer id are required"
+      );
+    }
     const result = await graphqlClient.graphql({
       query: createPayment,
       variables: {
@@ -276,6 +284,10 @@ export const fetchPaymentsByOrderId = async (orderId: string) => {
 // Update
 export const modifyPayment = async (input: UpdatePaymentInput) => {
   try {
+    if (!input.paymentRequestId) {
+      logger.error("Payment request id is required");
+      throw new BadRequestError("Payment request id is required");
+    }
     const result = await graphqlClient.graphql({
       query: updatePayment,
       variables: {

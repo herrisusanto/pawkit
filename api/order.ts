@@ -16,6 +16,10 @@ const logger = new ConsoleLogger("api/order.ts");
 // Create
 export const addOrder = async (customerId: string, currency: Currency) => {
   try {
+    if (!customerId) {
+      logger.error("Customer id is required");
+      throw new BadRequestError("Customer id is required");
+    }
     const result = await graphqlClient.graphql({
       query: createOrder,
       variables: {
@@ -76,6 +80,11 @@ export const addBookingToOrder = async (
     if (!bookingId) {
       logger.error("Booking id is required");
       throw new BadRequestError("Booking id is required");
+    }
+
+    if (amount < 0) {
+      logger.error("Amount must be non-negative number");
+      throw new BadRequestError("Amount must be non-negative number");
     }
 
     const order = await fetchOrder(orderId);
