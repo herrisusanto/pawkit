@@ -39,6 +39,7 @@ export enum PetType {
   BIRD = "BIRD",
   OTHER = "OTHER",
   ALL = "ALL",
+  HAMSTER="HAMSTER"
 }
 
 export type ModelServiceFilterInput = {
