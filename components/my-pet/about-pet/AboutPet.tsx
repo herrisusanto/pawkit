@@ -19,8 +19,8 @@ import { useCurrentUser } from "@/hooks";
 import { removePet } from "@/api/pet";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Pet } from "@/api/graphql/API";
-import moment from "moment";
 import PopupController from "@/components/common/GlobalPopupError/PopUpController";
+import { calculateAge } from "./utils";
 
 type AboutPetProps = {
   data?: Pet;
@@ -64,32 +64,6 @@ const AboutPet: React.FC<AboutPetProps> = ({ data }) => {
       // eslint-disable-next-line
     } catch (error) {
       PopupController.showGlobalPopup();
-    }
-  };
-
-  const calculateAge = (birthdate?: string | null) => {
-    if (birthdate) {
-      const birth = moment(birthdate);
-      const today = moment();
-      const years = today.diff(birth, "years");
-      birth.add(years, "years");
-      const months = today.diff(birth, "months");
-      birth.add(months, "months");
-      const days = today.diff(birth, "days");
-
-      const formattedYears =
-        years > 0 ? `${years} year${years !== 1 ? "s" : ""}, ` : "";
-      const formattedMonths =
-        months > 0 ? `${months} month${months !== 1 ? "s" : ""}, ` : "";
-
-      const ageString =
-        `${formattedYears}` +
-        `${formattedMonths}` +
-        `${days} day${days !== 1 ? "s" : ""}`;
-
-      return ageString;
-    } else {
-      return "-";
     }
   };
 

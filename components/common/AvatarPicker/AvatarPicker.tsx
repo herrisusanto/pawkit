@@ -1,4 +1,10 @@
-import { AvatarProps, View as TamaguiView, View, styled } from "tamagui";
+import {
+  AvatarProps,
+  Spinner,
+  View as TamaguiView,
+  View,
+  styled,
+} from "tamagui";
 import { CameraIcon } from "../Icons";
 import { Avatar } from "../Avatar";
 
@@ -6,6 +12,7 @@ type AvatarPickerProps = {
   avatarProps?: AvatarProps;
   source?: string;
   onImagePicker?: () => void;
+  isLoading?: boolean;
 };
 
 const StyledView = styled(TamaguiView, {
@@ -13,7 +20,10 @@ const StyledView = styled(TamaguiView, {
 });
 
 export const AvatarPicker = StyledView.styleable<AvatarPickerProps>(
-  ({ avatarProps, source, onImagePicker, ...props }, ref) => {
+  (
+    { avatarProps, source, onImagePicker, isLoading = false, ...props },
+    ref
+  ) => {
     return (
       <StyledView ref={ref} {...props} onPress={onImagePicker}>
         <Avatar
@@ -23,6 +33,7 @@ export const AvatarPicker = StyledView.styleable<AvatarPickerProps>(
           accessibilityLabel="Avatar"
           {...avatarProps}
         />
+
         <View
           position="absolute"
           bottom={0}
@@ -34,7 +45,11 @@ export const AvatarPicker = StyledView.styleable<AvatarPickerProps>(
           jc="center"
           ai="center"
         >
-          <CameraIcon strokeColor="#fff" />
+          {isLoading ? (
+            <Spinner size="small" color="#fff" />
+          ) : (
+            <CameraIcon strokeColor="#fff" />
+          )}
         </View>
       </StyledView>
     );
