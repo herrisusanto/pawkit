@@ -3,7 +3,6 @@ import { Link, router, Stack, usePathname } from "expo-router";
 import { Header } from "@/components/common/Header/Header";
 import {
   ScrollView,
-  Separator,
   Text,
   View,
   XStack,
@@ -15,7 +14,7 @@ import { PetAvatar } from "@/components/services/pet-avatar/PetAvatar";
 import { AddNewPet } from "@/components/bookings/add-new-pet/AddNewPet";
 import ServiceCard from "@/components/services/service-card/ServiceCard";
 import ServiceCardAddon from "@/components/services/service-card-addon/ServiceCardAddon";
-import { TouchableOpacity } from "react-native";
+import { SectionList, TouchableOpacity } from "react-native";
 import { useQuery } from "@tanstack/react-query";
 import { useCurrentUser } from "@/hooks";
 import { fetchPetsByCustomer } from "@/api/pet";
@@ -29,6 +28,7 @@ import {
   DisclaimerByServiceIdSheet,
   DisclaimerHandleRef,
 } from "@/components/disclaimer/DisclaimerByServiceSheet";
+import { groupAddOnByChildServiceGroup } from "./utils";
 
 const GroomingScreen = () => {
   const disclaimerRef = useRef<DisclaimerHandleRef>(null);
@@ -107,6 +107,10 @@ const GroomingScreen = () => {
       selectedService?.childServiceIds?.includes(service.id)
     );
   }, [addons, selectedService]);
+  const groupedAddOns = selectedServiceAddons
+    ? groupAddOnByChildServiceGroup(selectedServiceAddons)
+    : [];
+
   const selectedPetService = useMemo(
     () => selectedPetsService.find((item: any) => item.petId === selectedPetId),
     [selectedPetsService, selectedPetId]
@@ -192,6 +196,7 @@ const GroomingScreen = () => {
         }
         return petService;
       });
+
       setSelectedPetsService(newMapping);
     } else {
       setSelectedPetsService((prev) => {
@@ -262,18 +267,29 @@ const GroomingScreen = () => {
                   (Optional)
                 </Text>
               </Text>
-              {selectedServiceAddons?.map((addon) => (
-                <React.Fragment key={addon.id}>
+              <SectionList
+                scrollEnabled={false}
+                sections={groupedAddOns.reverse()}
+                keyExtractor={(item, index) => item.id}
+                renderItem={({ item }) => (
                   <ServiceCardAddon
-                    data={addon as Service}
-                    isChecked={selectedPetService?.addons.includes(addon.id)}
+                    data={item as Service}
+                    isChecked={selectedPetService?.addons.includes(item.id)}
                     onCheckedChange={(checked) => {
-                      handleAddonChange(checked, addon.id);
+                      handleAddonChange(checked, item.id);
                     }}
                   />
-                  <Separator />
-                </React.Fragment>
-              ))}
+                )}
+                renderSectionHeader={({ section: { title } }) => (
+                  <>
+                    {title ? (
+                      <Text fontSize="$b3" fontWeight="$7" px="$4" mt="$4">
+                        {title}
+                      </Text>
+                    ) : null}
+                  </>
+                )}
+              />
             </YStack>
           ) : null}
         </YStack>
