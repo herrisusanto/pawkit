@@ -74,6 +74,7 @@ export const customListServices = `query CustomListServices(
      createdAt
      updatedAt
      serviceProviderId
+     childServiceGroup
      __typename
    }
    nextToken

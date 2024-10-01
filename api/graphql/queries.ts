@@ -2230,6 +2230,7 @@ export const servicesByPetType = /* GraphQL */ `query ServicesByPetType(
       requiredQuestionIds
       createdAt
       updatedAt
+      childServiceGroup
       __typename
     }
     nextToken
