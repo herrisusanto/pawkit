@@ -175,23 +175,23 @@ export const DisclaimerByServiceIdSheet = forwardRef<
                 {service?.disclaimer?.text}
               </Text>
             </YStack>
-            <XStack columnGap="$2" ai="center" my="$3">
-              <Checkbox checked={isChecked} onCheckedChange={onCheckedChange}>
-                <Checkbox.Indicator bg="$primary" br="$3">
-                  <Check color="#fff" />
-                </Checkbox.Indicator>
-              </Checkbox>
-              <YStack flex={1} gap="$4">
-                <XStack gap="$2" ai="flex-end">
-                  <Text fontSize="$c2" fontWeight="$4">
-                    I understand and will not want to be shown this again
-                  </Text>
-                </XStack>
-              </YStack>
-            </XStack>
           </YStack>
         </Sheet.ScrollView>
         <View p="$4" jc="flex-end">
+          <XStack columnGap="$2" ai="center" my="$3">
+            <Checkbox checked={isChecked} onCheckedChange={onCheckedChange}>
+              <Checkbox.Indicator bg="$primary" br="$3">
+                <Check color="#fff" />
+              </Checkbox.Indicator>
+            </Checkbox>
+            <YStack flex={1} gap="$4">
+              <XStack gap="$2" ai="flex-end">
+                <Text fontSize="$c2" fontWeight="$4">
+                  I understand and will not want to be shown this again
+                </Text>
+              </XStack>
+            </YStack>
+          </XStack>
           <Button
             h="$4"
             type="primary"
