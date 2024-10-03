@@ -1,4 +1,5 @@
 # Pawkit
+https://github.com/herrisusanto/pawkit/blob/develop/preview.gif
 
 One Paragraph of project description goes here
 
